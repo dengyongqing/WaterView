@@ -1,0 +1,26 @@
+{
+  "name": "emchart",
+  "version": "1.0.0",
+  "description": "1.0.0",
+  "main": "webpack.config.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "东财",
+    "图表"
+  ],
+  "author": "移动站点开发组",
+  "license": "ISC"
+}

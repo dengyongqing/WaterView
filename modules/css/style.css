@@ -1,0 +1,139 @@
+.show-tip {
+    position: absolute;
+    top: 0px;
+    background-color: red;
+    z-index: 999;
+    border: 0;
+    padding: 10px;
+    border-radius: 7px;
+    background-color: #17b03e;
+    color: #fff;
+    font-size: 16px;
+    font-weight: lighter;
+    font-family: 'Microsoft Yahei';
+   
+}
+.show-tip .span-price{
+	font-size: 22px;
+}
+.show-tip span{
+	font-size: 14px;height:25px;line-height:25px;
+    white-space: nowrap;
+}
+
+.tip-line-1,.tip-line-2{
+	height:25px;
+	line-height:25px;
+}
+.time-tip{
+
+}
+.show-tip .span-time-c1{
+	text-align: left;
+	margin-right: 10px;
+}
+.show-tip .span-time-c2{
+	text-align: right;
+}
+
+.show-tip .span-k-c1{
+	text-align: left;
+	margin-right: 10px;
+}
+.show-tip .span-k-c2{
+	text-align: right;
+}
+
+.cross-y{
+	position:absolute;top:0px;z-index:998;border-left:1px dashed #8f8f8f;width:0px;background-color:#fff;
+}
+.cross-x{
+	position:absolute;left:0px;z-index:998;border-top:1px dashed #8f8f8f;height:0px;
+}
+.cross-p{
+	position:absolute;z-index:999;
+}
+.mark-ma{
+	position:absolute;top:0px;right:0px;z-index:997;border:0;height:30px;line-height:30px;font-family:Microsoft Yahei;font-weight:lighter;
+}
+.mark-ma span {
+	display:inline-block;padding-right:10px;font-size:14px;text-align:left;color:#ffba42;
+}
+.mark-ma .span-m5{
+	color:#ffba42;
+}
+.mark-ma .span-m10{
+	color:#ff7e58;
+}
+.mark-ma .span-m20{
+	color:#6e9fe9;
+}
+.scale-div{
+	position:absolute;z-index:999;border:0px;width:90px;height:45px;
+	opacity:0.7;
+}
+.scale-div .span-minus{
+	width: 30px;height: 30px;float: left;border-radius: 6px;
+	background: url(../images/minus.png) no-repeat center center #cccccc;
+}
+.scale-div .span-plus{
+	width: 30px;height: 30px;float: right;border-radius: 6px;
+	background: url(../images/plus.png) no-repeat center center #cccccc;
+}
+.scale-opacity{
+	opacity:0.3;
+}
+
+.header .tool-bar{
+    background: -webkit-linear-gradient(top, #4d74ae, #2e5186); /* Safari 5.1 - 6.0 */
+    background: -o-linear-gradient(bottom, #4d74ae, #2e5186); /* Opera 11.1 - 12.0 */
+    background: -moz-linear-gradient(bottom, #4d74ae, #2e5186); /* Firefox 3.6 - 15 */
+    background: linear-gradient(to bottom, #4d74ae, #2e5186); /* 标准的语法 */
+	height:70px;
+}
+.header .sepe{
+	height:50px;
+	background-color: #d1e1f9;
+}
+.content{
+	background-color: #f2f2f2;
+}
+
+.content .emchart{
+	background-color: #fff;
+	padding:0px 10px;
+}
+
+.tabs{
+	background-color: #fff;
+	height:50px;
+	font-size: 18px;
+	color:#000;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 15px;
+}
+.tabs .tab{
+	float:left;
+	width: 25%;
+	height: 47px;
+	line-height: 47px;
+	text-align: center;
+}
+.tabs .tab.current{
+	color: #2f5895;
+	border-bottom: 3px solid #2f5895;
+}
+
+.loading-chart {
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 9999;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	text-align: center;
+
+    opacity: 0.7;
+    font-size: 20px;
+}

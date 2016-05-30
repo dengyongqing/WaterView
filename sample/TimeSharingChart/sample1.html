@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta charset="UTF-8">
+	<title>手机分时图</title>
+	<style>
+		.choosecode{
+			padding: 0 0 20px 0;
+			margin: 0;
+		}
+		.choosecode li{
+			list-style: none;
+			display: inline-block;
+		}
+		#chart{
+
+			
+		}
+		#chart canvas{
+			border: 1px solid gray;
+		}
+		#chart div{
+			border: 1px solid gray;
+		}
+	</style>
+</head>
+<body>
+	<h3>手机分时图</h3>
+	<div id="chart"></div>
+	
+	<p>改变代码：</p>
+	<ul id="choosecode" class="choosecode">
+		<li><button>000015</button></li>
+		<li><button>000025</button></li>
+		<li><button>000035</button></li>
+		<li><button>000045</button></li>
+		<li><button>000055</button></li>
+	</ul>
+	<p>改变尺寸：</p>
+	<ul id="choosecode2" class="choosecode">
+		<li><button>300*150</button></li>
+		<li><button>578*276</button></li>
+		<li><button>1000*500</button></li>
+		<li><button>1500*750</button></li>
+	</ul>
+
+	<p>
+		<a id="download">下载图表</a>
+	</p>
+
+	<script src="/bundle/wap_time_chart.js"></script>
+	<script>
+		var newwaptimechart = new waptimechart({
+			id: 'chart',
+			code : '000065',
+			width : 578,
+			height : 276
+
+		});
+
+		newwaptimechart.bindSaveAs(document.querySelector('#download'), '分时图');
+
+		newwaptimechart.show();
+
+
+		var buttons = document.querySelectorAll('#choosecode button');
+		[].forEach.call(buttons, function(button) {
+			button.onclick = function (){
+				var code = this.innerText;
+				newwaptimechart.options.code = code;
+				newwaptimechart.show();				
+			}
+
+		});
+
+		var buttons2 = document.querySelectorAll('#choosecode2 button');
+		[].forEach.call(buttons2, function(button2) {
+			button2.onclick = function (){
+				var width = 0;
+				var height = 0;
+				switch (this.innerText){
+					case '300*150':
+						width = 300;
+						height = 150;
+						break;
+					case '578*276':
+						width = 578;
+						height = 276;
+						break;
+					case '1000*500':
+						width = 1000;
+						height = 500;
+						break;	
+					case '1500*750':
+						width = 1700;
+						height = 750;
+						break;												
+					default:
+				
+						break;
+				}
+				newwaptimechart.options.width = width;
+				newwaptimechart.options.height = height;				
+				newwaptimechart.show();				
+			}
+
+		});
+
+	</script>	
+</body>
+</html>

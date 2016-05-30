@@ -1,0 +1,23 @@
+分时图上下限算法：
+
+1.遍历出当前价的最高(high),最低点(low)
+2.和昨收(pre)价进行比较
+	Math.Abs(pre-high)   
+	Math.Abs(pre-low)  
+		取两个中比较大的值 设为offset
+			top=pre+offset*1.05;
+			fall=pre-offset*1.05;
+	
+	同时满足如果fall<=0则为fall=0
+	如果high==low==pre则
+		top=pre*1.08
+		fall=pre*0.92
+
+	如果pre==0 则top==fall==0
+
+
+分时图接口：
+
+http://pdfm.eastmoney.com/EM_UBG_PicDataTransferInterface/js.ashx?id=000015&TYPE=R&js=(x)&rtntype=5
+
+yc是昨收

@@ -1,0 +1,257 @@
+/**
+ * 绘制手机分时图
+ *
+ * this:{
+ *     container:画布的容器
+ *     interactive:图表交互
+ * }
+ * this.options:{
+ *     data:    行情数据
+ *     type:    "TL"(分时图),"DK"(日K线图),"WK"(周K线图),"MK"(月K线图)
+ *     canvas:  画布对象
+ *     ctx:     画布上下文
+ *     canvas_offset_top:   画布中坐标轴向下偏移量
+ *     padding_left:    画布左侧边距
+ *     k_v_away:    行情图表（分时图或K线图）和成交量图表的间距
+ *     scale_count:     缩放默认值
+ *     c_1_height:  行情图表（分时图或K线图）的高度
+ *     rect_unit:   分时图或K线图单位绘制区域
+ * }
+ *
+ */
+
+// 绘制坐标轴
+var DrawXY = require('chart/draw_xy');
+// 主题
+var theme = require('theme/default');
+var common = require('tools/common'); 
+// 获取分时图数据
+var GetDataTime = require('getdata/mobile/chart_time'); 
+// 绘制分时折线图
+var DrawLine = require('chart/draw_line'); 
+// 绘制分时折线图中的平均线
+var DrawAvgCost = require('chart/draw_avg_cost'); 
+// 绘制成交量图
+var DrawV = require('chart/draw_v');
+// 工具
+var common = require('tools/common'); 
+// 拓展，合并，复制
+var extend = require('tools/extend');
+// 交互效果
+var Interactive = require('interactive/interactive'); 
+// 水印
+var watermark = require('chart/watermark');
+
+var ChartTime = (function() {
+
+    // 构造函数
+    function ChartTime(options) {
+        this.defaultoptions = theme.chart_time;
+        this.options = {};
+        extend(true, this.options, theme.default, options, this.defaultoptions);
+        
+    }
+
+    // 初始化
+    ChartTime.prototype.init = function() {
+
+        var type = this.options.type = "TL";
+        var canvas = document.createElement("canvas");
+        this.container = document.getElementById(this.options.container);
+        // 去除画布上粘贴效果
+        this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        this.container.style.position = "relative";
+        this.container.setAttribute("unselectable","on");
+        // 画布
+        var ctx = canvas.getContext('2d');
+        this.options.canvas = canvas;
+        this.options.context = ctx;
+        // 第一个图表的高度占画布高度比例
+        var c_1_percent = this.options.c_1_percent;
+        // 设备像素比
+        var dpr = this.options.dpr;
+        // 画布的宽和高
+        canvas.width = this.options.width * dpr;
+        canvas.height = this.options.height * dpr;
+
+        // 画布向下偏移的距离
+        this.options.canvas_offset_top = canvas.height / 8;
+        // 画布内容向坐偏移的距离
+        this.options.padding_left = theme.default.padding_left * dpr;
+        // 行情图表（分时图或K线图）和成交量图表的间距
+        this.options.k_v_away = canvas.height / 8;
+        // 缩放默认值
+        this.options.scale_count = 0;
+        // 画布上第一个图表的高度
+        this.options.c_1_height = canvas.height * 0.5;
+
+        canvas.style.width = this.options.width + "px";
+        canvas.style.height = this.options.height + "px";
+        canvas.style.border = "0";
+
+        // 画布上部内间距
+        ctx.translate("0",this.options.canvas_offset_top);
+        // 画笔参数设置
+        ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
+        ctx.lineWidth = 1 * this.options.dpr;
+        // 加水印
+        watermark.apply(this,[ctx]);
+        // 容器中添加画布
+        this.container.appendChild(canvas);
+    };
+
+    // 绘图
+    ChartTime.prototype.draw = function(callback) {
+        // 删除canvas画布
+        this.clear();
+        // 初始化
+        this.init();
+        // 初始化交互
+        var inter = this.interactive = new Interactive(this.options);
+        // 显示loading效果
+        inter.showLoading();
+        var _this = this;
+        GetDataTime(this.options.code,
+            function(data){
+                if(data){
+                    dataCallback.apply(_this,[data]);
+                }
+                /*绑定事件*/
+                bindEvent.call(_this,_this.options.context);
+                // 传入的回调函数
+                if(callback){
+                    callback();
+                }
+            }
+        );
+
+
+    };
+    // 重绘
+    ChartTime.prototype.reDraw = function() {
+        // 删除canvas画布
+        this.clear();
+        // 初始化
+        this.init();
+        dataCallback.call(this);
+    }
+    /*删除canvas画布*/
+    ChartTime.prototype.clear = function(cb) {
+        if(this.container){
+            this.container.innerHTML = "";
+        }else{
+            document.getElementById(this.options.container).innerHTML = "";
+        }
+        if (cb) {
+            cb();
+        };
+    }
+    /*回调函数*/
+    function dataCallback(data){
+        this.options.data = data == undefined ? this.options.data : data;
+        // 获取单位绘制区域
+        var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
+        this.options.rect_unit = rect_unit;
+
+        // 绘制坐标轴
+        new DrawXY(this.options);
+        // 绘制分时折线图
+        new DrawLine(this.options);
+        // 绘制分时折线图平均线
+        new DrawAvgCost(this.options);
+        // 绘制分时图成交量
+        new DrawV(this.options);
+        
+        // 隐藏loading效果
+        this.interactive.hideLoading();
+    }
+
+    // 绑定事件
+    function bindEvent(ctx){
+        var _this = this;
+        var timer_s,timer_m;
+        var canvas = ctx.canvas;
+        var inter = this.interactive;
+
+        // 触摸事件
+        canvas.addEventListener("touchstart",function(event){
+            // 显示交互效果
+            inter.show();
+            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            event.preventDefault();
+        });
+        // 手指滑动事件
+        canvas.addEventListener("touchmove",function(event){
+            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            event.preventDefault();
+        });
+         // 手指离开事件
+        canvas.addEventListener("touchend",function(event){
+            // 隐藏交互效果
+            inter.hide();
+            event.preventDefault();
+        });
+
+
+        canvas.addEventListener("mousemove",function(event){
+            //console.info(event);
+            dealEvent.apply(_this,[inter,event]);
+            event.preventDefault();
+        });
+
+        canvas.addEventListener("mouseleave",function(event){
+            //console.info(event);
+            inter.hide();
+            event.preventDefault();
+        });
+
+        canvas.addEventListener("mouseenter",function(event){
+            //console.info(event);
+            dealEvent.apply(_this,[inter,event]);
+            inter.show();
+            event.preventDefault();
+        });
+
+    }
+    // 处理交互事件
+    function dealEvent(inter,eventposition){
+        // 画布对象
+        var canvas = this.options.canvas;
+        // 分时行情数据
+        var time_data = this.options.data.data;
+        // 单位绘制区域
+        var rect_unit = this.options.rect_unit;
+        // 单位绘图区域的宽度
+        var rect_w = rect_unit.rect_w;
+        // K线柱体的宽度
+        var bar_w = rect_unit.bar_w;
+
+        // 鼠标事件位置
+        var w_x = eventposition.offsetX || (eventposition.clientX - this.container.getBoundingClientRect().left);
+        var w_y = eventposition.offsetY || (eventposition.clientY - this.container.getBoundingClientRect().top);
+
+        // 鼠标在画布中的坐标
+        var c_pos = common.windowToCanvas.apply(this,[canvas,w_x,w_y]);
+        var c_x = (c_pos.x).toFixed(0);
+        var c_y = (c_pos.y).toFixed(0);
+
+        // 当前点在数组中的下标
+        var index = Math.floor((c_x - this.options.padding_left)/rect_w);
+
+        if(time_data[index]){
+            // Tip显示行情数据
+            inter.showTip(canvas,w_x,time_data[index]);
+
+            // 显示十字指示线的
+            var cross = common.canvasToWindow.apply(this,[canvas,time_data[index].cross_x,time_data[index].cross_y]);
+            var cross_w_x = cross.x;
+            var cross_w_y = cross.y;
+            inter.cross(canvas,cross_w_x,cross_w_y);
+        }
+
+    }
+
+    return ChartTime;
+})();
+
+module.exports = ChartTime;
