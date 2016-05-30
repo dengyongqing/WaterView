@@ -5,10 +5,10 @@ module.exports = {
 	//页面入口文件配置
 	entry: {
 		// './dev/wap_time_chart.js',	//手机分时图
-		emchart:'./dev/mobile/emchart.js',
-		emchart_mobile_time:'./dev/mobile/emchart_mobile_time.js',
-		emchart_mobile_k:'./dev/mobile/emchart_mobile_k.js',
-		emchart_mobile_time_k:'./dev/mobile/emchart_mobile_time_k.js'
+		emcharts:'./dev/mobile/emcharts.js',
+		emcharts_mobile_time:'./dev/mobile/emcharts_mobile_time.js',
+		emcharts_mobile_k:'./dev/mobile/emcharts_mobile_k.js',
+		emcharts_mobile_time_k:'./dev/mobile/emcharts_mobile_time_k.js'
 	},
 	output: {
 		filename: './bundle/mobile/[name].js'
