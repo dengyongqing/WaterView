@@ -50,7 +50,14 @@ var ChartK = (function() {
     function ChartK(options) {
         this.defaultoptions = theme.chart_k;
         this.options = {};
-        extend(true, this.options, theme.default, options, this.defaultoptions);
+        extend(true, this.options, theme.default, this.defaultoptions, options);
+
+        // 图表容器
+        this.container = document.getElementById(options.container);
+        // 图表加载完成事件
+        this.options.onChartLoaded = options.onChartLoaded == undefined ? function(op){
+
+        }:options.onChartLoaded;
     }
 
     /*初始化*/
@@ -58,7 +65,6 @@ var ChartK = (function() {
         var type = this.options.type = this.options.type == undefined ? "DK" : this.options.type;
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
-        this.container = document.getElementById(this.options.container);
         this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         this.container.style.position = "relative";
         this.container.setAttribute("unselectable","on");
@@ -110,7 +116,7 @@ var ChartK = (function() {
         _this.init();
 
         // 初始化交互
-        var inter = _this.interactive = new Interactive(_this.options);
+        var inter = _this.options.interactive = new Interactive(_this.options);
         // 显示loading效果
         inter.showLoading();
 
@@ -124,6 +130,10 @@ var ChartK = (function() {
                 inter.scale(_this.options.canvas);
                 // 绑定事件
                 bindEvent.call(_this,_this.options.context);
+                // 传入的回调函数
+                if(callback){
+                    callback(_this.options);
+                }
             });
         }else if(type == "WK"){
             GetDataWeek(getParamsObj.call(_this),function(data){
@@ -134,6 +144,10 @@ var ChartK = (function() {
                 inter.scale(_this.options.canvas);
                 // 绑定事件
                 bindEvent.call(_this,_this.options.context);
+                // 传入的回调函数
+                if(callback){
+                    callback(_this.options);
+                }
             });
         }else if(type == "MK"){
             GetDataMonth(getParamsObj.call(_this),function(data){
@@ -146,11 +160,10 @@ var ChartK = (function() {
                 bindEvent.call(_this,_this.options.context);
                 // 传入的回调函数
                 if(callback){
-                    callback();
+                    callback(_this.options);
                 }
             });
         }
-
 
     };
     // 重绘
@@ -171,6 +184,12 @@ var ChartK = (function() {
         if (cb) {
             cb();
         };
+    }
+
+    // 获取上榜日标识dom
+    ChartK.prototype.getMarkPointsDom = function(cb) {
+        var points =  this.options.interactive.options.pointsContainer.children;
+        return points;
     }
 
     // 缩放图表
@@ -229,7 +248,7 @@ var ChartK = (function() {
         data = this.options.data;
 
         // 图表交互
-        var inter = this.interactive;
+        var inter = this.options.interactive;
 
         // 默认显示均线数据
         var five_average = data.five_average;
@@ -252,8 +271,16 @@ var ChartK = (function() {
         // 绘制成交量图
         new DrawV(this.options);
 
+        // 上榜日标识点
+        if(this.options.interactive.options.pointsContainer){
+            var points =  this.options.interactive.options.pointsContainer.children;
+            this.markPointsDom = points;
+        }
+
         // 隐藏loading效果
         inter.hideLoading();
+        // 图表加载完成时间
+        this.options.onChartLoaded(this);
        
     }
     // 绑定事件
@@ -261,7 +288,7 @@ var ChartK = (function() {
         var _this = this;
         var timer_s,timer_m,timer_e;
         var canvas = ctx.canvas;
-        var inter = _this.interactive;
+        var inter = _this.options.interactive;
         //缩放按钮是否可点击
         this.options.clickable = true;
 
@@ -320,6 +347,11 @@ var ChartK = (function() {
                 _this.options.clickable = false;
                 scale_minus.style.opacity = "1";
                 _this.options.scale_count = scale_count + 1;
+
+                // 清除上榜日标识
+                if(_this.options.interactive.options.pointsContainer){
+                    _this.options.interactive.options.pointsContainer.innerHTML = "";
+                }
                 // 清空画布
                 ctx.clearRect(0,-_this.options.canvas_offset_top,canvas.width,canvas.height);
                 scaleClick.apply(_this);
@@ -339,6 +371,11 @@ var ChartK = (function() {
                 _this.options.clickable = false;
                 scale_plus.style.opacity = "1";
                 _this.options.scale_count = scale_count - 1;
+
+                // 清除上榜日标识
+                if(_this.options.interactive.options.pointsContainer){
+                    _this.options.interactive.options.pointsContainer.innerHTML = "";
+                }
                 // 清空画布
                 ctx.clearRect(0,-_this.options.canvas_offset_top,canvas.width,canvas.height);
                 scaleClick.apply(_this);

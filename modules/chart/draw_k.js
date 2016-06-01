@@ -58,6 +58,16 @@ var DrawK = (function(){
 		// K线柱体的颜色
 		var up_color = this.options.up_color;
 		var down_color =this.options.down_color
+		// 图表交互
+        var inter = this.options.interactive;
+        // 上榜日数组
+        var pointObj = {};
+        if(this.options.markPoint && this.options.markPoint.show){
+        	var array = this.options.markPoint.data.array;
+        	for(var index in array){
+        		pointObj[array[index]] = array[index];
+        	}
+        }
 
 		for(var i = 0,item; item = data_arr[i]; i++){
 			// 是否上涨
@@ -82,6 +92,11 @@ var DrawK = (function(){
 		 	item.cross_x = x;
 		 	item.cross_y = y_close;
 		 	// console.log(x.toFixed(2).toString());
+
+		 	//标识上榜日
+		 	if(pointObj[item.data_time]){
+		 		inter.markPoint(x,item.data_time,this.options.context.canvas,this.options.scale_count);
+		 	}
 
 		 	ctx.moveTo(x,y_lowest);
 		 	ctx.lineTo(x,y_highest);

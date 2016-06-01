@@ -48,7 +48,14 @@ var ChartTime = (function() {
     function ChartTime(options) {
         this.defaultoptions = theme.chart_time;
         this.options = {};
-        extend(true, this.options, theme.default, options, this.defaultoptions);
+        extend(true, this.options, theme.default, this.defaultoptions, options);
+
+        // 图表容器
+        this.container = document.getElementById(options.container);
+        // 图表加载完成事件
+        this.onChartLoaded = options.onChartLoaded == undefined ? function(op){
+
+        }:options.onChartLoaded;
         
     }
 
@@ -57,7 +64,6 @@ var ChartTime = (function() {
 
         var type = this.options.type = "TL";
         var canvas = document.createElement("canvas");
-        this.container = document.getElementById(this.options.container);
         // 去除画布上粘贴效果
         this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         this.container.style.position = "relative";
@@ -107,7 +113,7 @@ var ChartTime = (function() {
         // 初始化
         this.init();
         // 初始化交互
-        var inter = this.interactive = new Interactive(this.options);
+        var inter = this.options.interactive = new Interactive(this.options);
         // 显示loading效果
         inter.showLoading();
         var _this = this;
@@ -124,8 +130,6 @@ var ChartTime = (function() {
                 }
             }
         );
-
-
     };
     // 重绘
     ChartTime.prototype.reDraw = function() {
@@ -163,7 +167,9 @@ var ChartTime = (function() {
         new DrawV(this.options);
         
         // 隐藏loading效果
-        this.interactive.hideLoading();
+        this.options.interactive.hideLoading();
+        // 图表加载完成时间
+        this.onChartLoaded(this);
     }
 
     // 绑定事件
@@ -171,7 +177,7 @@ var ChartTime = (function() {
         var _this = this;
         var timer_s,timer_m;
         var canvas = ctx.canvas;
-        var inter = this.interactive;
+        var inter = this.options.interactive;
 
         // 触摸事件
         canvas.addEventListener("touchstart",function(event){

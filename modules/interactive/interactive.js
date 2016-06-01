@@ -313,6 +313,49 @@ var Interactive = (function() {
 	    }
 	}
 
+	// 标记上榜日
+	Interactive.prototype.markPoint = function(x,date,canvas,scale_count){
+		if(scale_count >= 0){
+			// K线图表右下角相对于父容器的位置
+		    var c1_pos = common.canvasToWindow.apply(this,[canvas,canvas.width,this.options.c_1_height]);
+		    // 上榜日标记的横坐标
+		   	var p_pos = common.canvasToWindow.apply(this,[canvas,x,this.options.c_1_height]);
+
+			// 创建外部包裹元素
+			var markPoint = document.createElement("div"); 
+
+			markPoint.className = "mark-point";
+			var imgUrl = this.options.markPoint.data.imgUrl == undefined ? '../../modules/images/bang-26-26.png' : this.options.markPoint.data.imgUrl;
+			// 上榜日标识宽度
+			var imgWidth = this.options.markPoint.width == undefined ? 20 : this.options.markPoint.width + "px";
+			// 上榜日标识高度
+			var imgHeight = this.options.markPoint.height == undefined ? 20 : this.options.markPoint.height + "px";
+			markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
+			markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
+
+			if(this.options.markPoint.width && this.options.markPoint.height){
+				markPoint.style.width = imgWidth;
+				markPoint.style.height = imgHeight;
+			}else{
+				markPoint.style.width = imgWidth;
+				markPoint.style.height = imgHeight;
+				// markPoint.style.borderRadius = "5px";
+			}
+			markPoint.setAttribute("data-point",date);
+			if(!this.options.pointsContainer){
+				var pointsContainer = document.createElement("div");
+				this.options.pointsContainer = pointsContainer;
+				document.getElementById(this.options.container).appendChild(this.options.pointsContainer);
+			}
+			this.options.pointsContainer.appendChild(markPoint);
+			// 定位上榜日标识点的位置
+			markPoint.style.left = p_pos.x - markPoint.clientWidth/2 + "px";
+			markPoint.style.top = c1_pos.y - 30 + "px";
+
+		}
+		
+	}
+
 	// 显示交互效果
 	Interactive.prototype.show = function(){
 		
