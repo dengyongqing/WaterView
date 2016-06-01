@@ -325,7 +325,7 @@ var Interactive = (function() {
 			var markPoint = document.createElement("div"); 
 
 			markPoint.className = "mark-point";
-			var imgUrl = this.options.markPoint.data.imgUrl == undefined ? '../../modules/images/bang-26-26.png' : this.options.markPoint.data.imgUrl;
+			var imgUrl = this.options.markPoint.imgUrl == undefined ? '../../modules/images/bang-26-26.png' : this.options.markPoint.imgUrl;
 			// 上榜日标识宽度
 			var imgWidth = this.options.markPoint.width == undefined ? 20 : this.options.markPoint.width + "px";
 			// 上榜日标识高度

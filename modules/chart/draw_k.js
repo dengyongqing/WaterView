@@ -63,7 +63,7 @@ var DrawK = (function(){
         // 上榜日数组
         var pointObj = {};
         if(this.options.markPoint && this.options.markPoint.show){
-        	var array = this.options.markPoint.data.array;
+        	var array = this.options.markPoint.dateList;
         	for(var index in array){
         		pointObj[array[index]] = array[index];
         	}
