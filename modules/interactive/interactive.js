@@ -325,13 +325,15 @@ var Interactive = (function() {
 			var markPoint = document.createElement("div"); 
 
 			markPoint.className = "mark-point";
-			var imgUrl = this.options.markPoint.imgUrl == undefined ? '../../modules/images/bang-26-26.png' : this.options.markPoint.imgUrl;
+			var imgUrl = this.options.markPoint.imgUrl;
 			// 上榜日标识宽度
 			var imgWidth = this.options.markPoint.width == undefined ? 20 : this.options.markPoint.width + "px";
 			// 上榜日标识高度
 			var imgHeight = this.options.markPoint.height == undefined ? 20 : this.options.markPoint.height + "px";
-			markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
-			markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
+			if(imgUrl){
+				markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
+				markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
+			}
 
 			if(this.options.markPoint.width && this.options.markPoint.height){
 				markPoint.style.width = imgWidth;
