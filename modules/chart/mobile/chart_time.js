@@ -46,7 +46,7 @@ var ChartTime = (function() {
 
     // 构造函数
     function ChartTime(options) {
-        this.defaultoptions = theme.chart_time;
+        this.defaultoptions = theme.chartTime;
         this.options = {};
         extend(true, this.options, theme.default, this.defaultoptions, options);
 

@@ -183,20 +183,36 @@
 		window.onload = function(){
 			current_tab = k0 = new EmchartsMobileTime({
 				dpr: 2,
-				series:[
-					{	
-						name:"test1"
-						color:"red",
-						data
-					},
-
-				],
 	        	container : "emchart-0",
 		        "width" : document.body.offsetWidth - 20,
-		        "height" : document.body.offsetWidth
+		        "height" : document.body.offsetWidth,
+		        xAxis: {
+			        data:["2016-3-1","2016-3-2","2016-3-3","2016-3-4","2016-3-5","2016-3-6"]
+			    },
+		        series:[
+					{	
+						name:"test1",
+						color:"red",
+						data:[3000,5000,2000,4000,2000,1000]
+					},
+					{	
+						name:"test2",
+						color:"green",
+						data:[1000,3000,4000,1000,6000,2000]
+					},
+					{	
+						name:"test3",
+						color:"blue",
+						data:[2000,1000,4000,5000,2000,2000]
+					},
+					{	
+						name:"test4",
+						color:"black",
+						data:[5000,3000,1000,3000,2000,7000]
+					}
+				]
 	        });
 	        k0.draw();
-
 		}
 
         /*触摸事件*/
