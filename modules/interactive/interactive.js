@@ -429,16 +429,16 @@ var Interactive = (function() {
 
 	}
 
-	// loading效果
+	// 显示loading效果
 	Interactive.prototype.showLoading = function(){
 
 		if(this.options.loading){
 			this.options.loading.style.display = "block";
 		}else{
-			//获取图表容器
+			// 获取图表容器
 	        var chart_container = document.getElementById(this.options.container);
 	        var chart_container_height = chart_container.offsetHeight;
-	        //无数据时提示信息
+	        // loading提示信息
 	        var loading_notice = document.createElement("div");
 	        loading_notice.className = "loading-chart";
 	        loading_notice.innerText = "加载中...";
@@ -446,16 +446,40 @@ var Interactive = (function() {
 	        loading_notice.style.width = this.options.width + "px";
 	        // loading_notice.style.paddingTop = chart_container_height / 2 + "px";
 	        loading_notice.style.paddingTop = "100px";
-	        //把提示信息添加到图表容器中
+	        // 把提示信息添加到图表容器中
 	        this.options.loading = loading_notice;
 	        chart_container.appendChild(loading_notice);
 		}
 		
 	}
 
-	// loading效果
+	// 隐藏loading效果
 	Interactive.prototype.hideLoading = function(){
 		this.options.loading.style.display = "none";
+	}
+
+	// 暂无数据
+	Interactive.prototype.showNoData = function(){
+
+		if(this.options.noData){
+			this.options.noData.style.display = "block";
+		}else{
+			//获取图表容器
+	        var noData_container = document.getElementById(this.options.container);
+	        var noData_container_height = noData_container.offsetHeight;
+	        //无数据时提示信息
+	        var noData_notice = document.createElement("div");
+	        noData_notice.className = "loading-chart";
+	        noData_notice.innerText = "暂无数据";
+	        noData_notice.style.height = this.options.height + "px";
+	        noData_notice.style.width = this.options.width + "px";
+
+	        noData_notice.style.paddingTop = "100px";
+	        //把提示信息添加到图表容器中
+	        this.options.noData = noData_notice;
+	        noData_container.appendChild(noData_notice);
+		}
+		
 	}
 
     return Interactive;

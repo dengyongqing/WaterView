@@ -194,6 +194,8 @@ var ChartK = (function() {
     function scaleClick() {
         var _this = this;
         var type = _this.options.type;
+        // 显示loading效果
+        this.options.interactive.showLoading();
 
         try{
             if(type == "DK"){
@@ -248,6 +250,14 @@ var ChartK = (function() {
         // 图表交互
         var inter = this.options.interactive;
 
+        if(!data.data || data.data.length == 0){
+            // 隐藏loading效果
+            inter.hideLoading();
+            // 暂无数据
+            inter.showNoData();
+            return;
+        }
+
         // 默认显示均线数据
         var five_average = data.five_average;
         var ten_average = data.ten_average;
@@ -277,6 +287,7 @@ var ChartK = (function() {
 
         // 隐藏loading效果
         inter.hideLoading();
+        
         // 图表加载完成时间
         this.options.onChartLoaded(this);
        
