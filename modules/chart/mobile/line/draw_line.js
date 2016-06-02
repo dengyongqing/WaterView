@@ -43,10 +43,14 @@ var DrawLine = (function(){
 		// 折线数据
 		var series = this.options.series;
 		for(var i = 0,line;line = series[i]; i++){
-			 drawLine.apply(this,[ctx,line]);
-			 drawPoint.apply(this,[ctx,line]);
+			// 填充颜色
+			ctx.fillStyle = line.color;
+			// 画笔颜色
+	        ctx.strokeStyle = line.color;
+			drawLine.apply(this,[ctx,line]);
+			drawPoint.apply(this,[ctx,line]);
 		}
-		
+		drawLineMark.apply(this,[ctx,series]);
 	};
 	
 	// 绘制折线
@@ -58,11 +62,6 @@ var DrawLine = (function(){
         var arr_length = arr.length;
 
 		ctx.beginPath();
-
-		// 填充颜色
-		ctx.fillStyle = line.color;
-		// 画笔颜色
-        ctx.strokeStyle = line.color;
 
 		for(var i = 0,item;item = arr[i]; i++){
 			 var x = (ctx.canvas.width/6) * (i + 1);
@@ -90,10 +89,6 @@ var DrawLine = (function(){
 		var arr = line.data;
         var arr_length = arr.length;
 
-        // 填充颜色
-		ctx.fillStyle = line.color;
-		// 画笔颜色
-        ctx.strokeStyle = line.color;
         // 节点（折线连接点半径）
         var pointRadius = this.options.pointRadius;
 
@@ -115,6 +110,54 @@ var DrawLine = (function(){
 		// 恢复画笔状态
 		ctx.restore();
 	}
+
+
+    // 绘制折线标识
+    function drawLineMark(ctx,series){
+    	// 保存画笔状态
+		ctx.save();
+		var dpr = this.options.dpr;
+		var x_middle = ctx.canvas.width/2;
+		var wh = this.options.lineMarkWidth * dpr;
+		var x_start = 0;
+		var y_start = ctx.canvas.height * (7/9 - 1/18);
+
+		for(var i = 0,line;line = series[i]; i++){
+			ctx.beginPath();
+			
+			// 画笔颜色
+	        ctx.strokeStyle = '#cadef8';
+	        var mark_offset = (Math.floor(i/2)) * (wh + 7 * dpr);
+	        var text_offset = this.options.font_size * this.options.dpr + (wh-this.options.font_size * this.options.dpr)/2;
+			if(i == 0){
+				// 填充颜色
+				ctx.fillStyle = line.color;
+				ctx.rect(x_start,y_start,wh,wh);
+				ctx.fill();
+				// 填充颜色
+				ctx.fillStyle = '#333';
+				ctx.fillText(line.name, x_start + wh + 50, y_start + text_offset);
+			}else if((i + 1) % 2 == 0){
+				// 填充颜色
+				ctx.fillStyle = line.color;
+		 		ctx.rect(x_middle,y_start + mark_offset,wh,wh);
+		 		ctx.fill();
+		 		// 填充颜色
+				ctx.fillStyle = '#333';
+        		ctx.fillText(line.name, x_middle + wh + 50, y_start + mark_offset + text_offset);
+	    	}else{
+	    		// 填充颜色
+				ctx.fillStyle = line.color;
+	    		ctx.rect(x_start,y_start + mark_offset,wh,wh);
+	    		ctx.fill();
+	    		ctx.fillStyle = '#333';
+	    		ctx.fillText(line.name, x_start + wh + 50, y_start + mark_offset + text_offset);
+	    	}
+		}
+		// 恢复画笔状态
+		ctx.restore();
+    }
+
 	return DrawLine;
 })();
 
