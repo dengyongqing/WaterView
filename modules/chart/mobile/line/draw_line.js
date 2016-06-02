@@ -28,26 +28,56 @@ var theme = require('theme/default');
 var common = require('common');
 var DrawLine = (function(){
 	function DrawLine(options){
-		/*设置默认参数*/
-        this.defaultoptions = theme.draw_line;
+		// 设置默认参数
+        this.defaultoptions = theme.drawLine;
         this.options = {};
         extend(false,this.options, this.defaultoptions, options);
-        /*绘图*/
+        // 绘图
         this.draw();
 	};
 	
-	/*绘图*/
+	// 绘图
 	DrawLine.prototype.draw = function(){
 
 		var ctx = this.options.context;
-		var data = this.options.data;
-		var data_arr = data.data;
+		// 折线数据
+		var series = this.options.series;
 		
-		drawStroke.apply(this,[ctx,data_arr]);
-		drawFill.apply(this,[ctx,data_arr]);
+		for(var i = 0,item;item = series[i]; i++){
+			 var arr = item.data;
+			 drawLine.apply(this,[ctx,arr]);
+		}
+		
 	};
-	/*绘制分时线*/
-	function drawStroke(ctx,data_arr){
+	
+	// 绘制折线
+	function drawLine(ctx,arr){
+		// 保存画笔状态
+		ctx.save();
+        var data_arr_length = data_arr.length;
+
+		ctx.beginPath();
+		ctx.fillStyle = grad;
+		ctx.moveTo(this.options.padding_left,y_min);
+
+		for(var i = 0,item;item = arr[i]; i++){
+			 var x = common.get_x.call(this,i + 1);
+			 var y = common.get_y.call(this,item.price);
+			 if(i == data_arr_length - 1){
+			 	ctx.lineTo(x,y_min);
+			 }else{
+			 	ctx.lineTo(x,y);
+			 }
+		}
+		ctx.fill();
+		// 恢复画笔状态
+		ctx.restore();
+	}
+
+	// 绘制折线节点（连接点）
+	function drawPoint(ctx,arr){
+		// 保存画笔状态
+		ctx.save();
 		ctx.beginPath();
 	 	
 		// ctx.strokeStyle = "rgba(0,0,0,0)";
@@ -62,32 +92,10 @@ var DrawLine = (function(){
 			 item.cross_y = y;
 		}
 		ctx.stroke();
+		// 恢复画笔状态
+		ctx.restore();
 	}
-	/*分时线填充渐变色*/
-	function drawFill(ctx,data_arr){
-		var y_min = common.get_y.call(this,this.options.data.min);
-		/* 指定渐变区域 */
-        var grad  = ctx.createLinearGradient(0,0,0,ctx.canvas.height);
-        /* 指定几个颜色 */
-        grad.addColorStop(0,'rgba(221,234,250,0.7)');
-        grad.addColorStop(1,'rgba(255,255,255,0)');
-        var data_arr_length = data_arr.length;
 
-		ctx.beginPath();
-		ctx.fillStyle = grad;
-		ctx.moveTo(this.options.padding_left,y_min);
-
-		for(var i = 0,item;item = data_arr[i]; i++){
-			 var x = common.get_x.call(this,i + 1);
-			 var y = common.get_y.call(this,item.price);
-			 if(i == data_arr_length - 1){
-			 	ctx.lineTo(x,y_min);
-			 }else{
-			 	ctx.lineTo(x,y);
-			 }
-		}
-		ctx.fill();
-	}
 	return DrawLine;
 })();
 

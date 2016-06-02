@@ -81,7 +81,7 @@ var ChartLine = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / (9 * 2);;
         // 画布内容向坐偏移的距离
-        this.options.padding_left = this.options.canvasPaddingLeft * dpr;
+        this.options.padding_left = canvas.width / 6;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / (9 * 2);
         // 缩放默认值
