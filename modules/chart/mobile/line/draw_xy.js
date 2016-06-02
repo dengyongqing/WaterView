@@ -1,10 +1,10 @@
 /**
  * 绘制直角坐标系
  */
-var extend = require('tools/extend');
-/*主题*/
-var theme = require('theme/default');
-var DrawXY = (function(){
+ var extend = require('tools/extend');
+ /*主题*/
+ var theme = require('theme/default');
+ var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
         /*设置默认参数*/
@@ -16,110 +16,67 @@ var DrawXY = (function(){
     };
     /*绘图*/
     DrawXY.prototype.draw = function(){
-        var data = this.options.data;
-        var ctx = this.options.context;
+        var xAxisData = this.options.xAxis.data;
+        var yAxisData = this.options.series;
         var type = this.options.type;
         var dpr = this.options.dpr;
+        var ctx = this.options.context;
 
         /*Y轴上的最大值*/
-        var y_max = data.max;
+        var y_max = getMaxMark(yAxisData);
         /*Y轴上的最小值*/
-        var y_min = data.min;
+        var y_min = 0;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = this.options.sepe_num;
+        var sepe_num = 6;
         /*开盘收盘时间数组*/
-        var oc_time_arr = data.timeStrs;
+        var oc_time_arr = this.options.xAxis.data;
 
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
-        if(type == "TL"){
-            drawXYTime(ctx,y_max,y_min,line_list_array);
-        }else{
-            drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
-        }
+        console.log(line_list_array)
+        drawXYLine.call(this,ctx,y_max,y_min,line_list_array);
 
         // 绘制横坐标刻度
         drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
     };
     // 绘制分时图坐标轴
-    function drawXYTime(ctx,y_max,y_min,line_list_array){
+    function drawXYLine(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
         for (var i = 0,item; item = line_list_array[i]; i++) {
-            ctx.beginPath();
-
-            if (i < (sepe_num -1) / 2) {
-                ctx.fillStyle = '#007F24';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else if(i > (sepe_num -1) / 2){
-                ctx.fillStyle = '#FF0A16';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else{
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = '#cadef8';
-            }
-
+            ctx.beginPath();        
+            ctx.fillStyle = '#b1b1b1';
+            ctx.strokeStyle = '#ccc';
             ctx.moveTo(0, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(2), 0, item.y - 10);
+            ctx.fillText((item.num).toFixed(0), 0, item.y - 10);
             ctx.stroke();
             // 绘制纵坐标涨跌幅
-            drawYPercent(ctx,y_max, y_min, item);
         }
 
-    }
-    //绘制K线图坐标轴
-    function drawXYK(ctx,y_max,y_min,line_list_array){
-        var sepe_num = line_list_array.length;
-        for (var i = 0,item; item = line_list_array[i]; i++) {
-            ctx.beginPath();
-
-            if (i < (sepe_num -1) / 2) {
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else if(i > (sepe_num -1) / 2){
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else{
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-
-            
-            ctx.moveTo(0, Math.round(item.y));
-            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+        for (var i = 0,item; i<line_list_array.length; i++) {
+            ctx.beginPath();        
+            ctx.strokeStyle = '#ccc';
+            ctx.moveTo(0,0);
+            ctx.lineTo(Math.round(item.x),ctx.canvas.height);
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(2), 0, item.y - 10);
             ctx.stroke();
+            // 绘制纵坐标涨跌幅
         }
 
+
     }
-    /*绘制纵坐标涨跌幅*/
-    function drawYPercent(ctx,y_max, y_min, obj){
-        /*纵坐标中间值*/
-        var y_middle = (y_max + y_min)/2;
-        /*画布宽度*/
-        var k_width = ctx.canvas.width;
-        /*纵坐标刻度涨跌幅*/
-        var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(2) + "%";
-        /*绘制纵坐标刻度百分比*/
-        ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y - 10);
-        ctx.stroke();
-    }
+
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
         var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
-        ctx.fillStyle = '#999';
+        ctx.fillStyle = '#b1b1b1';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = k_height + ctx.canvas.height/8/2;
@@ -141,7 +98,20 @@ var DrawXY = (function(){
         }
         return result;
     }
-    return DrawXY;
+    /*获取数组中的最大值*/
+    function getMaxMark(data) {
+        var max =0,count=[];
+        for(var i = 0;i<data.length;i++){
+            count = count.concat(data[i].data);
+        }
+        max = count[0];
+        for(var i =1;i<count.length;i++) {
+           max = Math.max(max,count[i]);
+       }
+
+       return max
+   }
+   return DrawXY;
 })();
 
 module.exports = DrawXY;
