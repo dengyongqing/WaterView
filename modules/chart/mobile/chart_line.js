@@ -21,14 +21,14 @@
  */
 
 // 绘制坐标轴
-var DrawXY = require('chart/draw_xy');
+var DrawXY = require('chart/mobile/line/draw_xy');
 // 主题
 var theme = require('theme/default');
 var common = require('tools/common'); 
 // 获取分时图数据
 var GetDataTime = require('getdata/mobile/chart_time'); 
 // 绘制分时折线图
-var DrawLine = require('chart/draw_line'); 
+var DrawLine = require('chart/mobile/line/draw_line'); 
 // 绘制分时折线图中的平均线
 var DrawAvgCost = require('chart/draw_avg_cost'); 
 // 绘制成交量图

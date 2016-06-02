@@ -48,7 +48,7 @@ var Scale = require('interactive/scale');
 var ChartK = (function() {
 
     function ChartK(options) {
-        this.defaultoptions = theme.chart_k;
+        this.defaultoptions = theme.chartK;
         this.options = {};
         extend(true, this.options, theme.default, this.defaultoptions, options);
 

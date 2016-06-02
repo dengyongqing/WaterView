@@ -16,15 +16,15 @@ var defaultopions = {
 		down_color:"#17b03e"
 	},
 	// 分时线图表配置参数
-	chart_time:{
+	chartTime:{
 		crossline:true
 	},
 	// K线图表配置参数
-	chart_k:{
+	chartK:{
 		crossline:false
 	},
 	// 折线图表配置参数
-	chart_line:{
+	chartLine:{
         showPoint:false	//是否显示折线图上的节点
 	},
 	// 坐标轴配置参数
