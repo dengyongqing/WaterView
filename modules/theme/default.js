@@ -23,6 +23,10 @@ var defaultopions = {
 	chart_k:{
 		crossline:false
 	},
+	// 折线图表配置参数
+	chart_line:{
+        showPoint:false	//是否显示折线图上的节点
+	},
 	// 坐标轴配置参数
 	draw_xy:{
         axis_color:"#fff", //坐标轴颜色
