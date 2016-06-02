@@ -94,18 +94,20 @@ var DrawLine = (function(){
 		ctx.fillStyle = line.color;
 		// 画笔颜色
         ctx.strokeStyle = line.color;
+        // 节点（折线连接点半径）
+        var pointRadius = this.options.pointRadius;
 
 		for(var i = 0,item;item = arr[i]; i++){
 			 ctx.beginPath();
 			 var x = (ctx.canvas.width/6) * (i + 1);
 			 var y = common.get_y.call(this,item);
 			 if(i == 0){
-			 	ctx.arc(x, y, 10, 0, Math.PI * 2, true); 
+			 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
 			 	ctx.fill();
 			 }else if(i == arr_length - 1){
 			 	
 			 }else{
-			 	ctx.arc(x, y, 10, 0, Math.PI * 2, true); 
+			 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
 			 	ctx.fill();
 			 }
 		 	 

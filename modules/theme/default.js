@@ -26,7 +26,8 @@ var defaultopions = {
 	chartLine:{
         showPoint:false,	//是否显示折线图上的节点
         canvasPaddingTop:10, //画布的上内边距
-        canvasPaddingLeft:20 //画布的左内边距
+        canvasPaddingLeft:20, //画布的左内边距
+        pointRadius:5
 	},
 	// 坐标轴配置参数
 	draw_xy:{

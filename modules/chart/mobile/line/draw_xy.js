@@ -48,7 +48,6 @@
         var sepe_num = line_list_array.length;
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
-            ctx.font = '30px Arial';        
             ctx.fillStyle = '#b1b1b1';
             ctx.strokeStyle = '#ccc';
 
@@ -82,11 +81,13 @@
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = this.options.c_1_height;
-        ctx.fillText(oc_time_arr[0], padding_left, this.options.c_1_height);
-        ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, this.options.c_1_height);
-        ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, this.options.c_1_height);
-        ctx.fillText(oc_time_arr[3], padding_left, this.options.c_1_height);
-        ctx.fillText(oc_time_arr[4], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, this.options.c_1_height);
+        var tempDate;
+        for(var i = 0;i<5;i++) {
+            tempDate = oc_time_arr[i];
+            ctx.fillText(tempDate.split('-')[0], (i+1)*padding_left, this.options.c_1_height+40);
+            ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (i+1)*padding_left, this.options.c_1_height+70);
+        }
+       
         // ctx.moveTo(0,k_height + 10);
     }
     /*Y轴标识线列表*/
@@ -102,6 +103,7 @@
         }
         return result;
     }
+ 
  return DrawXY;
 })();
 
