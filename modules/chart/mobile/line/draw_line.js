@@ -42,60 +42,77 @@ var DrawLine = (function(){
 		var ctx = this.options.context;
 		// 折线数据
 		var series = this.options.series;
-		
-		for(var i = 0,item;item = series[i]; i++){
-			 var arr = item.data;
-			 drawLine.apply(this,[ctx,arr]);
+		for(var i = 0,line;line = series[i]; i++){
+			 drawLine.apply(this,[ctx,line]);
+			 drawPoint.apply(this,[ctx,line]);
 		}
 		
 	};
 	
 	// 绘制折线
-	function drawLine(ctx,arr){
+	function drawLine(ctx,line){
 		// 保存画笔状态
 		ctx.save();
-        var data_arr_length = data_arr.length;
+
+		var arr = line.data;
+        var arr_length = arr.length;
 
 		ctx.beginPath();
-		ctx.fillStyle = grad;
-		ctx.moveTo(this.options.padding_left,y_min);
+
+		// 填充颜色
+		ctx.fillStyle = line.color;
+		// 画笔颜色
+        ctx.strokeStyle = line.color;
 
 		for(var i = 0,item;item = arr[i]; i++){
-			 var x = common.get_x.call(this,i + 1);
-			 var y = common.get_y.call(this,item.price);
-			 if(i == data_arr_length - 1){
-			 	ctx.lineTo(x,y_min);
+			 var x = (ctx.canvas.width/6) * (i + 1);
+			 var y = common.get_y.call(this,item);
+			 if(i == 0){
+			 	ctx.moveTo(this.options.padding_left,y);
+			 }else if(i == arr_length - 1){
+			 	ctx.lineTo(x,y);
 			 }else{
 			 	ctx.lineTo(x,y);
 			 }
 		}
-		ctx.fill();
-		// 恢复画笔状态
-		ctx.restore();
-	}
-
-	// 绘制折线节点（连接点）
-	function drawPoint(ctx,arr){
-		// 保存画笔状态
-		ctx.save();
-		ctx.beginPath();
-	 	
-		// ctx.strokeStyle = "rgba(0,0,0,0)";
-		ctx.strokeStyle = "#3f88e5";
 		
-		var data_arr_length = data_arr.length;
-		for(var i = 0,item;item = data_arr[i]; i++){
-			 var x = common.get_x.call(this,i + 1);
-			 var y = common.get_y.call(this,item.price);
-		 	 ctx.lineTo(x,y);
-			 item.cross_x = x;
-			 item.cross_y = y;
-		}
+		// ctx.fill();
 		ctx.stroke();
 		// 恢复画笔状态
 		ctx.restore();
 	}
 
+	// 绘制折线节点（连接点）
+	function drawPoint(ctx,line){
+		// 保存画笔状态
+		ctx.save();
+
+		var arr = line.data;
+        var arr_length = arr.length;
+
+        // 填充颜色
+		ctx.fillStyle = line.color;
+		// 画笔颜色
+        ctx.strokeStyle = line.color;
+
+		for(var i = 0,item;item = arr[i]; i++){
+			 ctx.beginPath();
+			 var x = (ctx.canvas.width/6) * (i + 1);
+			 var y = common.get_y.call(this,item);
+			 if(i == 0){
+			 	ctx.arc(x, y, 10, 0, Math.PI * 2, true); 
+			 	ctx.fill();
+			 }else if(i == arr_length - 1){
+			 	
+			 }else{
+			 	ctx.arc(x, y, 10, 0, Math.PI * 2, true); 
+			 	ctx.fill();
+			 }
+		 	 
+		}
+		// 恢复画笔状态
+		ctx.restore();
+	}
 	return DrawLine;
 })();
 

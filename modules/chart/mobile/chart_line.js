@@ -113,9 +113,14 @@ var ChartLine = (function() {
         // 初始化交互
         var inter = this.options.interactive = new Interactive(this.options);
         // 显示loading效果
-        inter.showLoading();
+        // inter.showLoading();
         var _this = this;
 
+        // 折线数据
+        var series = this.options.series;
+        this.options.data = {};
+        this.options.data.max = getMaxMark(series);
+        this.options.data.min = 0;
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
@@ -140,6 +145,19 @@ var ChartLine = (function() {
             cb();
         };
     }
+
+    /*获取数组中的最大值*/
+    function getMaxMark(data) {
+        var max =0,count=[];
+        for(var i = 0;i<data.length;i++){
+            count = count.concat(data[i].data);
+        }
+        max = count[0];
+        for(var i =1;i<count.length;i++) {
+            max = Math.max(max,count[i]);
+        }
+        return max;
+     }
 
     return ChartLine;
 })();

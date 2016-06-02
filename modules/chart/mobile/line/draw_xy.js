@@ -23,7 +23,7 @@
         var ctx = this.options.context;
 
         /*Y轴上的最大值*/
-        var y_max = getMaxMark(yAxisData);
+        var y_max = this.options.data.max;
         /*Y轴上的最小值*/
         var y_min = 0;
 
@@ -47,25 +47,26 @@
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
         for (var i = 0,item; item = line_list_array[i]; i++) {
-            ctx.beginPath();        
+            ctx.beginPath();
+            ctx.font = '30px Arial';        
             ctx.fillStyle = '#b1b1b1';
             ctx.strokeStyle = '#ccc';
-            ctx.moveTo(0, Math.round(item.y));
+
+            ctx.moveTo(this.options.padding_left, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(0), 0, item.y - 10);
+            ctx.textAlign = 'right';
+            ctx.fillText((item.num).toFixed(0)+'万', this.options.padding_left-10, item.y +10);
             ctx.stroke();
-            // 绘制纵坐标涨跌幅
         }
 
-        for (var i = 0,item; i<line_list_array.length; i++) {
+        for (var i = 1,item; i<7; i++) {
             ctx.beginPath();        
             ctx.strokeStyle = '#ccc';
-            ctx.moveTo(0,0);
-            ctx.lineTo(Math.round(item.x),ctx.canvas.height);
-            // 绘制纵坐标刻度
+            ctx.moveTo(i*this.options.canvas.width / 6,0);
+            ctx.lineTo(i*this.options.canvas.width / 6,this.options.c_1_height);
+            // 绘制坐标刻度
             ctx.stroke();
-            // 绘制纵坐标涨跌幅
         }
 
 
@@ -76,13 +77,16 @@
         var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
+        ctx.textAlign = 'center';
         ctx.fillStyle = '#b1b1b1';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
-        var y_date = k_height + ctx.canvas.height/8/2;
-        ctx.fillText(oc_time_arr[0], padding_left, y_date);
-        ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);
-        ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, y_date);
+        var y_date = this.options.c_1_height;
+        ctx.fillText(oc_time_arr[0], padding_left, this.options.c_1_height);
+        ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, this.options.c_1_height);
+        ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, this.options.c_1_height);
+        ctx.fillText(oc_time_arr[3], padding_left, this.options.c_1_height);
+        ctx.fillText(oc_time_arr[4], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, this.options.c_1_height);
         // ctx.moveTo(0,k_height + 10);
     }
     /*Y轴标识线列表*/
@@ -98,20 +102,7 @@
         }
         return result;
     }
-    /*获取数组中的最大值*/
-    function getMaxMark(data) {
-        var max =0,count=[];
-        for(var i = 0;i<data.length;i++){
-            count = count.concat(data[i].data);
-        }
-        max = count[0];
-        for(var i =1;i<count.length;i++) {
-           max = Math.max(max,count[i]);
-       }
-
-       return max
-   }
-   return DrawXY;
+ return DrawXY;
 })();
 
 module.exports = DrawXY;
