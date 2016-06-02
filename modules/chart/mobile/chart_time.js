@@ -72,8 +72,6 @@ var ChartTime = (function() {
         var ctx = canvas.getContext('2d');
         this.options.canvas = canvas;
         this.options.context = ctx;
-        // 第一个图表的高度占画布高度比例
-        var c_1_percent = this.options.c_1_percent;
         // 设备像素比
         var dpr = this.options.dpr;
         // 画布的宽和高
