@@ -23,7 +23,7 @@ function coordinate(high, low) {
 	low = low-offset;
 
 	
-	return { max: top, min: low };
+	return { max: high, min: low };
 }
 
 module.exports = coordinate;
