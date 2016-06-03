@@ -164,7 +164,9 @@ var ChartLine = (function() {
             if(step % 10 > 0){
                 step = Math.ceil(step/10) * 10;
             }
-        }else{
+        }
+
+        else{
             var num = step.toString().length;
             var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
             var middle_step = base_step + Math.pow(10,(num - 1))/2;
@@ -178,6 +180,12 @@ var ChartLine = (function() {
                 step = next_step;
             }
         }
+
+        // else{
+        //     var num = step.toString().length;
+        //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
+        //     step = base_step;
+        // }
         max = step * 5;
         return max;
      }

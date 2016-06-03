@@ -136,7 +136,7 @@ var DrawLine = (function(){
 				ctx.fill();
 				// 填充颜色
 				ctx.fillStyle = '#333';
-				ctx.fillText(line.name, x_start + wh + 50, y_start + text_offset);
+				ctx.fillText(line.name, x_start + wh + 60, y_start + text_offset);
 			}else if((i + 1) % 2 == 0){
 				// 填充颜色
 				ctx.fillStyle = line.color;
@@ -144,14 +144,14 @@ var DrawLine = (function(){
 		 		ctx.fill();
 		 		// 填充颜色
 				ctx.fillStyle = '#333';
-        		ctx.fillText(line.name, x_middle + wh + 50, y_start + mark_offset + text_offset);
+        		ctx.fillText(line.name, x_middle + wh + 60, y_start + mark_offset + text_offset);
 	    	}else{
 	    		// 填充颜色
 				ctx.fillStyle = line.color;
 	    		ctx.rect(x_start,y_start + mark_offset,wh,wh);
 	    		ctx.fill();
 	    		ctx.fillStyle = '#333';
-	    		ctx.fillText(line.name, x_start + wh + 50, y_start + mark_offset + text_offset);
+	    		ctx.fillText(line.name, x_start + wh + 60, y_start + mark_offset + text_offset);
 	    	}
 		}
 		// 恢复画笔状态
