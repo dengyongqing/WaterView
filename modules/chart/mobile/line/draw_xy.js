@@ -31,13 +31,12 @@
         var sepe_num = 6;
         /*开盘收盘时间数组*/
         var oc_time_arr = this.options.xAxis.data;
-
+      
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
-        console.log(line_list_array)
         drawXYLine.call(this,ctx,y_max,y_min,line_list_array);
 
         // 绘制横坐标刻度
@@ -82,7 +81,8 @@
         var k_width = ctx.canvas.width;
         var y_date = this.options.c_1_height;
         var tempDate;
-        for(var i = 0;i<5;i++) {
+        var timeSpacing = getTimeSpacing(oc_time_arr);
+        for(var i = 0;i<timeSpacing*5;i+=timeSpacing) {
             tempDate = oc_time_arr[i];
             ctx.fillText(tempDate.split('-')[0], (i+1)*padding_left, this.options.c_1_height+40);
             ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (i+1)*padding_left, this.options.c_1_height+70);
@@ -90,7 +90,7 @@
        
         // ctx.moveTo(0,k_height + 10);
     }
-
+    
     /*Y轴标识线列表*/
     function getLineList(y_max, y_min, sepe_num, k_height) {
         var ratio = (y_max - y_min) / (sepe_num-1);
@@ -103,6 +103,11 @@
             });
         }
         return result;
+    }
+
+    function getTimeSpacing(arr){
+        var len = arr.length;
+        return (Math.floor(len / 5))
     }
  
  return DrawXY;
