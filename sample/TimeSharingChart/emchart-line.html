@@ -22,20 +22,20 @@
 				
 				</div>
 				<div class="sepe">
-					<div class="search" style="height:50px;line-height:50px;">
+					<!-- <div class="search" style="height:50px;line-height:50px;">
 						<input type="text" id="stock-code" class=""  style="margin-left:30px;padding-left:5px;width:200px;height:20px;" value="请输入股票代码加市场号" onfocus="if(this.value == '请输入股票代码加市场号')  this.value = '';" onblur="if(this.value == '') this.value = '请输入股票代码加市场号';" autocomplete="off">
 						<input type="button" id="search-btn" style="margin-left:10px;width:50px;height:25px;" value="查询">
-					</div>
+					</div> -->
 					
 				</div>
 			</div>
 
 			<div class="content">
 				<div class="tabs">
-					<div id="tab-0" target="emchart-0" class="tab current">折线</div>
+					<!-- <div id="tab-0" target="emchart-0" class="tab current">折线</div>
 					<div id="tab-1" target="emchart-1" class="tab">日K</div>
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
-					<div id="tab-3" target="emchart-3" class="tab">月K</div>
+					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
 				</div>
 				<div class="emchart">
 					<div id="emchart-0" class="em-tab" >
@@ -56,129 +56,7 @@
 	<script src="../../bundle/mobile/emcharts.js"></script>
 	
 	<script type="text/javascript">
-		var tabs = document.querySelectorAll(".tabs .tab");
-		var ems = document.querySelectorAll(".emchart .em-tab");
-		var k0,k1,k2,k3,k4,current_tab;
-		[].forEach.call(tabs, function(tab) {
-			tab.addEventListener("click",function(event){
-				var code = document.getElementById("stock-code").value;
-				if(code == "请输入股票代码加市场号"){
-					code = "";
-				}
-				[].forEach.call(tabs, function(tab) {
-					tab.className = tab.className.replace(" current","");
-				});
-				[].forEach.call(ems, function(em) {
-					em.style.display = "none";
-				});
-				this.className = this.className + " current";
-				var target_id = this.target || this.getAttribute("target");
-				document.getElementById(target_id).style.display = "block";
-				var canvas = document.getElementById(target_id).getElementsByTagName("canvas");
-				if(canvas.length < 1){
-					if(target_id == "emchart-1"){
-				        current_tab = k1 = new EmchartsMobileK({
-							dpr: 2,
-							type: "DK",
-							code: code == "" ? "3000592":code,
-				        	container : target_id,
-					        "width" : document.body.offsetWidth - 20,
-					        "height" : document.body.offsetWidth,
-					        onChartLoaded:function(options){
-					        
-					        },
-					        markPoint: {
-					        	show:true,
-				        		width:15,
-				        		height:15,
-				        		imgUrl:'',
-					        	dateList:[
-										'2016-01-02',
-										'2016-04-11',
-										'2016-04-15',
-										'2016-04-21'
-								]
-					        }
-
-				        });
-				        k1.draw();
-					}
-
-					if(target_id == "emchart-2"){
-				        current_tab = k2 = new EmchartsMobileK({
-							dpr: 2,
-							type: "WK",
-							code: code == "" ? "3000592":code,
-				        	container : target_id,
-					        "width" : document.body.offsetWidth - 20,
-					        "height" : document.body.offsetWidth,
-					        onChartLoaded:function(options){
-					        
-					        },
-					        markPoint: {
-					        	show:true,
-				        		width:15,
-				        		height:15,
-				        		imgUrl:'',
-					        	dateList:[
-										'2016-01-02',
-										'2016-04-11',
-										'2016-04-15',
-										'2016-04-21'
-								]
-					        }
-				        });
-				        k2.draw();
-					}
-
-					if(target_id == "emchart-3"){
-				        current_tab = k3 = new EmchartsMobileK({
-							dpr: 2,
-							type: "MK",
-							code: code == "" ? "3000592":code,
-				        	container : target_id,
-					        "width" : document.body.offsetWidth - 20,
-					        "height" : document.body.offsetWidth,
-					        onChartLoaded:function(options){
-					        
-					        },
-					        markPoint: {
-					        	show:true,
-				        		width:15,
-				        		height:15,
-				        		imgUrl:'',
-					        	dateList:[
-										'2016-01-02',
-										'2016-04-11',
-										'2016-04-15',
-										'2016-04-21'
-								]
-					        }
-				        });
-				        k3.draw();
-					}
-
-				}else{
-
-					if(target_id == "emchart-0"){
-				        current_tab = k0;
-					}
-
-					if(target_id == "emchart-1"){
-				        current_tab = k1;
-					}
-
-					if(target_id == "emchart-2"){
-				       current_tab = k2;
-					}
-
-					if(target_id == "emchart-3"){
-				       current_tab = k3;
-					}
-				}
-				
-			})
-		});
+		
 
 		window.onload = function(){
 			current_tab = k0 = new EmchartsMobileLine({
@@ -191,77 +69,29 @@
 			    },
 		        series:[
 					{	
-						name:"test1",
+						name:"5日均线",
 						color:"#ff5000",
-						data:[3000,5000,2000,4000,2000,1000]
+						data:[400,500,600,700,500,700]
 					},
 					{	
-						name:"test2",
+						name:"10日均线",
 						color:"#b9d1f4",
-						data:[1000,3000,4000,1000,6000,2000]
+						data:[800,900,1000,1100,900,1100]
 					},
 					{	
-						name:"test3",
+						name:"20日均线",
 						color:"#0068b7",
-						data:[2000,1000,4000,5000,2000,2000]
+						data:[1200,1300,1400,1500,1300,1500]
 					},
 					{	
-						name:"test4",
+						name:"60日均线",
 						color:"#7e0043",
-						data:[5000,3000,1000,3000,2000,7000]
+						data:[1600,1700,1800,1900,1700,1900]
 					}
 				]
 	        });
 	        k0.draw();
 		}
-
-        /*触摸事件*/
-        var search_btn = document.getElementById("search-btn");
-        search_btn.addEventListener("click",function(event){
-        	var code = document.getElementById("stock-code").value;
-        	if(code == "" || code == "请输入股票代码加市场号"){
-        		alert("请输入股票代码加市场号");
-        		return;
-        	}
-        	// document.getElementById(current_tab.options.container).innerHTML = "";
-        	if(current_tab.options.type == "TL"){
-        		current_tab = new EmchartsMobileTime({
-					dpr: 2,
-					code: code == "" ? "3000592":code,
-		        	container : current_tab.options.container,
-			        "width" : document.body.offsetWidth - 20,
-			        "height" : document.body.offsetWidth
-		        });
-		        current_tab.draw();
-        	}else{
-        		current_tab = new EmchartsMobileK({
-					dpr: 2,
-					type: current_tab.options.type,
-					code: code == "" ? "3000592":code,
-		        	container : current_tab.options.container,
-			        "width" : document.body.offsetWidth - 20,
-			        "height" : document.body.offsetWidth,
-			        onChartLoaded:function(options){
-					        
-			        },
-			        markPoint: {
-			        	show:true,
-		        		width:15,
-		        		height:15,
-		        		imgUrl:'',
-			        	dateList:[
-								'2016-01-02',
-								'2016-04-11',
-								'2016-04-15',
-								'2016-04-21'
-						]
-			        }
-			        
-		        });
-		        current_tab.draw();
-        	}
-        	
-        });
 
 	</script>
 	
