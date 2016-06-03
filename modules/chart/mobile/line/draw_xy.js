@@ -58,16 +58,6 @@
             ctx.stroke();
         }
 
-        for (var i = 1,item; i<7; i++) {
-            ctx.beginPath();        
-            ctx.strokeStyle = '#ccc';
-            ctx.moveTo(i*this.options.canvas.width / 6,0);
-            ctx.lineTo(i*this.options.canvas.width / 6,this.options.c_1_height);
-            // 绘制坐标刻度
-            ctx.stroke();
-        }
-
-
     }
 
     /*绘制横坐标刻度值*/
@@ -82,10 +72,30 @@
         var y_date = this.options.c_1_height;
         var tempDate;
         var timeSpacing = getTimeSpacing(oc_time_arr);
+
         for(var i = 0,j=0;i<timeSpacing * 5;i+=timeSpacing,j++) {
             tempDate = oc_time_arr[i];
             ctx.fillText(tempDate.split('-')[0], (j+1)*padding_left, this.options.c_1_height+40);
             ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (j+1)*padding_left, this.options.c_1_height+70);
+        }
+
+
+        // var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
+        var obj = getaXiesTimeSpacing.call(this,oc_time_arr);
+        for (var i = 1; i<7; i++) {
+            if(i == 6){
+                ctx.beginPath();        
+                ctx.strokeStyle = '#ccc';
+                ctx.moveTo(i * obj.last,0);
+                ctx.lineTo(i * obj.last,this.options.c_1_height);
+            }else{
+                ctx.beginPath();        
+                ctx.strokeStyle = '#ccc';
+                ctx.moveTo(i*obj.per,0);
+                ctx.lineTo(i*obj.per,this.options.c_1_height);
+            }
+            // 绘制坐标刻度
+            ctx.stroke();
         }
        
         // ctx.moveTo(0,k_height + 10);
@@ -107,7 +117,31 @@
 
     function getTimeSpacing(arr){
         var len = arr.length;
-        return (Math.floor(len / 5))
+        return (len - len % 5)/5;
+    }
+
+    function getaXiesTimeSpacing(arr){
+            console.log(arr)
+        var len = arr.length;
+        // debugger;
+        var tempSpacing = this.options.canvas.width - this.options.padding_left;
+        var tempMinus = ( len % 5) / Math.floor(len / 5);
+        debugger;
+        if(len % 5 == 0) {
+            tempMinus = 5;
+             return {
+                per:tempSpacing / tempMinus,
+                last:tempSpacing / tempMinus
+            }
+        }else{
+             tempMinus += 4;
+             debugger;
+             return {
+                per:tempSpacing / tempMinus,
+                last:tempSpacing / (len % 5) / Math.floor(len / 5)
+             }
+        }
+
     }
  
  return DrawXY;
