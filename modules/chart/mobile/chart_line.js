@@ -99,7 +99,7 @@ var ChartLine = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
         // 加水印
-        watermark.apply(this,[ctx]);
+        watermark.apply(this,[ctx,190,20]);
         // 容器中添加画布
         this.container.appendChild(canvas);
     };
@@ -153,7 +153,7 @@ var ChartLine = (function() {
             count = count.concat(data[i].data);
         }
         max = count[0];
-        
+
         for(var i =1;i<count.length;i++) {
             max = Math.max(max,count[i]);
         }

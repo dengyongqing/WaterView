@@ -81,14 +81,15 @@ function dealData(json,num) {
         
         var rect = {};
 
-        if(i == 0){
-            max = min = Number(item[1]);
+        if(i == start){
+            max = item[1];
+            min = item[4];
         }
 
         //进行最大最小值的计算
-        max = (max > parseFloat(item[3])) ? max : parseFloat(item[3]);
+        max = Math.max(max,item[3]);
         maxVolume = (maxVolume > parseFloat(item[5])) ? maxVolume : parseFloat(item[5]);
-        min = (min < parseFloat(item[4])) ? min : parseFloat(item[4]);
+        min = Math.min(min,item[4]);
 
         //进行各个柱体的计算
         rect.data_time = transform(item[0]);
