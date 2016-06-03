@@ -37,7 +37,6 @@
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
-        console.log(line_list_array)
         drawXYLine.call(this,ctx,y_max,y_min,line_list_array);
 
         // 绘制横坐标刻度
