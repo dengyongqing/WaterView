@@ -45,6 +45,8 @@
     // 绘制分时图坐标轴
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
+        var xAxisTime = getaXiesTimeSpacing.call(this,line_list_array);
+        console.log(xAxisTime)
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             ctx.fillStyle = '#b1b1b1';
@@ -61,8 +63,8 @@
         for (var i = 1,item; i<7; i++) {
             ctx.beginPath();        
             ctx.strokeStyle = '#ccc';
-            ctx.moveTo(i*this.options.canvas.width / 6,0);
-            ctx.lineTo(i*this.options.canvas.width / 6,this.options.c_1_height);
+            ctx.moveTo(i*xAxisTime,0);
+            ctx.lineTo(i*xAxisTime,this.options.c_1_height);
             // 绘制坐标刻度
             ctx.stroke();
         }
@@ -82,6 +84,7 @@
         var y_date = this.options.c_1_height;
         var tempDate;
         var timeSpacing = getTimeSpacing(oc_time_arr);
+
         for(var i = 0,j=0;i<timeSpacing * 5;i+=timeSpacing,j++) {
             tempDate = oc_time_arr[i];
             ctx.fillText(tempDate.split('-')[0], (j+1)*padding_left, this.options.c_1_height+40);
@@ -107,7 +110,21 @@
 
     function getTimeSpacing(arr){
         var len = arr.length;
-        return (Math.floor(len / 5))
+        return (len - len % 5)/5;
+    }
+
+        function getaXiesTimeSpacing(arr){
+            console.log(arr)
+        var len = arr.length;
+        // debugger;
+        var tempSpacing = this.options.canvas.width - this.options.padding_left;
+        var tempMinus = ( len % 5) / Math.floor(len / 5);
+        if(tempMinus == 0) {
+            tempMinus = 5;
+        }else{
+             tempMinus += 4;
+        }
+        return tempSpacing / tempMinus
     }
  
  return DrawXY;
