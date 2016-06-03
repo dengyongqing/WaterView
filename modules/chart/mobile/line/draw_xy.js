@@ -82,10 +82,10 @@
         var y_date = this.options.c_1_height;
         var tempDate;
         var timeSpacing = getTimeSpacing(oc_time_arr);
-        for(var i = 0;i<timeSpacing*5;i+=timeSpacing) {
+        for(var i = 0,j=0;i<timeSpacing * 5;i+=timeSpacing,j++) {
             tempDate = oc_time_arr[i];
-            ctx.fillText(tempDate.split('-')[0], (i+1)*padding_left, this.options.c_1_height+40);
-            ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (i+1)*padding_left, this.options.c_1_height+70);
+            ctx.fillText(tempDate.split('-')[0], (j+1)*padding_left, this.options.c_1_height+40);
+            ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (j+1)*padding_left, this.options.c_1_height+70);
         }
        
         // ctx.moveTo(0,k_height + 10);

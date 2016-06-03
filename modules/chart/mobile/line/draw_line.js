@@ -40,6 +40,7 @@ var DrawLine = (function(){
 	DrawLine.prototype.draw = function(){
 
 		var ctx = this.options.context;
+		ctx.lineWidth = 1 * this.options.dpr + 1;
 		// 折线数据
 		var series = this.options.series;
 		for(var i = 0,line;line = series[i]; i++){
@@ -48,7 +49,10 @@ var DrawLine = (function(){
 			// 画笔颜色
 	        ctx.strokeStyle = line.color;
 			drawLine.apply(this,[ctx,line]);
-			drawPoint.apply(this,[ctx,line]);
+			if(line.showPoint){
+				drawPoint.apply(this,[ctx,line]);
+			}
+			
 		}
 		drawLineMark.apply(this,[ctx,series]);
 	};
@@ -64,7 +68,7 @@ var DrawLine = (function(){
 		ctx.beginPath();
 
 		for(var i = 0,item;item = arr[i]; i++){
-			 var x = (ctx.canvas.width/6) * (i + 1);
+			 var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
 			 var y = common.get_y.call(this,item);
 			 if(i == 0){
 			 	ctx.moveTo(this.options.padding_left,y);
