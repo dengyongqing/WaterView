@@ -31,7 +31,7 @@
         var sepe_num = 6;
         /*开盘收盘时间数组*/
         var oc_time_arr = this.options.xAxis.data;
-
+      
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
@@ -81,27 +81,8 @@
         var k_width = ctx.canvas.width;
         var y_date = this.options.c_1_height;
         var tempDate;
-        for(var i = 0;i<5;i++) {
-            tempDate = oc_time_arr[i];
-            ctx.fillText(tempDate.split('-')[0], (i+1)*padding_left, this.options.c_1_height+40);
-            ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (i+1)*padding_left, this.options.c_1_height+70);
-        }
-       
-        // ctx.moveTo(0,k_height + 10);
-    }
-
-    /*绘制横坐标刻度值*/
-    function drawXMark(ctx,k_height,oc_time_arr){
-        var dpr = this.options.dpr;
-        var padding_left = this.options.padding_left;
-        ctx.beginPath();
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#b1b1b1';
-        /*画布宽度*/
-        var k_width = ctx.canvas.width;
-        var y_date = this.options.c_1_height;
-        var tempDate;
-        for(var i = 0;i<5;i++) {
+        var timeSpacing = getTimeSpacing(oc_time_arr);
+        for(var i = 0;i<timeSpacing*5;i+=timeSpacing) {
             tempDate = oc_time_arr[i];
             ctx.fillText(tempDate.split('-')[0], (i+1)*padding_left, this.options.c_1_height+40);
             ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (i+1)*padding_left, this.options.c_1_height+70);
@@ -122,6 +103,11 @@
             });
         }
         return result;
+    }
+
+    function getTimeSpacing(arr){
+        var len = arr.length;
+        return (Math.floor(len / 5))
     }
  
  return DrawXY;
