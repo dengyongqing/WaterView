@@ -43,6 +43,8 @@ var DrawLine = (function(){
 		ctx.lineWidth = 1 * this.options.dpr + 1;
 		// 折线数据
 		var series = this.options.series;
+		// 横坐标数据
+		var xAxis = this.options.xAxis.data;
 		for(var i = 0,line;line = series[i]; i++){
 			// 填充颜色
 			ctx.fillStyle = line.color;
@@ -98,7 +100,7 @@ var DrawLine = (function(){
 
 		for(var i = 0,item;item = arr[i]; i++){
 			 ctx.beginPath();
-			 var x = (ctx.canvas.width/6) * (i + 1);
+        	 var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
 			 var y = common.get_y.call(this,item);
 			 if(i == 0){
 			 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
