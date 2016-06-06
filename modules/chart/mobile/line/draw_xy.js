@@ -31,7 +31,7 @@
         var sepe_num = 6;
         /*开盘收盘时间数组*/
         var oc_time_arr = this.options.xAxis.data;
-      
+
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
@@ -42,7 +42,7 @@
         // 绘制横坐标刻度
         drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
     };
-    // 绘制分时图坐标轴
+    // 绘制分时图坐标轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
         for (var i = 0,item; item = line_list_array[i]; i++) {
@@ -62,6 +62,7 @@
 
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
+        console.log(oc_time_arr)
         var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
@@ -71,33 +72,31 @@
         var k_width = ctx.canvas.width;
         var y_date = this.options.c_1_height;
         var tempDate;
-        var timeSpacing = getTimeSpacing(oc_time_arr);
+        var timeSpacing = (this.options.width * dpr - padding_left) / oc_time_arr.length + padding_left;
+        var arr_length = oc_time_arr.length;
 
-        for(var i = 0,j=0;i<timeSpacing * 5;i+=timeSpacing,j++) {
+        for(var i = 0,j=0;i<arr_length;i++,j++) {
             tempDate = oc_time_arr[i];
-            ctx.fillText(tempDate.split('-')[0], (j+1)*padding_left, this.options.c_1_height+40);
-            ctx.fillText(tempDate.split('-')[1]+'-'+tempDate.split('-')[2], (j+1)*padding_left, this.options.c_1_height+70);
+            if(tempDate.show == true){
+                if(i < arr_length - 1){
+                    ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
+                    ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+70);
+
+                }
+                ctx.strokeStyle = '#ccc';
+                ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
+                ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
+            }
+
         }
 
 
         // var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-        var obj = getaXiesTimeSpacing.call(this,oc_time_arr);
-        for (var i = 1; i<7; i++) {
-            if(i == 6){
-                ctx.beginPath();        
-                ctx.strokeStyle = '#ccc';
-                ctx.moveTo(i * obj.last,0);
-                ctx.lineTo(i * obj.last,this.options.c_1_height);
-            }else{
-                ctx.beginPath();        
-                ctx.strokeStyle = '#ccc';
-                ctx.moveTo(i*obj.per,0);
-                ctx.lineTo(i*obj.per,this.options.c_1_height);
-            }
+
             // 绘制坐标刻度
             ctx.stroke();
-        }
-       
+
+
         // ctx.moveTo(0,k_height + 10);
     }
     
@@ -121,30 +120,28 @@
     }
 
     function getaXiesTimeSpacing(arr){
-            console.log(arr)
+        console.log(arr)
         var len = arr.length;
         // debugger;
         var tempSpacing = this.options.canvas.width - this.options.padding_left;
         var tempMinus = ( len % 5) / Math.floor(len / 5);
-        debugger;
         if(len % 5 == 0) {
             tempMinus = 5;
-             return {
+            return {
                 per:tempSpacing / tempMinus,
                 last:tempSpacing / tempMinus
             }
         }else{
-             tempMinus += 4;
-             debugger;
-             return {
-                per:tempSpacing / tempMinus,
-                last:tempSpacing / (len % 5) / Math.floor(len / 5)
-             }
+           tempMinus += 4;
+           return {
+            per:tempSpacing / tempMinus,
+            last:tempSpacing / (len % 5) / Math.floor(len / 5)
         }
-
     }
- 
- return DrawXY;
+
+}
+
+return DrawXY;
 })();
 
 module.exports = DrawXY;
