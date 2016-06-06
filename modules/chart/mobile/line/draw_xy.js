@@ -75,7 +75,7 @@
         var timeSpacing = (this.options.width * dpr - padding_left) / oc_time_arr.length + padding_left;
         var arr_length = oc_time_arr.length;
 
-        for(var i = 0,j=0;i<arr_length;i++,j++) {
+        for(var i = 0;i<arr_length;i++) {
             tempDate = oc_time_arr[i];
             if(tempDate.show == true){
                 if(i < arr_length - 1){
