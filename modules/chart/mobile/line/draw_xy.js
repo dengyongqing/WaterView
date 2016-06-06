@@ -55,7 +55,7 @@
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
             ctx.textAlign = 'right';
-            ctx.fillText(common.format_unit(i*this.options.data.max / 5), this.options.padding_left-20, item.y +10);
+            ctx.fillText(common.format_unit(i*this.options.data.max / 5,0), this.options.padding_left-20, item.y +10);
             ctx.stroke();
         }
 
@@ -81,7 +81,6 @@
                 if(i < arr_length - 1){
                     ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
                     ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+70);
-
                 }
                 ctx.strokeStyle = '#ccc';
                 ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);

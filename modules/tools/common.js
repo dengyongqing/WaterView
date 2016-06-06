@@ -88,13 +88,14 @@ var common = {
         };
     },
     // 格式化数据单位
-    format_unit: function(value){
+    format_unit: function(value,num){
+        num = num == undefined ? 2 : num;
         if(value < 10000){
             return value;
         }else if(value >= 10000 && value < 100000000){
-            return (value/10000).toFixed(2) + "万";
+            return (value/10000).toFixed(num) + "万";
         }else if(value >= 100000000){
-            return (value/100000000).toFixed(2) + "亿";
+            return (value/100000000).toFixed(num) + "亿";
         }else{
             return value;
         }

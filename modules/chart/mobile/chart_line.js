@@ -82,6 +82,7 @@ var ChartLine = (function() {
         this.options.canvas_offset_top = canvas.height / (9 * 2);;
         // 画布内容向坐偏移的距离
         this.options.padding_left = canvas.width / 6;
+
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / (9 * 2);
         // 缩放默认值
@@ -121,6 +122,8 @@ var ChartLine = (function() {
         this.options.data = {};
         this.options.data.max = getMaxMark(series);
         this.options.data.min = 0;
+        this.options.padding_left = this.options.context.measureText(this.options.data.max).width;
+
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
