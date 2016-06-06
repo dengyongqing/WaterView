@@ -122,7 +122,7 @@ var ChartLine = (function() {
         this.options.data = {};
         this.options.data.max = getMaxMark(series);
         this.options.data.min = 0;
-        this.options.padding_left = this.options.context.measureText(this.options.data.max).width;
+        this.options.padding_left = this.options.context.measureText("1000万").width + 20;
 
         // 绘制坐标轴
         new DrawXY(this.options);

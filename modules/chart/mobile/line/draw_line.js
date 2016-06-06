@@ -44,12 +44,12 @@ var DrawLine = (function(){
 		// 折线数据
 		var series = this.options.series;
 		// 横坐标数据
-		var xAxis = this.options.xAxis.data;
+		var xAxis = this.options.xAxis;
 		for(var i = 0,line;line = series[i]; i++){
 			// 填充颜色
-			ctx.fillStyle = line.color;
+			ctx.fillStyle = line.color == undefined ? "#333" : line.color;
 			// 画笔颜色
-	        ctx.strokeStyle = line.color;
+	        ctx.strokeStyle = line.color == undefined ? "#333" : line.color;
 			drawLine.apply(this,[ctx,line]);
 			if(line.showPoint){
 				drawPoint.apply(this,[ctx,line]);

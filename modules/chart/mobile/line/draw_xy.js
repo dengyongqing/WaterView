@@ -17,7 +17,7 @@
     };
     /*绘图*/
     DrawXY.prototype.draw = function(){
-        var xAxisData = this.options.xAxis.data;
+        var xAxisData = this.options.xAxis;
         var yAxisData = this.options.series;
         var type = this.options.type;
         var dpr = this.options.dpr;
@@ -31,7 +31,7 @@
         /*Y轴上分隔线数量*/
         var sepe_num = 6;
         /*开盘收盘时间数组*/
-        var oc_time_arr = this.options.xAxis.data;
+        var oc_time_arr = this.options.xAxis;
 
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
@@ -46,6 +46,8 @@
     // 绘制分时图坐标轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
+
+
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             ctx.fillStyle = '#b1b1b1';
