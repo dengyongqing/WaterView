@@ -4,6 +4,7 @@
  var extend = require('tools/extend');
  /*主题*/
  var theme = require('theme/default');
+ var common = require('tools/common');
  var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -54,7 +55,7 @@
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
             ctx.textAlign = 'right';
-            ctx.fillText((item.num).toFixed(0)+'万', this.options.padding_left-20, item.y +10);
+            ctx.fillText(common.format_unit(i*this.options.data.max / 5), this.options.padding_left-20, item.y +10);
             ctx.stroke();
         }
 
@@ -62,7 +63,6 @@
 
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
-        console.log(oc_time_arr)
         var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
@@ -120,7 +120,6 @@
     }
 
     function getaXiesTimeSpacing(arr){
-        console.log(arr)
         var len = arr.length;
         // debugger;
         var tempSpacing = this.options.canvas.width - this.options.padding_left;
