@@ -182,12 +182,12 @@ var ChartTime = (function() {
             // 显示交互效果
             inter.show();
             dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            event.preventDefault();
+            // event.preventDefault();
         });
         // 手指滑动事件
         canvas.addEventListener("touchmove",function(event){
             dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            event.preventDefault();
+            // event.preventDefault();
         });
          // 手指离开事件
         canvas.addEventListener("touchend",function(event){
