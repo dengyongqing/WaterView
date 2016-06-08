@@ -56,7 +56,9 @@ var DrawLine = (function(){
 			}
 			
 		}
-		drawLineMark.apply(this,[ctx,series]);
+		if(this.options.showFlag){
+			drawLineMark.apply(this,[ctx,series]);
+		}
 	};
 	
 	// 绘制折线

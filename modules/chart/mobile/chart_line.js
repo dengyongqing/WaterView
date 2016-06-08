@@ -79,7 +79,7 @@ var ChartLine = (function() {
         canvas.height = this.options.height * dpr;
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / (9 * 2);;
+        this.options.canvas_offset_top = canvas.height / (9 * 2);
         // 画布内容向坐偏移的距离
         this.options.padding_left = canvas.width / 6;
 
@@ -88,7 +88,11 @@ var ChartLine = (function() {
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height * (5/9);
+        if(this.options.showFlag){
+            this.options.c_1_height = canvas.height * (5/9);
+        }else{
+            this.options.c_1_height = canvas.height * (7/9 + 1/18);
+        }
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
