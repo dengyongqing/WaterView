@@ -91,7 +91,7 @@ var ChartLine = (function() {
         if(this.options.showFlag){
             this.options.c_1_height = canvas.height * (5/9);
         }else{
-            this.options.c_1_height = canvas.height * (7/9 + 1/18);
+            this.options.c_1_height = canvas.height * (7/9);
         }
 
         canvas.style.width = this.options.width + "px";
