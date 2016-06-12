@@ -77,11 +77,12 @@ function getdata(id, callback) {
             var afternoon_end_hour = Math.floor(ticks[1] / 3600) > 24 ? (Math.floor(ticks[1] / 3600) - 24) : Math.floor(ticks[1] / 3600);
             result.timeStrs.push(fix(afternoon_end_hour, 2) + ":" + fix((ticks[1] / 60) % 60, 2));
             //坐标的最大最小值
-            result.max = Number(coordinate(returnData[1], returnData[2], info.yc).max);
+            result.max = coordinate(returnData[1], returnData[2], info.yc).max;
             //坐标的最小值
-            result.min = Number(coordinate(returnData[1], returnData[2], info.yc).min);
+            result.min = coordinate(returnData[1], returnData[2], info.yc).min;
             //昨收
             result.yc = info.yc;
+            result.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
 
             callback(result);
         }

@@ -85,6 +85,7 @@ function getdata(option, callback) {
             result.name = json.name;
             result.total = info.total;
             result.count = num-20;
+            result.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
 
             callback(result);
         }

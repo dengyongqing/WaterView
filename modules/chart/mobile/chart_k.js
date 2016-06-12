@@ -121,6 +121,7 @@ var ChartK = (function() {
         var type = _this.options.type;
         if(type == "DK"){
             GetDataDay(getParamsObj.call(_this),function(data){
+
                 dataCallback.apply(_this,[data]);
                 // 均线数据标识
                 inter.markMA(_this.options.canvas);
@@ -246,6 +247,9 @@ var ChartK = (function() {
         var canvas = ctx.canvas;
         this.options.data = data == undefined ? this.options.data : data;
         data = this.options.data;
+
+        // 保留的小数位
+        this.options.pricedigit = data.pricedigit;
 
         // 图表交互
         var inter = this.options.interactive;

@@ -151,6 +151,8 @@ var ChartTime = (function() {
     /*回调函数*/
     function dataCallback(data){
         this.options.data = data == undefined ? this.options.data : data;
+        // 保留的小数位
+        this.options.pricedigit = data.pricedigit;
         // 获取单位绘制区域
         var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
         this.options.rect_unit = rect_unit;
