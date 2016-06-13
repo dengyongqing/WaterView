@@ -48,7 +48,7 @@ function average(avg_num,num,data) {
             result[i - start] = null;
         }else{
             for (j = 0; j < avg_num; j++) {
-                countValue += items[i - j].value;
+                countValue += items[i - j].value/1;
             }
             result[i - start] = {};
             result[i - start].date = items[i].date;

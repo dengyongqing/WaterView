@@ -43,7 +43,7 @@ function average(num, data) {
     for (i = num; i < items.length; i++) {
         var countValue = 0;
         for (j = 0; j < num; j++) {
-            countValue += Number(items[i - j].value);
+            countValue += items[i - j].value/1;
         }
         result[i - num] = {};
         result[i - num].date = items[i].date;
