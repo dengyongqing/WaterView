@@ -37,7 +37,7 @@ var DrawXY = (function(){
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
         if(type == "TL"){
-            drawXYTime(ctx,y_max,y_min,line_list_array);
+            drawXYTime.call(this,ctx,y_max,y_min,line_list_array);
         }else{
             drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
         }
@@ -47,6 +47,7 @@ var DrawXY = (function(){
     };
     // 绘制分时图坐标轴
     function drawXYTime(ctx,y_max,y_min,line_list_array){
+        var _this = this;
         var sepe_num = line_list_array.length;
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
@@ -67,10 +68,10 @@ var DrawXY = (function(){
             ctx.moveTo(0, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(2), 0, item.y - 10);
+            ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
             ctx.stroke();
             // 绘制纵坐标涨跌幅
-            drawYPercent(ctx,y_max, y_min, item);
+            drawYPercent.call(_this,ctx,y_max, y_min, item);
         }
 
     }
@@ -97,7 +98,7 @@ var DrawXY = (function(){
             ctx.moveTo(0, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(2), 0, item.y - 10);
+            ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
             ctx.stroke();
         }
 
@@ -109,7 +110,7 @@ var DrawXY = (function(){
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         /*纵坐标刻度涨跌幅*/
-        var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(2) + "%";
+        var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(this.options.pricedigit) + "%";
         /*绘制纵坐标刻度百分比*/
         ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y - 10);
         ctx.stroke();
