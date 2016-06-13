@@ -248,19 +248,18 @@ var ChartK = (function() {
         this.options.data = data == undefined ? this.options.data : data;
         data = this.options.data;
 
-        // 保留的小数位
-        this.options.pricedigit = data.pricedigit;
-
         // 图表交互
         var inter = this.options.interactive;
-
-        if(!data.data || data.data.length == 0){
+        if(!data || !data.data || data.data.length == 0){
             // 隐藏loading效果
             inter.hideLoading();
             // 暂无数据
             inter.showNoData();
             return;
         }
+
+        // 保留的小数位
+        this.options.pricedigit = data.pricedigit;
 
         // 默认显示均线数据
         var five_average = data.five_average;

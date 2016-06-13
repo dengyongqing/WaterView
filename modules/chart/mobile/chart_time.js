@@ -119,6 +119,8 @@ var ChartTime = (function() {
             function(data){
                 if(data){
                     dataCallback.apply(_this,[data]);
+                }else{
+                    dataCallback.apply(_this,[[]]);
                 }
                 /*绑定事件*/
                 bindEvent.call(_this,_this.options.context);
@@ -151,6 +153,18 @@ var ChartTime = (function() {
     /*回调函数*/
     function dataCallback(data){
         this.options.data = data == undefined ? this.options.data : data;
+
+        // 图表交互
+        var inter = this.options.interactive;
+
+        if(!data || !data.data || data.data.length == 0){
+            // 隐藏loading效果
+            inter.hideLoading();
+            // 暂无数据
+            inter.showNoData();
+            return;
+        }
+
         // 保留的小数位
         this.options.pricedigit = data.pricedigit;
         // 获取单位绘制区域
@@ -167,7 +181,7 @@ var ChartTime = (function() {
         new DrawV(this.options);
         
         // 隐藏loading效果
-        this.options.interactive.hideLoading();
+        inter.hideLoading();
         // 图表加载完成时间
         this.onChartLoaded(this);
     }
