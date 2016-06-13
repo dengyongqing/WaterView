@@ -110,7 +110,7 @@ var DrawXY = (function(){
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         /*纵坐标刻度涨跌幅*/
-        var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(this.options.pricedigit) + "%";
+        var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(2) + "%";
         /*绘制纵坐标刻度百分比*/
         ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y - 10);
         ctx.stroke();

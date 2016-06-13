@@ -48,11 +48,11 @@ function average(avg_num,num,data) {
             result[i - start] = null;
         }else{
             for (j = 0; j < avg_num; j++) {
-                countValue += Number(items[i - j].value);
+                countValue += items[i - j].value;
             }
             result[i - start] = {};
             result[i - start].date = items[i].date;
-            result[i - start].value = (countValue / avg_num).toFixed(2);
+            result[i - start].value = (countValue / avg_num).toFixed(pricedigit);
         }
         
     }

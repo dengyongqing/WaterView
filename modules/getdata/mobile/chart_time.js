@@ -48,6 +48,9 @@ function getdata(id, callback) {
             var dataArray = json.data;
             var ticks = info.ticks.split('|');
 
+            // 保留小数位
+            window.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
+
             var result = {};
 
             //股票名称
@@ -82,7 +85,9 @@ function getdata(id, callback) {
             result.min = coordinate(returnData[1], returnData[2], info.yc).min;
             //昨收
             result.yc = info.yc;
-            result.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
+
+            // 保留小数位
+            result.pricedigit = window.pricedigit;
 
             callback(result);
         }

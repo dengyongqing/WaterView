@@ -47,7 +47,7 @@ function average(num, data) {
         }
         result[i - num] = {};
         result[i - num].date = items[i].date;
-        result[i - num].value = parseFloat((countValue / num).toFixed(2));
+        result[i - num].value = parseFloat((countValue / num).toFixed(pricedigit));
     }
 
     return result;

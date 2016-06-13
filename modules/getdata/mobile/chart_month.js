@@ -75,6 +75,9 @@ function getdata(option, callback) {
             var info = json.info;
             var data = json.data;
 
+            // 保留小数位
+            window.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
+
             //获取数据处理后的结果
             if(info.total < num){
                 var result = dealData(json,info.total);
@@ -83,7 +86,9 @@ function getdata(option, callback) {
             }
             result.name = json.name;
             result.count = num-20;
-            result.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
+
+            // 保留小数位
+            result.pricedigit = window.pricedigit;
 
             callback(result);
         }
