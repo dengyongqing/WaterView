@@ -141,8 +141,9 @@
 .mark-point{
 	position: absolute;
 	z-index: 997;
-	width: 20px;
-	height: 20px;
+	min-width: 15px;
+	min-height: 15px;
 	border-radius: 10px;
-	background: url(../images/bang-26-26.png) no-repeat center center/15px 15px #cccccc
+	background: url(../images/bang-26-26.png) no-repeat center center/15px 15px #fff;
+	opacity: 1;
 }

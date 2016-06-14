@@ -184,6 +184,8 @@ var ChartTime = (function() {
         inter.hideLoading();
         // 图表加载完成时间
         this.onChartLoaded(this);
+        
+        return true;
     }
 
     // 绑定事件

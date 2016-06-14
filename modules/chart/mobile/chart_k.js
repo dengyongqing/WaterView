@@ -299,6 +299,7 @@ var ChartK = (function() {
         // 图表加载完成时间
         this.options.onChartLoaded(this);
        
+       return true;
     }
     // 绑定事件
     function bindEvent(ctx){

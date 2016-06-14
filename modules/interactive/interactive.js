@@ -327,9 +327,9 @@ var Interactive = (function() {
 			markPoint.className = "mark-point";
 			var imgUrl = this.options.markPoint.imgUrl;
 			// 上榜日标识宽度
-			var imgWidth = this.options.markPoint.width == undefined ? 20 : this.options.markPoint.width + "px";
+			var imgWidth = this.options.markPoint.width == undefined ? 15 : this.options.markPoint.width + "px";
 			// 上榜日标识高度
-			var imgHeight = this.options.markPoint.height == undefined ? 20 : this.options.markPoint.height + "px";
+			var imgHeight = this.options.markPoint.height == undefined ? 15 : this.options.markPoint.height + "px";
 			if(imgUrl){
 				markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
 				markPoint.style.background = "url(" + imgUrl + ") no-repeat center center/" + imgWidth + " " + imgHeight + " #cccccc";
