@@ -121,14 +121,15 @@ var ChartK = (function() {
         var type = _this.options.type;
         if(type == "DK"){
             GetDataDay(getParamsObj.call(_this),function(data){
-
-                dataCallback.apply(_this,[data]);
-                // 均线数据标识
-                inter.markMA(_this.options.canvas);
-                // 缩放
-                inter.scale(_this.options.canvas);
-                // 绑定事件
-                bindEvent.call(_this,_this.options.context);
+                var flag = dataCallback.apply(_this,[data]);
+                if(flag){
+                    // 均线数据标识
+                    inter.markMA(_this.options.canvas);
+                    // 缩放
+                    inter.scale(_this.options.canvas);
+                    // 绑定事件
+                    bindEvent.call(_this,_this.options.context);
+                }
                 // 传入的回调函数
                 if(callback){
                     callback(_this.options);
@@ -136,13 +137,15 @@ var ChartK = (function() {
             });
         }else if(type == "WK"){
             GetDataWeek(getParamsObj.call(_this),function(data){
-                dataCallback.apply(_this,[data]);
-                // 均线数据标识
-                inter.markMA(_this.options.canvas);
-                // 缩放
-                inter.scale(_this.options.canvas);
-                // 绑定事件
-                bindEvent.call(_this,_this.options.context);
+                var flag = dataCallback.apply(_this,[data]);
+                if(flag){
+                    // 均线数据标识
+                    inter.markMA(_this.options.canvas);
+                    // 缩放
+                    inter.scale(_this.options.canvas);
+                    // 绑定事件
+                    bindEvent.call(_this,_this.options.context);
+                }
                 // 传入的回调函数
                 if(callback){
                     callback(_this.options);
@@ -150,13 +153,15 @@ var ChartK = (function() {
             });
         }else if(type == "MK"){
             GetDataMonth(getParamsObj.call(_this),function(data){
-                dataCallback.apply(_this,[data]);
-                // 均线数据标识
-                inter.markMA(_this.options.canvas);
-                // 缩放
-                inter.scale(_this.options.canvas);
-                // 绑定事件
-                bindEvent.call(_this,_this.options.context);
+                var flag = dataCallback.apply(_this,[data]);
+                if(flag){
+                    // 均线数据标识
+                    inter.markMA(_this.options.canvas);
+                    // 缩放
+                    inter.scale(_this.options.canvas);
+                    // 绑定事件
+                    bindEvent.call(_this,_this.options.context);
+                }
                 // 传入的回调函数
                 if(callback){
                     callback(_this.options);
