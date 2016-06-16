@@ -44,19 +44,20 @@ var DrawLine = (function(){
 		// 折线数据
 		var series = this.options.series;
 		// 横坐标数据
-		var xAxis = this.options.xAxis;
+		var xaxis = this.options.xaxis;
 		for(var i = 0,line;line = series[i]; i++){
 			// 填充颜色
 			ctx.fillStyle = line.color == undefined ? "#333" : line.color;
 			// 画笔颜色
 	        ctx.strokeStyle = line.color == undefined ? "#333" : line.color;
-			drawLine.apply(this,[ctx,line]);
-			if(line.showPoint){
+        	drawLine.apply(this,[ctx,line]);
+	        			
+			if(line.showpoint){
 				drawPoint.apply(this,[ctx,line]);
 			}
 			
 		}
-		if(this.options.showFlag){
+		if(this.options.showflag){
 			drawLineMark.apply(this,[ctx,series]);
 		}
 	};

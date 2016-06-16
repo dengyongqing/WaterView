@@ -88,7 +88,7 @@ var ChartLine = (function() {
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
-        if(this.options.showFlag){
+        if(this.options.showflag){
             this.options.c_1_height = canvas.height * (5/9);
         }else{
             this.options.c_1_height = canvas.height * (7/9);

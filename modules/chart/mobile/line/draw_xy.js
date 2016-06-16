@@ -17,7 +17,7 @@
     };
     /*绘图*/
     DrawXY.prototype.draw = function(){
-        var xAxisData = this.options.xAxis;
+        var xAxisData = this.options.xaxis;
         var yAxisData = this.options.series;
         var type = this.options.type;
         var dpr = this.options.dpr;
@@ -31,7 +31,7 @@
         /*Y轴上分隔线数量*/
         var sepe_num = 6;
         /*开盘收盘时间数组*/
-        var oc_time_arr = this.options.xAxis;
+        var oc_time_arr = this.options.xaxis;
 
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
@@ -46,17 +46,15 @@
     // 绘制分时图坐标轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
-
+        ctx.fillStyle = '#b1b1b1';
+        ctx.strokeStyle = '#ccc';
+        ctx.textAlign = 'right';
 
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
-            ctx.fillStyle = '#b1b1b1';
-            ctx.strokeStyle = '#ccc';
-
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.textAlign = 'right';
             ctx.fillText(common.format_unit(i*this.options.data.max / 5,0), this.options.padding_left-20, item.y +10);
             ctx.stroke();
         }
@@ -79,11 +77,14 @@
 
         for(var i = 0;i<arr_length;i++) {
             tempDate = oc_time_arr[i];
-            if(tempDate.show == true){
+            if(tempDate.show == undefined ? true : tempDate.show){
                 if(i < arr_length - 1){
                     ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
                     ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+70);
                 }
+            }
+
+            if(tempDate.showline == undefined ? true : tempDate.showline){
                 ctx.strokeStyle = '#ccc';
                 ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
                 ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);

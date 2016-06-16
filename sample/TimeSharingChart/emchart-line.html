@@ -58,58 +58,67 @@
 	        	container : "emchart-0",
 		        "width" : document.body.offsetWidth - 20,
 		        "height" : document.body.offsetWidth,
-		        showFlag: false,
-		        xAxis: [{
+		        showflag: true,
+		        xaxis: [{
 			        	value:"2016-03-01",
+			        	showline:true,
 			        	show:true
 			        },{
 			        	value:"2016-03-02",
-			        	show:true
+			        	showline:true,
+			        	show:false
 			        },{
 			        	value:"2016-03-03",
+			        	showline:true,
 			        	show:true
 			        },{
 			        	value:"2016-03-04",
-			        	show:true
+			        	showline:true,
+			        	show:false
 			        },{
 			        	value:"2016-03-05",
+			        	showline:true,
 			        	show:true
 			        },{
 			        	value:"2016-03-06",
-			        	show:true
+			        	showline:true,
+			        	show:false
 			        },{
 			        	value:"2016-03-07",
+			        	showline:true,
 			        	show:true
 			        },{
 			        	value:"2016-03-08",
-			        	show:true
+			        	showline:true,
+			        	show:false
 			        },{
 			        	value:"2016-03-09",
+			        	showline:true,
 			        	show:true
 		        	}],
 		        series:[
 					{	
 						name:"5日均线",
 						color:"#ff5000",
-						showPoint:false,
+						showpoint:false,
 						data:[4000000,3000000,6000000,7000000,5000000,7000000,4000000,3000000,6000000]
 					},
 					{	
 						name:"10日均线",
 						color:"#b9d1f4",
-						showPoint:false,
+						showpoint:false,
 						data:[8000000,7000000,10000000,11000000,9000000,11000000,8000000,7000000,10000000]
 					},
 					{	
 						name:"20日均线",
 						color:"#0068b7",
-						showPoint:false,
+						showpoint:false,
 						data:[12000000,11000000,14000000,15000000,13000000,15000000,12000000,11000000,14000000]
 					},
 					{	
 						name:"60日均线",
 						color:"#7e0043",
-						showPoint:false,
+						showpoint:false,
 						data:[16000000,15000000,18000000,19000000,17000000,19000000,16000000,15000000,18000000]
 					}
 				]
