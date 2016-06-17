@@ -45,7 +45,7 @@ function getdata(id, callback) {
         } else {
             //拿到股票的数据
             var info = json.info;
-            var dataArray = json.data;
+            // var dataArray = json.data;
             var ticks = info.ticks.split('|');
 
             // 保留小数位

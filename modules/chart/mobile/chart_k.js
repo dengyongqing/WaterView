@@ -42,8 +42,6 @@ var Interactive = require('interactive/interactive');
 var extend = require('tools/extend');
 // 水印
 var watermark = require('chart/watermark');
-// 缩放
-var Scale = require('interactive/scale'); 
 
 var ChartK = (function() {
 
@@ -62,7 +60,7 @@ var ChartK = (function() {
 
     /*初始化*/
     ChartK.prototype.init = function() {
-        var type = this.options.type = this.options.type == undefined ? "DK" : this.options.type;
+        this.options.type = this.options.type == undefined ? "DK" : this.options.type;
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -304,7 +302,7 @@ var ChartK = (function() {
     // 绑定事件
     function bindEvent(ctx){
         var _this = this;
-        var timer_s,timer_m,timer_e;
+        // var timer_s,timer_m,timer_e;
         var canvas = ctx.canvas;
         var inter = _this.options.interactive;
         //缩放按钮是否可点击
@@ -420,7 +418,7 @@ var ChartK = (function() {
         // 单位绘制区域的宽度
         var rect_w = rect_unit.rect_w;
         // K线柱体的宽度
-        var bar_w = rect_unit.bar_w;
+        // var bar_w = rect_unit.bar_w;
 
         // 鼠标事件位置
         // var w_x = eventposition.clientX;
@@ -432,7 +430,7 @@ var ChartK = (function() {
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this,[canvas,w_x,w_y]);
         var c_x = (c_pos.x).toFixed(0);
-        var c_y = (c_pos.y).toFixed(0);
+        // var c_y = (c_pos.y).toFixed(0);
 
         // 当前K线在数组中的下标
         var index = Math.floor((c_x - this.options.padding_left)/rect_w);

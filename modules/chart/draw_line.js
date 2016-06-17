@@ -53,7 +53,7 @@ var DrawLine = (function(){
 		// ctx.strokeStyle = "rgba(0,0,0,0)";
 		ctx.strokeStyle = "#3f88e5";
 		
-		var data_arr_length = data_arr.length;
+		// var data_arr_length = data_arr.length;
 		for(var i = 0,item;item = data_arr[i]; i++){
 			 var x = common.get_x.call(this,i + 1);
 			 var y = common.get_y.call(this,item.price);

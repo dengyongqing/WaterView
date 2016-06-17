@@ -13,7 +13,7 @@
  * 
  */
 var dealData = function(json, yc) {
-    var info = json.info;
+    // var info = json.info;
     var arryData = json.data;
 	var result = [];
     var v_max = 0;

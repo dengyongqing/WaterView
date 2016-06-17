@@ -52,7 +52,7 @@ var DrawK = (function(){
 		// 获取单位绘制区域
 		var rect_unit = this.options.rect_unit;
 		// 单位绘制区域的宽度
-		var rect_w = rect_unit.rect_w;
+		// var rect_w = rect_unit.rect_w;
 		// K线柱体的宽度
 		var bar_w = rect_unit.bar_w;
 		// K线柱体的颜色

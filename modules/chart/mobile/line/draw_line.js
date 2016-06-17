@@ -44,7 +44,7 @@ var DrawLine = (function(){
 		// 折线数据
 		var series = this.options.series;
 		// 横坐标数据
-		var xaxis = this.options.xaxis;
+		// var xaxis = this.options.xaxis;
 		for(var i = 0,line;line = series[i]; i++){
 			// 填充颜色
 			ctx.fillStyle = line.color == undefined ? "#333" : line.color;

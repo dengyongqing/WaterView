@@ -25,7 +25,7 @@
 //转换日期（20121112 -> 2012-11-12）
 var transform = require('common').transform;
 var coordinate = require('../../dealdata/K_coordinate_range');
-var fixed = require('common').fixed;
+// var fixed = require('common').fixed;
 
 
 //计算均线
@@ -60,7 +60,7 @@ function average(avg_num,num,data) {
 }
 
 function dealData(json,num) {
-    var info = json.info;
+    // var info = json.info;
     var arr = json.data;
     var result = {};
     var max = 0;

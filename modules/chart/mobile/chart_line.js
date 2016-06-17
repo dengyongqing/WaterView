@@ -24,17 +24,8 @@
 var DrawXY = require('chart/mobile/line/draw_xy');
 // 主题
 var theme = require('theme/default');
-var common = require('tools/common'); 
-// 获取分时图数据
-var GetDataTime = require('getdata/mobile/chart_time'); 
 // 绘制分时折线图
 var DrawLine = require('chart/mobile/line/draw_line'); 
-// 绘制分时折线图中的平均线
-var DrawAvgCost = require('chart/draw_avg_cost'); 
-// 绘制成交量图
-var DrawV = require('chart/draw_v');
-// 工具
-var common = require('tools/common'); 
 // 拓展，合并，复制
 var extend = require('tools/extend');
 // 交互效果
@@ -62,7 +53,7 @@ var ChartLine = (function() {
     // 初始化
     ChartLine.prototype.init = function() {
 
-        var type = this.options.type = "line";
+        this.options.type = "line";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -116,10 +107,10 @@ var ChartLine = (function() {
         // 初始化
         this.init();
         // 初始化交互
-        var inter = this.options.interactive = new Interactive(this.options);
+        this.options.interactive = new Interactive(this.options);
         // 显示loading效果
         // inter.showLoading();
-        var _this = this;
+        // var _this = this;
 
         // 折线数据
         var series = this.options.series;

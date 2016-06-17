@@ -34,7 +34,7 @@ var common = {
     },
     // 将鼠标坐标转换为Canvas坐标
     windowToCanvas: function(canvas,x,y){
-        var box = canvas.getBoundingClientRect();
+        // var box = canvas.getBoundingClientRect();
         return {
             // x:(x-box.left)*(canvas.width/box.width),
             // y:(y-box.top)*(canvas.height/box.height)
@@ -69,7 +69,7 @@ var common = {
         var num = this.options.data.data.length;
         var total = this.options.data.total;
         var padding_left = this.options.padding_left;
-        var dpr = this.options.dpr;
+        // var dpr = this.options.dpr;
 
         if(type == "TL"){
             return (canvas.width-padding_left) / total * x + padding_left;

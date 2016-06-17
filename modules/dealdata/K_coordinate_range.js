@@ -16,7 +16,7 @@
  */
 function coordinate(high, low) {
 	var top = 0;
-	var fall = 0;
+	// var fall = 0;
 	var offset = (high-low)/2*0.05;
 
 	top = high+offset;

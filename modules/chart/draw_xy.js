@@ -19,7 +19,7 @@ var DrawXY = (function(){
         var data = this.options.data;
         var ctx = this.options.context;
         var type = this.options.type;
-        var dpr = this.options.dpr;
+        // var dpr = this.options.dpr;
 
         /*Y轴上的最大值*/
         var y_max = data.max;
@@ -117,7 +117,7 @@ var DrawXY = (function(){
     }
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
-        var dpr = this.options.dpr;
+        // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
         ctx.fillStyle = '#999';

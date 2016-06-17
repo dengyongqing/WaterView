@@ -1,5 +1,3 @@
-/*工具*/
-var common = require('tools/common'); 
 /*加水印*/
 function addWatermark(ctx,right,top) {
 	var canvas = ctx.canvas;

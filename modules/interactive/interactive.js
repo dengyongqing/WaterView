@@ -98,8 +98,8 @@ var Interactive = (function() {
 
 	// 绘制移动平均线标识
 	Interactive.prototype.markMA = function (canvas,obj_5,obj_10,obj_20){
-	    var c_box = canvas.getBoundingClientRect();
-	    var dpr = this.options.dpr;
+	    // var c_box = canvas.getBoundingClientRect();
+	    // var dpr = this.options.dpr;
 	    if(!this.options.mark_ma){
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div"); 
@@ -206,7 +206,7 @@ var Interactive = (function() {
 
 	// Tip显示行情数据
 	Interactive.prototype.showTip = function(canvas,x,obj){
-		var c_box = canvas.getBoundingClientRect();
+		// var c_box = canvas.getBoundingClientRect();
 	    var type = this.options.type;
 	    if(!this.options.tip){
 	        this.options.tip = {};
@@ -437,7 +437,7 @@ var Interactive = (function() {
 		}else{
 			// 获取图表容器
 	        var chart_container = document.getElementById(this.options.container);
-	        var chart_container_height = chart_container.offsetHeight;
+	        // var chart_container_height = chart_container.offsetHeight;
 	        // loading提示信息
 	        var loading_notice = document.createElement("div");
 	        loading_notice.className = "loading-chart";
@@ -466,7 +466,7 @@ var Interactive = (function() {
 		}else{
 			//获取图表容器
 	        var noData_container = document.getElementById(this.options.container);
-	        var noData_container_height = noData_container.offsetHeight;
+	        // var noData_container_height = noData_container.offsetHeight;
 	        //无数据时提示信息
 	        var noData_notice = document.createElement("div");
 	        noData_notice.className = "loading-chart";

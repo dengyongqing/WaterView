@@ -35,14 +35,14 @@ var DrawV = (function(){
 		/*成交量数组*/
 		var data_arr = data.data;
 		/*Y轴上的最大值*/
-		var y_max = data.max;
+		// var y_max = data.max;
 		/*Y轴上的最小值*/
-		var y_min = data.min;
+		// var y_min = data.min;
 		/*最大成交量*/
 		var v_max = (data.v_max).toFixed(0);
 		
 		/*K线图表的高度*/
-		var c_1_height = this.options.c_1_height;
+		// var c_1_height = this.options.c_1_height;
 		//成交量图表的高度
 		// var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
 		var v_height = ctx.canvas.height / 4;
@@ -54,7 +54,7 @@ var DrawV = (function(){
 		/*获取单位矩形对象*/
 		var rect_unit = this.options.rect_unit;
 		/*单位绘图矩形画布的宽度*/
-		var rect_w = rect_unit.rect_w;
+		// var rect_w = rect_unit.rect_w;
 		/*K线柱体的宽度*/
 		var bar_w = rect_unit.bar_w;
 		/*K线柱体的颜色*/
@@ -113,14 +113,14 @@ var DrawV = (function(){
 		/*成交量数组*/
 		var data_arr = data.data;
 		/*Y轴上的最大值*/
-		var y_max = data.max;
+		// var y_max = data.max;
 		/*Y轴上的最小值*/
-		var y_min = data.min;
+		// var y_min = data.min;
 		/*最大成交量*/
 		var v_max = (data.v_max).toFixed(0);
 		
 		/*K线图表的高度*/
-		var c_1_height = this.options.c_1_height;
+		// var c_1_height = this.options.c_1_height;
 		//成交量图表的高度
 		// var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
 		var v_height = ctx.canvas.height / 4;
@@ -132,7 +132,7 @@ var DrawV = (function(){
 		/*获取单位矩形对象*/
 		var rect_unit = this.options.rect_unit;
 		/*单位绘图矩形画布的宽度*/
-		var rect_w = rect_unit.rect_w;
+		// var rect_w = rect_unit.rect_w;
 		/*K线柱体的宽度*/
 		var bar_w = rect_unit.bar_w;
 		/*K线柱体的颜色*/

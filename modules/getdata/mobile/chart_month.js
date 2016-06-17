@@ -31,7 +31,7 @@
  * }
  */
 
-var transform = require('common').transform;
+// var transform = require('common').transform;
 var jsonp = require('jsonp');
 var dealData = require('../../dealdata/mobile/chart_day');
 var fixed = require('common').fixed;
@@ -73,7 +73,7 @@ function getdata(option, callback) {
             callback(null);
         } else {
             var info = json.info;
-            var data = json.data;
+            // var data = json.data;
 
             // 保留小数位
             window.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
