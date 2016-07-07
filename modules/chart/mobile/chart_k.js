@@ -97,10 +97,9 @@ var ChartK = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
        
-        // 加水印
-        watermark.apply(this,[ctx,170,20]);
         // 容器中添加画布
         this.container.appendChild(canvas);
+       
     };
 
     // 绘图
@@ -117,54 +116,66 @@ var ChartK = (function() {
         inter.showLoading();
 
         var type = _this.options.type;
-        if(type == "DK"){
-            GetDataDay(getParamsObj.call(_this),function(data){
-                var flag = dataCallback.apply(_this,[data]);
-                if(flag){
-                    // 均线数据标识
-                    inter.markMA(_this.options.canvas);
-                    // 缩放
-                    inter.scale(_this.options.canvas);
-                    // 绑定事件
-                    bindEvent.call(_this,_this.options.context);
-                }
-                // 传入的回调函数
-                if(callback){
-                    callback(_this.options);
-                }
-            });
-        }else if(type == "WK"){
-            GetDataWeek(getParamsObj.call(_this),function(data){
-                var flag = dataCallback.apply(_this,[data]);
-                if(flag){
-                    // 均线数据标识
-                    inter.markMA(_this.options.canvas);
-                    // 缩放
-                    inter.scale(_this.options.canvas);
-                    // 绑定事件
-                    bindEvent.call(_this,_this.options.context);
-                }
-                // 传入的回调函数
-                if(callback){
-                    callback(_this.options);
-                }
-            });
-        }else if(type == "MK"){
-            GetDataMonth(getParamsObj.call(_this),function(data){
-                var flag = dataCallback.apply(_this,[data]);
-                if(flag){
-                    // 均线数据标识
-                    inter.markMA(_this.options.canvas);
-                    // 缩放
-                    inter.scale(_this.options.canvas);
-                    // 绑定事件
-                    bindEvent.call(_this,_this.options.context);
-                }
-                // 传入的回调函数
-                if(callback){
-                    callback(_this.options);
-                }
-            });
+        try{
+            if(type == "DK"){
+                GetDataDay(getParamsObj.call(_this),function(data){
+                    var flag = dataCallback.apply(_this,[data]);
+                    if(flag){
+                        // 均线数据标识
+                        inter.markMA(_this.options.canvas);
+                        // 缩放
+                        inter.scale(_this.options.canvas);
+                        // 绑定事件
+                        bindEvent.call(_this,_this.options.context);
+                    }
+                    // 传入的回调函数
+                    if(callback){
+                        callback(_this.options);
+                    }
+
+                    
+                },inter);
+            }else if(type == "WK"){
+                GetDataWeek(getParamsObj.call(_this),function(data){
+                    var flag = dataCallback.apply(_this,[data]);
+                    if(flag){
+                        // 均线数据标识
+                        inter.markMA(_this.options.canvas);
+                        // 缩放
+                        inter.scale(_this.options.canvas);
+                        // 绑定事件
+                        bindEvent.call(_this,_this.options.context);
+                    }
+                    // 传入的回调函数
+                    if(callback){
+                        callback(_this.options);
+                    }
+
+                },inter);
+            }else if(type == "MK"){
+                GetDataMonth(getParamsObj.call(_this),function(data){
+                    var flag = dataCallback.apply(_this,[data]);
+                    if(flag){
+                        // 均线数据标识
+                        inter.markMA(_this.options.canvas);
+                        // 缩放
+                        inter.scale(_this.options.canvas);
+                        // 绑定事件
+                        bindEvent.call(_this,_this.options.context);
+                    }
+                    // 传入的回调函数
+                    if(callback){
+                        callback(_this.options);
+                    }
+
+                },inter);
+            }
+
+        }catch(e){
+            // 暂无数据
+            inter.showNoData();
+            // 隐藏loading效果
+            inter.hideLoading();
         }
 
     };
@@ -196,8 +207,11 @@ var ChartK = (function() {
 
     // 缩放图表
     function scaleClick() {
+      
         var _this = this;
         var type = _this.options.type;
+        // 初始化交互
+        var inter = _this.options.interactive
         // 显示loading效果
         this.options.interactive.showLoading();
 
@@ -209,7 +223,8 @@ var ChartK = (function() {
                         // 缩放按钮点击有效
                         _this.options.clickable = true;
                     }
-                });
+
+                },inter);
             }else if(type == "WK"){
                 GetDataWeek(getParamsObj.call(_this),function(data){
                     if(data){
@@ -217,7 +232,8 @@ var ChartK = (function() {
                         // 缩放按钮点击有效
                         _this.options.clickable = true;
                     }
-                });
+
+                },inter);
             }else if(type == "MK"){
                 GetDataMonth(getParamsObj.call(_this),function(data){
                     if(data){
@@ -225,16 +241,20 @@ var ChartK = (function() {
                         // 缩放按钮点击有效
                         _this.options.clickable = true;
                     }
-                });
+
+                },inter);
             }
 
         }catch(e){
             // 缩放按钮点击有效
             _this.options.clickable = true;
+            // 暂无数据
+            inter.showNoData();
+            // 隐藏loading效果
+            inter.hideLoading();
         }
         
-        // 加水印
-        watermark.apply(_this,[_this.options.context]);
+        
     };
 
     // 获取参数对象
@@ -246,6 +266,7 @@ var ChartK = (function() {
     }
     // 回调函数
     function dataCallback(data){
+
         var ctx = this.options.context;
         var canvas = ctx.canvas;
         this.options.data = data == undefined ? this.options.data : data;
@@ -253,102 +274,175 @@ var ChartK = (function() {
 
         // 图表交互
         var inter = this.options.interactive;
-        if(!data || !data.data || data.data.length == 0){
+
+        try{
+
+            if(!data || !data.data || data.data.length == 0){
+                // 隐藏loading效果
+                // inter.hideLoading();
+                // 暂无数据
+                // inter.showNoData();
+                // return;
+            }
+
+            // 保留的小数位
+            this.options.pricedigit = data.pricedigit;
+
+            // 默认显示均线数据
+            var five_average = data.five_average;
+            var ten_average = data.ten_average;
+            var twenty_average = data.twenty_average;
+            inter.default_m5 = five_average[five_average.length - 1];
+            inter.default_m10 = ten_average[ten_average.length - 1];
+            inter.default_m20 = twenty_average[twenty_average.length - 1];
+
+            // 获取单位绘制区域
+            var rect_unit = common.get_rect.apply(this,[canvas,data.data.length]);
+            this.options.rect_unit = rect_unit;
+
+            // 绘制坐标轴
+            new DrawXY(this.options);
+            // 绘制日K线图
+            new DrawK(this.options);
+            // 绘制均线图
+            new DrawMA(this.options);
+            // 绘制成交量图
+            new DrawV(this.options);
+
+            // 上榜日标识点
+            if(this.options.interactive.options.pointsContainer){
+                var points =  this.options.interactive.options.pointsContainer.children;
+                this.markPointsDom = points;
+            }
+
             // 隐藏loading效果
             inter.hideLoading();
+            
+            // 图表加载完成时间
+            this.options.onChartLoaded(this);
+
+        }catch(e){
+            // 缩放按钮点击有效
+            _this.options.clickable = true;
             // 暂无数据
             inter.showNoData();
-            return;
+            // 隐藏loading效果
+            inter.hideLoading();
         }
-
-        // 保留的小数位
-        this.options.pricedigit = data.pricedigit;
-
-        // 默认显示均线数据
-        var five_average = data.five_average;
-        var ten_average = data.ten_average;
-        var twenty_average = data.twenty_average;
-        inter.default_m5 = five_average[five_average.length - 1];
-        inter.default_m10 = ten_average[ten_average.length - 1];
-        inter.default_m20 = twenty_average[twenty_average.length - 1];
-
-        // 获取单位绘制区域
-        var rect_unit = common.get_rect.apply(this,[canvas,data.data.length]);
-        this.options.rect_unit = rect_unit;
-
-        // 绘制坐标轴
-        new DrawXY(this.options);
-        // 绘制日K线图
-        new DrawK(this.options);
-        // 绘制均线图
-        new DrawMA(this.options);
-        // 绘制成交量图
-        new DrawV(this.options);
-
-        // 上榜日标识点
-        if(this.options.interactive.options.pointsContainer){
-            var points =  this.options.interactive.options.pointsContainer.children;
-            this.markPointsDom = points;
-        }
-
-        // 隐藏loading效果
-        inter.hideLoading();
         
-        // 图表加载完成时间
-        this.options.onChartLoaded(this);
+       // 加水印
+       watermark.apply(this,[this.options.context,170,20]);
        
        return true;
     }
     // 绑定事件
     function bindEvent(ctx){
         var _this = this;
-        // var timer_s,timer_m,timer_e;
+        var timer_s,timer_m,timer_e;
         var canvas = ctx.canvas;
         var inter = _this.options.interactive;
         //缩放按钮是否可点击
         this.options.clickable = true;
 
+        var delayed = false;
+        var delaytouch = this.options.delaytouch;
+
+        if(delaytouch){
+            var chart_container = document.getElementById(_this.options.container);
+            var delay = document.createElement("div");
+            delay.className = "delay-div";
+            delay.style.height = _this.options.height + "px";
+            delay.style.width = _this.options.width + "px";
+            delay.style.display = "none";
+            chart_container.appendChild(delay);
+
+        }
+
         // 触摸事件
         canvas.addEventListener("touchstart",function(event){
             // 显示交互效果
-            inter.show();
-            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            // event.preventDefault();
+            if(delaytouch){
+                delay.style.display = "block";
+                delayed = false;
+                timer_s = setTimeout(function(){
+                    delay.style.display = "none";
+                    delayed = true;
+                    inter.show();
+                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+                    event.preventDefault();
+                },300);
+            }else{
+                inter.show();
+                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            }
+            
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
         
         // 手指滑动事件
         canvas.addEventListener("touchmove",function(event){
             // dealEvent.apply(_this,[inter,event]);
-            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            // event.preventDefault();
+            if(delaytouch){
+                clearTimeout(timer_s);
+                if(delayed){
+                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+                    event.preventDefault();
+                }
+            }else{
+                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            }
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
+           
         });
 
         // 手指离开事件
         canvas.addEventListener("touchend",function(event){
+            if(delaytouch){
+                delay.style.display = "none";
+                clearTimeout(timer_s);
+            }
             // 隐藏交互效果
             inter.hide();
             //event.preventDefault();
         });
 
-
-        canvas.addEventListener("mousemove",function(event){
-            //console.info(event);
-            dealEvent.apply(_this,[inter,event]);
-            event.preventDefault();
-        });
-
-        canvas.addEventListener("mouseleave",function(event){
-            //console.info(event);
+        canvas.addEventListener("touchcancel",function(event){
+            if(delaytouch){
+                clearTimeout(timer_s);
+                delay.style.display = "none";
+            }
+            // 隐藏交互效果
             inter.hide();
-            event.preventDefault();
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
+        
 
-        canvas.addEventListener("mouseenter",function(event){
-            //console.info(event);
-            inter.show();
-            event.preventDefault();
-        });
+        if(!delaytouch){
+            canvas.addEventListener("mousemove",function(event){
+                //console.info(event);
+                dealEvent.apply(_this,[inter,event]);
+                event.preventDefault();
+            });
 
+            canvas.addEventListener("mouseleave",function(event){
+                //console.info(event);
+                inter.hide();
+                event.preventDefault();
+            });
+
+            canvas.addEventListener("mouseenter",function(event){
+                //console.info(event);
+                inter.show();
+                event.preventDefault();
+            });
+        }
+        
         // 放大按钮
         var scale_plus = inter.options.scale.plus;
         // 缩小按钮

@@ -38,7 +38,7 @@ var fixed = require('common').fixed;
 
 
 //传入参数取数据
-function getdata(option, callback) {
+function getdata(option, callback, interactive) {
 
     var url = 'http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js';
     var callbackstring = 'fsdata' + (new Date()).getTime().toString().substring(0, 10);
@@ -68,29 +68,40 @@ function getdata(option, callback) {
     };
 
     jsonp(url, urldata, callbackstring, function(json) {
+        try{
+            if (!json) {
+                callback(null);
+            } else {
+                var info = json.info;
+                // var data = json.data;
 
-        if (!json) {
-            callback(null);
-        } else {
-            var info = json.info;
-            // var data = json.data;
+                // 保留小数位
+                if(info.pricedigit.split(".").length > 1){
+                    window.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
+                }else{
+                    window.pricedigit = 0;
+                }
+                //获取数据处理后的结果
+                if(info.total < num){
+                    var result = dealData(json,info.total);
+                }else{
+                    var result = dealData(json,num);
+                }
+                result.name = json.name;
+                result.count = num-20;
+                // 保留小数位
+                result.pricedigit = window.pricedigit;
 
-            // 保留小数位
-            pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
-
-            //获取数据处理后的结果
-            if(info.total < num){
-                var result = dealData(json,info.total);
-            }else{
-                var result = dealData(json,num);
+                callback(result);
             }
-            result.name = json.name;
-            result.count = num-20;
-            // 保留小数位
-            result.pricedigit = window.pricedigit;
 
-            callback(result);
+        }catch(e){
+            // 暂无数据
+            interactive.showNoData();
+            // 隐藏loading效果
+            interactive.hideLoading();
         }
+        
     });
 }
 

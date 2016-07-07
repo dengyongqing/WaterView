@@ -16,6 +16,7 @@ var DrawXY = (function(){
     };
     /*绘图*/
     DrawXY.prototype.draw = function(){
+
         var data = this.options.data;
         var ctx = this.options.context;
         var type = this.options.type;
@@ -110,7 +111,11 @@ var DrawXY = (function(){
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         /*纵坐标刻度涨跌幅*/
-        var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(2) + "%";
+        if(y_middle){
+            var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(2) + "%";
+        }else{
+            var percent = "0.00%";
+        }
         /*绘制纵坐标刻度百分比*/
         ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y - 10);
         ctx.stroke();

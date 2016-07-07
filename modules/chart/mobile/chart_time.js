@@ -98,10 +98,10 @@ var ChartTime = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
-        // 加水印
-        watermark.apply(this,[ctx,170,20]);
+        
         // 容器中添加画布
         this.container.appendChild(canvas);
+        
     };
 
     // 绘图
@@ -115,21 +115,31 @@ var ChartTime = (function() {
         // 显示loading效果
         inter.showLoading();
         var _this = this;
-        GetDataTime(this.options.code,
-            function(data){
-                if(data){
-                    dataCallback.apply(_this,[data]);
-                }else{
-                    dataCallback.apply(_this,[[]]);
-                }
-                /*绑定事件*/
-                bindEvent.call(_this,_this.options.context);
-                // 传入的回调函数
-                if(callback){
-                    callback();
-                }
-            }
-        );
+        try{
+            
+            GetDataTime(this.options.code,
+                function(data){
+                    if(data){
+                        dataCallback.apply(_this,[data]);
+                    }else{
+                        dataCallback.apply(_this,[[]]);
+                    }
+                    /*绑定事件*/
+                    bindEvent.call(_this,_this.options.context);
+                    // 传入的回调函数
+                    if(callback){
+                        callback();
+                    }
+                    
+                },inter);
+
+        }catch(e){
+            // 暂无数据
+            inter.showNoData();
+            // 隐藏loading效果
+            inter.hideLoading();
+        }
+        
     };
     // 重绘
     ChartTime.prototype.reDraw = function() {
@@ -152,88 +162,160 @@ var ChartTime = (function() {
     }
     /*回调函数*/
     function dataCallback(data){
+
         this.options.data = data == undefined ? this.options.data : data;
 
         // 图表交互
         var inter = this.options.interactive;
 
-        if(!data || !data.data || data.data.length == 0){
+        try{
+            if(!data || !data.data || data.data.length == 0){
+                // 隐藏loading效果
+                // inter.hideLoading();
+                // 暂无数据
+                // inter.showNoData();
+                // return;
+            }
+
+            // 保留的小数位
+            this.options.pricedigit = data.pricedigit;
+            // 获取单位绘制区域
+            var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
+            this.options.rect_unit = rect_unit;
+
+            // 绘制坐标轴
+            new DrawXY(this.options);
+            // 绘制分时折线图
+            new DrawLine(this.options);
+            // 绘制分时折线图平均线
+            new DrawAvgCost(this.options);
+            // 绘制分时图成交量
+            new DrawV(this.options);
             // 隐藏loading效果
             inter.hideLoading();
+            // 图表加载完成时间
+            this.onChartLoaded(this);
+
+        }catch(e){
             // 暂无数据
-            inter.showNoData();
-            return;
+            // inter.showNoData();
+            // 隐藏loading效果
+            inter.hideLoading();
         }
-
-        // 保留的小数位
-        this.options.pricedigit = data.pricedigit;
-        // 获取单位绘制区域
-        var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
-        this.options.rect_unit = rect_unit;
-
-        // 绘制坐标轴
-        new DrawXY(this.options);
-        // 绘制分时折线图
-        new DrawLine(this.options);
-        // 绘制分时折线图平均线
-        new DrawAvgCost(this.options);
-        // 绘制分时图成交量
-        new DrawV(this.options);
         
-        // 隐藏loading效果
-        inter.hideLoading();
-        // 图表加载完成时间
-        this.onChartLoaded(this);
-        
+        // 加水印
+        watermark.apply(this,[this.options.context,170,20 - this.options.canvas.height / 8]);
+
         return true;
     }
 
     // 绑定事件
     function bindEvent(ctx){
         var _this = this;
-        // var timer_s,timer_m;
+        var timer_s,timer_m;
         var canvas = ctx.canvas;
         var inter = this.options.interactive;
+
+        var delayed = false;
+        var delaytouch = this.options.delaytouch;
+
+        if(delaytouch){
+            var chart_container = document.getElementById(_this.options.container);
+            var delay = document.createElement("div");
+            delay.className = "delay-div";
+            delay.style.height = _this.options.height + "px";
+            delay.style.width = _this.options.width + "px";
+            delay.style.display = "none";
+            chart_container.appendChild(delay);
+        }
 
         // 触摸事件
         canvas.addEventListener("touchstart",function(event){
             // 显示交互效果
-            inter.show();
-            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            // event.preventDefault();
+            if(delaytouch){
+                delay.style.display = "block";
+                delayed = false;
+                timer_s = setTimeout(function(){
+                    delay.style.display = "none";
+                    delayed = true;
+                    inter.show();
+                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+                    event.preventDefault();
+                },300);
+            }else{
+                inter.show();
+                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            }
+
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
+            
         });
         // 手指滑动事件
         canvas.addEventListener("touchmove",function(event){
-            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            // event.preventDefault();
+            if(delaytouch){
+                clearTimeout(timer_s);
+                if(delayed){
+                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+                    event.preventDefault();
+                }
+            }else{
+                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            }
+            
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
          // 手指离开事件
         canvas.addEventListener("touchend",function(event){
+            if(delaytouch){
+                clearTimeout(timer_s);
+                delay.style.display = "none";
+            }
             // 隐藏交互效果
             inter.hide();
-            event.preventDefault();
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
 
-
-        canvas.addEventListener("mousemove",function(event){
-            //console.info(event);
-            dealEvent.apply(_this,[inter,event]);
-            event.preventDefault();
-        });
-
-        canvas.addEventListener("mouseleave",function(event){
-            //console.info(event);
+        canvas.addEventListener("touchcancel",function(event){
+            if(delaytouch){
+                clearTimeout(timer_s);
+                delay.style.display = "none";
+            }
+            // 隐藏交互效果
             inter.hide();
-            event.preventDefault();
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
 
-        canvas.addEventListener("mouseenter",function(event){
-            //console.info(event);
-            dealEvent.apply(_this,[inter,event]);
-            inter.show();
-            event.preventDefault();
-        });
 
+        if(!delaytouch){
+            canvas.addEventListener("mousemove",function(event){
+                //console.info(event);
+                dealEvent.apply(_this,[inter,event]);
+                event.preventDefault();
+            });
+
+            canvas.addEventListener("mouseleave",function(event){
+                //console.info(event);
+                inter.hide();
+                event.preventDefault();
+            });
+
+            canvas.addEventListener("mouseenter",function(event){
+                //console.info(event);
+                dealEvent.apply(_this,[inter,event]);
+                inter.show();
+                event.preventDefault();
+            });
+
+        }
+        
     }
     // 处理交互事件
     function dealEvent(inter,eventposition){

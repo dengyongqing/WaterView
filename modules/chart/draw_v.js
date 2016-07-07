@@ -182,7 +182,12 @@ var DrawV = (function(){
 	}
 	// 获取最大成交量
 	function getVMax(data){
-		var max = data.data[0].volume;
+		if(data.data[0]){
+			var max = data.data[0].volume;
+		}else{
+			var max = 0;
+		}
+		
 		for(var i = 0,item = data.data;i<data.data.length;i++) {
 			if(max<item[i].volume)
 			{
