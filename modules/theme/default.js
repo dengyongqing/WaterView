@@ -11,7 +11,7 @@ var defaultopions = {
 		point_width:5,
 		font_size:12,//默认字体大小
 		point_color:"#8f8f8f",//鼠标指示线交点颜色
-		up_color:"#d33f25",
+		up_color:"#ff0000",
 		down_color:"#17b03e"
 	},
 	// 分时线图表配置参数

@@ -98,10 +98,12 @@ var ChartTime = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
-        // 加水印
-        watermark.apply(this,[ctx,170,20]);
+        
         // 容器中添加画布
         this.container.appendChild(canvas);
+
+        // 加水印
+        watermark.apply(this,[ctx,170,20 - this.options.k_v_away]);
     };
 
     // 绘图
@@ -191,49 +193,110 @@ var ChartTime = (function() {
     // 绑定事件
     function bindEvent(ctx){
         var _this = this;
-        // var timer_s,timer_m;
+        var timer_s,timer_m;
         var canvas = ctx.canvas;
         var inter = this.options.interactive;
+
+        var delayed = false;
+        var delaytouch = this.options.delaytouch;
+
+        if(delaytouch){
+            var chart_container = document.getElementById(_this.options.container);
+            var delay = document.createElement("div");
+            delay.className = "delay-div";
+            delay.style.height = _this.options.height + "px";
+            delay.style.width = _this.options.width + "px";
+            delay.style.display = "none";
+            chart_container.appendChild(delay);
+        }
 
         // 触摸事件
         canvas.addEventListener("touchstart",function(event){
             // 显示交互效果
-            inter.show();
-            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            // event.preventDefault();
+            if(delaytouch){
+                delay.style.display = "block";
+                delayed = false;
+                timer_s = setTimeout(function(){
+                    delay.style.display = "none";
+                    delayed = true;
+                    inter.show();
+                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+                    event.preventDefault();
+                },1000);
+            }else{
+                inter.show();
+                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            }
+
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
+            
         });
         // 手指滑动事件
         canvas.addEventListener("touchmove",function(event){
-            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            // event.preventDefault();
+            if(delaytouch){
+                clearTimeout(timer_s);
+                if(delayed){
+                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+                    event.preventDefault();
+                }
+            }else{
+                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            }
+            
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
          // 手指离开事件
         canvas.addEventListener("touchend",function(event){
+            if(delaytouch){
+                clearTimeout(timer_s);
+                delay.style.display = "none";
+            }
             // 隐藏交互效果
             inter.hide();
-            event.preventDefault();
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
 
-
-        canvas.addEventListener("mousemove",function(event){
-            //console.info(event);
-            dealEvent.apply(_this,[inter,event]);
-            event.preventDefault();
-        });
-
-        canvas.addEventListener("mouseleave",function(event){
-            //console.info(event);
+        canvas.addEventListener("touchcancel",function(event){
+            if(delaytouch){
+                clearTimeout(timer_s);
+                delay.style.display = "none";
+            }
+            // 隐藏交互效果
             inter.hide();
-            event.preventDefault();
+            if(_this.options.preventdefault){
+                event.preventDefault();
+            }
         });
 
-        canvas.addEventListener("mouseenter",function(event){
-            //console.info(event);
-            dealEvent.apply(_this,[inter,event]);
-            inter.show();
-            event.preventDefault();
-        });
 
+        if(!delaytouch){
+            canvas.addEventListener("mousemove",function(event){
+                //console.info(event);
+                dealEvent.apply(_this,[inter,event]);
+                event.preventDefault();
+            });
+
+            canvas.addEventListener("mouseleave",function(event){
+                //console.info(event);
+                inter.hide();
+                event.preventDefault();
+            });
+
+            canvas.addEventListener("mouseenter",function(event){
+                //console.info(event);
+                dealEvent.apply(_this,[inter,event]);
+                inter.show();
+                event.preventDefault();
+            });
+
+        }
+        
     }
     // 处理交互事件
     function dealEvent(inter,eventposition){

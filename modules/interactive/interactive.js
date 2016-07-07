@@ -116,7 +116,11 @@ var Interactive = (function() {
 	        if(obj_5){
 	            ma_5_data.innerText = "MA5: " + obj_5.value;
 	        }else{
-	            ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        	if(this.default_m5){
+	        		ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        	}else{
+	        		ma_5_data.innerText = "MA5: -";
+	        	}
 	        }
 	        this.options.mark_ma.ma_5_data = ma_5_data;
 	       
@@ -127,7 +131,11 @@ var Interactive = (function() {
 	        if(obj_10){
 	            ma_10_data.innerText = "MA10: " + obj_10.value;
 	        }else{
-	            ma_10_data.innerText = "MA10: " + this.default_m10.value;
+	        	if(this.default_m10){
+					ma_10_data.innerText = "MA10: " + this.default_m10.value;
+	        	}else{
+	        		ma_10_data.innerText = "MA10: -";
+	        	}
 	        }
 	        this.options.mark_ma.ma_10_data = ma_10_data;
 
@@ -138,7 +146,11 @@ var Interactive = (function() {
 	        if(obj_20){
 	            ma_20_data.innerText = "MA20: " + obj_20.value;
 	        }else{
-	            ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        	if(this.default_m20){
+	        		ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        	}else{
+	        		ma_20_data.innerText = "MA20: -";
+	        	}
 	        }
 	        this.options.mark_ma.ma_20_data = ma_20_data;
 
@@ -153,19 +165,31 @@ var Interactive = (function() {
 	        if(obj_5){
 	           this.options.mark_ma.ma_5_data.innerText = "MA5: " + obj_5.value;
 	        }else{
-	            this.options.mark_ma.ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        	if(this.default_m5){
+	        		this.options.mark_ma.ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        	}else{
+	        		this.options.mark_ma.ma_5_data.innerText = "MA5: -";
+	        	}
 	        }
 
 	        if(obj_10){
 	            this.options.mark_ma.ma_10_data.innerText = "MA10: " + obj_10.value;
 	        }else{
-	            this.options.mark_ma.ma_10_data.innerText = "MA10: " + this.default_m10.value;
+	        	if(this.default_m10){
+					this.options.mark_ma.ma_10_data.innerText = "MA10: " + this.default_m10.value;
+	        	}else{
+	        		this.options.mark_ma.ma_10_data.innerText = "MA10: -";
+	        	}
 	        }
 
 	        if(obj_20){
 	            this.options.mark_ma.ma_20_data.innerText = "MA20: " + obj_20.value;
 	        }else{
-	            this.options.mark_ma.ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        	if(this.default_m20){
+	        		this.options.mark_ma.ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        	}else{
+	        		this.options.mark_ma.ma_20_data.innerText = "MA20: -";
+	        	}
 	        }
 	        
 	    }
@@ -406,15 +430,27 @@ var Interactive = (function() {
         if(this.options.mark_ma){
             var ma_5_data = this.options.mark_ma.ma_5_data;
             if(ma_5_data){
-                ma_5_data.innerText = "MA5: " + this.default_m5.value;
+            	if(this.default_m5){
+	        		ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        	}else{
+	        		ma_5_data.innerText = "MA5: -";
+	        	}
             }
             var ma_10_data = this.options.mark_ma.ma_10_data;
             if(ma_10_data){
-                ma_10_data.innerText = "MA10: " + this.default_m10.value;
+            	if(this.default_m10){
+	        		ma_10_data.innerText = "MA10: " + this.default_m10.value;
+	        	}else{
+	        		ma_10_data.innerText = "MA10: -";
+	        	}
             }
             var ma_20_data = this.options.mark_ma.ma_20_data;
             if(ma_20_data){
-                ma_20_data.innerText = "MA20: " + this.default_m20.value;
+            	if(this.default_m20){
+	        		ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        	}else{
+	        		ma_20_data.innerText = "MA20: -";
+	        	}
             }
 
         }
@@ -442,7 +478,7 @@ var Interactive = (function() {
 	        var loading_notice = document.createElement("div");
 	        loading_notice.className = "loading-chart";
 	        loading_notice.innerText = "加载中...";
-	        loading_notice.style.height = this.options.height + "px";
+	        loading_notice.style.height = this.options.height - 100 + "px";
 	        loading_notice.style.width = this.options.width + "px";
 	        // loading_notice.style.paddingTop = chart_container_height / 2 + "px";
 	        loading_notice.style.paddingTop = "100px";
@@ -471,7 +507,7 @@ var Interactive = (function() {
 	        var noData_notice = document.createElement("div");
 	        noData_notice.className = "loading-chart";
 	        noData_notice.innerText = "暂无数据";
-	        noData_notice.style.height = this.options.height + "px";
+	        noData_notice.style.height = this.options.height - 100 + "px";
 	        noData_notice.style.width = this.options.width + "px";
 
 	        noData_notice.style.paddingTop = "100px";

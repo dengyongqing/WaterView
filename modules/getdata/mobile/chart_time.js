@@ -49,7 +49,11 @@ function getdata(id, callback) {
             var ticks = info.ticks.split('|');
 
             // 保留小数位
-            window.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
+            if(info.pricedigit.split(".").length > 1){
+                window.pricedigit = info.pricedigit.split(".")[1].length == 0 ? 2 : info.pricedigit.split(".")[1].length;
+            }else{
+                window.pricedigit = 0;
+            }
 
             var result = {};
 
