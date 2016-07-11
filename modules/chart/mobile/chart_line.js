@@ -123,6 +123,10 @@ var ChartLine = (function() {
         new DrawXY(this.options);
         // 绘制分时折线图
         new DrawLine(this.options);
+
+        // 重新渲染，hack个别浏览器渲染问题
+        this.container.style.display = "none";
+        this.container.style.display = "block";
     };
     // 重绘
     ChartLine.prototype.reDraw = function() {

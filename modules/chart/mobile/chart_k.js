@@ -332,7 +332,7 @@ var ChartK = (function() {
         
        // 加水印
        watermark.apply(this,[this.options.context,170,20]);
-       
+
        return true;
     }
     // 绑定事件
@@ -345,32 +345,19 @@ var ChartK = (function() {
         this.options.clickable = true;
 
         var delayed = false;
-        var delaytouch = this.options.delaytouch;
-
-        if(delaytouch){
-            var chart_container = document.getElementById(_this.options.container);
-            var delay = document.createElement("div");
-            delay.className = "delay-div";
-            delay.style.height = _this.options.height + "px";
-            delay.style.width = _this.options.width + "px";
-            delay.style.display = "none";
-            chart_container.appendChild(delay);
-
-        }
+        var delaytouch = this.options.delaytouch = true;
 
         // 触摸事件
         canvas.addEventListener("touchstart",function(event){
             // 显示交互效果
             if(delaytouch){
-                delay.style.display = "block";
                 delayed = false;
                 timer_s = setTimeout(function(){
-                    delay.style.display = "none";
                     delayed = true;
                     inter.show();
                     dealEvent.apply(_this,[inter,event.changedTouches[0]]);
                     event.preventDefault();
-                },300);
+                },200);
             }else{
                 inter.show();
                 dealEvent.apply(_this,[inter,event.changedTouches[0]]);
@@ -402,7 +389,6 @@ var ChartK = (function() {
         // 手指离开事件
         canvas.addEventListener("touchend",function(event){
             if(delaytouch){
-                delay.style.display = "none";
                 clearTimeout(timer_s);
             }
             // 隐藏交互效果
@@ -413,7 +399,6 @@ var ChartK = (function() {
         canvas.addEventListener("touchcancel",function(event){
             if(delaytouch){
                 clearTimeout(timer_s);
-                delay.style.display = "none";
             }
             // 隐藏交互效果
             inter.hide();
@@ -423,7 +408,7 @@ var ChartK = (function() {
         });
         
 
-        if(!delaytouch){
+        // if(!delaytouch){
             canvas.addEventListener("mousemove",function(event){
                 //console.info(event);
                 dealEvent.apply(_this,[inter,event]);
@@ -441,7 +426,7 @@ var ChartK = (function() {
                 inter.show();
                 event.preventDefault();
             });
-        }
+        // }
         
         // 放大按钮
         var scale_plus = inter.options.scale.plus;

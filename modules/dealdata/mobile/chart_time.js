@@ -39,10 +39,11 @@ var dealData = function(json, yc) {
       
         point.volume = Number((Number(items[2])).toFixed(0));
         //计算平均成本
-        total_num += Number(items[2]);
-        total_cost += Number(items[2])*parseFloat(items[1]);
-        point.avg_cost = parseFloat((total_cost/total_num).toFixed(2));
-        
+        // total_num += Number(items[2]);
+        // total_cost += Number(items[2])*parseFloat(items[1]);
+        // point.avg_cost = parseFloat((total_cost/total_num).toFixed(pricedigit));
+        point.avg_cost = items[3];
+
         if (i != 0) {
             // point.percent = ((items[1] - arryData[i - 1].split(',')[1]) / items[1] * 100).toFixed(2);
             point.percent = ((items[1] - yc) / yc * 100).toFixed(2);
