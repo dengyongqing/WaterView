@@ -25,7 +25,7 @@ var DrawXY = require('chart/mobile/line/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制分时折线图
-var DrawLine = require('chart/mobile/line/draw_line'); 
+var DrawBar = require('chart/mobile/line/bar-quarter/draw_bar'); 
 // 拓展，合并，复制
 var extend = require('tools/extend');
 // 交互效果
@@ -33,10 +33,10 @@ var Interactive = require('interactive/interactive');
 // 水印
 var watermark = require('chart/watermark');
 
-var ChartLine = (function() {
+var ChartBarQuarter = (function() {
 
     // 构造函数
-    function ChartLine(options) {
+    function ChartBarQuarter(options) {
         this.defaultoptions = theme.chartLine;
         this.options = {};
         extend(true, this.options, theme.default, this.defaultoptions, options);
@@ -51,7 +51,7 @@ var ChartLine = (function() {
     }
 
     // 初始化
-    ChartLine.prototype.init = function() {
+    ChartBarQuarter.prototype.init = function() {
 
         this.options.type = "bar-quarter";
         var canvas = document.createElement("canvas");
@@ -89,7 +89,7 @@ var ChartLine = (function() {
     };
 
     // 绘图
-    ChartLine.prototype.draw = function(callback) {
+    ChartBarQuarter.prototype.draw = function(callback) {
         // 删除canvas画布
         this.clear();
         // 初始化
@@ -151,28 +151,25 @@ var ChartLine = (function() {
     }
     // 图表y轴坐标计算
     function get_y(y) {
-        return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        return this.options.canvas.height - (this.options.canvas.height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
     }
     // 图表x轴坐标计算
-    function get_x(x) {
+    function get_x(year_num,quarter_num) {
         var canvas = this.options.context.canvas;
         var type = this.options.type;
-        var rect_w = this.options.rect_unit.rect_w;
+        var yearUnit = this.options.yearUnit;
+        var quarterUnit = this.options.quarterUnit;
         var num = this.options.data.data.length;
         var total = this.options.data.total;
         var padding_left = this.options.padding_left;
         // var dpr = this.options.dpr;
 
-        if(type == "TL"){
-            return (canvas.width-padding_left) / total * x + padding_left;
-        }else{
-            return (canvas.width-padding_left) / num * x + padding_left - (rect_w/2);
-        }
+        return (canvas.width-padding_left) / total * year_num + padding_left + quarterUnit.rect_w * quarter_num;
         
     }
 
     // 重绘
-    ChartLine.prototype.reDraw = function() {
+    ChartBarQuarter.prototype.reDraw = function() {
         // 删除canvas画布
         this.clear();
         // 初始化
@@ -180,7 +177,7 @@ var ChartLine = (function() {
         this.draw();
     }
     // 删除canvas画布
-    ChartLine.prototype.clear = function(cb) {
+    ChartBarQuarter.prototype.clear = function(cb) {
         if(this.container){
             this.container.innerHTML = "";
         }else{
