@@ -347,6 +347,17 @@ var ChartK = (function() {
         var delayed = false;
         var delaytouch = this.options.delaytouch = true;
 
+        // if(delaytouch){
+        //     var chart_container = document.getElementById(_this.options.container);
+        //     var delay = document.createElement("div");
+        //     delay.className = "delay-div";
+        //     delay.style.height = _this.options.height + "px";
+        //     delay.style.width = _this.options.width + "px";
+        //     delay.style.display = "none";
+        //     chart_container.appendChild(delay);
+
+        // }
+
         // 触摸事件
         canvas.addEventListener("touchstart",function(event){
             // 显示交互效果
