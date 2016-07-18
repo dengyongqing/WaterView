@@ -83,7 +83,7 @@ var ChartK = (function() {
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
-        this.options.scale_count = 0;
+        this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
         // 画布上第一个图表的高度
         this.options.c_1_height = canvas.height * 0.5;
 
