@@ -46,11 +46,6 @@ var DrawBar = (function(){
         // 横坐标数据
         var xaxis = this.options.xaxis;
 
-        var year_sepe = this.options.yearUnit.rect_w - this.options.yearUnit.bar_w;
-        var quarter_sepe = this.options.quarterUnit.rect_w - this.options.quarterUnit.bar_w;
-        var current_x = this.options.padding_left + year_sepe/2;
-        // this.options.yearUnit = getYearRect.call(this,canvas.width-this.options.padding_left,this.options.series.length);
-        // this.options.quarterUnit = getQuarterRect.call(this,this.options.yearUnit.bar_w,4);
         for(var i = 0,se;se = series[i]; i++){
            
             var bar_arr = se.data;
@@ -93,111 +88,6 @@ var DrawBar = (function(){
         var quarter_sepe = this.options.quarterUnit.rect_w - this.options.quarterUnit.bar_w;
         // var dpr = this.options.dpr;
         return yearUnit.rect_w * year_num + padding_left + quarterUnit.rect_w * quarter_num + year_sepe/2 + quarter_sepe/2;
-    }
-    
-    // 绘制折线
-    function drawLine(ctx,line){
-        // 保存画笔状态
-        ctx.save();
-
-        var arr = line.data;
-        var arr_length = arr.length;
-
-        ctx.beginPath();
-
-        for(var i = 0,item;item = arr[i]; i++){
-             var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-             var y = common.get_y.call(this,item);
-             if(i == 0){
-                ctx.moveTo(this.options.padding_left,y);
-             }else if(i == arr_length - 1){
-                ctx.lineTo(x,y);
-             }else{
-                ctx.lineTo(x,y);
-             }
-        }
-        
-        // ctx.fill();
-        ctx.stroke();
-        // 恢复画笔状态
-        ctx.restore();
-    }
-
-    // 绘制折线节点（连接点）
-    function drawPoint(ctx,line){
-        // 保存画笔状态
-        ctx.save();
-
-        var arr = line.data;
-        var arr_length = arr.length;
-
-        // 节点（折线连接点半径）
-        var pointRadius = this.options.pointRadius;
-
-        for(var i = 0,item;item = arr[i]; i++){
-             ctx.beginPath();
-             var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-             var y = common.get_y.call(this,item);
-             if(i == 0){
-                ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
-                ctx.fill();
-             }else if(i == arr_length - 1){
-                
-             }else{
-                ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
-                ctx.fill();
-             }
-             
-        }
-        // 恢复画笔状态
-        ctx.restore();
-    }
-
-
-    // 绘制折线标识
-    function drawLineMark(ctx,series){
-        // 保存画笔状态
-        ctx.save();
-        var dpr = this.options.dpr;
-        var x_middle = ctx.canvas.width/2;
-        var wh = this.options.lineMarkWidth * dpr;
-        var x_start = 0;
-        var y_start = ctx.canvas.height * (7/9 - 1/18);
-
-        for(var i = 0,line;line = series[i]; i++){
-            ctx.beginPath();
-            
-            // 画笔颜色
-            ctx.strokeStyle = '#cadef8';
-            var mark_offset = (Math.floor(i/2)) * (wh + 7 * dpr);
-            var text_offset = this.options.font_size * this.options.dpr + (wh-this.options.font_size * this.options.dpr)/2;
-            if(i == 0){
-                // 填充颜色
-                ctx.fillStyle = line.color;
-                ctx.rect(x_start + 20,y_start,wh,wh);
-                ctx.fill();
-                // 填充颜色
-                ctx.fillStyle = '#333';
-                ctx.fillText(line.name, x_start + wh + 80, y_start + text_offset);
-            }else if((i + 1) % 2 == 0){
-                // 填充颜色
-                ctx.fillStyle = line.color;
-                ctx.rect(x_middle,y_start + mark_offset,wh,wh);
-                ctx.fill();
-                // 填充颜色
-                ctx.fillStyle = '#333';
-                ctx.fillText(line.name, x_middle + wh + 60, y_start + mark_offset + text_offset);
-            }else{
-                // 填充颜色
-                ctx.fillStyle = line.color;
-                ctx.rect(x_start + 20,y_start + mark_offset,wh,wh);
-                ctx.fill();
-                ctx.fillStyle = '#333';
-                ctx.fillText(line.name, x_start + wh + 80, y_start + mark_offset + text_offset);
-            }
-        }
-        // 恢复画笔状态
-        ctx.restore();
     }
 
     return DrawBar;
