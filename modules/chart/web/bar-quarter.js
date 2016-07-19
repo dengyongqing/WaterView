@@ -21,7 +21,7 @@
  */
 
 // 绘制坐标轴
-var DrawXY = require('chart/mobile/line/draw_xy');
+var DrawXY = require('chart/web/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制分时折线图
@@ -107,7 +107,7 @@ var ChartBarQuarter = (function() {
         this.options.data = {};
         this.options.data.max = getMaxMark(series);
         this.options.data.min = 0;
-        this.options.padding_left = this.options.context.measureText("1000万").width + 20;
+        this.options.padding_left = this.options.context.measureText("+1000").width;
         this.options.yearUnit = get_rect(canvas.width-this.options.padding_left,this.options.data.length);
         this.options.quarterUnit = get_rect(yearUnit.rect_w,4);
         // 绘制坐标轴
