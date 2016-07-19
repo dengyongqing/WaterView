@@ -104,9 +104,6 @@ var ChartBarQuarter = (function() {
         var series = this.options.series;
         var canvas = this.options.canvas;
         var getMaxMinValue = getMaxMark(series);
-        if(getMaxMinValue.min < 0){
-            this.options.isLessZero = true;
-        }
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
         this.options.data.min = getMaxMinValue.min;
