@@ -25,7 +25,7 @@ var DrawXY = require('chart/mobile/line/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制分时折线图
-var DrawBar = require('chart/mobile/line/bar-quarter/draw_bar'); 
+var DrawBar = require('chart/web/bar-quarter/draw_bar'); 
 // 拓展，合并，复制
 var extend = require('tools/extend');
 // 交互效果
