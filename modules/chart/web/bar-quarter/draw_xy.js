@@ -22,7 +22,6 @@
         // var type = this.options.type;
         // var dpr = this.options.dpr;
         var ctx = this.options.context;
-        console.log(this.options)
         /*Y轴上的最大值*/
         var y_max = this.options.data.max;
         /*Y轴上的最小值*/
@@ -53,14 +52,15 @@
             ctx.beginPath();
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+            var absPoint = Math.max(this.options.data.max,Math.abs(this.options.data.min));
             // 绘制纵坐标刻度
             if(this.options.data.min < 0) {
              if(i == 0){
 
-                ctx.fillText(common.format_unit(-this.options.data.max +i * this.options.data.max / 2,0), this.options.padding_left - 10, item.y);
+                ctx.fillText(common.format_unit(-absPoint +i * absPoint / 2,0), this.options.padding_left - 10, item.y);
             }
             else {
-                ctx.fillText(common.format_unit(-this.options.data.max +i * this.options.data.max / 2,0), this.options.padding_left - 10, item.y + 10);
+                ctx.fillText(common.format_unit(-absPoint +i * absPoint / 2,0), this.options.padding_left - 10, item.y + 10);
             }
 
 
@@ -86,7 +86,6 @@ function drawXMark(ctx,k_height,oc_time_arr){
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
-        console.warn(oc_time_arr.length)
         ctx.strokeStyle = "#9f9f9f";
         ctx.rect(padding_left,0,ctx.canvas.width -padding_left,this.options.c_1_height);
         ctx.stroke();

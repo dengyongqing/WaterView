@@ -100,14 +100,12 @@ var ChartBarQuarter = (function() {
         // 显示loading效果
         // inter.showLoading();
         // var _this = this;
-
         // 折线数据
         var series = this.options.series;
         var canvas = this.options.canvas;
         var getMaxMinValue = getMaxMark(series);
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
-        console.log(getMaxMinValue);
         this.options.data.min = getMaxMinValue.min;
         this.options.padding_left = this.options.context.measureText("+10000").width;
         this.options.yearUnit = getYearRect.call(this,canvas.width-this.options.padding_left,this.options.series.length);
