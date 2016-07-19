@@ -73,7 +73,7 @@ var ChartBarQuarter = (function() {
         this.options.canvas_offset_top = canvas.height/5/4;
         // 画布内容向坐偏移的距离
         this.options.padding_left = this.options.context.measureText("+1000").width;
-
+        this.options.c_1_height = 4 * canvas.height / 5;
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
@@ -105,16 +105,18 @@ var ChartBarQuarter = (function() {
         // 折线数据
         var series = this.options.series;
         var canvas = this.options.canvas;
+        var getMaxMinValue = getMaxMark(series);
         this.options.data = {};
-        this.options.data.max = getMaxMark(series);
-        this.options.data.min = 0;
+        this.options.data.max = getMaxMinValue.max;
+        console.log(getMaxMinValue);
+        this.options.data.min = getMaxMinValue.min;
         this.options.padding_left = this.options.context.measureText("+1000").width;
         this.options.yearUnit = get_rect.call(this,canvas.width-this.options.padding_left,this.options.data.length);
         this.options.quarterUnit = get_rect.call(this,this.options.yearUnit.rect_w,4);
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
-        new DrawBar(this.options);
+        // new DrawBar(this.options);
 
     };
     // 单位绘制区域
@@ -191,47 +193,17 @@ var ChartBarQuarter = (function() {
     }
 
     // 获取数组中的最大值
-    function getMaxMark(data) {
-        var max =0,count=[];
-        for(var i = 0;i<data.length;i++){
-            count = count.concat(data[i].data);
-        }
-        max = count[0];
-
-        for(var i =1;i<count.length;i++) {
-            max = Math.max(max,count[i]);
-        }
-        var step = Math.ceil((max * 1.1) / 5);
-        if(step <= 10){
-            step = Math.ceil(step);
-        }else if(step > 10 && step < 100){
-            if(step % 10 > 0){
-                step = Math.ceil(step/10) * 10;
+    function getMaxMark(series) {
+        var max = 0,min = 0,seriesLength = series.length,tempObj = {};
+        for(var i = 0;i < seriesLength; i++){
+            for(var j = 0;j < series[i].data.length;j++) {
+                max = Math.max(max,series[i].data[j].value);
+                min = Math.min(min,series[i].data[j].value);
             }
         }
-
-        else{
-            var num = step.toString().length;
-            var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
-            var middle_step = base_step + Math.pow(10,(num - 1))/2;
-            var next_step = base_step + Math.pow(10,(num - 1));
-
-            if(step == base_step){
-                step = base_step;
-            }else if(step > base_step && step <= middle_step){
-                step = middle_step;
-            }else if(step > middle_step && step <= next_step){
-                step = next_step;
-            }
-        }
-
-        // else{
-        //     var num = step.toString().length;
-        //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
-        //     step = base_step;
-        // }
-        max = step * 5;
-        return max;
+        tempObj.max = max;
+        tempObj.min = min;
+        return tempObj;
      }
 
     return ChartBarQuarter;
