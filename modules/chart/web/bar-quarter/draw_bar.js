@@ -77,11 +77,11 @@ var DrawBar = (function(){
 
     // 图表y轴坐标计算
     function get_y(y) {
+        debugger;
         if(!this.options.isLessZero){
             return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
         }else{
-            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (-y)/(this.options.data.max));
-        }
+            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (-y)/(this.options.data.max));        }
     }
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {
