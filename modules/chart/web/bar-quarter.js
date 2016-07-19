@@ -206,6 +206,9 @@ var ChartBarQuarter = (function() {
                 min = Math.min(min,series[i].data[j]);
             }
         }
+        if(max < Math.abs(min)) {
+            max = Math.abs(min) + Math.abs(min) / 16;
+        }
         tempObj.max = max + max / 16;
         tempObj.min = min;
         return tempObj;
