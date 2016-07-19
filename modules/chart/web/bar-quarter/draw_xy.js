@@ -46,16 +46,16 @@
     // 绘制分时图坐标轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         // var sepe_num = line_list_array.length;
-        ctx.fillStyle = '#b1b1b1';
-        ctx.strokeStyle = '#ccc';
+        ctx.fillStyle = '#000';
+        ctx.strokeStyle = '#eeeeee';
         ctx.textAlign = 'right';
 
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
-            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+            ctx.lineTo(ctx.canvas.width - this.options.padding_left, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText(common.format_unit(i*this.options.data.max / 5,0), this.options.padding_left-20, item.y +10);
+            ctx.fillText(common.format_unit(i*this.options.data.max / 4,0), this.options.padding_left - 10, item.y +10);
             ctx.stroke();
         }
 
@@ -66,6 +66,11 @@
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
+        ctx.strokeStyle = "#9f9f9f";
+        ctx.rect(padding_left-10,0,ctx.canvas.width -padding_left,this.options.c_1_height);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
         ctx.textAlign = 'center';
         ctx.fillStyle = '#b1b1b1';
         /*画布宽度*/
@@ -74,11 +79,10 @@
         var arr_length = oc_time_arr.length;
         for(var i = 0;i<arr_length;i++) {
             tempDate = oc_time_arr[i].value;
-           // debugger;
-                    ctx.fillText(tempDate, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);      
+            ctx.fillText(tempDate, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);      
         }
-            ctx.stroke();
-            ctx.closePath();
+        ctx.stroke();
+        ctx.closePath();
     }
     
     /*Y轴标识线列表*/

@@ -195,8 +195,8 @@ var ChartBarQuarter = (function() {
         var max = 0,min = 0,seriesLength = series.length,tempObj = {};
         for(var i = 0;i < seriesLength; i++){
             for(var j = 0;j < series[i].data.length;j++) {
-                max = Math.max(max,series[i].data[j].value);
-                min = Math.min(min,series[i].data[j].value);
+                max = Math.max(max,series[i].data[j]);
+                min = Math.min(min,series[i].data[j]);
             }
         }
         tempObj.max = max;
