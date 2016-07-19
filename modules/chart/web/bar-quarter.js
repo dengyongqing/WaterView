@@ -72,7 +72,7 @@ var ChartBarQuarter = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height/5/4;
         // 画布内容向坐偏移的距离
-        this.options.padding_left = this.options.context.measureText("+1000").width;
+        this.options.padding_left = this.options.context.measureText("+10000").width;
         this.options.c_1_height = 4 * canvas.height / 5;
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
@@ -101,16 +101,14 @@ var ChartBarQuarter = (function() {
         // 显示loading效果
         // inter.showLoading();
         // var _this = this;
-
         // 折线数据
         var series = this.options.series;
         var canvas = this.options.canvas;
         var getMaxMinValue = getMaxMark(series);
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
-        console.log(getMaxMinValue);
         this.options.data.min = getMaxMinValue.min;
-        this.options.padding_left = this.options.context.measureText("+1000").width;
+        this.options.padding_left = this.options.context.measureText("+10000").width;
         this.options.yearUnit = get_rect.call(this,canvas.width-this.options.padding_left,this.options.data.length);
         this.options.quarterUnit = get_rect.call(this,this.options.yearUnit.rect_w,4);
         
