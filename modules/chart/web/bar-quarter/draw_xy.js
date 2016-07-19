@@ -62,9 +62,6 @@
             else {
                 ctx.fillText(common.format_unit(-absPoint +i * absPoint / 2,0), this.options.padding_left - 10, item.y + 10);
             }
-
-
-
         }
         else {
            if(i == 0){

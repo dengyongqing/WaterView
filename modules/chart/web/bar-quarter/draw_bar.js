@@ -45,16 +45,28 @@ var DrawBar = (function(){
         var series = this.options.series;
         // 横坐标数据
         var xaxis = this.options.xaxis;
+
+        var year_sepe = this.options.yearUnit.rect_w - this.options.yearUnit.bar_w;
+        var quarter_sepe = this.options.quarterUnit.rect_w - this.options.quarterUnit.bar_w;
+        var current_x = this.options.padding_left + year_sepe/2;
+        // this.options.yearUnit = getYearRect.call(this,canvas.width-this.options.padding_left,this.options.series.length);
+        // this.options.quarterUnit = getQuarterRect.call(this,this.options.yearUnit.bar_w,4);
         for(var i = 0,se;se = series[i]; i++){
-            // 填充颜色
-            ctx.fillStyle = xaxis[i].color == undefined ? "#333" : xaxis[i].color;
-            // 画笔颜色
-            ctx.strokeStyle = xaxis[i].color == undefined ? "#333" : xaxis[i].color;
+           
             var bar_arr = se.data;
+            current_x = current_x + year_sepe/2 * (i+1);
 
             for(var j = 0,bar;bar = bar_arr[j]; j++){
+                current_x = current_x + quarter_sepe/2 * (j+1);
+                ctx.beginPath();
+                // 填充颜色
+                ctx.fillStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
+                // 画笔颜色
+                ctx.strokeStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,bar);
+                ctx.rect(x,y,this.options.quarterUnit.bar_w,this.options.c_1_height - y);
+                ctx.fill();
             }
             
         }
@@ -68,11 +80,14 @@ var DrawBar = (function(){
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {
         var canvas = this.options.context.canvas;
+        var yearUnit = this.options.yearUnit;
         var quarterUnit = this.options.quarterUnit;
         var total = this.options.series.length;
         var padding_left = this.options.padding_left;
+        var year_sepe = this.options.yearUnit.rect_w - this.options.yearUnit.bar_w;
+        var quarter_sepe = this.options.quarterUnit.rect_w - this.options.quarterUnit.bar_w;
         // var dpr = this.options.dpr;
-        return (canvas.width-padding_left) / total * year_num + padding_left + quarterUnit.rect_w * quarter_num + quarterUnit.rect_w/2;
+        return yearUnit.rect_w * year_num + padding_left + quarterUnit.rect_w * quarter_num + year_sepe/2 + quarter_sepe/2;
     }
     
     // 绘制折线
