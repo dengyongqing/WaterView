@@ -70,7 +70,7 @@ var ChartBarQuarter = (function() {
         canvas.height = this.options.height * dpr;
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = 10;
+        this.options.canvas_offset_top = canvas.height/5/4;
         // 画布内容向坐偏移的距离
         this.options.padding_left = this.options.context.measureText("+1000").width;
 
@@ -83,6 +83,8 @@ var ChartBarQuarter = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
+        this.options.yearUnitSpacing = "0.2";
+        this.options.quarterUnitSpacing = "0.4";
         
         // 容器中添加画布
         this.container.appendChild(canvas);
@@ -165,7 +167,6 @@ var ChartBarQuarter = (function() {
         // var dpr = this.options.dpr;
 
         return (canvas.width-padding_left) / total * year_num + padding_left + quarterUnit.rect_w * quarter_num;
-        
     }
 
     // 重绘
