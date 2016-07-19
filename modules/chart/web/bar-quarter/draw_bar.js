@@ -80,7 +80,7 @@ var DrawBar = (function(){
         if(!this.options.isLessZero){
             return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
         }else{
-            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (0 - y)/(this.options.data.max * 2));
         }
     }
     // 图表x轴坐标计算
