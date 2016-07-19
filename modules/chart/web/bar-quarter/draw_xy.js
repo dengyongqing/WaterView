@@ -49,37 +49,58 @@
         ctx.fillStyle = '#000';
         ctx.strokeStyle = '#eeeeee';
         ctx.textAlign = 'right';
-
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
-            ctx.lineTo(ctx.canvas.width - this.options.padding_left, Math.round(item.y));
+            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText(common.format_unit(i*this.options.data.max / 4,0), this.options.padding_left - 10, item.y +10);
-            ctx.stroke();
-        }
+            if(this.options.data.min < 0) {
+             if(i == 0){
 
+                ctx.fillText(common.format_unit(-this.options.data.max +i * this.options.data.max / 2,0), this.options.padding_left - 10, item.y);
+            }
+            else {
+                ctx.fillText(common.format_unit(-this.options.data.max +i * this.options.data.max / 2,0), this.options.padding_left - 10, item.y + 10);
+            }
+
+
+
+        }
+        else {
+           if(i == 0){
+
+            ctx.fillText(common.format_unit(i*this.options.data.max / 4,0), this.options.padding_left - 10, item.y);
+        }
+        else {
+            ctx.fillText(common.format_unit(i*this.options.data.max / 4,0), this.options.padding_left - 10, item.y +10);
+        }
     }
 
-    /*绘制横坐标刻度值*/
-    function drawXMark(ctx,k_height,oc_time_arr){
+    ctx.stroke();
+}
+
+}
+
+/*绘制横坐标刻度值*/
+function drawXMark(ctx,k_height,oc_time_arr){
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
+        console.warn(oc_time_arr.length)
         ctx.strokeStyle = "#9f9f9f";
-        ctx.rect(padding_left-10,0,ctx.canvas.width -padding_left,this.options.c_1_height);
+        ctx.rect(padding_left,0,ctx.canvas.width -padding_left,this.options.c_1_height);
         ctx.stroke();
         ctx.closePath();
         ctx.beginPath();
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#b1b1b1';
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#000';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var tempDate;
         var arr_length = oc_time_arr.length;
         for(var i = 0;i<arr_length;i++) {
             tempDate = oc_time_arr[i].value;
-            ctx.fillText(tempDate, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);      
+            ctx.fillText(tempDate, i * (k_width - padding_left) / (arr_length) +padding_left +ctx.measureText(tempDate).width / 2, this.options.c_1_height+30);      
         }
         ctx.stroke();
         ctx.closePath();
