@@ -26,8 +26,8 @@ var extend = require('tools/extend');
 var theme = require('theme/default');
 /*工具*/
 var common = require('common');
-var DrawLine = (function(){
-    function DrawLine(options){
+var DrawBar = (function(){
+    function DrawBar(options){
         // 设置默认参数
         this.defaultoptions = theme.drawLine;
         this.options = {};
@@ -37,7 +37,7 @@ var DrawLine = (function(){
     };
     
     // 绘图
-    DrawLine.prototype.draw = function(){
+    DrawBar.prototype.draw = function(){
 
         var ctx = this.options.context;
         ctx.lineWidth = 1 * this.options.dpr + 1;

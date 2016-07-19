@@ -22,14 +22,14 @@
         // var type = this.options.type;
         // var dpr = this.options.dpr;
         var ctx = this.options.context;
-
+        console.log(this.options)
         /*Y轴上的最大值*/
         var y_max = this.options.data.max;
         /*Y轴上的最小值*/
         var y_min = 0;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = 6;
+        var sepe_num = 5;
         /*开盘收盘时间数组*/
         var oc_time_arr = this.options.xaxis;
 
@@ -70,36 +70,15 @@
         ctx.fillStyle = '#b1b1b1';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
-        // var y_date = this.options.c_1_height;
         var tempDate;
-        // var timeSpacing = (this.options.width * dpr - padding_left) / oc_time_arr.length + padding_left;
         var arr_length = oc_time_arr.length;
-
         for(var i = 0;i<arr_length;i++) {
-            tempDate = oc_time_arr[i];
-            if(tempDate.show == undefined ? true : tempDate.show){
-                if(i < arr_length - 1){
-                    ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
-                    ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+70);
-                }
-            }
-
-            if(tempDate.showline == undefined ? true : tempDate.showline){
-                ctx.strokeStyle = '#ccc';
-                ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
-                ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
-            }
-
+            tempDate = oc_time_arr[i].value;
+           // debugger;
+                    ctx.fillText(tempDate, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);      
         }
-
-
-        // var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-
-            // 绘制坐标刻度
             ctx.stroke();
-
-
-        // ctx.moveTo(0,k_height + 10);
+            ctx.closePath();
     }
     
     /*Y轴标识线列表*/
