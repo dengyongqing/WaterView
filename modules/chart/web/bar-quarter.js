@@ -113,7 +113,7 @@ var ChartBarQuarter = (function() {
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
-        new DrawLine(this.options);
+        new DrawBar(this.options);
 
     };
     // 单位绘制区域
