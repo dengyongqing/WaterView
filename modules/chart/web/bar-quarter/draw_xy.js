@@ -53,6 +53,7 @@
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             var absPoint = Math.max(this.options.data.max,Math.abs(this.options.data.min));
+            absPoint = absPoint.toFixed(0);
             // 绘制纵坐标刻度
             if(this.options.data.min < 0) {
              if(i == 0){
@@ -66,10 +67,10 @@
         else {
            if(i == 0){
 
-            ctx.fillText(common.format_unit(i*this.options.data.max / 4,0), this.options.padding_left - 10, item.y);
+            ctx.fillText(common.format_unit((i*absPoint / 4).toFixed(0),0), this.options.padding_left - 10, item.y);
         }
         else {
-            ctx.fillText(common.format_unit(i*this.options.data.max / 4,0), this.options.padding_left - 10, item.y +10);
+            ctx.fillText(common.format_unit((i*this.options.data.max / 4).toFixed(0),0), this.options.padding_left - 10, item.y +10);
         }
     }
 

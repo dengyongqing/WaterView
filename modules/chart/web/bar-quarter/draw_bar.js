@@ -54,10 +54,8 @@ var DrawBar = (function(){
         for(var i = 0,se;se = series[i]; i++){
            
             var bar_arr = se.data;
-            current_x = current_x + year_sepe/2 * (i+1);
 
             for(var j = 0,bar;bar = bar_arr[j]; j++){
-                current_x = current_x + quarter_sepe/2 * (j+1);
                 ctx.beginPath();
                 // 填充颜色
                 ctx.fillStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
@@ -65,7 +63,11 @@ var DrawBar = (function(){
                 ctx.strokeStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,bar);
-                ctx.rect(x,y,this.options.quarterUnit.bar_w,this.options.c_1_height - y);
+                if(!this.options.isLessZero){
+                    ctx.rect(x,y,this.options.quarterUnit.bar_w,this.options.c_1_height/2 - y);
+                }else{
+                    ctx.rect(x,this.options.c_1_height/2,this.options.quarterUnit.bar_w,this.options.c_1_height/2 - y);
+                }
                 ctx.fill();
             }
             
@@ -75,7 +77,11 @@ var DrawBar = (function(){
 
     // 图表y轴坐标计算
     function get_y(y) {
-        return this.options.canvas.height - (this.options.canvas.height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        if(!this.options.isLessZero){
+            return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        }else{
+            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        }
     }
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {

@@ -104,6 +104,10 @@ var ChartBarQuarter = (function() {
         var series = this.options.series;
         var canvas = this.options.canvas;
         var getMaxMinValue = getMaxMark(series);
+        if(getMaxMinValue.min < 0){
+            this.options.lessZero = true;
+        }
+        
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
         this.options.data.min = getMaxMinValue.min;
@@ -164,7 +168,11 @@ var ChartBarQuarter = (function() {
     }
     // 图表y轴坐标计算
     function get_y(y) {
-        return this.options.canvas.height - (this.options.canvas.height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        if(y >= 0){
+            return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        }else{
+            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        }
     }
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {
@@ -206,7 +214,8 @@ var ChartBarQuarter = (function() {
                 min = Math.min(min,series[i].data[j]);
             }
         }
-        tempObj.max = max;
+
+        tempObj.max = max + max / 16;
         tempObj.min = min;
         return tempObj;
      }
