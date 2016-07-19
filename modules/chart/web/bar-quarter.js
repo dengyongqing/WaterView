@@ -21,7 +21,7 @@
  */
 
 // 绘制坐标轴
-var DrawXY = require('chart/web/draw_xy');
+var DrawXY = require('chart/web/bar-quarter/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制分时折线图
@@ -37,7 +37,7 @@ var ChartBarQuarter = (function() {
 
     // 构造函数
     function ChartBarQuarter(options) {
-        this.defaultoptions = theme.chartLine;
+        this.defaultoptions = theme.default;
         this.options = {};
         extend(true, this.options, theme.default, this.defaultoptions, options);
 
@@ -104,12 +104,14 @@ var ChartBarQuarter = (function() {
 
         // 折线数据
         var series = this.options.series;
+        var canvas = this.options.canvas;
         this.options.data = {};
         this.options.data.max = getMaxMark(series);
         this.options.data.min = 0;
         this.options.padding_left = this.options.context.measureText("+1000").width;
-        this.options.yearUnit = get_rect(canvas.width-this.options.padding_left,this.options.data.length);
-        this.options.quarterUnit = get_rect(yearUnit.rect_w,4);
+        this.options.yearUnit = get_rect.call(this,canvas.width-this.options.padding_left,this.options.data.length);
+        this.options.quarterUnit = get_rect.call(this,this.options.yearUnit.rect_w,4);
+        
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
@@ -119,7 +121,7 @@ var ChartBarQuarter = (function() {
     // 单位绘制区域
     function get_rect(width,num) {
         var rect_w = width / num;
-        var bar_w = rect_w * (1 - this.options.spacing);
+        var bar_w = rect_w * (1 - this.options.quarterUnitSpacing);
         return {
             rect_w:rect_w,
             bar_w:bar_w
@@ -158,10 +160,7 @@ var ChartBarQuarter = (function() {
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {
         var canvas = this.options.context.canvas;
-        var type = this.options.type;
-        var yearUnit = this.options.yearUnit;
         var quarterUnit = this.options.quarterUnit;
-        var num = this.options.data.data.length;
         var total = this.options.data.total;
         var padding_left = this.options.padding_left;
         // var dpr = this.options.dpr;
@@ -233,7 +232,7 @@ var ChartBarQuarter = (function() {
         return max;
      }
 
-    return ChartLine;
+    return ChartBarQuarter;
 })();
 
-module.exports = ChartLine;
+module.exports = ChartBarQuarter;
