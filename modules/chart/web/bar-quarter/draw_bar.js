@@ -44,23 +44,36 @@ var DrawBar = (function(){
         // 折线数据
         var series = this.options.series;
         // 横坐标数据
-        // var xaxis = this.options.xaxis;
-        for(var i = 0,line;line = series[i]; i++){
+        var xaxis = this.options.xaxis;
+        for(var i = 0,se;se = series[i]; i++){
             // 填充颜色
-            ctx.fillStyle = line.color == undefined ? "#333" : line.color;
+            ctx.fillStyle = xaxis[i].color == undefined ? "#333" : xaxis[i].color;
             // 画笔颜色
-            ctx.strokeStyle = line.color == undefined ? "#333" : line.color;
-            drawLine.apply(this,[ctx,line]);
-                        
-            if(line.showpoint){
-                drawPoint.apply(this,[ctx,line]);
+            ctx.strokeStyle = xaxis[i].color == undefined ? "#333" : xaxis[i].color;
+            var bar_arr = se.data;
+
+            for(var j = 0,bar;bar = bar_arr[j]; j++){
+                var x = get_x.apply(this,[i,j]);
+                var y = get_y.call(this,bar);
             }
             
         }
-        if(this.options.showflag){
-            drawLineMark.apply(this,[ctx,series]);
-        }
+     
     };
+
+    // 图表y轴坐标计算
+    function get_y(y) {
+        return this.options.canvas.height - (this.options.canvas.height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+    }
+    // 图表x轴坐标计算
+    function get_x(year_num,quarter_num) {
+        var canvas = this.options.context.canvas;
+        var quarterUnit = this.options.quarterUnit;
+        var total = this.options.series.length;
+        var padding_left = this.options.padding_left;
+        // var dpr = this.options.dpr;
+        return (canvas.width-padding_left) / total * year_num + padding_left + quarterUnit.rect_w * quarter_num + quarterUnit.rect_w/2;
+    }
     
     // 绘制折线
     function drawLine(ctx,line){
@@ -167,7 +180,7 @@ var DrawBar = (function(){
         ctx.restore();
     }
 
-    return DrawLine;
+    return DrawBar;
 })();
 
-module.exports = DrawLine;
+module.exports = DrawBar;

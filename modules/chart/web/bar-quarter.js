@@ -72,7 +72,6 @@ var ChartBarQuarter = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height/5/4;
         // 画布内容向坐偏移的距离
-        this.options.padding_left = this.options.context.measureText("+1000").width;
         this.options.c_1_height = 4 * canvas.height / 5;
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
@@ -110,18 +109,28 @@ var ChartBarQuarter = (function() {
         this.options.data.max = getMaxMinValue.max;
         console.log(getMaxMinValue);
         this.options.data.min = getMaxMinValue.min;
-        this.options.padding_left = this.options.context.measureText("+1000").width;
-        this.options.yearUnit = get_rect.call(this,canvas.width-this.options.padding_left,this.options.data.length);
-        this.options.quarterUnit = get_rect.call(this,this.options.yearUnit.rect_w,4);
+        this.options.padding_left = this.options.context.measureText("+10000").width;
+        this.options.yearUnit = getYearRect.call(this,canvas.width-this.options.padding_left,this.options.series.length);
+        this.options.quarterUnit = getQuarterRect.call(this,this.options.yearUnit.bar_w,4);
         
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
-        // new DrawBar(this.options);
+        new DrawBar(this.options);
 
     };
     // 单位绘制区域
-    function get_rect(width,num) {
+    function getYearRect(width,num) {
+        var rect_w = width / num;
+        var bar_w = rect_w * (1 - this.options.yearUnitSpacing);
+        return {
+            rect_w:rect_w,
+            bar_w:bar_w
+        };
+    }
+
+    // 单位绘制区域
+    function getQuarterRect(width,num) {
         var rect_w = width / num;
         var bar_w = rect_w * (1 - this.options.quarterUnitSpacing);
         return {
