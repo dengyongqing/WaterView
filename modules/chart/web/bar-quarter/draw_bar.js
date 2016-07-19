@@ -77,7 +77,6 @@ var DrawBar = (function(){
 
     // 图表y轴坐标计算
     function get_y(y) {
-        debugger;
         if(!this.options.isLessZero){
             return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
         }else{
