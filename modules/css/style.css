@@ -158,3 +158,27 @@
 	background: url(../images/bang-26-26.png) no-repeat center center/15px 15px #fff;
 	opacity: 1;
 }
+
+/*web港股的样式*/
+.web-tips{
+	display: none;
+	left: -10000px;
+	right: -10000px;
+	position: absolute;
+	height: 25px;
+	width: 45px;
+	background-color: #898989;
+	border-radius: 2px;
+	z-index: 10000;
+	display: inline-block;
+	line-height: 25px;
+	color: white;
+	font-size: 14px;
+	text-align: center;
+}
+.web-middleLine{
+	display: none;
+	position: absolute;
+	width: 0px;
+	border-right: dashed 2px #898989;
+}
