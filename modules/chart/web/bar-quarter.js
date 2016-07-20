@@ -218,11 +218,11 @@ var ChartBarQuarter = (function () {
         //绘制tips的坐标
         result.tipsX = result.midddleLine + 3*quarterUnit.bar_w/4;
         result.tipsY = get_y.call(this, - this.options.series[numYear].data[numQuarter]);
-        if(result.tipsX < canvas.width/2){
-            result.tipsX = result.midddleLine - 7*quarterUnit.bar_w/4 - 45;
+        if(result.tipsX > canvas.width/2){
+            result.tipsX = result.midddleLine - 3*quarterUnit.bar_w/4 - 45;
         }
         if(this.options.series[numYear].data[numQuarter] < 0){
-            result.tipsY -= 50;
+            result.tipsY -= 25;
         }
         result.midddleLineHeight = result.tipsY;
 
