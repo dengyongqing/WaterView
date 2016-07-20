@@ -37,9 +37,9 @@
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
-        if(this.options.type == 'quarter-line') {
+        // if(this.options.type == 'quarter-line') {
             addGradient.call(this);
-        }
+        // }
 
         drawXYLine.call(this,ctx,y_max,y_min,line_list_array);
 
