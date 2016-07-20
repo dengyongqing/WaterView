@@ -211,12 +211,12 @@ var ChartBarQuarter = (function() {
         }
 
         // 绘制的虚线的x坐标
-        result.midddleLine = get_x.call(this, numYear, numQuarter) + 3*quarterUnit.bar_w/4;
+        result.midddleLine = get_x.call(this, numYear, numQuarter) + 3*quarterUnit.bar_w/4 + 1;
         //绘制tips的坐标
-        result.tipsX = result.midddleLine + 3 * quarterUnit.bar_w / 4;
+        result.tipsX = result.midddleLine +  quarterUnit.bar_w / 2;
         result.tipsY = get_y.call(this, -this.options.series[numYear].data[numQuarter]);
         if (result.tipsX > canvas.width / 2) {
-            result.tipsX = result.midddleLine - 3 * quarterUnit.bar_w / 4 - 45;
+            result.tipsX = result.midddleLine - quarterUnit.bar_w / 2 - 45;
         }
         
 
