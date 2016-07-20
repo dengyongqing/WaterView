@@ -26,16 +26,16 @@ var DrawXY = require('chart/web/bar-quarter/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制分时折线图
-var DrawBar = require('chart/web/bar-quarter/draw_bar');
+var DrawLine = require('chart/web/line-quarter/draw_line');
 // 拓展，合并，复制
 var extend = require('tools/extend');
 // 水印
 var watermark = require('chart/watermark');
 
-var ChartBarQuarter = (function () {
+var ChartLineQuarter = (function () {
 
     // 构造函数
-    function ChartBarQuarter(options) {
+    function ChartLineQuarter(options) {
         this.defaultoptions = theme.default;
         this.options = {};
         extend(true, this.options, theme.default, this.defaultoptions, options);
@@ -50,9 +50,9 @@ var ChartBarQuarter = (function () {
     }
 
     // 初始化
-    ChartBarQuarter.prototype.init = function () {
+    ChartLineQuarter.prototype.init = function () {
 
-        this.options.type = "bar-quarter";
+        this.options.type = "quarter-line";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -82,14 +82,14 @@ var ChartBarQuarter = (function () {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
         this.options.yearUnitSpacing = "0.2";
-        this.options.quarterUnitSpacing = "0.4";
+        this.options.quarterUnitSpacing = "0";
 
         // 容器中添加画布
         this.container.appendChild(canvas);
     };
 
     // 绘图
-    ChartBarQuarter.prototype.draw = function (callback) {
+    ChartLineQuarter.prototype.draw = function (callback) {
         // 删除canvas画布
         this.clear();
         // 初始化
@@ -114,9 +114,9 @@ var ChartBarQuarter = (function () {
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
-        new DrawBar(this.options);
+        new DrawLine(this.options);
         //添加交互
-        this.addInteractive();
+        // this.addInteractive();
 
     };
     // 单位绘制区域
@@ -232,7 +232,7 @@ var ChartBarQuarter = (function () {
         return result;
     }
 
-    ChartBarQuarter.prototype.addInteractive = function () {
+    ChartLineQuarter.prototype.addInteractive = function () {
         var canvas = this.options.canvas;
         var _that = this;
         var tips = document.createElement("div");
@@ -279,7 +279,7 @@ var ChartBarQuarter = (function () {
     };
 
     // 重绘
-    ChartBarQuarter.prototype.reDraw = function () {
+    ChartLineQuarter.prototype.reDraw = function () {
         // 删除canvas画布
         this.clear();
         // 初始化
@@ -287,7 +287,7 @@ var ChartBarQuarter = (function () {
         this.draw();
     }
     // 删除canvas画布
-    ChartBarQuarter.prototype.clear = function (cb) {
+    ChartLineQuarter.prototype.clear = function (cb) {
         if (this.container) {
             this.container.innerHTML = "";
         } else {
@@ -319,7 +319,7 @@ var ChartBarQuarter = (function () {
         return tempObj;
     }
 
-    return ChartBarQuarter;
+    return ChartLineQuarter;
 })();
 
-module.exports = ChartBarQuarter;
+module.exports = ChartLineQuarter;
