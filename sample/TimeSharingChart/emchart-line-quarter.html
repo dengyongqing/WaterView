@@ -51,13 +51,9 @@
 	
 	<script type="text/javascript">
 		
-		var one_quarter = "#ffc962";
-		var two_quarter = "#ffb527";
-		var three_quarter = "#ff9c00";
-		var four_quarter = "#ff7e00";
 
 		window.onload = function(){
-			current_tab = k0 = new EmchartsWebBarQuarter({
+			current_tab = k0 = new EmchartsWebLineQuarter({
 				dpr: 1,
 	        	container : "emchart-0",
 		        "width" : document.body.offsetWidth - 20,
@@ -65,49 +61,39 @@
 		        showflag: true,
 		        xaxis: [{
 			        	value:"2010",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	showline:true,
+			        	show:true
 			        },{
 			        	value:"2011",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	showline:true,
+			        	show:false
 			        },{
 			        	value:"2012",
-			        	colors:["#a9f392","#8be96f","#5ad834","#44ca1b"]
+			        	showline:true,
+			        	show:true
 			        },{
 			        	value:"2013",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	showline:true,
+			        	show:false
 			        },{
 			        	value:"2014",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	showline:true,
+			        	show:true
 			        },{
 			        	value:"2015",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	showline:true,
+			        	show:false
 			        },{
 			        	value:"2016",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	showline:true,
+			        	show:true
 			        }],
 		        series:[
 					{	
-						name:"2010",
-						data:[500,700,900,1100]
-					},
-					{	
-						name:"2011",
-						data:[500,700,900,1100]
-					},{	
-						name:"2012",
-						data:[-500,-700,-900,-1100]
-					},{	
-						name:"2013",
-						data:[500,700,900,1100]
-					},{	
-						name:"2014",
-						data:[500,700,900,1100]
-					},{	
-						name:"2015",
-						data:[500,700,900,1100]
-					},{	
-						name:"2016",
-						data:[500,700,900,1100]
+						name:"5日均线",
+						color:"#ff5000",
+						showpoint:false,
+						data:[4000000,3000000,6000000,7000000,5000000,7000000,4000000,3000000,6000000]
 					}
 				]
 	        });
