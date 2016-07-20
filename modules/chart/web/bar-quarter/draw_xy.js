@@ -24,6 +24,7 @@
         var ctx = this.options.context;
         /*Y轴上的最大值*/
         var y_max = this.options.data.max;
+        console.log(this.options)
         /*Y轴上的最小值*/
         var y_min = 0;
 
@@ -36,6 +37,9 @@
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
+        if(this.options.type == 'quarter-line') {
+            addGradient.call(this);
+        }
 
         drawXYLine.call(this,ctx,y_max,y_min,line_list_array);
 
@@ -56,7 +60,7 @@
             absPoint = absPoint.toFixed(0);
             // 绘制纵坐标刻度
             if(this.options.data.min < 0) {
-             if(i == 0){
+               if(i == 0){
 
                 ctx.fillText(common.format_unit(-absPoint +i * absPoint / 2,0), this.options.padding_left - 10, item.y);
             }
@@ -65,7 +69,7 @@
             }
         }
         else {
-           if(i == 0){
+         if(i == 0){
 
             ctx.fillText(common.format_unit((i*absPoint / 4).toFixed(0),0), this.options.padding_left - 10, item.y);
         }
@@ -101,23 +105,44 @@ function drawXMark(ctx,k_height,oc_time_arr){
         }
         ctx.stroke();
         ctx.closePath();
-    }
-    
-    /*Y轴标识线列表*/
-    function getLineList(y_max, y_min, sepe_num, k_height) {
-        var ratio = (y_max - y_min) / (sepe_num-1);
-        var result = [];
-        for (var i = 0; i < sepe_num; i++) {
-            result.push({
-                num:  (y_min + i * ratio),
-                x: 0,
-                y: k_height - (i / (sepe_num-1)) * k_height
-            });
-        }
-        return result;
+
+
+
     }
 
-    return DrawXY;
+    function addGradient(){
+        var sepGradientLen = (this.options.canvas.width - this.options.padding_left) / this.options.series.length;
+        var ctx = this.options.context;
+        for(var i = 0;i < this.options.series.length;i++) {
+            if(i % 2 == 0) {
+             ctx.beginPath();
+             var grad  = ctx.createLinearGradient(0,0,0,this.options.c_1_height);
+             grad.addColorStop(0,'rgba(255,255,255,0)');
+             grad.addColorStop(1,'rgba(245,245,245,1)');
+             ctx.fillStyle = grad;
+             ctx.rect(this.options.padding_left + i * sepGradientLen,0,sepGradientLen,this.options.c_1_height);
+             ctx.fill();
+             ctx.closePath();
+         }
+
+     }
+ }
+
+ /*Y轴标识线列表*/
+ function getLineList(y_max, y_min, sepe_num, k_height) {
+    var ratio = (y_max - y_min) / (sepe_num-1);
+    var result = [];
+    for (var i = 0; i < sepe_num; i++) {
+        result.push({
+            num:  (y_min + i * ratio),
+            x: 0,
+            y: k_height - (i / (sepe_num-1)) * k_height
+        });
+    }
+    return result;
+}
+
+return DrawXY;
 })();
 
 module.exports = DrawXY;
