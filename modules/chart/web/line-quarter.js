@@ -229,6 +229,8 @@ var ChartBarQuarter = (function() {
         return result;
     }
 
+
+    //添加交互
     ChartBarQuarter.prototype.addInteractive = function() {
         var canvas = this.options.canvas;
         var _that = this;
@@ -243,41 +245,6 @@ var ChartBarQuarter = (function() {
         var offSetTop = this.options.canvas_offset_top;
         var yHeight = this.options.c_1_height;
         var timeId;
-        var showTips = function(e, status) {
-            var winX, winY;
-            //浏览器检测，获取到相对元素的x和y
-            if (e.layerX) {
-                winX = e.layerX;
-                winY = e.layerY;
-            } else if (e.offsetX) {
-                winX = e.offsetX;
-                winY = e.offsetY;
-            }
-            //当超出坐标系框就不显示交互
-            if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
-                tips.style.display = "inline-block";
-                middleLine.style.display = "inline-block";
-            } else {
-                tips.style.display = "none";
-                middleLine.style.display = "none";
-            }
-            //获取交互的信息，包括tips的坐标，middline的坐标和tips的内容
-            interactiveInfo = getCoordinateByClient.call(_that, winX);
-
-            if (status !== interactiveInfo.arr) {
-                coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, interactiveInfo.midddleLine, 0);
-                coordinateWindow.tips = canvasToWindow.call(_that, canvas, interactiveInfo.tipsX, interactiveInfo.tipsY);
-                //绘制tips
-                tips.style.left = coordinateWindow.tips.x + "px";
-                tips.style.top = coordinateWindow.tips.y + "px";
-                tips.innerHTML = interactiveInfo.content;
-                //绘制中线
-                middleLine.style.height = yHeight + "px";
-                middleLine.style.left = coordinateWindow.midddleLine.x + "px";
-                middleLine.style.top = offSetTop + "px";
-                status = interactiveInfo.arr;
-            }
-        };
 
         tips.setAttribute("class", "web-tips");
         middleLine.setAttribute("class", "web-middleLine");
@@ -290,7 +257,42 @@ var ChartBarQuarter = (function() {
             }
 
             timeId = setTimeout(function() {
-                showTips(e, status);
+                // showTips(e, status);
+                (function(e, status) {
+                    var winX, winY;
+                    //浏览器检测，获取到相对元素的x和y
+                    if (e.layerX) {
+                        winX = e.layerX;
+                        winY = e.layerY;
+                    } else if (e.offsetX) {
+                        winX = e.offsetX;
+                        winY = e.offsetY;
+                    }
+                    //当超出坐标系框就不显示交互
+                    if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
+                        tips.style.display = "inline-block";
+                        middleLine.style.display = "inline-block";
+                    } else {
+                        tips.style.display = "none";
+                        middleLine.style.display = "none";
+                    }
+                    //获取交互的信息，包括tips的坐标，middline的坐标和tips的内容
+                    interactiveInfo = getCoordinateByClient.call(_that, winX);
+
+                    if (status !== interactiveInfo.arr) {
+                        coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, interactiveInfo.midddleLine, 0);
+                        coordinateWindow.tips = canvasToWindow.call(_that, canvas, interactiveInfo.tipsX, interactiveInfo.tipsY);
+                        //绘制tips
+                        tips.style.left = coordinateWindow.tips.x + "px";
+                        tips.style.top = coordinateWindow.tips.y + "px";
+                        tips.innerHTML = interactiveInfo.content;
+                        //绘制中线
+                        middleLine.style.height = yHeight + "px";
+                        middleLine.style.left = coordinateWindow.midddleLine.x + "px";
+                        middleLine.style.top = offSetTop + "px";
+                        status = interactiveInfo.arr;
+                    }
+                })(e, status);
             }, 10);
 
         }, false);

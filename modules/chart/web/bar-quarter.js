@@ -244,6 +244,7 @@ var ChartBarQuarter = (function() {
         var padding_left = this.options.padding_left;
         var offSetTop = this.options.canvas_offset_top;
         var yHeight = this.options.c_1_height;
+        var timeId;
 
         tips.setAttribute("class", "web-tips");
         middleLine.setAttribute("class", "web-middleLine");
@@ -251,39 +252,46 @@ var ChartBarQuarter = (function() {
         _that.container.appendChild(middleLine);
 
         canvas.addEventListener('mousemove', function(e) {
-            var winX, winY;
-            //浏览器检测，获取到相对元素的x和y
-            if(e.layerX){
-                winX = e.layerX;
-                winY = e.layerY;
-            }else if(e.offsetX){
-                winX = e.offsetX;
-                winY = e.offsetY;
+            if (timeId) {
+                clearTimeout(timeId);
             }
-            //当超出坐标系框就不显示交互
-            if (winX >= padding_left && (winY >= offSetTop && winY*dpr < (offSetTop * dpr + yHeight))) {
-                tips.style.display = "inline-block";
-                middleLine.style.display = "inline-block";
-            } else {
-                tips.style.display = "none";
-                middleLine.style.display = "none";
-            }
-            //canvas中是坐标与屏幕坐标之间的相互转换
+            timeId = setTimeout(function() {
+                (function(e, status) {
+                    var winX, winY;
+                    //浏览器检测，获取到相对元素的x和y
+                    if (e.layerX) {
+                        winX = e.layerX;
+                        winY = e.layerY;
+                    } else if (e.offsetX) {
+                        winX = e.offsetX;
+                        winY = e.offsetY;
+                    }
+                    //当超出坐标系框就不显示交互
+                    if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
+                        tips.style.display = "inline-block";
+                        middleLine.style.display = "inline-block";
+                    } else {
+                        tips.style.display = "none";
+                        middleLine.style.display = "none";
+                    }
+                    //canvas中是坐标与屏幕坐标之间的相互转换
 
-            coordinateCanvas = getCoordinateByClient.call(_that, winX);
-            if (status !== coordinateCanvas.arr) {
-                coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, coordinateCanvas.midddleLine, 0);
-                coordinateWindow.tips = canvasToWindow.call(_that, canvas, coordinateCanvas.tipsX, coordinateCanvas.tipsY);
-                //绘制tips
-                tips.style.left = coordinateWindow.tips.x + "px";
-                tips.style.top = coordinateWindow.tips.y + "px";
-                tips.innerHTML = coordinateCanvas.content;
-                //绘制中线
-                middleLine.style.height = yHeight + "px";
-                middleLine.style.left = coordinateWindow.midddleLine.x + "px";
-                middleLine.style.top = offSetTop + "px";
-                status = coordinateCanvas.arr;
-            }
+                    coordinateCanvas = getCoordinateByClient.call(_that, winX);
+                    if (status !== coordinateCanvas.arr) {
+                        coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, coordinateCanvas.midddleLine, 0);
+                        coordinateWindow.tips = canvasToWindow.call(_that, canvas, coordinateCanvas.tipsX, coordinateCanvas.tipsY);
+                        //绘制tips
+                        tips.style.left = coordinateWindow.tips.x + "px";
+                        tips.style.top = coordinateWindow.tips.y + "px";
+                        tips.innerHTML = coordinateCanvas.content;
+                        //绘制中线
+                        middleLine.style.height = yHeight + "px";
+                        middleLine.style.left = coordinateWindow.midddleLine.x + "px";
+                        middleLine.style.top = offSetTop + "px";
+                        status = coordinateCanvas.arr;
+                    }
+                })(e, status);
+            }, 10);
         }, false);
     };
 
