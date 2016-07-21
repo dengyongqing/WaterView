@@ -53,7 +53,7 @@ var ChartBarQuarter = (function() {
     // 初始化
     ChartBarQuarter.prototype.init = function() {
 
-        this.options.type = "bar-quarter";
+        this.options.type = "quarter-line";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         this.container.style = "-moz-user-select:none;-webkit-user-select:none;";

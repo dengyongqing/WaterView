@@ -24,7 +24,6 @@
         var ctx = this.options.context;
         /*Y轴上的最大值*/
         var y_max = this.options.data.max;
-        console.log(this.options)
         /*Y轴上的最小值*/
         var y_min = 0;
 
@@ -117,7 +116,7 @@ function drawXMark(ctx,k_height,oc_time_arr){
             if(i % 2 == 0) {
              ctx.beginPath();
              var grad  = ctx.createLinearGradient(0,0,0,this.options.c_1_height);
-             grad.addColorStop(0,'rgba(245,245,245,1)');
+             grad.addColorStop(0,'rgba(255,255,255,0)');
              grad.addColorStop(1,'rgba(245,245,245,1)');
              ctx.fillStyle = grad;
              ctx.rect(this.options.padding_left + i * sepGradientLen,0,sepGradientLen,this.options.c_1_height);
