@@ -53,7 +53,7 @@ var ChartBarQuarter = (function() {
     // 初始化
     ChartBarQuarter.prototype.init = function() {
 
-        this.options.type = "bar-quarter";
+        this.options.type = "quarter-line";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -110,7 +110,7 @@ var ChartBarQuarter = (function() {
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
         this.options.data.min = getMaxMinValue.min;
-        this.options.padding_left = this.options.context.measureText("+10000").width;
+        this.options.padding_left = this.options.context.measureText("+10000").width + 10;;
         this.options.yearUnit = getYearRect.call(this, canvas.width - this.options.padding_left, this.options.series.length);
         this.options.quarterUnit = getQuarterRect.call(this, this.options.yearUnit.bar_w, 4);
 
