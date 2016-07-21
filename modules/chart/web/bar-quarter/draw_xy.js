@@ -24,7 +24,6 @@
         var ctx = this.options.context;
         /*Y轴上的最大值*/
         var y_max = this.options.data.max;
-        console.log(this.options)
         /*Y轴上的最小值*/
         var y_min = 0;
 
