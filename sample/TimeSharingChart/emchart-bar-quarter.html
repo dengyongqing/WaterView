@@ -26,7 +26,7 @@
 
 			<div class="content">
 				<div class="tabs">
-					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">折线图</div>
+					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">港股图</div>
 					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
@@ -58,10 +58,9 @@
 
 		window.onload = function(){
 			current_tab = k0 = new EmchartsWebBarQuarter({
-				dpr: 1,
 	        	container : "emchart-0",
-		        "width" : document.body.offsetWidth - 20,
-		        "height" : document.body.offsetWidth,
+		        "width" : 500,
+		        "height" : 500,
 		        showflag: true,
 		        xaxis: [{
 			        	value:"2010",

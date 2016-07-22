@@ -64,7 +64,7 @@ var ChartBarQuarter = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr;
+        var dpr = this.options.dpr = 1;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;

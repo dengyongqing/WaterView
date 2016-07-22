@@ -100,7 +100,7 @@ function drawXMark(ctx,k_height,oc_time_arr){
         var arr_length = oc_time_arr.length;
         for(var i = 0;i<arr_length;i++) {
             tempDate = oc_time_arr[i].value;
-            ctx.fillText(tempDate, i * (k_width - padding_left) / (arr_length) +padding_left +ctx.measureText(tempDate).width / 2, this.options.c_1_height+30);      
+            ctx.fillText(tempDate, i * (k_width - padding_left) / (arr_length) +padding_left + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+30);      
         }
         ctx.stroke();
         ctx.closePath();
