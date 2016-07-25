@@ -110,7 +110,7 @@ var ChartBarQuarter = (function() {
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
         this.options.data.min = getMaxMinValue.min;
-        this.options.padding_left = this.options.context.measureText("+10000").width;
+        this.options.padding_left = this.options.context.measureText("+10000").width + 10;;
         this.options.yearUnit = getYearRect.call(this, canvas.width - this.options.padding_left, this.options.series.length);
         this.options.quarterUnit = getQuarterRect.call(this, this.options.yearUnit.bar_w, 4);
 

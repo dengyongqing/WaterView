@@ -59,7 +59,7 @@ var DrawBar = (function(){
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,bar);
                 if(!this.options.isLessZero){
-                    ctx.rect(x,y,this.options.quarterUnit.bar_w,this.options.c_1_height/2 - y);
+                    ctx.rect(x,y,this.options.quarterUnit.bar_w,this.options.c_1_height - y);
                 }else{
                     ctx.rect(x,this.options.c_1_height/2,this.options.quarterUnit.bar_w,this.options.c_1_height/2 - y);
                 }
@@ -75,7 +75,8 @@ var DrawBar = (function(){
         if(!this.options.isLessZero){
             return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
         }else{
-            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (-y)/(this.options.data.max));        }
+            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (-y)/(this.options.data.max));        
+        }
     }
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {

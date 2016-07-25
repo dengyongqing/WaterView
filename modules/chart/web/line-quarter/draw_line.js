@@ -32,7 +32,7 @@ var DrawQuarterLine = (function(){
         this.defaultoptions = theme.drawLine;
         this.options = {};
         extend(false,this.options, this.defaultoptions, options);
-        // 绘图
+        // 绘图  
         this.draw();
     };
     
@@ -46,17 +46,15 @@ var DrawQuarterLine = (function(){
         // 横坐标数据
         var xaxis = this.options.xaxis;
         ctx.beginPath();
+        // 画笔颜色
+        ctx.strokeStyle = this.options.line.color == undefined ? "#333" : this.options.line.color;
 
         for(var i = 0,se;se = series[i]; i++){
            
             var line_arr = se.data;
-            
 
             for(var j = 0,line;line = line_arr[j]; j++){
-                // 填充颜色
-                ctx.fillStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
-                // 画笔颜色
-                ctx.strokeStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
+                
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,line);
 
@@ -80,24 +78,18 @@ var DrawQuarterLine = (function(){
         // 横坐标数据
         var xaxis = this.options.xaxis;
         // 节点（折线连接点半径）
-        var pointRadius = this.options.pointRadius = 3;
+        var pointRadius = this.options.point.pointradius;
         // 填充颜色
         ctx.fillStyle = color == undefined ? "#333" : color;
 
         for(var i = 0,se;se = series[i]; i++){
-           
             var line_arr = se.data;
-
             for(var j = 0,line;line = line_arr[j]; j++){
                 ctx.beginPath();
-                
-                
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,line);
                 ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
                 ctx.fill();
-        
-                // ctx.fill();
             }
             
         }

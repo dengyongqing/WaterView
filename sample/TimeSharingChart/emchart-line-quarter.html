@@ -63,9 +63,13 @@
 		        "width" : document.body.offsetWidth - 20,
 		        "height" : document.body.offsetWidth,
 		        showflag: true,
+		        line:{
+		        	color:"#c9c9c9"
+		        },
 		        point:{
 	        		show:true,
-					color:"#44ca1b"
+	        		pointradius:5,
+					color:"#ff7e00"
 				},
 		        xaxis: [{
 			        	value:"2010",
@@ -100,7 +104,7 @@
 						data:[500,600,1000,1100]
 					},{	
 						name:"2012",
-						data:[-500,-600,-1000,-1100]
+						data:[500,600,-1000,-1100]
 					},{	
 						name:"2013",
 						data:[500,600,1000,1100]
