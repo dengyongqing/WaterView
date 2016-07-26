@@ -163,18 +163,17 @@
 .web-tips{
 	display: none;
 	left: -10000px;
-	right: -10000px;
+	top: -10000px;
 	position: absolute;
-	width: 45px;
+	text-align: left;
 	background-color: #898989;
 	border-radius: 2px;
 	z-index: 10000;
 	display: inline-block;
 	color: white;
-	font-size: 14px;
+	font-size: 12px;
 	text-align: center;
-	font-size: 0.5em;
-	padding: 2px 0px;
+	padding: 2px;
 }
 .web-middleLine{
 	display: none;

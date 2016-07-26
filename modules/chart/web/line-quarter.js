@@ -217,7 +217,7 @@ var ChartBarQuarter = (function() {
         result.tipsX = result.midddleLine + quarterUnit.bar_w / 2;
         result.tipsY = get_y.call(this, -this.options.series[numYear].data[numQuarter]);
         if (result.tipsX > canvas.width / 2) {
-            result.tipsX = result.midddleLine - quarterUnit.bar_w / 2 - 45;
+            result.tipsX = result.midddleLine - quarterUnit.bar_w / 2;
         }
 
 
@@ -283,9 +283,14 @@ var ChartBarQuarter = (function() {
                         coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, interactiveInfo.midddleLine, 0);
                         coordinateWindow.tips = canvasToWindow.call(_that, canvas, interactiveInfo.tipsX, interactiveInfo.tipsY);
                         //绘制tips
-                        tips.style.left = coordinateWindow.tips.x + "px";
-                        tips.style.top = coordinateWindow.tips.y + "px";
                         tips.innerHTML = interactiveInfo.content;
+                        if(winX > canvas.width/2){
+                            tips.style.left = (coordinateWindow.tips.x - tips.clientWidth) + "px";
+                        }else{
+                            tips.style.left = (coordinateWindow.tips.x - tips.style.width) + "px";
+                        }
+                        tips.style.top = coordinateWindow.tips.y + "px";
+                       
                         //绘制中线
                         middleLine.style.height = yHeight + "px";
                         middleLine.style.left = coordinateWindow.midddleLine.x + "px";
