@@ -37,9 +37,9 @@ var ChartBarQuarter = (function() {
 
     // 构造函数
     function ChartBarQuarter(options) {
-        this.defaultoptions = theme.default;
+        this.defaultoptions = theme.defaulttheme;
         this.options = {};
-        extend(true, this.options, theme.default, this.defaultoptions, options);
+        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -84,7 +84,7 @@ var ChartBarQuarter = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
         this.options.yearUnitSpacing = "0.2";
         this.options.quarterUnitSpacing = "0.4";
-
+        
         // 容器中添加画布
         this.container.appendChild(canvas);
     };

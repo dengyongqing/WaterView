@@ -1,7 +1,7 @@
 /**
  * 绘制直角坐标系
  */
- var extend = require('tools/extend');
+ var extend = require('tools/extend2');
  /*主题*/
  var theme = require('theme/default');
  var common = require('tools/common');
@@ -10,8 +10,8 @@
     function DrawXY(options){
         /*设置默认参数*/
         this.defaultoptions = theme.draw_xy;
-        this.options = {};
-        extend(false,this.options, this.defaultoptions, options);
+        this.options = extend(this.defaultoptions, options);
+        
         /*绘图*/
         this.draw();
     };

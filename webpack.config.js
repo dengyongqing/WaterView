@@ -4,14 +4,11 @@ var path = require('path');
 module.exports = {
 	//页面入口文件配置
 	entry: {
-		// './dev/wap_time_chart.js',	//手机分时图
-		emcharts:'./dev/mobile/emcharts.js'
-		// ,emcharts_mobile_time:'./dev/mobile/emcharts_mobile_time.js',
-		// emcharts_mobile_k:'./dev/mobile/emcharts_mobile_k.js',
-		// emcharts_mobile_time_k:'./dev/mobile/emcharts_mobile_time_k.js'
+		emcharts: ['./modules/tools/es5_shim.js', './modules/excanvas/excanvas.js', './dev/emcharts.js'],
+		mobile_emcharts:'./dev/mobile_emcharts.js'
 	},
 	output: {
-		filename: './bundle/mobile/[name].js'
+		filename: './bundle/[name].js'
 	},
 	
 	module: //加载器配置

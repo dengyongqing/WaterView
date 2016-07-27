@@ -41,7 +41,7 @@ var ChartLine = (function() {
     function ChartLine(options) {
         this.defaultoptions = theme.chartLine;
         this.options = {};
-        extend(true, this.options, theme.default, this.defaultoptions, options);
+        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);

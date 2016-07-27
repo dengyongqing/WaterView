@@ -3,7 +3,7 @@
  */
 
 var defaultopions = {
-	default:{
+	defaulttheme:{
 		spacing:0.4, //K线柱体的间距比例，取值范围[0,1]
 		padding_left:30,//画布的左内边距
 		k_v_away:30,//K线图表和成交量之间的间距

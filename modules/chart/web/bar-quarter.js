@@ -27,7 +27,7 @@ var theme = require('theme/default');
 // 绘制季度柱状图
 var DrawBar = require('chart/web/bar-quarter/draw_bar');
 // 拓展，合并，复制
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 // 水印
 var watermark = require('chart/watermark');
 
@@ -35,9 +35,9 @@ var ChartBarQuarter = (function() {
 
     // 构造函数
     function ChartBarQuarter(options) {
-        this.defaultoptions = theme.default;
-        this.options = {};
-        extend(true, this.options, theme.default, this.defaultoptions, options);
+        this.defaultoptions = theme.defaulttheme;
+        this.options = extend(this.defaultoptions, options);
+        
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -53,14 +53,27 @@ var ChartBarQuarter = (function() {
 
         this.options.type = "bar-quarter";
         var canvas = document.createElement("canvas");
+        
         // 去除画布上粘贴效果
-        this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        //this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         this.container.style.position = "relative";
         this.container.setAttribute("unselectable", "on");
         // 画布
-        var ctx = canvas.getContext('2d');
+        try {
+            var ctx = canvas.getContext('2d');
+        } catch (error) {
+            canvas=window.G_vmlCanvasManager.initElement(canvas);
+	        var ctx = canvas.getContext('2d');
+        }
+
+
         this.options.canvas = canvas;
         this.options.context = ctx;
+
+
+        // 容器中添加画布
+        this.container.appendChild(canvas);
+
         // 设备像素比
         var dpr = this.options.dpr = 1;
         // 画布的宽和高
@@ -83,8 +96,7 @@ var ChartBarQuarter = (function() {
         this.options.yearUnitSpacing = "0.2";
         this.options.quarterUnitSpacing = "0.4";
 
-        // 容器中添加画布
-        this.container.appendChild(canvas);
+        watermark(ctx, 100, 100);
     };
 
     // 绘图
