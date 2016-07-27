@@ -32,6 +32,8 @@ var extend = require('tools/extend');
 var Interactive = require('interactive/interactive'); 
 // 水印
 var watermark = require('chart/watermark');
+/*工具*/
+var common = require('common');
 
 var ChartLine = (function() {
 
@@ -124,6 +126,8 @@ var ChartLine = (function() {
         // 绘制利率折线图
         new DrawLine(this.options);
 
+        this.addInteractive();
+
     };
     // 重绘
     ChartLine.prototype.reDraw = function() {
@@ -143,6 +147,134 @@ var ChartLine = (function() {
         if (cb) {
             cb();
         };
+    }
+
+        //获得tips的显示位置和tips的相关内容(传入的值是乘过dpr值的)
+    function getTips(winX, winY) {
+        //需要被返回的值
+        var result = {};
+
+        var canvas = this.options.canvas;
+        var paddingLeft = this.options.padding_left;
+        var offSetTop = this.options.canvas_offset_top;
+        var radius = this.options.pointRadius;
+        var dpr = this.options.dpr;
+
+        var series = this.options.series;
+        var xaxis = this.options.xaxis;
+
+        //标识在从左到右第几个圆点上
+        var num = (winX - paddingLeft + radius) / ((canvas.width - paddingLeft) / (xaxis.length - 1));
+        num = num < 0 ? 0 : Math.floor(num);
+
+        //数据点点的圆心
+        var pointX = ((canvas.width - paddingLeft) / (xaxis.length - 1)) * num + paddingLeft;
+
+        for (var i = 0; i < series.length; i++) {
+            //遍历获得
+            var pointY = common.get_y.call(this, series[i].data[num]);
+            //判断鼠标指定的点是不是在数据点周围
+            if ((Math.abs(pointY - winY + offSetTop) < 2 * radius) && (Math.abs(pointX - winX) < 2 * radius)) {
+                result.showTips = true;
+                result.showLine = true;
+                result.pointY = pointY + offSetTop/dpr;
+                result.pointX = pointX;
+                result.content = series[i].name + " : " + series[i].data[num];
+            }
+        }
+        //判断虚线是否显示
+        if (Math.abs(pointX - winX) < 4 * radius) {
+            //对竖直的y轴做处理（可能是个bug）
+            if (num !== 0 && num !== xaxis.length - 1) {
+                result.showLine = true;
+                result.lineX = pointX;
+            } else {
+                result.showLine = false;
+            }
+        }
+
+        //如果没有被赋值，赋值为false
+        if (!result.showTips) {
+            result.showTips = false;
+        }
+        if (!result.showLine) {
+            result.showLine = false;
+        }
+
+        return result;
+    }
+
+    //添加交互
+    ChartLine.prototype.addInteractive = function() {
+        var canvas = this.options.canvas;
+        var _that = this;
+        var tips = document.createElement("div");
+        var middleLine = document.createElement("div");
+        //用于canvas与windows相互转化
+        var dpr = this.options.dpr ? this.options.dpr : 1;
+        var padding_left = this.options.padding_left;
+        var offSetTop = this.options.canvas_offset_top / dpr;
+        var yHeight = this.options.c_1_height / dpr;
+        var radius = this.options.pointRadius;
+        //用于减少div移动的setTimeout
+        var timeId;
+
+
+
+        tips.setAttribute("class", "web-tips");
+        middleLine.setAttribute("class", "web-middleLine");
+        _that.container.appendChild(tips);
+        _that.container.appendChild(middleLine);
+
+        canvas.addEventListener('mousemove', function(e) {
+            // showTips(e, status);
+
+            var winX, winY;
+            //浏览器检测，获取到相对元素的x和y
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.offsetX) {
+                winX = e.offsetX;
+                winY = e.offsetY;
+            }
+
+            console.log(winY+":"+offSetTop+":"+yHeight+":"+dpr);
+
+            //在坐标系外不显示
+            if (winX * dpr >= (padding_left - radius) && (winY >= offSetTop && winY <= (offSetTop + yHeight))) {} else {
+                tips.style.display = "none";
+                middleLine.style.display = "none";
+            }
+
+            //通过鼠标移动获得交互的点
+            var result = getTips.call(_that, winX * _that.options.dpr, winY * _that.options.dpr);
+
+            if (result.showLine) {
+                middleLine.style.display = "inline-block";
+                //绘制中线
+                middleLine.style.height = yHeight + "px";
+                middleLine.style.left = result.lineX / dpr + "px";
+                middleLine.style.top = offSetTop + "px";
+            } else {
+                middleLine.style.display = "none";
+            }
+            //如果在数据点上，显示tips
+            if (result.showTips) {
+                tips.style.display = "inline-block";
+                tips.innerHTML = result.content;
+                if (winX * dpr - padding_left < canvas.width / 2) {
+                    tips.style.left = (result.pointX / dpr + radius ) + "px";
+                } else {
+                    tips.style.left = (result.pointX / dpr - radius- tips.clientWidth) + "px";
+                }
+                console.log();
+                tips.style.top = (result.pointY / dpr + radius) + "px";
+            } else {
+                tips.style.display = "none";
+            }
+
+        }, false);
     }
 
     return ChartLine;

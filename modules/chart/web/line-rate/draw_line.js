@@ -52,7 +52,7 @@ var DrawLine = (function(){
 	        ctx.strokeStyle = line.color == undefined ? "#333" : line.color;
         	drawLine.apply(this,[ctx,line]);
 	        			
-			if(line.point.show){
+			if(line.showpoint){
 				drawPoint.apply(this,[ctx,line]);
 			}
 			
