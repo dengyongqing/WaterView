@@ -1,5 +1,5 @@
 /**
- * 绘制手机分时图
+ * 绘制季度折线图
  *
  * this:{
  *     container:画布的容器
@@ -37,9 +37,9 @@ var ChartBarQuarter = (function() {
 
     // 构造函数
     function ChartBarQuarter(options) {
-        this.defaultoptions = theme.default;
+        this.defaultoptions = theme.defaulttheme;
         this.options = {};
-        extend(true, this.options, theme.default, this.defaultoptions, options);
+        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -56,9 +56,9 @@ var ChartBarQuarter = (function() {
         this.options.type = "quarter-line";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
-        this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.setAttribute("unselectable", "on");
         this.container.style.position = "relative";
-        this.container.setAttribute("unselectable", "on");
         // 画布
         var ctx = canvas.getContext('2d');
         this.options.canvas = canvas;
@@ -84,7 +84,7 @@ var ChartBarQuarter = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
         this.options.yearUnitSpacing = "0.2";
         this.options.quarterUnitSpacing = "0.4";
-
+        
         // 容器中添加画布
         this.container.appendChild(canvas);
     };

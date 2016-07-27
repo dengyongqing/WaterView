@@ -48,7 +48,7 @@ var ChartK = (function() {
     function ChartK(options) {
         this.defaultoptions = theme.chartK;
         this.options = {};
-        extend(true, this.options, theme.default, this.defaultoptions, options);
+        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -63,9 +63,9 @@ var ChartK = (function() {
         this.options.type = this.options.type == undefined ? "DK" : this.options.type;
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
-        this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-        this.container.setAttribute("unselectable","on");
         //画布
         var ctx = canvas.getContext('2d');
         this.options.canvas = canvas;
@@ -79,7 +79,7 @@ var ChartK = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / 8;
         // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.default.padding_left * dpr;
+        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值

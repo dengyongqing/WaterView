@@ -1,5 +1,5 @@
 /**
- * 绘制手机分时图
+ * 绘制利率图
  *
  * this:{
  *     container:画布的容器
@@ -41,7 +41,7 @@ var ChartLine = (function() {
     function ChartLine(options) {
         this.defaultoptions = theme.chartLine;
         this.options = {};
-        extend(true, this.options, theme.default, this.defaultoptions, options);
+        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -58,9 +58,9 @@ var ChartLine = (function() {
         this.options.type = "line";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
-        this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-        this.container.setAttribute("unselectable","on");
         // 画布
         var ctx = canvas.getContext('2d');
         this.options.canvas = canvas;

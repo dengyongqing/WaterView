@@ -36,7 +36,7 @@ var DrawV = require('chart/draw_v');
 // 工具
 var common = require('tools/common'); 
 // 拓展，合并，复制
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 // 交互效果
 var Interactive = require('interactive/interactive'); 
 // 水印
@@ -47,9 +47,8 @@ var ChartTime = (function() {
     // 构造函数
     function ChartTime(options) {
         this.defaultoptions = theme.chartTime;
-        this.options = {};
-        extend(true, this.options, theme.default, this.defaultoptions, options);
-
+        this.options = extend(this.defaultoptions, options);
+        
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件
@@ -65,9 +64,9 @@ var ChartTime = (function() {
         this.options.type = "TL";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
-        this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-        this.container.setAttribute("unselectable","on");
         // 画布
         var ctx = canvas.getContext('2d');
         this.options.canvas = canvas;
@@ -81,7 +80,7 @@ var ChartTime = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / 8;
         // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.default.padding_left * dpr;
+        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值

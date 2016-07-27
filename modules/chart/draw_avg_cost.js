@@ -39,7 +39,7 @@ var Draw_Avg_Cost = (function () {
 	Draw_Avg_Cost.prototype.draw = function() {
 		var ctx = this.options.context;
 		var data = this.options.data;
-		this.options.height = ctx.canvas.height * theme.default.c_h_percent;
+		this.options.height = ctx.canvas.height * theme.defaulttheme.c_h_percent;
 		// 绘制平均线
 		this.draw_k(ctx,data);
 	};
@@ -55,6 +55,7 @@ var Draw_Avg_Cost = (function () {
 		for(var i = 0;i<data_arr.length;i++) {
 			var x = common.get_x.call(this,i+1);
 			var y = common.get_y.call(this,data_arr[i].avg_cost);
+			console.log("x:" + x + "    y:" + y);
 			if(i == 0){
 				ctx.moveTo(x,y);
 			}
