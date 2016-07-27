@@ -24,8 +24,8 @@
 var DrawXY = require('chart/web/bar-quarter/draw_xy');
 // 主题
 var theme = require('theme/default');
-// 绘制分时折线图
-var DrawBar = require('chart/web/line-quarter/draw_line');
+// 绘制季度折线图
+var DrawLine = require('chart/web/line-quarter/draw_line');
 // 拓展，合并，复制
 var extend = require('tools/extend');
 // 交互效果
@@ -116,8 +116,8 @@ var ChartBarQuarter = (function() {
 
         // 绘制坐标轴
         new DrawXY(this.options);
-        // 绘制分时折线图
-        new DrawBar(this.options);
+        // 绘制季度折线图
+        new DrawLine(this.options);
         //添加交互
         this.addInteractive();
 

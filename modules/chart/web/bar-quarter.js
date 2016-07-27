@@ -24,7 +24,7 @@
 var DrawXY = require('chart/web/bar-quarter/draw_xy');
 // 主题
 var theme = require('theme/default');
-// 绘制分时折线图
+// 绘制季度柱状图
 var DrawBar = require('chart/web/bar-quarter/draw_bar');
 // 拓展，合并，复制
 var extend = require('tools/extend');
@@ -112,7 +112,7 @@ var ChartBarQuarter = (function() {
 
         // 绘制坐标轴
         new DrawXY(this.options);
-        // 绘制分时折线图
+        // 绘制季度柱状图
         new DrawBar(this.options);
         //添加交互
         this.addInteractive();

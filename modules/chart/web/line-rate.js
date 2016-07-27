@@ -24,7 +24,7 @@
 var DrawXY = require('chart/web/line-rate/draw_xy');
 // 主题
 var theme = require('theme/default');
-// 绘制分时折线图
+// 绘制利率折线图
 var DrawLine = require('chart/web/line-rate/draw_line'); 
 // 拓展，合并，复制
 var extend = require('tools/extend');
@@ -121,12 +121,9 @@ var ChartLine = (function() {
 
         // 绘制坐标轴
         new DrawXY(this.options);
-        // 绘制分时折线图
+        // 绘制利率折线图
         new DrawLine(this.options);
 
-        // 重新渲染，hack个别浏览器渲染问题
-        this.container.style.display = "none";
-        this.container.style.display = "block";
     };
     // 重绘
     ChartLine.prototype.reDraw = function() {
