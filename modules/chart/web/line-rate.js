@@ -38,7 +38,7 @@ var ChartLine = (function() {
     // 构造函数
     function ChartLine(options) {
         this.defaultoptions = theme.chartLine;
-        this.options = extend(options, this.defaultoptions);
+        this.options = extend(this.defaultoptions,theme.defaulttheme,options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -100,7 +100,7 @@ var ChartLine = (function() {
         ctx.translate("0", this.options.canvas_offset_top);
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
-        ctx.lineWidth = 1 * this.options.dpr + 0.5;
+        ctx.lineWidth = 1 * this.options.dpr;
         // 加水印
         watermark.apply(this, [ctx, 190, 20]);
 
