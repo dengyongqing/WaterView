@@ -40,9 +40,7 @@ var ChartLine = (function() {
     // 构造函数
     function ChartLine(options) {
         this.defaultoptions = theme.chartLine;
-        this.options = {};
-        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
-
+        this.options = extend(this.defaultoptions, options);
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件
@@ -69,7 +67,7 @@ var ChartLine = (function() {
             canvas=window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
         }
-        
+
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比

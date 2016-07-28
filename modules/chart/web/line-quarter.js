@@ -38,8 +38,7 @@ var ChartBarQuarter = (function() {
     // 构造函数
     function ChartBarQuarter(options) {
         this.defaultoptions = theme.defaulttheme;
-        this.options = {};
-        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
+        this.options = extend(this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -59,7 +58,7 @@ var ChartBarQuarter = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable", "on");
         this.container.style.position = "relative";
-        
+
         // 画布
         try {
             var ctx = canvas.getContext('2d');
