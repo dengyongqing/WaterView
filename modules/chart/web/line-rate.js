@@ -61,8 +61,15 @@ var ChartLine = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
+
         // 画布
-        var ctx = canvas.getContext('2d');
+        try {
+            var ctx = canvas.getContext('2d');
+        } catch (error) {
+            canvas=window.G_vmlCanvasManager.initElement(canvas);
+            var ctx = canvas.getContext('2d');
+        }
+        
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比

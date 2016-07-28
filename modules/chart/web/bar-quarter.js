@@ -30,6 +30,8 @@ var DrawBar = require('chart/web/bar-quarter/draw_bar');
 var extend = require('tools/extend2');
 // 水印
 var watermark = require('chart/watermark');
+// 添加通用工具
+var common = require('tools/common');
 
 var ChartBarQuarter = (function() {
 
@@ -201,7 +203,7 @@ var ChartBarQuarter = (function() {
 
     //通过clientX获得交互需要的tips的坐标和虚线中x坐标
     function getCoordinateByClient(clientX) {
-        var canvasX = windowToCanvas.call(this, this.options.canvas, clientX, 0).x;
+        var canvasX = clientX * this.options.dpr;
         //被返回的两个数据
         var result = {};
 
@@ -210,7 +212,8 @@ var ChartBarQuarter = (function() {
             yearUnit = this.options.yearUnit,
             quarterUnit = this.options.quarterUnit,
             canvas = this.options.canvas,
-            num = this.options.series.length;
+            num = this.options.series.length,
+            series = this.options.series;
 
         // 求得鼠标所指的位置属于哪一年的哪一个季度
         var numYear = Math.floor((canvasX - paddingLeft) / yearUnit.rect_w);
@@ -223,13 +226,12 @@ var ChartBarQuarter = (function() {
         } else if (numQuarter > 3) {
             numQuarter = 3;
         }
-
         // 绘制的虚线的x坐标
         result.midddleLine = get_x.call(this, numYear, numQuarter) + quarterUnit.bar_w / 2;
         //绘制tips的坐标
         result.tipsX = result.midddleLine + 3 * quarterUnit.bar_w / 4;
-        result.tipsY = get_y.call(this, -this.options.series[numYear].data[numQuarter]);
-        if (result.tipsX > canvas.width / 2) {
+        result.tipsY = get_y.call(this, -series[numYear].data[numQuarter]);
+        if (canvasX > canvas.width / 2) {
             result.tipsX = result.midddleLine - 3 * quarterUnit.bar_w / 4;
         }
         if (this.options.series[numYear].data[numQuarter] < 0) {
@@ -258,60 +260,58 @@ var ChartBarQuarter = (function() {
         var yHeight = this.options.c_1_height;
         var timeId;
 
-        tips.setAttribute("class", "web-tips");
-        middleLine.setAttribute("class", "web-middleLine");
+        // tips.setAttribute("class", "web-tips");
+        tips.className = "web-tips";
+        middleLine.className = "web-middleLine";
+        // middleLine.setAttribute("class", "web-middleLine");
         _that.container.appendChild(tips);
         _that.container.appendChild(middleLine);
 
-        canvas.addEventListener('mousemove', function(e) {
-            if (timeId) {
-                clearTimeout(timeId);
-            }
-            timeId = setTimeout(function() {
-                (function(e, status) {
-                    var winX, winY;
-                    //浏览器检测，获取到相对元素的x和y
-                    if (e.layerX) {
-                        winX = e.layerX;
-                        winY = e.layerY;
-                    } else if (e.offsetX) {
-                        winX = e.offsetX;
-                        winY = e.offsetY;
-                    }
-                    //当超出坐标系框就不显示交互
-                    if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
-                        tips.style.display = "inline-block";
-                        middleLine.style.display = "inline-block";
-                    } else {
-                        tips.style.display = "none";
-                        middleLine.style.display = "none";
-                    }
-                    //canvas中是坐标与屏幕坐标之间的相互转换
+        common.addEvent.call(_that, canvas, 'mousemove', function(e) {
 
-                    coordinateCanvas = getCoordinateByClient.call(_that, winX);
-                    if (status !== coordinateCanvas.arr) {
-                        coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, coordinateCanvas.midddleLine, 0);
-                        coordinateWindow.tips = canvasToWindow.call(_that, canvas, coordinateCanvas.tipsX, coordinateCanvas.tipsY);
-                        //绘制tips
-                        tips.innerHTML = coordinateCanvas.content;
-                        if(winX > canvas.width/2){
-                            tips.style.left = (coordinateWindow.tips.x - tips.clientWidth) + "px";
-                        }else{
-                            tips.style.left = (coordinateWindow.tips.x - tips.style.width) + "px";
-                        }
-                        
-                        tips.style.top = coordinateWindow.tips.y + "px";
-                        // var text = createTextNode(coordinateCanvas.content);
-                        // tips.appendChild(text);
-                        //绘制中线
-                        middleLine.style.height = yHeight + "px";
-                        middleLine.style.left = coordinateWindow.midddleLine.x + "px";
-                        middleLine.style.top = offSetTop + "px";
-                        status = coordinateCanvas.arr;
-                    }
-                })(e, status);
-            }, 10);
-        }, false);
+            var winX, winY;
+            //浏览器检测，获取到相对元素的x和y
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
+            }
+
+            //当超出坐标系框就不显示交互
+            if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
+                tips.style.display = "inline-block";
+                middleLine.style.display = "inline-block";
+            } else {
+                tips.style.display = "none";
+                middleLine.style.display = "none";
+            }
+            //canvas中是坐标与屏幕坐标之间的相互转换
+            coordinateCanvas = getCoordinateByClient.call(_that, winX);
+            if (status !== coordinateCanvas.arr) {
+                coordinateWindow.midddleLine = common.canvasToWindow.call(_that, canvas, coordinateCanvas.midddleLine, 0);
+                coordinateWindow.tips = common.canvasToWindow.call(_that, canvas, coordinateCanvas.tipsX, coordinateCanvas.tipsY);
+                //绘制tips
+                tips.innerHTML = coordinateCanvas.content;
+                if (winX > canvas.width / 2) {
+                    tips.style.left = (coordinateCanvas.tipsX - tips.clientWidth) + "px";
+                } else {
+                    tips.style.left = (coordinateCanvas.tipsX - tips.style.width) + "px";
+                }
+                // alert(coordinateWindow.tips.y);
+                tips.style.top = (coordinateCanvas.tipsY * dpr + tips.clientHeight) + "px";
+                // var text = createTextNode(coordinateCanvas.content);
+                // tips.appendChild(text);
+                //绘制中线
+                middleLine.style.height = yHeight + "px";
+                middleLine.style.left = coordinateWindow.midddleLine.x + "px";
+                middleLine.style.top = offSetTop + "px";
+                status = coordinateCanvas.arr;
+            }
+
+        });
+
     };
 
     // 重绘
