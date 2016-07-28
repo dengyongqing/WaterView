@@ -48,7 +48,6 @@ var ChartTime = (function() {
     function ChartTime(options) {
         this.defaultoptions = theme.chartTime;
         this.options = extend(this.defaultoptions, options);
-        
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件

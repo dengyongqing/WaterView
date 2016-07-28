@@ -99,6 +99,27 @@ var common = {
         }else{
             return value;
         }
+    },
+    /**
+     * 兼容性的事件添加
+     * @param {[type]}   obj  对哪个元素添加
+     * @param {[type]}   type 事件类型
+     * @param {Function} fn   事件触发的处理函数
+     */
+    addEvent: function(obj, type, fn) {
+        if (obj.attachEvent) {
+            obj['e' + type + fn] = fn;
+            obj[type + fn] = function() { obj['e' + type + fn](window.event); }
+            obj.attachEvent('on' + type, obj[type + fn]);
+        } else
+            obj.addEventListener(type, fn, false);
+    },
+    removeEvent: function(obj, type, fn) {
+        if (obj.detachEvent) {
+            obj.detachEvent('on' + type, obj[type + fn]);
+            obj[type + fn] = null;
+        } else
+            obj.removeEventListener(type, fn, false);
     }
 
 };
