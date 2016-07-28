@@ -57,8 +57,11 @@ var DrawQuarterLine = (function(){
                 
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,line);
-
-                ctx.lineTo(x,y);
+                if(i == 0 && j == 0){
+                    ctx.moveTo(x,y);
+                }else{
+                    ctx.lineTo(x,y);
+                }
         
             }
         }
