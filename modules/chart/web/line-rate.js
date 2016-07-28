@@ -27,7 +27,7 @@ var theme = require('theme/default');
 // 绘制利率折线图
 var DrawLine = require('chart/web/line-rate/draw_line'); 
 // 拓展，合并，复制
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 // 交互效果
 var Interactive = require('interactive/interactive'); 
 // 水印
