@@ -28,10 +28,10 @@ var theme = require('theme/default');
 var DrawLine = require('chart/web/line-quarter/draw_line');
 // 拓展，合并，复制
 var extend = require('tools/extend2');
-// 交互效果
-var Interactive = require('interactive/interactive');
 // 水印
 var watermark = require('chart/watermark');
+// 添加通用工具
+var common = require('tools/common');
 
 var ChartBarQuarter = (function() {
 
@@ -58,12 +58,11 @@ var ChartBarQuarter = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable", "on");
         this.container.style.position = "relative";
-
         // 画布
         try {
             var ctx = canvas.getContext('2d');
         } catch (error) {
-            canvas=window.G_vmlCanvasManager.initElement(canvas);
+            canvas = window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
         }
 
@@ -71,6 +70,10 @@ var ChartBarQuarter = (function() {
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr = 1;
+
+        // 容器中添加画布
+        this.container.appendChild(canvas);
+
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -90,9 +93,7 @@ var ChartBarQuarter = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
         this.options.yearUnitSpacing = "0.2";
         this.options.quarterUnitSpacing = "0.4";
-        
-        // 容器中添加画布
-        this.container.appendChild(canvas);
+
     };
 
     // 绘图
@@ -101,8 +102,6 @@ var ChartBarQuarter = (function() {
         this.clear();
         // 初始化
         this.init();
-        // 初始化交互
-        this.options.interactive = new Interactive(this.options);
         // 显示loading效果
         // inter.showLoading();
         // var _this = this;
@@ -222,7 +221,7 @@ var ChartBarQuarter = (function() {
         //绘制tips的坐标
         result.tipsX = result.midddleLine + quarterUnit.bar_w / 2;
         result.tipsY = get_y.call(this, -this.options.series[numYear].data[numQuarter]);
-        if (result.tipsX > canvas.width / 2) {
+        if (clientX > canvas.width / 2) {
             result.tipsX = result.midddleLine - quarterUnit.bar_w / 2;
         }
 
@@ -252,61 +251,53 @@ var ChartBarQuarter = (function() {
         var yHeight = this.options.c_1_height;
         var timeId;
 
-        tips.setAttribute("class", "web-tips");
-        middleLine.setAttribute("class", "web-middleLine");
+        tips.className =  "web-tips";
+        middleLine.className = "web-middleLine";
+
         _that.container.appendChild(tips);
         _that.container.appendChild(middleLine);
 
-        canvas.addEventListener('mousemove', function(e) {
-            if (timeId) {
-                clearTimeout(timeId);
+        common.addEvent.call(_that, canvas, "mousemove", function(e) {
+            var winX, winY;
+            //浏览器检测，获取到相对元素的x和y
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
             }
+            //当超出坐标系框就不显示交互
+            if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
+                tips.style.display = "inline-block";
+                middleLine.style.display = "inline-block";
+            } else {
+                tips.style.display = "none";
+                middleLine.style.display = "none";
+            }
+            //获取交互的信息，包括tips的坐标，middline的坐标和tips的内容
+            interactiveInfo = getCoordinateByClient.call(_that, winX);
 
-            timeId = setTimeout(function() {
-                // showTips(e, status);
-                (function(e, status) {
-                    var winX, winY;
-                    //浏览器检测，获取到相对元素的x和y
-                    if (e.layerX) {
-                        winX = e.layerX;
-                        winY = e.layerY;
-                    } else if (e.offsetX) {
-                        winX = e.offsetX;
-                        winY = e.offsetY;
-                    }
-                    //当超出坐标系框就不显示交互
-                    if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
-                        tips.style.display = "inline-block";
-                        middleLine.style.display = "inline-block";
-                    } else {
-                        tips.style.display = "none";
-                        middleLine.style.display = "none";
-                    }
-                    //获取交互的信息，包括tips的坐标，middline的坐标和tips的内容
-                    interactiveInfo = getCoordinateByClient.call(_that, winX);
+            if (status !== interactiveInfo.arr) {
+                coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, interactiveInfo.midddleLine, 0);
+                coordinateWindow.tips = canvasToWindow.call(_that, canvas, interactiveInfo.tipsX, interactiveInfo.tipsY);
+                //绘制tips
+                tips.innerHTML = interactiveInfo.content;
+                if (winX > canvas.width / 2) {
+                    tips.style.left = (coordinateWindow.tips.x - tips.clientWidth) + "px";
+                } else {
+                    tips.style.left = (coordinateWindow.tips.x - tips.style.width) + "px";
+                }
+                tips.style.top = (interactiveInfo.tipsY * dpr + tips.clientHeight) + "px";
 
-                    if (status !== interactiveInfo.arr) {
-                        coordinateWindow.midddleLine = canvasToWindow.call(_that, canvas, interactiveInfo.midddleLine, 0);
-                        coordinateWindow.tips = canvasToWindow.call(_that, canvas, interactiveInfo.tipsX, interactiveInfo.tipsY);
-                        //绘制tips
-                        tips.innerHTML = interactiveInfo.content;
-                        if(winX > canvas.width/2){
-                            tips.style.left = (coordinateWindow.tips.x - tips.clientWidth) + "px";
-                        }else{
-                            tips.style.left = (coordinateWindow.tips.x - tips.style.width) + "px";
-                        }
-                        tips.style.top = coordinateWindow.tips.y + "px";
-                       
-                        //绘制中线
-                        middleLine.style.height = yHeight + "px";
-                        middleLine.style.left = coordinateWindow.midddleLine.x + "px";
-                        middleLine.style.top = offSetTop + "px";
-                        status = interactiveInfo.arr;
-                    }
-                })(e, status);
-            }, 10);
+                //绘制中线
+                middleLine.style.height = yHeight + "px";
+                middleLine.style.left = coordinateWindow.midddleLine.x + "px";
+                middleLine.style.top = offSetTop + "px";
+                status = interactiveInfo.arr;
+            }
+        });
 
-        }, false);
     };
 
     // 重绘

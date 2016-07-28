@@ -25,29 +25,28 @@ var DrawXY = require('chart/web/line-rate/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制利率折线图
-var DrawLine = require('chart/web/line-rate/draw_line'); 
+var DrawLine = require('chart/web/line-rate/draw_line');
 // 拓展，合并，复制
 var extend = require('tools/extend2');
-// 交互效果
-var Interactive = require('interactive/interactive'); 
 // 水印
 var watermark = require('chart/watermark');
 /*工具*/
-var common = require('common');
+var common = require('tools/common');
 
 var ChartLine = (function() {
 
     // 构造函数
     function ChartLine(options) {
         this.defaultoptions = theme.chartLine;
-        this.options = extend(this.defaultoptions, options);
+        this.options = extend(options, this.defaultoptions);
+
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件
-        this.onChartLoaded = options.onChartLoaded == undefined ? function(op){
+        this.onChartLoaded = options.onChartLoaded == undefined ? function(op) {
 
-        }:options.onChartLoaded;
-        
+        } : options.onChartLoaded;
+
     }
 
     // 初始化
@@ -59,19 +58,20 @@ var ChartLine = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-
         // 画布
         try {
             var ctx = canvas.getContext('2d');
         } catch (error) {
-            canvas=window.G_vmlCanvasManager.initElement(canvas);
+            canvas = window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
         }
-
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr;
+
+        // 容器中添加画布
+        this.container.appendChild(canvas);
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -86,10 +86,10 @@ var ChartLine = (function() {
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
-        if(this.options.showflag){
-            this.options.c_1_height = canvas.height * (5/9);
-        }else{
-            this.options.c_1_height = canvas.height * (7/9);
+        if (this.options.showflag) {
+            this.options.c_1_height = canvas.height * (5 / 9);
+        } else {
+            this.options.c_1_height = canvas.height * (7 / 9);
         }
 
         canvas.style.width = this.options.width + "px";
@@ -97,14 +97,13 @@ var ChartLine = (function() {
         canvas.style.border = "0";
 
         // 画布上部内间距
-        ctx.translate("0",this.options.canvas_offset_top);
+        ctx.translate("0", this.options.canvas_offset_top);
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
         // 加水印
-        watermark.apply(this,[ctx,190,20]);
-        // 容器中添加画布
-        this.container.appendChild(canvas);
+        watermark.apply(this, [ctx, 190, 20]);
+
     };
 
     // 绘图
@@ -113,11 +112,6 @@ var ChartLine = (function() {
         this.clear();
         // 初始化
         this.init();
-        // 初始化交互
-        this.options.interactive = new Interactive(this.options);
-        // 显示loading效果
-        // inter.showLoading();
-        // var _this = this;
 
         // 折线数据
         var series = this.options.series;
@@ -136,17 +130,17 @@ var ChartLine = (function() {
     };
     // 重绘
     ChartLine.prototype.reDraw = function() {
+            // 删除canvas画布
+            this.clear();
+            // 初始化
+            this.init();
+            this.draw();
+        }
         // 删除canvas画布
-        this.clear();
-        // 初始化
-        this.init();
-        this.draw();
-    }
-    // 删除canvas画布
     ChartLine.prototype.clear = function(cb) {
-        if(this.container){
+        if (this.container) {
             this.container.innerHTML = "";
-        }else{
+        } else {
             document.getElementById(this.options.container).innerHTML = "";
         }
         if (cb) {
@@ -154,7 +148,7 @@ var ChartLine = (function() {
         };
     }
 
-        //获得tips的显示位置和tips的相关内容(传入的值是乘过dpr值的)
+    //获得tips的显示位置和tips的相关内容(传入的值是乘过dpr值的)
     function getTips(winX, winY) {
         //需要被返回的值
         var result = {};
@@ -182,7 +176,7 @@ var ChartLine = (function() {
             if ((Math.abs(pointY - winY + offSetTop) < 2 * radius) && (Math.abs(pointX - winX) < 2 * radius)) {
                 result.showTips = true;
                 result.showLine = true;
-                result.pointY = pointY + offSetTop/dpr;
+                result.pointY = pointY + offSetTop / dpr;
                 result.pointX = pointX;
                 result.content = series[i].name + " : " + series[i].data[num];
             }
@@ -231,21 +225,18 @@ var ChartLine = (function() {
         _that.container.appendChild(tips);
         _that.container.appendChild(middleLine);
 
-        canvas.addEventListener('mousemove', function(e) {
-            // showTips(e, status);
-
+        common.addEvent.call(_that, "canvas", "mousemove", function(e) {
             var winX, winY;
             //浏览器检测，获取到相对元素的x和y
             if (e.layerX) {
                 winX = e.layerX;
                 winY = e.layerY;
-            } else if (e.offsetX) {
-                winX = e.offsetX;
-                winY = e.offsetY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
             }
 
-            console.log(winY+":"+offSetTop+":"+yHeight+":"+dpr);
-
+            alert(winX);
             //在坐标系外不显示
             if (winX * dpr >= (padding_left - radius) && (winY >= offSetTop && winY <= (offSetTop + yHeight))) {} else {
                 tips.style.display = "none";
@@ -269,17 +260,16 @@ var ChartLine = (function() {
                 tips.style.display = "inline-block";
                 tips.innerHTML = result.content;
                 if (winX * dpr - padding_left < canvas.width / 2) {
-                    tips.style.left = (result.pointX / dpr + radius ) + "px";
+                    tips.style.left = (result.pointX / dpr + radius) + "px";
                 } else {
-                    tips.style.left = (result.pointX / dpr - radius- tips.clientWidth) + "px";
+                    tips.style.left = (result.pointX / dpr - radius - tips.clientWidth) + "px";
                 }
                 console.log();
                 tips.style.top = (result.pointY / dpr + radius) + "px";
             } else {
                 tips.style.display = "none";
             }
-
-        }, false);
+        });
     }
 
     return ChartLine;
