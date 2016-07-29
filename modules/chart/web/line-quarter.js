@@ -94,6 +94,8 @@ var ChartBarQuarter = (function() {
         this.options.yearUnitSpacing = "0.2";
         this.options.quarterUnitSpacing = "0.4";
 
+        // 加水印
+        watermark.apply(this,[this.options.context,90,20,82,20]);
     };
 
     // 绘图

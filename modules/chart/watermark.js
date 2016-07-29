@@ -1,7 +1,10 @@
 /*加水印*/
-function addWatermark(ctx,right,top) {
+function addWatermark(ctx,right,top,width,height) {
+    var _this = this;
 	var canvas = ctx.canvas;
 	var img = new Image();
+    width = width == undefined ? 164 : width;
+    height = height == undefined ? 41 : height;
     img.width = 0;
     img.height = 0;
     //img.src = require("../images/water_mark.png");
@@ -9,10 +12,7 @@ function addWatermark(ctx,right,top) {
     img.onload = function(){
         //console.info(111);
         setTimeout(function() {
-            img.width = 164;
-            img.height = 41;
-            ctx.drawImage(img, canvas.width - right, top, 164, 41);	
-
+            ctx.drawImage(img, canvas.width - right, top, width, height);	
         }, 0);
         
     }

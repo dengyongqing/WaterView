@@ -84,8 +84,8 @@
             tempDate = oc_time_arr[i];
             if(tempDate.show == undefined ? true : tempDate.show){
                 if(i < arr_length - 1){
-                    ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
-                    ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
+                    ctx.fillText(tempDate.value.split('-')[0] + "-" + tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+                    // ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
                 }
             }
 
