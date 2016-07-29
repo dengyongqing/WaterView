@@ -58,9 +58,9 @@
                 ctx.stroke();
             }
             // 绘制左侧纵坐标刻度
-            ctx.fillText(i/10, this.options.padding_left-20, item.y +10);
+            ctx.fillText(i/10, this.options.padding_left-10, item.y +10);
             // 绘制右侧纵坐标刻度
-            ctx.fillText(i/10, ctx.canvas.width - 20, item.y +10);
+            ctx.fillText(i/10, ctx.canvas.width - 10, item.y +10);
             
         }
 
@@ -84,8 +84,8 @@
             tempDate = oc_time_arr[i];
             if(tempDate.show == undefined ? true : tempDate.show){
                 if(i < arr_length - 1){
-                    ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
-                    ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+70);
+                    ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+                    ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
                 }
             }
 
