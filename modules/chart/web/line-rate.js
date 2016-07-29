@@ -68,7 +68,7 @@ var ChartLine = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr;
+        var dpr = this.options.dpr = 1;
 
         // 容器中添加画布
         this.container.appendChild(canvas);
@@ -125,7 +125,7 @@ var ChartLine = (function() {
         // 绘制利率折线图
         new DrawLine(this.options);
 
-        this.addInteractive();
+        // this.addInteractive();
 
     };
     // 重绘
