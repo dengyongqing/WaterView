@@ -125,7 +125,7 @@ var ChartLine = (function() {
         // 绘制利率折线图
         new DrawLine(this.options);
 
-        this.addInteractive();
+        // this.addInteractive();
 
     };
     // 重绘
