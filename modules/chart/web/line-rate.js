@@ -152,6 +152,8 @@ var ChartLine = (function() {
     function getTips(winX, winY) {
         //需要被返回的值
         var result = {};
+        result.showLine = false;
+        result.showTips = false;
 
         var canvas = this.options.canvas;
         var paddingLeft = this.options.padding_left;
@@ -161,9 +163,10 @@ var ChartLine = (function() {
 
         var series = this.options.series;
         var xaxis = this.options.xaxis;
+        var unitWidth = (canvas.width - paddingLeft) / (xaxis.length - 1);
 
         //标识在从左到右第几个圆点上
-        var num = (winX - paddingLeft + radius) / ((canvas.width - paddingLeft) / (xaxis.length - 1));
+        var num = (winX - paddingLeft + unitWidth/2) / (unitWidth);
         num = num < 0 ? 0 : Math.floor(num);
 
         //数据点点的圆心
@@ -173,16 +176,16 @@ var ChartLine = (function() {
             //遍历获得
             var pointY = common.get_y.call(this, series[i].data[num]);
             //判断鼠标指定的点是不是在数据点周围
-            if ((Math.abs(pointY - winY + offSetTop) < 2 * radius) && (Math.abs(pointX - winX) < 2 * radius)) {
+            if ((Math.abs(pointY - winY + offSetTop) < 2 * radius) && (Math.abs(pointX - winX + radius) < 2 * radius) && num != (xaxis.length -1)) {
                 result.showTips = true;
-                result.showLine = true;
                 result.pointY = pointY + offSetTop / dpr;
                 result.pointX = pointX;
                 result.content = series[i].name + " : " + series[i].data[num];
             }
         }
         //判断虚线是否显示
-        if (Math.abs(pointX - winX) < 4 * radius) {
+        console.log(pointX+" : "+ winX + " : "+Math.abs(pointX - winX ));
+        if (Math.abs(pointX - winX ) < 2*radius) {
             //对竖直的y轴做处理（可能是个bug）
             if (num !== 0 && num !== xaxis.length - 1) {
                 result.showLine = true;
@@ -190,14 +193,6 @@ var ChartLine = (function() {
             } else {
                 result.showLine = false;
             }
-        }
-
-        //如果没有被赋值，赋值为false
-        if (!result.showTips) {
-            result.showTips = false;
-        }
-        if (!result.showLine) {
-            result.showLine = false;
         }
 
         return result;
