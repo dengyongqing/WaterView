@@ -38,7 +38,7 @@ var ChartLine = (function() {
     // 构造函数
     function ChartLine(options) {
         this.defaultoptions = theme.chartLine;
-        this.options = extend(this.defaultoptions,theme.defaulttheme,options);
+        this.options = extend(this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -68,7 +68,7 @@ var ChartLine = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr;
+        var dpr = this.options.dpr = 1;
 
         // 容器中添加画布
         this.container.appendChild(canvas);
@@ -220,12 +220,12 @@ var ChartLine = (function() {
 
 
 
-        tips.setAttribute("class", "web-tips");
-        middleLine.setAttribute("class", "web-middleLine");
+        tips.className = "web-tips";
+        middleLine.className = "web-middleLine";
         _that.container.appendChild(tips);
         _that.container.appendChild(middleLine);
 
-        common.addEvent.call(_that, "canvas", "mousemove", function(e) {
+        common.addEvent.call(_that, canvas, "mousemove", function(e) {
             var winX, winY;
             //浏览器检测，获取到相对元素的x和y
             if (e.layerX) {
@@ -236,7 +236,6 @@ var ChartLine = (function() {
                 winY = e.y;
             }
 
-            alert(winX);
             //在坐标系外不显示
             if (winX * dpr >= (padding_left - radius) && (winY >= offSetTop && winY <= (offSetTop + yHeight))) {} else {
                 tips.style.display = "none";
