@@ -184,7 +184,6 @@ var ChartLine = (function() {
             }
         }
         //判断虚线是否显示
-        console.log(pointX+" : "+ winX + " : "+Math.abs(pointX - winX ));
         if (Math.abs(pointX - winX ) < 2*radius) {
             //对竖直的y轴做处理（可能是个bug）
             if (num !== 0 && num !== xaxis.length - 1) {
