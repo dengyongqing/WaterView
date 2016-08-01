@@ -36,7 +36,7 @@ var DrawV = require('chart/draw_v');
 // 工具
 var common = require('tools/common'); 
 // 拓展，合并，复制
-var extend = require('tools/extend2');
+var extend = require('tools/extend');
 // 交互效果
 var Interactive = require('interactive/interactive'); 
 // 水印
@@ -47,7 +47,10 @@ var ChartTime = (function() {
     // 构造函数
     function ChartTime(options) {
         this.defaultoptions = theme.chartTime;
-        this.options = extend(this.defaultoptions, options);
+        this.options = {};
+        // this.options = extend(this.defaultoptions, options);
+        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
+
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件

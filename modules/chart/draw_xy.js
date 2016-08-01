@@ -69,7 +69,11 @@ var DrawXY = (function(){
             ctx.moveTo(0, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
+            if(isNaN(item.num)){
+                ctx.fillText("0.00", 0, item.y - 10);
+            }else{
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
+            }
             ctx.stroke();
             // 绘制纵坐标涨跌幅
             drawYPercent.call(_this,ctx,y_max, y_min, item);
