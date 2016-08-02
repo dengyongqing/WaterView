@@ -74,7 +74,7 @@ var ChartTime = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr;
+        var dpr = this.options.dpr = 1;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -102,6 +102,9 @@ var ChartTime = (function() {
         
         // 容器中添加画布
         this.container.appendChild(canvas);
+
+        // 加水印
+        watermark.apply(this,[this.options.context,90,20,82,20]);
         
     };
 

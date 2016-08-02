@@ -1,6 +1,6 @@
-/*绘制分时图*/
+/*绘制mobi分时图*/
 var ChartTime = require('chart/mobile/chart_time');
-/*绘制K线图*/
+/*绘制mobiK线图*/
 var ChartK = require('chart/mobile/chart_k');
 /*绘制折线图*/
 var ChartLine = require('chart/mobile/chart_line');
@@ -10,6 +10,10 @@ var ChartLineRate = require('chart/web/line-rate');
 var ChartBarQuarter = require('chart/web/bar-quarter');
 /*绘制季度折线图*/
 var ChartLineQuarter = require('chart/web/line-quarter');
+/*绘制web分时图*/
+var ChartWebTime = require('chart/web/time');
+/*绘制web的K线图*/
+var ChartWebK = require('chart/web/k');
 /*加载样式文件*/
 require('css/style.css');
 
@@ -19,3 +23,5 @@ window.EmchartsMobileLine = ChartLine;
 window.EmchartsWebBarQuarter = ChartBarQuarter;
 window.EmchartsWebLineQuarter = ChartLineQuarter;
 window.EmchartsWebLineRate = ChartLineRate;
+window.EmchartsWebTime = ChartWebTime;
+window.EmchartsWebK = ChartWebK;

@@ -21,7 +21,7 @@
  */
  
 // 绘制坐标轴
-var DrawXY = require('chart/draw_xy');
+var DrawXY = require('chart/web/k/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 获取K线图数据
@@ -29,7 +29,7 @@ var GetDataDay = require('getdata/mobile/chart_day');
 var GetDataWeek = require('getdata/mobile/chart_week'); 
 var GetDataMonth = require('getdata/mobile/chart_month'); 
 // 绘制K线图
-var DrawK = require('chart/draw_k'); 
+var DrawK = require('chart/web/common/draw_k'); 
 // 绘制均线图
 var DrawMA = require('chart/draw_ma'); 
 // 绘制成交量图
@@ -71,7 +71,7 @@ var ChartK = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr;
+        var dpr = this.options.dpr = 1;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -99,6 +99,9 @@ var ChartK = (function() {
        
         // 容器中添加画布
         this.container.appendChild(canvas);
+
+        // 加水印
+        watermark.apply(this,[this.options.context,90,20,82,20]);
        
     };
 
@@ -305,9 +308,9 @@ var ChartK = (function() {
             // 绘制日K线图
             new DrawK(this.options);
             // 绘制均线图
-            new DrawMA(this.options);
+            // new DrawMA(this.options);
             // 绘制成交量图
-            new DrawV(this.options);
+            // new DrawV(this.options);
 
             // 上榜日标识点
             if(this.options.interactive.options.pointsContainer){
