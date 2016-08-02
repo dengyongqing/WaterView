@@ -4,6 +4,8 @@
 var extend = require('tools/extend');
 /*主题*/
 var theme = require('theme/default');
+/*绘制网格虚线*/
+var DrawDashLine = require('chart/web/common/draw_dash_line');
 var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
