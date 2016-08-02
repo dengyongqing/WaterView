@@ -208,6 +208,72 @@ var ChartK = (function() {
         return points;
     }
 
+    // 绘制K线图
+    function drawK(ctx,data_arr){
+        
+        // 获取单位绘制区域
+        var rect_unit = this.options.rect_unit;
+        // 单位绘制区域的宽度
+        // var rect_w = rect_unit.rect_w;
+        // K线柱体的宽度
+        var bar_w = rect_unit.bar_w;
+        // K线柱体的颜色
+        var up_color = this.options.up_color;
+        var down_color =this.options.down_color
+        // 图表交互
+        var inter = this.options.interactive;
+        // 上榜日数组
+        var pointObj = {};
+        if(this.options.markPoint && this.options.markPoint.show){
+            var array = this.options.markPoint.dateList;
+            for(var index in array){
+                pointObj[array[index]] = array[index];
+            }
+        }
+
+        var params = {};
+       
+        for(var i = 0,item; item = data_arr[i]; i++){
+            // 是否上涨
+            var is_up = item.up;
+
+            ctx.beginPath();
+            ctx.lineWidth = 1;
+
+            if(is_up){
+                ctx.fillStyle = up_color;
+                ctx.strokeStyle = up_color
+            }else{
+                ctx.fillStyle = down_color
+                ctx.strokeStyle = down_color
+            }
+
+            params.ctx = ctx;
+            var x = params.x = common.get_x.call(this,i + 1);
+            var y_open = params.y_open = common.get_y.call(this,item.open);
+            var y_close = params.y_close = common.get_y.call(this,item.close);
+            var y_highest = params.y_highest = common.get_y.call(this,item.highest);
+            var y_lowest = params.y_lowest = common.get_y.call(this,item.lowest);
+
+            item.cross_x = x;
+            item.cross_y = y_close;
+            // console.log(x.toFixed(2).toString());
+
+            //标识上榜日
+            if(pointObj[item.data_time]){
+                inter.markPoint(x,item.data_time,this.options.context.canvas,this.options.scale_count);
+            }
+            // 获取单位绘制区域
+            var rect_unit = this.options.rect_unit;
+            // K线柱体的宽度
+            var bar_w = params.bar_w = rect_unit.bar_w;
+
+            DrawK.apply(this,[params]);
+
+        }
+    };
+
+
     // 缩放图表
     function scaleClick() {
       
@@ -299,14 +365,19 @@ var ChartK = (function() {
             inter.default_m10 = ten_average[ten_average.length - 1];
             inter.default_m20 = twenty_average[twenty_average.length - 1];
 
+
             // 获取单位绘制区域
             var rect_unit = common.get_rect.apply(this,[canvas,data.data.length]);
             this.options.rect_unit = rect_unit;
 
             // 绘制坐标轴
             new DrawXY(this.options);
-            // 绘制日K线图
-            new DrawK(this.options);
+
+            var data_arr = data.data;
+
+            // 绘制K线图
+            drawK.apply(this,[ctx,data_arr]);
+
             // 绘制均线图
             // new DrawMA(this.options);
             // 绘制成交量图
@@ -334,7 +405,7 @@ var ChartK = (function() {
         }
         
        // 加水印
-       watermark.apply(this,[this.options.context,170,20]);
+       watermark.apply(this,[this.options.context,90,20,82,20]);
 
        return true;
     }

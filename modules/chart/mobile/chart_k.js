@@ -302,7 +302,7 @@ var ChartK = (function() {
 
             // 绘制坐标轴
             new DrawXY(this.options);
-            // 绘制日K线图
+            // 绘制K线图
             new DrawK(this.options);
             // 绘制均线图
             new DrawMA(this.options);

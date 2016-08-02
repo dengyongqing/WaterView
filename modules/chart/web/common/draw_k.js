@@ -19,9 +19,9 @@ function drawK(params){
  	ctx.beginPath();
 
  	if(y_close >= y_open){
- 		ctx.rect(params.x,y_open,bar_w,y_close - y_open);
+ 		ctx.rect(params.x - bar_w/2,y_open,bar_w,y_close - y_open);
  	}else{
- 		ctx.rect(params.x,y_close,bar_w,y_open - y_close);
+ 		ctx.rect(params.x - bar_w/2,y_close,bar_w,y_open - y_close);
  	}
 
  	ctx.stroke();
