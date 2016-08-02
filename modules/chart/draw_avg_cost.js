@@ -55,7 +55,6 @@ var Draw_Avg_Cost = (function () {
 		for(var i = 0;i<data_arr.length;i++) {
 			var x = common.get_x.call(this,i+1);
 			var y = common.get_y.call(this,data_arr[i].avg_cost);
-			console.log("x:" + x + "    y:" + y);
 			if(i == 0){
 				ctx.moveTo(x,y);
 			}
