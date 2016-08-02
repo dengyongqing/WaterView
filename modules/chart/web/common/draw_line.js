@@ -1,5 +1,6 @@
 function drawLine(params){
 	// 保存画笔状态
+	var ctx = params.ctx;
 	ctx.save();
     ctx.beginPath();
     ctx.lineWidth = params.lineWidth == undefined ? 1 : params.lineWidth;
