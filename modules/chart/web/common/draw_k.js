@@ -30,3 +30,5 @@ function drawK(params){
  	// 恢复画笔状态
 	ctx.restore();
  }
+ 
+ module.exports = drawK;
