@@ -4,8 +4,8 @@
 
 /*继承*/
 var extend = require('tools/extend');
-/*工具*/
-var common = require('common');
+// 工具
+var common = require('chart/web/common/common');
 /*虚线*/
 var draw_dash = require('chart/web/common/draw_dash_line');
 /*主题*/
@@ -72,7 +72,7 @@ var DrawV = (function() {
 
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
         ctx.lineWidth = this.options.dpr;
-        ctx.rect(this.options.padding_left, y_v_top, ctx.canvas.width - this.options.padding_left - 2, v_height);
+        ctx.rect(this.options.padding.left, y_v_top, ctx.canvas.width - this.options.padding.left - 2, v_height);
         ctx.stroke();
 
         ctx.lineWidth = 1;
@@ -116,7 +116,7 @@ var DrawV = (function() {
         ctx.beginPath();
         ctx.fillStyle = '#999';
         var v_height = ctx.canvas.height / 4;
-        var padding_left = this.options.padding_left;
+        var padding_left = this.options.padding.left;
 
         /*var v_base_height = v_height * 0.9;
 

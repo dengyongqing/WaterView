@@ -9,7 +9,7 @@ var extend = require('tools/extend');
 // 主题
 var theme = require('theme/default');
 // 工具
-var common = require('common');
+var common = require('chart/web/common/common');
 var Draw_Avg_Cost = (function () {
 	function Draw_Avg_Cost(options){
 		// 设置默认参数

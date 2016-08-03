@@ -7,7 +7,6 @@
 var DrawXY = require('chart/web/time/draw_xy');
 // 主题
 var theme = require('theme/default');
-var common = require('tools/common'); 
 // 获取分时图数据
 var GetDataTime = require('getdata/mobile/chart_time'); 
 // 绘制分时折线图
@@ -61,11 +60,8 @@ var ChartTime = (function() {
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
-
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / 8;
-        // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
@@ -319,7 +315,7 @@ var ChartTime = (function() {
         // var c_y = (c_pos.y).toFixed(0);
 
         // 当前点在数组中的下标
-        var index = Math.floor((c_x - this.options.padding_left)/rect_w);
+        var index = Math.floor((c_x - this.options.padding.left)/rect_w);
 
         if(time_data[index]){
             // Tip显示行情数据

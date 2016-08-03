@@ -80,7 +80,7 @@ var common = {
     },
     // 图表x轴坐标计算
     get_rect: function(canvas,num) {
-        var rect_w = (canvas.width-this.options.padding_left) / num;
+        var rect_w = (canvas.width-this.options.padding.left) / num;
         var bar_w = rect_w * (1 - this.options.spacing);
         return {
             rect_w:rect_w,
