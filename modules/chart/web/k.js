@@ -35,7 +35,7 @@ var DrawMA = require('chart/draw_ma');
 // 绘制成交量图
 var DrawV = require('chart/draw_v'); 
 // 工具
-var common = require('tools/common'); 
+var common = require('chart/web/common/common'); 
 // 交互效果
 var Interactive = require('interactive/interactive'); 
 // 拓展，合并，复制
@@ -63,8 +63,6 @@ var ChartK = (function() {
         this.options.type = this.options.type == undefined ? "DK" : this.options.type;
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
-        // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
-        // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
         //画布
         var ctx = canvas.getContext('2d');
@@ -100,6 +98,14 @@ var ChartK = (function() {
         // 容器中添加画布
         this.container.appendChild(canvas);
 
+        this.options.padding = {};
+        this.options.padding.left = ctx.measureText("1000").width + 10;
+        this.options.padding.right = 0;
+        this.options.padding.top = 0;
+        this.options.padding.bottom = 0;
+
+        this.options.y_sepe = 8;
+        this.options.x_sepe = 10;
         // 加水印
         watermark.apply(this,[this.options.context,90,20,82,20]);
        

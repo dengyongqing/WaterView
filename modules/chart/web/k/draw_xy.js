@@ -30,7 +30,7 @@ var DrawXY = (function(){
         var y_min = data.min;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = this.options.sepe_num;
+        var sepe_num = this.options.y_sepe;
         /*开盘收盘时间数组*/
         var oc_time_arr = data.timeStrs;
 
@@ -101,11 +101,15 @@ var DrawXY = (function(){
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
             }
 
+            if(i == 0 || i == line_list_array.length - 1){
+                ctx.moveTo(this.options.padding.left, Math.round(item.y));
+                ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+            }else{
+                DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width, Math.round(item.y),5);
+            }
             
-            ctx.moveTo(0, Math.round(item.y));
-            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
+            ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y + 5);
             ctx.stroke();
         }
 
@@ -135,9 +139,28 @@ var DrawXY = (function(){
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = k_height + ctx.canvas.height/8/2;
-        ctx.fillText(oc_time_arr[0], padding_left, y_date);
-        ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);
-        ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, y_date);
+        // ctx.fillText(oc_time_arr[0], padding_left, y_date);
+        // ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);
+        // ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, y_date);
+        
+        var unit_w = (k_width - this.options.padding.left) / this.options.x_sepe;
+        for(var i = 0;i <= this.options.x_sepe;i++){
+
+            var x1 = this.options.padding.left + i * unit_w;
+            var y1 = 0;
+            var x2 = this.options.padding.left + i * unit_w;
+            var y2 = k_height;
+
+            if(i == 0 || i == this.options.x_sepe){
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }else{
+                DrawDashLine(ctx, x1, y1, x2, y2, 5);
+            }
+            
+            ctx.fillText("2016-08-01", x1, y2 + 30);
+        }
         // ctx.moveTo(0,k_height + 10);
     }
     /*Y轴标识线列表*/
