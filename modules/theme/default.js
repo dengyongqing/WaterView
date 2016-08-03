@@ -39,6 +39,15 @@ var defaultopions = {
         y_padding_per:0.05, //画布上线内间距占(y_max - y_min)的比例
         date_offset_top:15//横坐标轴上的日期刻度
 	},
+	// web的坐标轴配置参数
+	draw_xy_web:{
+        axis_color:"#fff", //坐标轴颜色
+        y_max:100,//纵坐标最小值
+        y_min:0,//纵坐标最小值
+        sepe_num:9, 	//沿Y轴平均分割线的个数
+        y_padding_per:0.05, //画布上线内间距占(y_max - y_min)的比例
+        date_offset_top:15//横坐标轴上的日期刻度
+	},
 	// 分时图配置参数
 	draw_line:{
      	avg_cost_color:"#f1ca15"   //平均线的颜色
