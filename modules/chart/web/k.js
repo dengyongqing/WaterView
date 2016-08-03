@@ -31,9 +31,9 @@ var GetDataMonth = require('getdata/mobile/chart_month');
 // 绘制K线图
 var DrawK = require('chart/web/common/draw_k'); 
 // 绘制均线图
-var DrawMA = require('chart/draw_ma'); 
+// var DrawMA = require('chart/draw_ma'); 
 // 绘制成交量图
-var DrawV = require('chart/draw_v'); 
+// var DrawV = require('chart/draw_v'); 
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -106,6 +106,12 @@ var ChartK = (function() {
 
         this.options.y_sepe = 8;
         this.options.x_sepe = 10;
+
+        this.options.c1_y_top = canvas.height * 1 / 20;
+        this.options.c2_y_top = canvas.height * 12 / 20;
+        this.options.c3_y_top = canvas.height * 15 / 20;
+        this.options.c4_y_top = canvas.height * 18 / 20;
+
         // 加水印
         watermark.apply(this,[this.options.context,90,20,82,20]);
        
@@ -212,6 +218,146 @@ var ChartK = (function() {
     ChartK.prototype.getMarkPointsDom = function(cb) {
         var points =  this.options.interactive.options.pointsContainer.children;
         return points;
+    }
+
+    // 绘制成交量
+    function drawV(){
+
+        var ctx = this.options.context;
+        var data = this.options.data;
+        /*成交量数组*/
+        var data_arr = data.data;
+        /*Y轴上的最大值*/
+        // var y_max = data.max;
+        /*Y轴上的最小值*/
+        // var y_min = data.min;
+        /*最大成交量*/
+        var v_max = (data.v_max).toFixed(0);
+        
+        /*K线图表的高度*/
+        // var c_1_height = this.options.c_1_height;
+        //成交量图表的高度
+        // var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
+        var v_height = ctx.canvas.height * 3 / 20;
+
+        var v_base_height = v_height * 0.9;
+
+        var c2_y_top = this.options.c2_y_top;
+        var y_v_bottom = this.options.c2_y_top + v_height;
+
+        /*获取单位矩形对象*/
+        var rect_unit = this.options.rect_unit;
+
+        /*单位绘图矩形画布的宽度*/
+        // var rect_w = rect_unit.rect_w;
+        /*K线柱体的宽度*/
+        var bar_w = rect_unit.bar_w;
+        /*K线柱体的颜色*/
+        var up_color = this.options.up_color;
+        var down_color =this.options.down_color
+
+        //标识最大成交量
+        // markVMax.apply(this,[ctx,v_max,c2_y_top]);
+
+        ctx.strokeStyle = 'rgba(230,230,230, 1)';
+        ctx.lineWidth = this.options.dpr;
+        ctx.rect(this.options.padding_left,c2_y_top,ctx.canvas.width - this.options.padding_left -2,v_height);
+        ctx.stroke();
+
+        ctx.lineWidth = 1;
+        for(var i = 0,item; item = data_arr[i]; i++){
+
+            var volume = item.volume;
+            var is_up = item.up;
+            var bar_height = volume/v_max * v_base_height;
+            var x = common.get_x.call(this,i + 1);
+            var y = y_v_bottom - bar_height;
+
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+
+            if(is_up){
+                ctx.fillStyle = up_color;
+                ctx.strokeStyle = up_color;
+            }else{
+                ctx.fillStyle = down_color;
+                ctx.strokeStyle = down_color;
+            }
+
+            ctx.rect(x - bar_w/2,y,bar_w,bar_height);
+            ctx.stroke();
+            ctx.fill();
+        }
+
+
+        // 标识最大成交量
+        function markVMax(ctx,v_max,y_v_end){
+            ctx.beginPath();
+            ctx.fillStyle = '#999';
+            ctx.fillText(common.format_unit(v_max),0,y_v_end + 10);
+            ctx.stroke();
+        }
+        // 获取最大成交量
+        function getVMax(data){
+            if(data.data[0]){
+                var max = data.data[0].volume;
+            }else{
+                var max = 0;
+            }
+            
+            for(var i = 0,item = data.data;i<data.data.length;i++) {
+                if(max<item[i].volume)
+                {
+                    max=item[i].volume;
+                }
+            }
+            return max
+        }
+
+    }
+
+    // 绘制均线
+    function drawMA(){
+
+        var ctx = this.options.context;
+        var data = this.options.data;
+        /*5日均线数据*/
+        var five_average = data.five_average;
+        /*10日均线数据*/
+        var ten_average = data.ten_average;
+        /*20日均线数据*/
+        var twenty_average = data.twenty_average;
+
+        this.options.ma_5_data = getMAData.apply(this,[ctx,five_average,"#f4cb15"]);
+        this.options.ma_10_data = getMAData.apply(this,[ctx,ten_average,"#ff5b10"]);
+        this.options.ma_20_data = getMAData.apply(this,[ctx,twenty_average,"#488ee6"]);
+
+        var params = {};
+
+        function getMAData(ctx,data_arr,color) {
+            var ma_data = [];
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            for(var i = 0;i < data_arr.length; i++){
+                var item = data_arr[i];
+                if(item){
+                     var x = common.get_x.call(this,i + 1);
+                     var y = common.get_y.call(this,item.value);
+                     //横坐标和均线数据
+                     ma_data.push(item);
+                     if(i == 0){
+                        ctx.moveTo(x,y);
+                     }else{
+                        ctx.lineTo(x,y);
+                     }
+                }
+                 
+            }
+            ctx.stroke();
+            return ma_data;
+        }
+
+        ctx.stroke();
     }
 
     // 绘制K线图
@@ -350,7 +496,7 @@ var ChartK = (function() {
         // 图表交互
         var inter = this.options.interactive;
 
-        try{
+        // try{
 
             if(!data || !data.data || data.data.length == 0){
                 // 隐藏loading效果
@@ -383,6 +529,10 @@ var ChartK = (function() {
 
             // 绘制K线图
             drawK.apply(this,[ctx,data_arr]);
+            // 绘制均线
+            drawMA.apply(this,[this.options]);
+            // 绘制成交量
+            drawV.apply(this,[this.options]);
 
             // 绘制均线图
             // new DrawMA(this.options);
@@ -401,14 +551,14 @@ var ChartK = (function() {
             // 图表加载完成时间
             this.options.onChartLoaded(this);
 
-        }catch(e){
-            // 缩放按钮点击有效
-            _this.options.clickable = true;
-            // 暂无数据
-            inter.showNoData();
-            // 隐藏loading效果
-            inter.hideLoading();
-        }
+        // }catch(e){
+        //     // 缩放按钮点击有效
+        //     _this.options.clickable = true;
+        //     // 暂无数据
+        //     inter.showNoData();
+        //     // 隐藏loading效果
+        //     inter.hideLoading();
+        // }
         
        // 加水印
        watermark.apply(this,[this.options.context,90,20,82,20]);

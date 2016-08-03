@@ -51,23 +51,24 @@ var DrawXY = (function(){
     function drawXYTime(ctx,y_max,y_min,line_list_array){
         var _this = this;
         var sepe_num = line_list_array.length;
+        var padding_left = this.options.padding.left;
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             /*绘制y轴上的x轴方向分割*/
             if (i < (sepe_num -1) / 2 ) {
                 ctx.fillStyle = '#007F24';
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
-                draw_dash(ctx, 0, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
+                draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
             }
             else if(i > (sepe_num -1) / 2){
                 ctx.fillStyle = '#FF0A16';
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
-                draw_dash(ctx, 0, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
+                draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
             }
             else{
                 ctx.fillStyle = '#333333';
                 ctx.strokeStyle = '#cadef8';
-                ctx.moveTo(0, Math.round(item.y));
+                ctx.moveTo(padding_left, Math.round(item.y));
                 ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             }
 
@@ -102,7 +103,7 @@ var DrawXY = (function(){
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
         // var dpr = this.options.dpr;
-        var padding_left = this.options.padding_left;
+        var padding_left = this.options.padding.left;
         var y_min = this.options.c_1_height;
         var y_max = this.options.c_1_height+ctx.canvas.height;
         ctx.beginPath();
@@ -116,7 +117,6 @@ var DrawXY = (function(){
         // ctx.moveTo(0,k_height + 10);
         /*绘制x轴上的y轴方向分割*/
         var len = oc_time_arr.length*2;
-        console.log("len");
 
         var v_height = ctx.canvas.height / 4;
 
@@ -129,9 +129,9 @@ var DrawXY = (function(){
             (function(i){
                 draw_dash(ctx, padding_left+i*(k_width/len), y_min, padding_left+i*(k_width/len), 0, 8);
                 draw_dash(ctx, padding_left+i*(k_width/len), y_v_bottom, padding_left+i*(k_width/len), y_v_top, 8);
+                // console.log("x1: "+padding_left+i*(k_width/len)+" y1: "+y_min+" x2: "+padding_left+i*(k_width/len));
             })(i);
         }
-
     }
 
     /*Y轴标识线列表*/

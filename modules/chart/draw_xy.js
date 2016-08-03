@@ -35,6 +35,7 @@ var DrawXY = (function(){
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
+        debugger;
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
         if(type == "TL"){
@@ -74,6 +75,7 @@ var DrawXY = (function(){
             }else{
                 ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
             }
+
             ctx.stroke();
             // 绘制纵坐标涨跌幅
             drawYPercent.call(_this,ctx,y_max, y_min, item);

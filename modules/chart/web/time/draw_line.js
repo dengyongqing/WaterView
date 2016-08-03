@@ -57,7 +57,7 @@ var DrawLine = (function(){
 
 		ctx.beginPath();
 		ctx.fillStyle = grad;
-		ctx.moveTo(this.options.padding_left,y_min);
+		ctx.moveTo(this.options.padding.left,y_min);
 
 		for(var i = 0,item;item = data_arr[i]; i++){
 			 var x = common.get_x.call(this,i + 1);
