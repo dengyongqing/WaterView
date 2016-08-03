@@ -61,11 +61,8 @@ var ChartTime = (function() {
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
-
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / 8;
-        // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
