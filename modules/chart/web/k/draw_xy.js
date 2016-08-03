@@ -101,9 +101,9 @@ var DrawXY = (function(){
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
             }
 
-            
-            ctx.moveTo(0, Math.round(item.y));
-            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+            DrawDashLine(ctx,0, Math.round(item.y),ctx.canvas.width, Math.round(item.y),5);
+            // ctx.moveTo(0, Math.round(item.y));
+            // ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
             ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
             ctx.stroke();
@@ -138,6 +138,15 @@ var DrawXY = (function(){
         ctx.fillText(oc_time_arr[0], padding_left, y_date);
         ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);
         ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, y_date);
+        
+        var unit_w = k_width / this.options.x_sepe;
+        for(var i = 0;i < this.options.x_sepe;i++){
+            var x1 = padding_left + i * unit_w;
+            var y1 = k_width/8/2;
+            var x2 = padding_left + i * unit_w;
+            var y2 = k_height + k_width/8/2;
+            DrawDashLine(ctx,x1, y1,x2, y2,5);
+        }
         // ctx.moveTo(0,k_height + 10);
     }
     /*Y轴标识线列表*/

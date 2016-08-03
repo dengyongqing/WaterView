@@ -68,7 +68,7 @@ var common = {
         var rect_w = this.options.rect_unit.rect_w;
         var num = this.options.data.data.length;
         var total = this.options.data.total;
-        var padding_left = this.options.padding_left;
+        var padding_left = this.options.padding.left;
         // var dpr = this.options.dpr;
 
         if(type == "TL"){
@@ -80,7 +80,7 @@ var common = {
     },
     // 图表x轴坐标计算
     get_rect: function(canvas,num) {
-        var rect_w = (canvas.width-this.options.padding_left) / num;
+        var rect_w = (canvas.width-this.options.padding.left) / num;
         var bar_w = rect_w * (1 - this.options.spacing);
         return {
             rect_w:rect_w,
