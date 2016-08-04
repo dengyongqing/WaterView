@@ -55,25 +55,15 @@ var DrawXY = (function() {
         for (var i = 0, item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             /*绘制y轴上的x轴方向分割*/
-            if (i < (sepe_num - 1) / 2) {
+            if (i == 0 || i == (sepe_num - 1)) {
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
-                if (i == 0) {
-                    ctx.moveTo(padding_left, Math.round(item.y));
-                    ctx.lineTo(ctx.canvas.width, Math.round(item.y));
-                } else {
-                    draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
-                }
+                ctx.moveTo(padding_left, Math.round(item.y));
+                ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+            } else if (i < (sepe_num - 1) / 2) {
                 ctx.fillStyle = '#007F24';
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
                 draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
             } else if (i > (sepe_num - 1) / 2) {
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-                if (i == (sepe_num - 1)) {
-                    ctx.moveTo(padding_left, Math.round(item.y));
-                    ctx.lineTo(ctx.canvas.width, Math.round(item.y));
-                } else {
-                    draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
-                }
                 ctx.fillStyle = '#FF0A16';
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
                 draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 8);
