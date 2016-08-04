@@ -9,12 +9,6 @@ var DrawXY = require('chart/web/time/draw_xy');
 var theme = require('theme/default');
 // 获取分时图数据
 var GetDataTime = require('getdata/mobile/chart_time');
-// 绘制分时折线图
-var DrawLine = require('chart/web/time/draw_line');
-// 绘制分时折线图中的平均线
-var DrawAvgCost = require('chart/web/time/draw_avg');
-// 绘制成交量图
-var DrawV = require('chart/web/time/draw_v');
 // 工具
 var common = require('chart/web/common/common');
 var draw_dash = require('chart/web/common/draw_dash_line');
