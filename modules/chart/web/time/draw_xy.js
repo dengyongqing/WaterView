@@ -57,6 +57,7 @@ var DrawXY = (function() {
             /*绘制y轴上的x轴方向分割*/
             if (i == 0 || i == (sepe_num - 1)) {
                 ctx.strokeStyle = 'rgba(230,230,230, 1)';
+                ctx.fillStyle = '#007F24';
                 ctx.moveTo(padding_left, Math.round(item.y));
                 ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             } else if (i < (sepe_num - 1) / 2) {
