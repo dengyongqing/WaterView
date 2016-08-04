@@ -58,7 +58,7 @@ var ChartLine = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-        // 画布
+        // 兼容IE6-IE9
         try {
             var ctx = canvas.getContext('2d');
         } catch (error) {

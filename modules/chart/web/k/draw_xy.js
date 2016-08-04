@@ -151,9 +151,13 @@ var DrawXY = (function(){
             var x2 = this.options.padding.left + i * unit_w;
             var y2 = k_height;
 
-            if(i == 0 || i == this.options.x_sepe){
+            if(i == 0){
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
+                ctx.stroke();
+            }else if(i == this.options.x_sepe){
+                ctx.moveTo(x1 - 1, y1);
+                ctx.lineTo(x2 - 1, y2);
                 ctx.stroke();
             }else{
                 DrawDashLine(ctx, x1, y1, x2, y2, 5);

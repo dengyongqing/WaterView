@@ -30,18 +30,16 @@ var GetDataWeek = require('getdata/mobile/chart_week');
 var GetDataMonth = require('getdata/mobile/chart_month'); 
 // 绘制K线图
 var DrawK = require('chart/web/common/draw_k'); 
-// 绘制均线图
-// var DrawMA = require('chart/draw_ma'); 
-// 绘制成交量图
-// var DrawV = require('chart/draw_v'); 
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
-var Interactive = require('interactive/interactive'); 
+var Interactive = require('chart/web/common/interactive'); 
 // 拓展，合并，复制
 var extend = require('tools/extend');
 // 水印
 var watermark = require('chart/watermark');
+/*绘制网格虚线*/
+var DrawDashLine = require('chart/web/common/draw_dash_line');
 
 var ChartK = (function() {
 
@@ -64,12 +62,19 @@ var ChartK = (function() {
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         this.container.style.position = "relative";
-        //画布
-        var ctx = canvas.getContext('2d');
+        // 兼容IE6-IE9
+        try {
+            var ctx = canvas.getContext('2d');
+        } catch (error) {
+            canvas = window.G_vmlCanvasManager.initElement(canvas);
+            var ctx = canvas.getContext('2d');
+        }
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr = 1;
+        // 容器中添加画布
+        this.container.appendChild(canvas);
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -93,11 +98,8 @@ var ChartK = (function() {
         ctx.translate("0",this.options.canvas_offset_top);
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
-        ctx.lineWidth = 1 * this.options.dpr + 0.5;
+        ctx.lineWidth = 1 * this.options.dpr;
        
-        // 容器中添加画布
-        this.container.appendChild(canvas);
-
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
         this.options.padding.right = 0;
@@ -220,6 +222,41 @@ var ChartK = (function() {
         return points;
     }
 
+    // 绘制技术指标
+    function drawT(){
+
+        var ctx = this.options.context;
+        var data = this.options.data;
+        /*成交量数组*/
+        var data_arr = data.data;
+       
+        var t_height = ctx.canvas.height * 3 / 20;
+
+        var t_base_height = t_height * 0.9;
+
+        var c3_y_top = this.options.c3_y_top;
+        var c3_y_bottom = this.options.c3_y_top + t_height;
+
+        /*获取单位矩形对象*/
+        var rect_unit = this.options.rect_unit;
+
+        /*单位绘图矩形画布的宽度*/
+        // var rect_w = rect_unit.rect_w;
+        /*K线柱体的宽度*/
+        var bar_w = rect_unit.bar_w;
+        /*K线柱体的颜色*/
+        var up_color = this.options.up_color;
+        var down_color =this.options.down_color;
+
+        //标识最大成交量
+        // markVMax.apply(this,[ctx,v_max,c2_y_top]);
+
+        ctx.strokeStyle = 'rgba(230,230,230, 1)';
+        ctx.lineWidth = this.options.dpr;
+        ctx.rect(this.options.padding.left,c3_y_top,ctx.canvas.width - this.options.padding.left - 2,t_height);
+        ctx.stroke();
+    }
+
     // 绘制成交量
     function drawV(){
 
@@ -261,7 +298,14 @@ var ChartK = (function() {
 
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
         ctx.lineWidth = this.options.dpr;
-        ctx.rect(this.options.padding_left,c2_y_top,ctx.canvas.width - this.options.padding_left -2,v_height);
+        ctx.rect(this.options.padding.left,c2_y_top,ctx.canvas.width - this.options.padding.left - 2,v_height);
+        for(var i = 1;i<3;i++){
+            var x1 = this.options.padding.left;
+            var y1 = c2_y_top + ctx.canvas.height * 1 / 20 * i;
+            var x2 = ctx.canvas.width - this.options.padding.right;
+            var y2 = c2_y_top + ctx.canvas.height * 1 / 20 * i;
+            DrawDashLine(ctx,x1, y1, x2, y2,5);
+        }
         ctx.stroke();
 
         ctx.lineWidth = 1;
@@ -533,6 +577,8 @@ var ChartK = (function() {
             drawMA.apply(this,[this.options]);
             // 绘制成交量
             drawV.apply(this,[this.options]);
+            // 绘制技术指标
+            drawT.apply(this,[this.options]);
 
             // 绘制均线图
             // new DrawMA(this.options);
