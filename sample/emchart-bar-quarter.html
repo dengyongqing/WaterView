@@ -57,11 +57,10 @@
 		var four_quarter = "#ff7e00";
 
 		window.onload = function(){
-			current_tab = k0 = new EmchartsWebBarQuarter({
+			k0 = new EmchartsWebBarQuarter({
 	        	container : "emchart-0",
 		        "width" : 500,
 		        "height" : 500,
-		        showflag: true,
 		        xaxis: [{
 			        	value:"2010",
 			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
@@ -86,26 +85,18 @@
 			        }],
 		        series:[
 					{	
-						name:"2010",
-						data:[500,700,900,1100]
-					},
-					{	
-						name:"2011",
 						data:[500,700,900,1100]
 					},{	
-						name:"2012",
+						data:[500,700,900,1100]
+					},{	
 						data:[-500,-700,-900,-1100]
 					},{	
-						name:"2013",
 						data:[500,700,900,1100]
 					},{	
-						name:"2014",
 						data:[500,700,900,1100]
 					},{	
-						name:"2015",
 						data:[500,700,900,1100]
 					},{	
-						name:"2016",
 						data:[500,700,900,1100]
 					}
 				]
