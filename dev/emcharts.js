@@ -11,9 +11,9 @@ var ChartBarQuarter = require('chart/web/bar-quarter');
 /*绘制季度折线图*/
 var ChartLineQuarter = require('chart/web/line-quarter');
 /*绘制web分时图*/
-var ChartWebTime = require('chart/web/time');
+// var ChartWebTime = require('chart/web/time');
 /*绘制web的K线图*/
-var ChartWebK = require('chart/web/k');
+// var ChartWebK = require('chart/web/k');
 /*加载样式文件*/
 require('css/style.css');
 
@@ -23,5 +23,5 @@ window.EmchartsMobileLine = ChartLine;
 window.EmchartsWebBarQuarter = ChartBarQuarter;
 window.EmchartsWebLineQuarter = ChartLineQuarter;
 window.EmchartsWebLineRate = ChartLineRate;
-window.EmchartsWebTime = ChartWebTime;
-window.EmchartsWebK = ChartWebK;
+// window.EmchartsWebTime = ChartWebTime;
+// window.EmchartsWebK = ChartWebK;

@@ -74,13 +74,15 @@
         var tempDate;
         // var timeSpacing = (this.options.width * dpr - padding_left) / oc_time_arr.length + padding_left;
         var arr_length = oc_time_arr.length;
-
         for(var i = 0;i<arr_length;i++) {
             tempDate = oc_time_arr[i];
             if(tempDate.show == undefined ? true : tempDate.show){
                 if(i < arr_length - 1){
-                    ctx.fillText(tempDate.value.split('-')[0], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
-                    ctx.fillText(tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+70);
+                    ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+40);
+                }else
+
+                if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > ctx.canvas.width){
+                    ctx.fillText(tempDate.value, ctx.canvas.width - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+40);
                 }
             }
 
