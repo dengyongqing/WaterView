@@ -50,18 +50,12 @@
 	<script src="../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
-		
-		var one_quarter = "#ffc962";
-		var two_quarter = "#ffb527";
-		var three_quarter = "#ff9c00";
-		var four_quarter = "#ff7e00";
 
 		window.onload = function(){
 			current_tab = k0 = new EmchartsWebLineQuarter({
 	        	container : "emchart-0",
 		        "width" : 500,
 		        "height" : 500,
-		        showflag: true,
 		        line:{
 		        	color:"#c9c9c9"
 		        },
@@ -71,50 +65,34 @@
 					color:"#ff7e00"
 				},
 		        xaxis: [{
-			        	value:"2010",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	value:"2010"
 			        },{
-			        	value:"2011",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	value:"2011"
 			        },{
-			        	value:"2012",
-			        	colors:["#a9f392","#8be96f","#5ad834","#44ca1b"]
+			        	value:"2012"
 			        },{
-			        	value:"2013",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	value:"2013"
 			        },{
-			        	value:"2014",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	value:"2014"
 			        },{
-			        	value:"2015",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	value:"2015"
 			        },{
-			        	value:"2016",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	value:"2016"
 			        }],
 		        series:[
 					{	
-
-						name:"2010",
-						data:[500,600,1000,1100]
-					},
-					{	
-						name:"2011",
 						data:[500,600,1000,1100]
 					},{	
-						name:"2012",
+						data:[500,600,1000,1100]
+					},{	
 						data:[500,600,-1000,-1100]
 					},{	
-						name:"2013",
 						data:[500,600,1000,1100]
 					},{	
-						name:"2014",
 						data:[500,600,1000,1100]
 					},{	
-						name:"2015",
 						data:[500,600,1000,1100]
 					},{	
-						name:"2016",
 						data:[500,600,1000,1100]
 					}
 				]
