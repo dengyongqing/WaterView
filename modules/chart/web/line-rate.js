@@ -239,7 +239,7 @@ var ChartLine = (function() {
             //通过鼠标移动获得交互的点
             var result = getTips.call(_that, winX * _that.options.dpr, winY * _that.options.dpr);
 
-            if (result.showLine) {
+            if (result.showLine && (winY >= offSetTop && winY <= (offSetTop + yHeight))) {
                 middleLine.style.display = "inline-block";
                 //绘制中线
                 middleLine.style.height = yHeight + "px";
