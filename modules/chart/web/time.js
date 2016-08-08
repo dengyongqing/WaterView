@@ -13,9 +13,9 @@ var GetDataTime = require('getdata/mobile/chart_time');
 var common = require('chart/web/common/common');
 var draw_dash = require('chart/web/common/draw_dash_line');
 // 拓展，合并，复制
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 // 交互效果
-var Interactive = require('interactive/interactive');
+var Interactive = require('chart/web/common/interactive');
 // 水印
 var watermark = require('chart/watermark');
 
@@ -23,10 +23,10 @@ var ChartTime = (function() {
 
     // 构造函数
     function ChartTime(options) {
-        this.defaultoptions = theme.chartTime;
+        this.defaultoptions = theme.draw_xy_web;
         this.options = {};
         // this.options = extend(this.defaultoptions, options);
-        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
+        this.options = extend(this.defaultTheme, this.options, this.defaultoptions, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -47,11 +47,20 @@ var ChartTime = (function() {
         // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
         // 画布
-        var ctx = canvas.getContext('2d');
+        try {
+            var ctx = canvas.getContext('2d');
+        } catch (error) {
+            canvas = window.G_vmlCanvasManager.initElement(canvas);
+            var ctx = canvas.getContext('2d');
+        }
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr;
+
+        // 容器中添加画布
+        this.container.appendChild(canvas);
+
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -76,12 +85,10 @@ var ChartTime = (function() {
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("10000").width + 20;
-        this.options.padding.right = 0;
+        this.options.padding.right = ctx.measureText("10000").width;
         this.options.padding.top = 0;
         this.options.padding.bottom = 0;
 
-        // 容器中添加画布
-        this.container.appendChild(canvas);
 
     };
 
@@ -100,6 +107,7 @@ var ChartTime = (function() {
 
             GetDataTime(this.options.code,
                 function(data) {
+
                     if (data) {
                         dataCallback.apply(_this, [data]);
                     } else {
@@ -168,14 +176,11 @@ var ChartTime = (function() {
 
             // 绘制坐标轴
             new DrawXY(this.options);
-            /*// 绘制分时折线图
-            new DrawLine(this.options);
-            // 绘制分时折线图平均线
-            new DrawAvgCost(this.options);
-            // 绘制分时图成交量
-            new DrawV(this.options);*/
+            //绘制分时图
             draw_line.call(this);
+            //绘制平均成本线
             draw_avg.call(this);
+            //绘制交易量
             draw_v.call(this);
             // 隐藏loading效果
             inter.hideLoading();
@@ -205,88 +210,35 @@ var ChartTime = (function() {
         var delayed = false;
         var delaytouch = this.options.delaytouch = true;;
 
-        // 触摸事件
-        canvas.addEventListener("touchstart", function(event) {
-            // 显示交互效果
-            if (delaytouch) {
-                delayed = false;
-                timer_s = setTimeout(function() {
-                    delayed = true;
-                    inter.show();
-                    dealEvent.apply(_this, [inter, event.changedTouches[0]]);
-                    event.preventDefault();
-                }, 200);
-            } else {
-                inter.show();
-                dealEvent.apply(_this, [inter, event.changedTouches[0]]);
-            }
-
-            if (_this.options.preventdefault) {
-                event.preventDefault();
-            }
-
-        });
-        // 手指滑动事件
-        canvas.addEventListener("touchmove", function(event) {
-            if (delaytouch) {
-                clearTimeout(timer_s);
-                if (delayed) {
-                    dealEvent.apply(_this, [inter, event.changedTouches[0]]);
-                    event.preventDefault();
-                }
-            } else {
-                dealEvent.apply(_this, [inter, event.changedTouches[0]]);
-            }
-
-            if (_this.options.preventdefault) {
-                event.preventDefault();
-            }
-
-        });
-        // 手指离开事件
-        canvas.addEventListener("touchend", function(event) {
-            if (delaytouch) {
-                clearTimeout(timer_s);
-            }
-            // 隐藏交互效果
-            inter.hide();
-            if (_this.options.preventdefault) {
-                event.preventDefault();
-            }
-
-        });
-
-        canvas.addEventListener("touchcancel", function(event) {
-            if (delaytouch) {
-                clearTimeout(timer_s);
-                // delay.style.display = "none";
-            }
-            // 隐藏交互效果
-            inter.hide();
-            if (_this.options.preventdefault) {
-                event.preventDefault();
-            }
-        });
-
-
         // if(!delaytouch){
-        canvas.addEventListener("mousemove", function(event) {
+        common.addEvent.call(_this, canvas, "mousemove", function(event) {
             //console.info(event);
             dealEvent.apply(_this, [inter, event]);
-            event.preventDefault();
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
         });
 
-        canvas.addEventListener("mouseleave", function(event) {
+        common.addEvent.call(_this, canvas, "mouseleave", function(event) {
             //console.info(event);
             inter.hide();
-            event.preventDefault();
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
         });
 
-        canvas.addEventListener("mouseenter", function(event) {
+        common.addEvent.call(_this, canvas, "mouseenter", function(event) {
             //console.info(event);
             dealEvent.apply(_this, [inter, event]);
-            inter.show();
-            event.preventDefault();
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
         });
 
         // }
@@ -294,6 +246,7 @@ var ChartTime = (function() {
     }
     // 处理交互事件
     function dealEvent(inter, eventposition) {
+        inter.show();
         // 画布对象
         var canvas = this.options.canvas;
         // 分时行情数据
@@ -304,7 +257,6 @@ var ChartTime = (function() {
         var rect_w = rect_unit.rect_w;
         // K线柱体的宽度
         // var bar_w = rect_unit.bar_w;
-
         // 鼠标事件位置
         var w_x = eventposition.offsetX || (eventposition.clientX - this.container.getBoundingClientRect().left);
         var w_y = eventposition.offsetY || (eventposition.clientY - this.container.getBoundingClientRect().top);
@@ -320,7 +272,6 @@ var ChartTime = (function() {
         if (time_data[index]) {
             // Tip显示行情数据
             inter.showTip(canvas, w_x, time_data[index]);
-
             // 显示十字指示线的
             var cross = common.canvasToWindow.apply(this, [canvas, time_data[index].cross_x, time_data[index].cross_y]);
             var cross_w_x = cross.x;
@@ -341,12 +292,11 @@ var ChartTime = (function() {
         /*绘制分时线*/
         function drawStroke(ctx, data_arr) {
             ctx.beginPath();
+            ctx.strokeStyle = "#639EEA";
 
-            // ctx.strokeStyle = "rgba(0,0,0,0)";
-            ctx.strokeStyle = "#3f88e5";
-
-            // var data_arr_length = data_arr.length;
+            var arrs = [];
             for (var i = 0, item; item = data_arr[i]; i++) {
+                var point = {};
                 var x = common.get_x.call(this, i + 1);
                 var y = common.get_y.call(this, item.price);
                 ctx.lineTo(x, y);
@@ -361,14 +311,13 @@ var ChartTime = (function() {
             /* 指定渐变区域 */
             var grad = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
             /* 指定几个颜色 */
-            grad.addColorStop(0, 'rgba(221,234,250,0.7)');
+            grad.addColorStop(0, 'rgba(200,234,250,0.7)');
             grad.addColorStop(1, 'rgba(255,255,255,0)');
             var data_arr_length = data_arr.length;
 
             ctx.beginPath();
             ctx.fillStyle = grad;
             ctx.moveTo(this.options.padding.left, y_min);
-
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var x = common.get_x.call(this, i + 1);
                 var y = common.get_y.call(this, item.price);
@@ -380,11 +329,13 @@ var ChartTime = (function() {
             }
             ctx.fill();
         }
+
     }
     //绘制平均成本
     function draw_avg() {
         var ctx = this.options.context;
         var data = this.options.data;
+        ctx.save();
         this.options.avg_cost_color = theme.draw_line.avg_cost_color;
         var color = this.options.avg_cost_color;
         var data_arr = data.data;
@@ -403,6 +354,7 @@ var ChartTime = (function() {
             }
         }
         ctx.stroke();
+        ctx.restore();
     }
 
     //绘制成交量
@@ -433,7 +385,6 @@ var ChartTime = (function() {
             var v_height = ctx.canvas.height / 4;
 
             var v_base_height = v_height * 0.9;
-
             var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
             var y_v_top = y_v_bottom - v_height;
             /*获取单位矩形对象*/
@@ -441,31 +392,29 @@ var ChartTime = (function() {
             /*单位绘图矩形画布的宽度*/
             // var rect_w = rect_unit.rect_w;
             /*K线柱体的宽度*/
+
             var bar_w = rect_unit.bar_w;
             /*K线柱体的颜色*/
             var up_color = this.options.up_color;
-            var down_color = this.options.down_color
-            //标识最大成交量
+            var down_color = this.options.down_color;
+                //标识最大成交量
             ctx.beginPath();
-            ctx.fillStyle = '#999';
-            var v_height = ctx.canvas.height / 4;
+            ctx.strokeStyle = '#999';
             var padding_left = this.options.padding.left;
+            var padding_right = this.options.padding.right;
 
             //写字
             for (var i = 0; i < 3; i++) {
                 ctx.fillText(common.format_unit(Math.floor(v_max / 3 * (3 - i))), 0, y_v_top + v_height / 3 * i + 10);
-                ctx.stroke();
-                draw_dash(ctx, padding_left, y_v_top + v_height / 3 * i, padding_left + ctx.canvas.width, y_v_top + v_height / 3 * i, 8);
+                if (i != 0) {
+                    draw_dash(ctx, padding_left, y_v_top + v_height / 3 * i, ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);
+                }
             }
-
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             ctx.lineWidth = this.options.dpr;
-            ctx.rect(this.options.padding.left, y_v_top, ctx.canvas.width - this.options.padding.left - 2, v_height);
+            ctx.rect(this.options.padding.left, y_v_top, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
             ctx.stroke();
-
-            ctx.lineWidth = 1;
             for (var i = 0, item; item = data_arr[i]; i++) {
-
                 var volume = item.volume;
                 var is_up = item.up;
                 var bar_height = volume / v_max * v_base_height;
