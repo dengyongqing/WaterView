@@ -13,7 +13,7 @@ var common = {
             } else {
                 return code + "2";
             }
-        }   
+        }
     },
     // 数字标准化，字符串输出，例如：9----->09
     fixed: function(str, len) {
@@ -33,18 +33,18 @@ var common = {
         });
     },
     // 将鼠标坐标转换为Canvas坐标
-    windowToCanvas: function(canvas,x,y){
+    windowToCanvas: function(canvas, x, y) {
         // var box = canvas.getBoundingClientRect();
         return {
             // x:(x-box.left)*(canvas.width/box.width),
             // y:(y-box.top)*(canvas.height/box.height)
 
-            x: x*this.options.dpr,
-            y: y*this.options.dpr
+            x: x * this.options.dpr,
+            y: y * this.options.dpr
         };
     },
     // 将Canvas坐标转换为鼠标坐标
-    canvasToWindow: function(canvas,x,y){
+    canvasToWindow: function(canvas, x, y) {
         var box = canvas.getBoundingClientRect();
         // 相对于窗口
         // return {
@@ -52,14 +52,14 @@ var common = {
         //     y:(y *(box.height/canvas.height)+box.top + this.options.canvas_offset_top/this.options.dpr)
         // };
         return {
-            x:x/this.options.dpr,
+            x: x / this.options.dpr,
             // x:x * (box.width/canvas.width),
-            y:(y+this.options.canvas_offset_top) * (box.height/canvas.height)
+            y: (y + this.options.canvas_offset_top) * (Math.abs(box.bottom - box.top) / canvas.height)
         };
     },
     // 图表y轴坐标计算
     get_y: function(y) {
-        return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
+        return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min) / (this.options.data.max - this.options.data.min));
     },
     // 图表x轴坐标计算
     get_x: function(x) {
@@ -69,34 +69,35 @@ var common = {
         var num = this.options.data.data.length;
         var total = this.options.data.total;
         var padding_left = this.options.padding.left;
+        var padding_right = this.options.padding.right;
         // var dpr = this.options.dpr;
 
-        if(type == "TL"){
-            return (canvas.width-padding_left) / total * x + padding_left;
-        }else{
-            return (canvas.width-padding_left) / num * x + padding_left - (rect_w/2);
+        if (type == "TL") {
+            return (canvas.width - padding_left - padding_right) / total * x + padding_left;
+        } else {
+            return (canvas.width - padding_left - padding_right) / num * x + padding_left - (rect_w / 2);
         }
-        
+
     },
     // 图表x轴坐标计算
-    get_rect: function(canvas,num) {
-        var rect_w = (canvas.width-this.options.padding.left) / num;
+    get_rect: function(canvas, num) {
+        var rect_w = (canvas.width - this.options.padding.left - this.options.padding.right) / num;
         var bar_w = rect_w * (1 - this.options.spacing);
         return {
-            rect_w:rect_w,
-            bar_w:bar_w
+            rect_w: rect_w,
+            bar_w: bar_w
         };
     },
-    // 格式化数据单位
-    format_unit: function(value,num){
+    // 格式化数据单位  
+    format_unit: function(value, num) {
         num = num == undefined ? 2 : num;
-        if(value < 10000){
+        if (value < 10000) {
             return value;
-        }else if(value >= 10000 && value < 100000000){
-            return (value/10000).toFixed(num) + "万";
-        }else if(value >= 100000000){
-            return (value/100000000).toFixed(num) + "亿";
-        }else{
+        } else if (value >= 10000 && value < 100000000) {
+            return (value / 10000).toFixed(num) + "万";
+        } else if (value >= 100000000) {
+            return (value / 100000000).toFixed(num) + "亿";
+        } else {
             return value;
         }
     },

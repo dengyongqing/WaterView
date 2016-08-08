@@ -133,7 +133,7 @@ var ChartK = (function() {
         inter.showLoading();
 
         var type = _this.options.type;
-        try{
+        // try{
             if(type == "DK"){
                 GetDataDay(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
@@ -188,12 +188,12 @@ var ChartK = (function() {
                 },inter);
             }
 
-        }catch(e){
-            // 暂无数据
-            inter.showNoData();
-            // 隐藏loading效果
-            inter.hideLoading();
-        }
+        // }catch(e){
+        //     // 暂无数据
+        //     inter.showNoData();
+        //     // 隐藏loading效果
+        //     inter.hideLoading();
+        // }
 
     };
     // 重绘
@@ -514,7 +514,7 @@ var ChartK = (function() {
             // 缩放按钮点击有效
             _this.options.clickable = true;
             // 暂无数据
-            inter.showNoData();
+            // inter.showNoData();
             // 隐藏loading效果
             inter.hideLoading();
         }

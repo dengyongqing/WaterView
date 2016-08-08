@@ -25,9 +25,9 @@
  */
 
 // 拓展，合并，复制
-var extend = require('extend');
+var extend = require('tools/extend2');
 // 工具模块
-var common = require('tools/common'); 
+var common = require('tools/common');
 // 主题
 var theme = require('theme/default');
 
@@ -37,7 +37,7 @@ var Interactive = (function() {
     function Interactive(options) {
         this.defaultoptions = theme.interactive;
         this.options = {};
-        this.options = extend(true,this.options,this.defaultoptions, options);
+        this.options = extend(this.options,this.defaultoptions, options);
     }
 
   	// 鼠标十字标识线
@@ -50,7 +50,7 @@ var Interactive = (function() {
 			/*Y轴标识线*/
 	        var y_line = document.createElement("div");
 	        y_line.className = "cross-y";
-	        y_line.style.height = c_box.height + "px";
+	        y_line.style.height = Math.abs(c_box.bottom - c_box.top) + "px";
 	        y_line.style.top = "0px";
 	        this.options.cross.y_line = y_line;
 
@@ -59,17 +59,16 @@ var Interactive = (function() {
 	        x_line.className = "cross-x";
 	        x_line.style.width = canvas.width/dpr + "px";
 	        this.options.cross.x_line = x_line;
-
 	        /*X轴和Y轴标示线相交点*/
 	        var point = document.createElement("div");
 	        point.className = "cross-p";
-	        point.style.width = point.style.height = this.options.point_width + "px";
+	        point.style.width = "2px";
+	        point.style.height = "2px";
 	        point.style.borderRadius = point.style.width;
 	        point.style.backgroundColor = this.options.point_color;
 	        this.options.cross.point = point;
 	        /*创建文档碎片*/
 	        var frag = document.createDocumentFragment();
-	        
 	        // if(this.options.type == "TL"){
 	        if(this.options.crossline){
 	        	frag.appendChild(x_line);
@@ -102,12 +101,11 @@ var Interactive = (function() {
 	    // var dpr = this.options.dpr;
 	    if(!this.options.mark_ma){
 	        this.options.mark_ma = {};
-	        var div_mark = document.createElement("div"); 
+	        var div_mark = document.createElement("div");
 	        div_mark.className = "mark-ma";
 	        div_mark.style.top = "5px";
-	        div_mark.style.left = canvas.width - this.options.padding.right - 300 + "px";;
 	        this.options.mark_ma.mark_ma = div_mark;
-	        
+
 	        /*创建文档碎片*/
 	        var frag = document.createDocumentFragment();
 
@@ -124,7 +122,7 @@ var Interactive = (function() {
 	        	}
 	        }
 	        this.options.mark_ma.ma_5_data = ma_5_data;
-	       
+
 	        /*10日均线*/
 	        var ma_10_data = document.createElement('span');
 	        ma_10_data.id = "ma_10_data";
@@ -162,7 +160,7 @@ var Interactive = (function() {
 	        document.getElementById(this.options.container).appendChild(div_mark);
 	        // div_tip.style.left = w_pos.x - 300 + "px";
 	    }else{
-	        var div_mark = this.options.mark_ma.mark_ma; 
+	        var div_mark = this.options.mark_ma.mark_ma;
 	        if(obj_5){
 	           this.options.mark_ma.ma_5_data.innerText = "MA5: " + obj_5.value;
 	        }else{
@@ -192,9 +190,9 @@ var Interactive = (function() {
 	        		this.options.mark_ma.ma_20_data.innerText = "MA20: -";
 	        	}
 	        }
-	        
+
 	    }
-	    
+
 	}
 	// 缩放
 	Interactive.prototype.scale = function(canvas){
@@ -203,9 +201,9 @@ var Interactive = (function() {
 		if(!this.options.scale){
 			this.options.scale = {};
 			/*创建外部包裹元素*/
-			var scale_div = document.createElement("div"); 
+			var scale_div = document.createElement("div");
 			scale_div.className = "scale-div";
-			scale_div.style.left = canvas.width - this.options.padding.right - 120 + "px";
+			scale_div.style.right = "20px";
 			scale_div.style.top = w_pos.y - 40 + "px";
 			this.options.scale.scale = scale_div;
 
@@ -236,11 +234,11 @@ var Interactive = (function() {
 	    if(!this.options.tip){
 	        this.options.tip = {};
 	        // 创建外部包裹元素
-	        var div_tip = document.createElement("div"); 
+	        var div_tip = document.createElement("div");
 	        div_tip.className = "show-tip";
 
 	        this.options.tip.tip = div_tip;
-	        
+
 	        // 创建文档碎片
 	        var frag = document.createDocumentFragment();
 
@@ -248,15 +246,15 @@ var Interactive = (function() {
 	        var close_data = document.createElement('span');
 	        close_data.className = "span-price";
 	        this.options.tip.close = close_data;
-	       
+
 	        // 创建百分比
 	        var percent = document.createElement('span');
 	        this.options.tip.percent = percent;
-	        
+
 	        // 创建股数
 	        var count = document.createElement('span');
 	        this.options.tip.count = count;
-	        
+
 	        // 创建时间
 	        var time = document.createElement('span');
 	        this.options.tip.time = time;
@@ -270,7 +268,7 @@ var Interactive = (function() {
 	        tip_line_2.className = "tip-line-2";
 	        tip_line_2.appendChild(count);
 	        tip_line_2.appendChild(time);
-	        
+
 	        frag.appendChild(tip_line_1);
 	        frag.appendChild(tip_line_2);
 	        div_tip.appendChild(frag);
@@ -292,7 +290,7 @@ var Interactive = (function() {
             	count.innerText = common.format_unit(volume)+'手';
 	            time.innerText = obj.time;
 	            div_tip.style.top = - div_tip.clientHeight + "px";
-	            div_tip.className = div_tip.className + " " + "time-tip" 
+	            div_tip.className = div_tip.className + " " + "time-tip"
 
 	            var c1 = "span-time-c1";
 	            var c2 = "span-time-c2";
@@ -307,7 +305,7 @@ var Interactive = (function() {
 	        var tip_obj = this.options.tip;
 	        var div_tip = this.options.tip.tip;
 	        var volume = obj.volume;
-	       
+
 	        if(type == "DK" || type == "WK" || type == "MK"){
 	            tip_obj.close.innerText = obj.close;
 	            tip_obj.percent.innerText = obj.percent+'%';
@@ -347,7 +345,7 @@ var Interactive = (function() {
 		   	var p_pos = common.canvasToWindow.apply(this,[canvas,x,this.options.c_1_height]);
 
 			// 创建外部包裹元素
-			var markPoint = document.createElement("div"); 
+			var markPoint = document.createElement("div");
 
 			markPoint.className = "mark-point";
 			var imgUrl = this.options.markPoint.imgUrl;
@@ -380,12 +378,12 @@ var Interactive = (function() {
 			markPoint.style.top = c1_pos.y - 30 + "px";
 
 		}
-		
+
 	}
 
 	// 显示交互效果
 	Interactive.prototype.show = function(){
-		
+
 		if(this.options.cross){
             var x_line = this.options.cross.x_line;
             if(x_line){
@@ -406,9 +404,9 @@ var Interactive = (function() {
             if(tip){
             	tip.style.display = "block";
             }
-            
+
         }
-        
+
 	}
 
 	// 隐藏交互效果
@@ -461,7 +459,7 @@ var Interactive = (function() {
             if(tip){
             	tip.style.display = "none";
             }
-            
+
         }
 
 	}
@@ -487,7 +485,7 @@ var Interactive = (function() {
 	        this.options.loading = loading_notice;
 	        chart_container.appendChild(loading_notice);
 		}
-		
+
 	}
 
 	// 隐藏loading效果
@@ -516,7 +514,7 @@ var Interactive = (function() {
 	        this.options.noData = noData_notice;
 	        noData_container.appendChild(noData_notice);
 		}
-		
+
 	}
 
     return Interactive;
