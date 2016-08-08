@@ -212,7 +212,6 @@ var ChartTime = (function() {
 
         // if(!delaytouch){
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
-            //console.info(event);
             dealEvent.apply(_this, [inter, event]);
             try {
                 event.preventDefault();
@@ -222,7 +221,6 @@ var ChartTime = (function() {
         });
 
         common.addEvent.call(_this, canvas, "mouseleave", function(event) {
-            //console.info(event);
             inter.hide();
             try {
                 event.preventDefault();
@@ -232,7 +230,6 @@ var ChartTime = (function() {
         });
 
         common.addEvent.call(_this, canvas, "mouseenter", function(event) {
-            //console.info(event);
             dealEvent.apply(_this, [inter, event]);
             try {
                 event.preventDefault();

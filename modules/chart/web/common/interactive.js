@@ -26,8 +26,8 @@
 
 // 拓展，合并，复制
 var extend = require('tools/extend2');
-// 工具模块
-var common = require('tools/common');
+// 工具
+var common = require('chart/web/common/common'); 
 // 主题
 var theme = require('theme/default');
 
@@ -95,14 +95,15 @@ var Interactive = (function() {
 		 	}
 	}
 
-	// 绘制移动平均线标识
 	Interactive.prototype.markMA = function (canvas,obj_5,obj_10,obj_20){
+	// 绘制移动平均线标识
 	    // var c_box = canvas.getBoundingClientRect();
 	    // var dpr = this.options.dpr;
 	    if(!this.options.mark_ma){
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div");
 	        div_mark.className = "mark-ma";
+	        div_mark.style.left = canvas.width - this.options.padding.right - 300 + "px";;
 	        div_mark.style.top = "5px";
 	        this.options.mark_ma.mark_ma = div_mark;
 
@@ -203,7 +204,7 @@ var Interactive = (function() {
 			/*创建外部包裹元素*/
 			var scale_div = document.createElement("div");
 			scale_div.className = "scale-div";
-			scale_div.style.right = "20px";
+			scale_div.style.left = canvas.width - this.options.padding.right - 120 + "px";
 			scale_div.style.top = w_pos.y - 40 + "px";
 			this.options.scale.scale = scale_div;
 

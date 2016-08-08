@@ -623,95 +623,36 @@ var ChartK = (function() {
         var delayed = false;
         var delaytouch = this.options.delaytouch = true;
 
-        // if(delaytouch){
-        //     var chart_container = document.getElementById(_this.options.container);
-        //     var delay = document.createElement("div");
-        //     delay.className = "delay-div";
-        //     delay.style.height = _this.options.height + "px";
-        //     delay.style.width = _this.options.width + "px";
-        //     delay.style.display = "none";
-        //     chart_container.appendChild(delay);
-
-        // }
-
-        // 触摸事件
-        canvas.addEventListener("touchstart",function(event){
-            // 显示交互效果
-            if(delaytouch){
-                delayed = false;
-                timer_s = setTimeout(function(){
-                    delayed = true;
-                    inter.show();
-                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-                    event.preventDefault();
-                },200);
-            }else{
-                inter.show();
-                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            }
-            
-            if(_this.options.preventdefault){
-                event.preventDefault();
-            }
-        });
-        
-        // 手指滑动事件
-        canvas.addEventListener("touchmove",function(event){
-            // dealEvent.apply(_this,[inter,event]);
-            if(delaytouch){
-                clearTimeout(timer_s);
-                if(delayed){
-                    dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-                    event.preventDefault();
-                }
-            }else{
-                dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            }
-            if(_this.options.preventdefault){
-                event.preventDefault();
-            }
-           
-        });
-
-        // 手指离开事件
-        canvas.addEventListener("touchend",function(event){
-            if(delaytouch){
-                clearTimeout(timer_s);
-            }
-            // 隐藏交互效果
-            inter.hide();
-            //event.preventDefault();
-        });
-
-        canvas.addEventListener("touchcancel",function(event){
-            if(delaytouch){
-                clearTimeout(timer_s);
-            }
-            // 隐藏交互效果
-            inter.hide();
-            if(_this.options.preventdefault){
-                event.preventDefault();
-            }
-        });
-        
 
         // if(!delaytouch){
-            canvas.addEventListener("mousemove",function(event){
+            common.addEvent.call(_this, canvas, "mousemove",function(event){
                 //console.info(event);
                 dealEvent.apply(_this,[inter,event]);
-                event.preventDefault();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
             });
 
-            canvas.addEventListener("mouseleave",function(event){
+            common.addEvent.call(_this, canvas, "mouseleave",function(event){
                 //console.info(event);
                 inter.hide();
-                event.preventDefault();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
             });
 
-            canvas.addEventListener("mouseenter",function(event){
+            common.addEvent.call(_this, canvas, "mouseenter",function(event){
                 //console.info(event);
                 inter.show();
-                event.preventDefault();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
             });
         // }
         
@@ -721,7 +662,7 @@ var ChartK = (function() {
         var scale_minus = inter.options.scale.minus;
 
         // 点击放大
-        scale_plus.addEventListener("click",function(event){
+        common.addEvent.call(_this, scale_plus, "click",function(event){
             var scale_count = _this.options.scale_count;
             if(scale_count < 2 && _this.options.clickable){
                 // 缩放按钮点击无效
@@ -745,7 +686,7 @@ var ChartK = (function() {
         });
 
         // 点击缩小
-        scale_minus.addEventListener("click",function(event){
+        common.addEvent.call(_this, scale_minus, "click",function(event){
             var scale_count = _this.options.scale_count;
             if(scale_count > -2 && _this.options.clickable){
                 // 缩放按钮点击无效
