@@ -240,6 +240,7 @@ var ChartBarQuarter = (function() {
     //添加交互
     ChartBarQuarter.prototype.addInteractive = function() {
         var canvas = this.options.canvas;
+        var yearUnit = this.options.yearUnit;
         var _that = this;
         var tips = document.createElement("div");
         var middleLine = document.createElement("div");
@@ -270,7 +271,7 @@ var ChartBarQuarter = (function() {
                 winY = e.y;
             }
             //当超出坐标系框就不显示交互
-            if (winX >= padding_left && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
+            if (winX >= padding_left && winX < (canvas.width -  (yearUnit.rect_w - yearUnit.bar_w) / 2) && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
                 tips.style.display = "inline-block";
                 middleLine.style.display = "inline-block";
             } else {
