@@ -44,6 +44,52 @@
 	text-align: right;
 }
 
+.web-show-tip {
+	position: absolute;
+	top: 0px;
+	background-color: red;
+	z-index: 999;
+	border: 1px solid #97c8ff;
+	/*padding: 8px;*/
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+	background-color: #fff;
+	color: #666;
+	min-width: 108px;
+	font-size: 12px;
+	font-weight: lighter;
+	font-family: 'arial';
+
+	/*white-space: nowrap;*/
+}
+
+.web-tip-line-left{
+	float: left;
+	width:50%;
+	text-align: left;
+	height:20px;
+	line-height: 20px;
+}
+
+.web-tip-line-right{
+	float: left;
+	width:50%;
+	text-align: right;
+	height:20px;
+	line-height: 20px;
+}
+
+.web-tip-first-line{
+	width:100%;
+	background: #edf5ff;
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+}
+
+.web-tip-line-container{
+	padding:8px;
+}
+
 .cross-y{
 	position:absolute;top:0px;z-index:98;border-left:1px dashed #8f8f8f;width:0px;background-color:#fff;
 }
