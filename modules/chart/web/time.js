@@ -82,6 +82,7 @@ var ChartTime = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
+        ctx.strokeStyle = 'rgba(230,230,230, 1)';
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("10000").width + 20;

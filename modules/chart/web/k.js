@@ -99,20 +99,22 @@ var ChartK = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
+        ctx.strokeStyle = 'rgba(230,230,230, 1)';
        
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
         this.options.padding.right = 0;
         this.options.padding.top = 0;
         this.options.padding.bottom = 0;
+        this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
 
-        this.options.y_sepe = 8;
-        this.options.x_sepe = 10;
+        this.options.y_sepe_num = 21;
+        this.options.x_sepe_num = 10;
 
-        this.options.c1_y_top = canvas.height * 1 / 20;
-        this.options.c2_y_top = canvas.height * 12 / 20;
-        this.options.c3_y_top = canvas.height * 15 / 20;
-        this.options.c4_y_top = canvas.height * 18 / 20;
+        this.options.c1_y_top = canvas.height * 1 / this.options.y_sepe_num;
+        this.options.c2_y_top = canvas.height * 13 / this.options.y_sepe_num;
+        this.options.c3_y_top = canvas.height * 16 / this.options.y_sepe_num;
+        this.options.c4_y_top = canvas.height * 19 / this.options.y_sepe_num;
 
         // 加水印
         watermark.apply(this,[this.options.context,90,20,82,20]);
@@ -133,7 +135,7 @@ var ChartK = (function() {
         inter.showLoading();
 
         var type = _this.options.type;
-        // try{
+        try{
             if(type == "DK"){
                 GetDataDay(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
@@ -188,13 +190,16 @@ var ChartK = (function() {
                 },inter);
             }
 
-        // }catch(e){
-        //     // 暂无数据
-        //     inter.showNoData();
-        //     // 隐藏loading效果
-        //     inter.hideLoading();
-        // }
-
+        }catch(e){
+            // 暂无数据
+            inter.showNoData();
+            // 隐藏loading效果
+            inter.hideLoading();
+        }
+        var ctx = this.options.context;
+        var canvas = this.options.canvas;
+        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,canvas.height - this.options.c2_y_top + canvas.height * 1 / this.options.y_sepe_num);
+        ctx.stroke();
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -230,7 +235,7 @@ var ChartK = (function() {
         /*成交量数组*/
         var data_arr = data.data;
        
-        var t_height = ctx.canvas.height * 3 / 20;
+        var t_height = ctx.canvas.height * 3 / this.options.y_sepe_num;
 
         var t_base_height = t_height * 0.9;
 
@@ -250,11 +255,7 @@ var ChartK = (function() {
 
         //标识最大成交量
         // markVMax.apply(this,[ctx,v_max,c2_y_top]);
-
-        ctx.strokeStyle = 'rgba(230,230,230, 1)';
-        ctx.lineWidth = this.options.dpr;
-        ctx.rect(this.options.padding.left,c3_y_top,ctx.canvas.width - this.options.padding.left - 2,t_height);
-        ctx.stroke();
+       
     }
 
     // 绘制成交量
@@ -275,7 +276,7 @@ var ChartK = (function() {
         // var c_1_height = this.options.c_1_height;
         //成交量图表的高度
         // var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
-        var v_height = ctx.canvas.height * 3 / 20;
+        var v_height = ctx.canvas.height * 3 / this.options.y_sepe_num;
 
         var v_base_height = v_height * 0.9;
 
@@ -291,22 +292,10 @@ var ChartK = (function() {
         var bar_w = rect_unit.bar_w;
         /*K线柱体的颜色*/
         var up_color = this.options.up_color;
-        var down_color =this.options.down_color
+        var down_color =this.options.down_color;
 
         //标识最大成交量
         // markVMax.apply(this,[ctx,v_max,c2_y_top]);
-
-        ctx.strokeStyle = 'rgba(230,230,230, 1)';
-        ctx.lineWidth = this.options.dpr;
-        ctx.rect(this.options.padding.left,c2_y_top,ctx.canvas.width - this.options.padding.left - 2,v_height);
-        for(var i = 1;i<3;i++){
-            var x1 = this.options.padding.left;
-            var y1 = c2_y_top + ctx.canvas.height * 1 / 20 * i;
-            var x2 = ctx.canvas.width - this.options.padding.right;
-            var y2 = c2_y_top + ctx.canvas.height * 1 / 20 * i;
-            DrawDashLine(ctx,x1, y1, x2, y2,5);
-        }
-        ctx.stroke();
 
         ctx.lineWidth = 1;
         for(var i = 0,item; item = data_arr[i]; i++){
