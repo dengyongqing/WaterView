@@ -30,7 +30,7 @@ var DrawXY = (function(){
         var y_min = data.min;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = 10;
+        var sepe_num = 9;
         /*开盘收盘时间数组*/
         var oc_time_arr = data.timeStrs;
 
@@ -168,7 +168,7 @@ var DrawXY = (function(){
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
                 ctx.stroke();
-            }else if(i == this.options.x_sepe){
+            }else if(i == this.options.x_sepe_num){
                 ctx.moveTo(x1 - 1, y1);
                 ctx.lineTo(x2 - 1, y2);
                 ctx.stroke();

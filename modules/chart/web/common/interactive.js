@@ -239,6 +239,7 @@ var Interactive = (function() {
 	        div_tip.className = "web-show-tip";
 
 	        this.options.tip.tip = div_tip;
+	        div_tip.style.top = this.options.c1_y_top + 30 + "px";
 
 	        // 创建文档碎片
 	        var frag = document.createDocumentFragment();
@@ -310,13 +311,10 @@ var Interactive = (function() {
 	    
 
 	    if(x <= (canvas.width/this.options.dpr/2)){
-    		div_tip.style.left = canvas.width/this.options.dpr - this.options.tip.div_tip_width - this.options.padding_left / this.options.dpr -10 + "px";
-    		div_tip.style.top = 0 + "px";
+    		div_tip.style.left = canvas.width/this.options.dpr - this.options.tip.div_tip_width - 3 + "px";
     	}else if(x >= (canvas.width/this.options.dpr/2)){
-    		div_tip.style.left = this.options.padding_left / this.options.dpr + "px";
-    		div_tip.style.top = 0 + "px";
+    		div_tip.style.left = this.options.padding.left / this.options.dpr + "px";
     	}else{
-    		div_tip.style.left = 0 + "px";
     	}
 
 	    // if(x <= (div_tip.clientWidth/2 + this.options.padding_left/this.options.dpr)){

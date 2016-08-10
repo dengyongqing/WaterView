@@ -80,22 +80,20 @@ var ChartK = (function() {
         canvas.height = this.options.height * dpr;
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / 8;
+        // this.options.canvas_offset_top = canvas.height / 8;
         // 画布内容向坐偏移的距离
         this.options.padding_left = theme.defaulttheme.padding_left * dpr;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
         this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
-        // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height * 0.5;
+        
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
 
-        // 画布上部内间距
-        ctx.translate("0",this.options.canvas_offset_top);
+        
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
@@ -111,10 +109,20 @@ var ChartK = (function() {
         this.options.y_sepe_num = 21;
         this.options.x_sepe_num = 10;
 
-        this.options.c1_y_top = canvas.height * 1 / this.options.y_sepe_num;
-        this.options.c2_y_top = canvas.height * 13 / this.options.y_sepe_num;
-        this.options.c3_y_top = canvas.height * 16 / this.options.y_sepe_num;
+        this.options.c1_y_top = canvas.height * 2 / this.options.y_sepe_num;
+        this.options.c2_y_top = canvas.height * 10 / this.options.y_sepe_num;
+        this.options.c3_y_top = canvas.height * 14 / this.options.y_sepe_num;
         this.options.c4_y_top = canvas.height * 19 / this.options.y_sepe_num;
+
+        // 画布上第一个图表的高度
+        this.options.c_1_height = canvas.height * 8 / this.options.y_sepe_num;
+
+        this.options.margin = {};
+        this.options.margin.left = 0;
+        this.options.margin.top = canvas.height * 2 / this.options.y_sepe_num;
+
+        // 移动坐标轴
+        ctx.translate("0",this.options.margin.top);
 
         // 加水印
         watermark.apply(this,[this.options.context,90,20,82,20]);
@@ -275,7 +283,7 @@ var ChartK = (function() {
         /*K线图表的高度*/
         // var c_1_height = this.options.c_1_height;
         //成交量图表的高度
-        // var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
+        // var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.margin.top;
         var v_height = ctx.canvas.height * 3 / this.options.y_sepe_num;
 
         var v_base_height = v_height * 0.9;
@@ -664,7 +672,7 @@ var ChartK = (function() {
                     _this.options.interactive.options.pointsContainer.innerHTML = "";
                 }
                 // 清空画布
-                ctx.clearRect(0,-_this.options.canvas_offset_top,canvas.width,canvas.height);
+                ctx.clearRect(0,-_this.options.margin.top,canvas.width,canvas.height);
                 scaleClick.apply(_this);
             }
 
@@ -688,7 +696,7 @@ var ChartK = (function() {
                     _this.options.interactive.options.pointsContainer.innerHTML = "";
                 }
                 // 清空画布
-                ctx.clearRect(0,-_this.options.canvas_offset_top,canvas.width,canvas.height);
+                ctx.clearRect(0,-_this.options.margin.top,canvas.width,canvas.height);
                 scaleClick.apply(_this);
             }
 
