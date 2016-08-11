@@ -25,9 +25,8 @@ var DrawXY = require('chart/web/k/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 获取K线图数据
-var GetDataDay = require('getdata/mobile/chart_day'); 
-var GetDataWeek = require('getdata/mobile/chart_week'); 
-var GetDataMonth = require('getdata/mobile/chart_month'); 
+var GetDataK = require('getdata/web/chart_k'); 
+
 // 绘制K线图
 var DrawK = require('chart/web/common/draw_k'); 
 // 工具
@@ -149,7 +148,7 @@ var ChartK = (function() {
         var type = _this.options.type;
         try{
             if(type == "DK"){
-                GetDataDay(getParamsObj.call(_this),function(data){
+                GetDataK(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
                     if(flag){
                         // 均线数据标识
@@ -163,43 +162,7 @@ var ChartK = (function() {
                     if(callback){
                         callback(_this.options);
                     }
-
-                    
-                },inter);
-            }else if(type == "WK"){
-                GetDataWeek(getParamsObj.call(_this),function(data){
-                    var flag = dataCallback.apply(_this,[data]);
-                    if(flag){
-                        // 均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
-                        // 绑定事件
-                        bindEvent.call(_this,_this.options.context);
-                    }
-                    // 传入的回调函数
-                    if(callback){
-                        callback(_this.options);
-                    }
-
-                },inter);
-            }else if(type == "MK"){
-                GetDataMonth(getParamsObj.call(_this),function(data){
-                    var flag = dataCallback.apply(_this,[data]);
-                    if(flag){
-                        // 均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
-                        // 绑定事件
-                        bindEvent.call(_this,_this.options.context);
-                    }
-                    // 传入的回调函数
-                    if(callback){
-                        callback(_this.options);
-                    }
-
-                },inter);
+                });
             }
 
         }catch(e){
@@ -573,32 +536,14 @@ var ChartK = (function() {
 
         try{
             if(type == "DK"){
-                GetDataDay(getParamsObj.call(_this),function(data){
+                GetDataK(getParamsObj.call(_this),function(data){
                     if(data){
                         dataCallback.apply(_this,[data]);
                         // 缩放按钮点击有效
                         _this.options.clickable = true;
                     }
 
-                },inter);
-            }else if(type == "WK"){
-                GetDataWeek(getParamsObj.call(_this),function(data){
-                    if(data){
-                        dataCallback.apply(_this,[data]);
-                        // 缩放按钮点击有效
-                        _this.options.clickable = true;
-                    }
-
-                },inter);
-            }else if(type == "MK"){
-                GetDataMonth(getParamsObj.call(_this),function(data){
-                    if(data){
-                        dataCallback.apply(_this,[data]);
-                        // 缩放按钮点击有效
-                        _this.options.clickable = true;
-                    }
-
-                },inter);
+                });
             }
 
         }catch(e){
@@ -616,8 +561,9 @@ var ChartK = (function() {
     // 获取参数对象
     function getParamsObj(){
         var obj = {};
-        obj.code = this.options.code;
-        obj.count = this.options.scale_count;
+        obj.id = this.options.code;
+        obj.type = this.options.type;
+        obj.extend = this.options.extend;
         return obj;
     }
     // 回调函数
@@ -645,6 +591,7 @@ var ChartK = (function() {
             this.options.pricedigit = data.pricedigit;
 
             // 默认显示均线数据
+            debugger;
             var five_average = data.five_average;
             var ten_average = data.ten_average;
             var twenty_average = data.twenty_average;
@@ -665,7 +612,7 @@ var ChartK = (function() {
             // 绘制K线图
             drawK.apply(this,[ctx,data_arr]);
             // 绘制均线
-            drawMA.apply(this,[this.options]);
+            // drawMA.apply(this,[this.options]);
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标
