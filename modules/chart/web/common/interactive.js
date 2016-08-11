@@ -50,8 +50,8 @@ var Interactive = (function() {
 			/*Y轴标识线*/
 	        var y_line = document.createElement("div");
 	        y_line.className = "cross-y";
-	        y_line.style.height = Math.abs(c_box.bottom - c_box.top) + "px";
-	        y_line.style.top = "0px";
+	        y_line.style.height = this.options.c4_y_top - this.options.c1_y_top + "px";
+	        y_line.style.top = this.options.c1_y_top + "px";
 	        this.options.cross.y_line = y_line;
 
 	        /*X轴标识线*/
@@ -198,7 +198,7 @@ var Interactive = (function() {
 	// 缩放
 	Interactive.prototype.scale = function(canvas){
 		/*K线图表右下角相对于父容器的位置*/
-	    var w_pos = common.canvasToWindow.apply(this,[canvas,canvas.width,this.options.c_1_height]);
+	    var w_pos = common.canvasToWindow.apply(this,[canvas,canvas.width,this.options.c_k_height]);
 		if(!this.options.scale){
 			this.options.scale = {};
 			/*创建外部包裹元素*/

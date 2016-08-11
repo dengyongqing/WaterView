@@ -228,3 +228,21 @@
 	width: 0px;
 	border-right: dashed 1px #898989;
 }
+
+.tech-index{
+	position:absolute;
+	z-index: 99;
+}
+
+.tech-index-item{
+	background-color: #707070;
+	float:left;
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	color:#fff;
+}
+
+.tech-index.current{
+	background-color: #c2c2c2;
+}

@@ -212,6 +212,8 @@ var ChartK = (function() {
         var canvas = this.options.canvas;
         this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,canvas.height - this.options.c2_y_top + canvas.height * 1 / this.options.y_sepe_num);
         ctx.stroke();
+
+        drawT.apply(this,[]);
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -241,33 +243,77 @@ var ChartK = (function() {
 
     // 绘制技术指标
     function drawT(){
-
         var ctx = this.options.context;
-        var data = this.options.data;
-        /*成交量数组*/
-        var data_arr = data.data;
-       
-        var t_height = ctx.canvas.height * 3 / this.options.y_sepe_num;
+        var canvas = this.options.canvas;
+        var div_tech = document.createElement("div");
+        div_tech.className = "tech-index";
+        div_tech.style.width = this.options.drawWidth;
+        div_tech.style.left = this.options.padding.left + "px";
+        div_tech.style.top = canvas.height * 18 / this.options.y_sepe_num + "px";
 
-        var t_base_height = t_height * 0.9;
+        // rsi指标
+        var rsi = document.createElement("div");
+        rsi.className = "tech-index-item";
+        rsi.innerText = "RSI";
+        rsi.style.width = this.options.drawWidth / 9 + "px";
 
-        var c3_y_top = this.options.c3_y_top;
-        var c3_y_bottom = this.options.c3_y_top + t_height;
+        // kdj指标
+        var kdj = document.createElement("div");
+        kdj.className = "tech-index-item";
+        kdj.innerText = "KDJ";
+        kdj.style.width = this.options.drawWidth / 9 + "px";
 
-        /*获取单位矩形对象*/
-        var rect_unit = this.options.rect_unit;
+        // macd指标
+        var macd = document.createElement("div");
+        macd.className = "tech-index-item";
+        macd.innerText = "MACD";
+        macd.style.width = this.options.drawWidth / 9 + "px";
 
-        /*单位绘图矩形画布的宽度*/
-        // var rect_w = rect_unit.rect_w;
-        /*K线柱体的宽度*/
-        var bar_w = rect_unit.bar_w;
-        /*K线柱体的颜色*/
-        var up_color = this.options.up_color;
-        var down_color =this.options.down_color;
+        // macd指标
+        var wd = document.createElement("div");
+        wd.className = "tech-index-item";
+        wd.innerText = "WD";
+        wd.style.width = this.options.drawWidth / 9 + "px";
 
-        //标识最大成交量
-        // markVMax.apply(this,[ctx,v_max,c2_y_top]);
-       
+        // dmi指标
+        var dmi = document.createElement("div");
+        dmi.className = "tech-index-item";
+        dmi.innerText = "DMI";
+        dmi.style.width = this.options.drawWidth / 9 + "px";
+
+        // bias指标
+        var bias = document.createElement("div");
+        bias.className = "tech-index-item";
+        bias.innerText = "BIAS";
+        bias.style.width = this.options.drawWidth / 9 + "px";
+
+        // obv指标
+        var obv = document.createElement("div");
+        obv.className = "tech-index-item";
+        obv.innerText = "OBV";
+        obv.style.width = this.options.drawWidth / 9 + "px";
+
+        // cci指标
+        var cci = document.createElement("div");
+        cci.className = "tech-index-item";
+        cci.innerText = "CCI";
+        cci.style.width = this.options.drawWidth / 9 + "px";
+        // roc指标
+        var roc = document.createElement("div");
+        roc.className = "tech-index-item";
+        roc.innerText = "ROC";
+        roc.style.width = this.options.drawWidth / 9 + "px";
+
+        div_tech.appendChild(rsi);
+        div_tech.appendChild(kdj);
+        div_tech.appendChild(macd);
+        div_tech.appendChild(wd);
+        div_tech.appendChild(dmi);
+        div_tech.appendChild(bias);
+        div_tech.appendChild(obv);
+        div_tech.appendChild(cci);
+        div_tech.appendChild(roc);
+        this.container.appendChild(div_tech);
     }
 
     // 绘制成交量
