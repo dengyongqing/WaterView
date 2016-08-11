@@ -470,6 +470,50 @@ var ChartK = (function() {
         }
     };
 
+    // 绘制RSI指标
+    ChartK.prototype.drawRSI = function(){
+
+    }
+
+    // 绘制KDJ指标
+    ChartK.prototype.drawKDJ = function(){
+        
+    }
+
+    // 绘制MACD指标
+    ChartK.prototype.drawMACD = function(){
+        
+    }
+
+    // 绘制WD指标
+    ChartK.prototype.drawWD = function(){
+        
+    }
+
+    // 绘制DMI指标
+    ChartK.prototype.drawDMI = function(){
+        
+    }
+
+    // 绘制BIAS指标
+    ChartK.prototype.drawBIAS = function(){
+        
+    }
+
+    // 绘制OBV指标
+    ChartK.prototype.drawOBV = function(){
+        
+    }
+
+    // 绘制CCI指标
+    ChartK.prototype.drawCCI = function(){
+        
+    }
+
+    // 绘制ROC指标
+    ChartK.prototype.drawROC = function(){
+        
+    }
 
     // 缩放图表
     function scaleClick() {
