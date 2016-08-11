@@ -65,9 +65,9 @@ function dealData(json, percent, extendType){
 		result.data.push(rect);
 
 		//获取时间段内的价格最大最小值和成交量的最大值
-		/*result.max = result.max > rect.height ? result.max : rect.height;
+		result.max = result.max > rect.height ? result.max : rect.height;
 		result.min = result.min > rect.low ? rect.low : result.min;
-		result.v_max = result.v_max > rect.volume*1.0 ? result.v_max : rect.volume;*/
+		result.v_max = result.v_max > rect.volume*1.0 ? result.v_max : rect.volume;
 	}
 	console.log(new Date() - start);
 	return result;
