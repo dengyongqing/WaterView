@@ -59,7 +59,7 @@ var common = {
     },
     // 图表y轴坐标计算
     get_y: function(y) {
-        return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min) / (this.options.data.max - this.options.data.min));
+        return this.options.c_k_height - (this.options.c_k_height * (y - this.options.data.min) / (this.options.data.max - this.options.data.min));
     },
     // 图表x轴坐标计算
     get_x: function(x) {

@@ -82,6 +82,7 @@ var ChartTime = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
+        ctx.strokeStyle = 'rgba(230,230,230, 1)';
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("10000").width + 20;
@@ -212,7 +213,6 @@ var ChartTime = (function() {
 
         // if(!delaytouch){
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
-            //console.info(event);
             dealEvent.apply(_this, [inter, event]);
             try {
                 event.preventDefault();
@@ -222,7 +222,6 @@ var ChartTime = (function() {
         });
 
         common.addEvent.call(_this, canvas, "mouseleave", function(event) {
-            //console.info(event);
             inter.hide();
             try {
                 event.preventDefault();
@@ -232,7 +231,6 @@ var ChartTime = (function() {
         });
 
         common.addEvent.call(_this, canvas, "mouseenter", function(event) {
-            //console.info(event);
             dealEvent.apply(_this, [inter, event]);
             try {
                 event.preventDefault();

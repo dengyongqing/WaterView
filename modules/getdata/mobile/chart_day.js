@@ -68,8 +68,7 @@ function getdata(option, callback, interactive) {
     };
 
     jsonp(url, urldata, callbackstring, function(json) {
-
-        try{
+        try{    
             if (!json) {
                 callback(null);
             } else {
