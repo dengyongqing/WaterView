@@ -35,7 +35,6 @@ var DrawXY = (function(){
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
-        debugger;
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
         if(type == "TL"){

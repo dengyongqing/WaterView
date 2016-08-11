@@ -7,9 +7,9 @@ function dealData(json, percent, extendType){
 
 	var result = {};
 	result.data = [];
-	/*result.max = 0;
+	result.max = 0;
 	result.min = json.info.yc;
-	result.v_max = 0;*/
+	result.v_max = 0;
 	result.total = json.info.total;
 	result.name = json.name;
     result.code = json.code;
@@ -17,7 +17,6 @@ function dealData(json, percent, extendType){
 	var datas = json.data;
 	//如果percent没定义，默认显示60个数据（需要改进）
 	var askLength = 60;
-	var start = new Date();
 	for(var i = 0; i < askLength; i++){
 		//分割data中的字符串
 		var items = datas[result.total - i - 1].split(/\[|\]/);
@@ -54,9 +53,9 @@ function dealData(json, percent, extendType){
 				break;
 			case "ma": 
 				var mas = items[1].split(",");
-				rect.ma5 = testData(mas[0]); 
-				rect.ma10 = testData(mas[1]);
-				rect.ma20 = testData(mas[2]);
+				rect.five_average = testData(mas[0]); 
+				rect.ten_average = testData(mas[1]);
+				rect.twenty_average = testData(mas[2]);
 				rect.ma30 = testData(mas[3]);
 				break;
 			default:
@@ -69,7 +68,6 @@ function dealData(json, percent, extendType){
 		result.min = result.min > rect.low ? rect.low : result.min;
 		result.v_max = result.v_max > rect.volume*1.0 ? result.v_max : rect.volume;
 	}
-	console.log(new Date() - start);
 	return result;
 }
 
