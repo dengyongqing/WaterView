@@ -117,9 +117,9 @@ var ChartK = (function() {
         // K线区域的高度
         this.options.c_k_height = canvas.height * 8 / this.options.y_sepe_num;
         // 成交量区域的高度
-        this.options.c_v_height = canvas.height * 8 / this.options.y_sepe_num;
+        this.options.c_v_height = canvas.height * 3 / this.options.y_sepe_num;
         // 技术指标区域的高度
-        this.options.c_v_height = canvas.height * 8 / this.options.y_sepe_num;
+        this.options.c_t_height = canvas.height * 2 / this.options.y_sepe_num;
 
         this.options.margin = {};
         this.options.margin.left = 0;
