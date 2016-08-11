@@ -1,7 +1,6 @@
 /**
  * web的k线图的数据处理
  * json为根据id和type获得的k线数据
- * percen为需要展现出来的数据量（默认显示60个数据， 最少20个）(应该交互时控制)
  */
 
 function dealData(json, percent, extendType){
@@ -16,8 +15,8 @@ function dealData(json, percent, extendType){
     result.code = json.code;
 
 	var datas = json.data;
-	//如果percent没定义，默认显示60个数据
-	var askLength = result.total;
+	//如果percent没定义，默认显示60个数据（需要改进）
+	var askLength = 60;
 	var start = new Date();
 	for(var i = 0; i < askLength; i++){
 		//分割data中的字符串
