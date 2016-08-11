@@ -14,7 +14,7 @@
  *     padding_left:    画布左侧边距
  *     k_v_away:    行情图表（分时图或K线图）和成交量图表的间距
  *     scale_count:     缩放默认值
- *     c_1_height:  行情图表（分时图或K线图）的高度
+ *     c_k_height:  行情图表（分时图或K线图）的高度
  *     rect_unit:   分时图或K线图单位绘制区域
  * }
  *
@@ -114,8 +114,12 @@ var ChartK = (function() {
         this.options.c3_y_top = canvas.height * 14 / this.options.y_sepe_num;
         this.options.c4_y_top = canvas.height * 19 / this.options.y_sepe_num;
 
-        // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height * 8 / this.options.y_sepe_num;
+        // K线区域的高度
+        this.options.c_k_height = canvas.height * 8 / this.options.y_sepe_num;
+        // 成交量区域的高度
+        this.options.c_v_height = canvas.height * 8 / this.options.y_sepe_num;
+        // 技术指标区域的高度
+        this.options.c_v_height = canvas.height * 8 / this.options.y_sepe_num;
 
         this.options.margin = {};
         this.options.margin.left = 0;
@@ -281,9 +285,9 @@ var ChartK = (function() {
         var v_max = (data.v_max).toFixed(0);
         
         /*K线图表的高度*/
-        // var c_1_height = this.options.c_1_height;
+        // var c_k_height = this.options.c_k_height;
         //成交量图表的高度
-        // var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.margin.top;
+        // var v_height = ctx.canvas.height - c_k_height - this.options.k_v_away - this.options.margin.top;
         var v_height = ctx.canvas.height * 3 / this.options.y_sepe_num;
 
         var v_base_height = v_height * 0.9;

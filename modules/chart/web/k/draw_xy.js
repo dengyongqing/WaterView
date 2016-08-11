@@ -35,7 +35,7 @@ var DrawXY = (function(){
         var oc_time_arr = data.timeStrs;
 
         /*K线图的高度*/
-        var k_height = this.options.c_1_height;
+        var k_height = this.options.c_k_height;
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
