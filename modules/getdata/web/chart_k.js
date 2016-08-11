@@ -2,9 +2,8 @@
  * web端 k线图数据获取
  *
  * 返回的数据: result = {
- *			     			max: 最高价,
- *			        		min: 最低价,
- *			          		v_max: 成交量最大值,
+ *			     			name: 名字,
+ *			        		code: 编码,
  *			          		total: 总共的数据个数
  *			          		data:[	
  *			          			{date_time(日期交易), 
