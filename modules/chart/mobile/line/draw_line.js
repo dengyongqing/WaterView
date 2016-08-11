@@ -72,16 +72,22 @@ var DrawLine = (function(){
 
 		ctx.beginPath();
 
-		for(var i = 0,item;item = arr[i]; i++){
-			 var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-			 var y = common.get_y.call(this,item);
-			 if(i == 0){
-			 	ctx.moveTo(this.options.padding_left,y);
-			 }else if(i == arr_length - 1){
-			 	ctx.lineTo(x,y);
-			 }else{
-			 	ctx.lineTo(x,y);
-			 }
+		for(var i = 0;i < arr_length; i++){
+			var item = arr[i];
+			if(item){
+				 var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
+				 var y = common.get_y.call(this,item);
+				 if(i == 0){
+				 	ctx.moveTo(this.options.padding_left,y);
+				 }else if(i == arr_length - 1){
+				 	ctx.lineTo(x,y);
+				 }else{
+				 	ctx.lineTo(x,y);
+				 }
+			}else{
+				 continue;
+			}
+			 
 		}
 		
 		// ctx.fill();

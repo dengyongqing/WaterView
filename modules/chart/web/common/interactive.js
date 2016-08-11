@@ -26,8 +26,8 @@
 
 // 拓展，合并，复制
 var extend = require('tools/extend2');
-// 工具模块
-var common = require('tools/common');
+// 工具
+var common = require('chart/web/common/common'); 
 // 主题
 var theme = require('theme/default');
 
@@ -50,8 +50,8 @@ var Interactive = (function() {
 			/*Y轴标识线*/
 	        var y_line = document.createElement("div");
 	        y_line.className = "cross-y";
-	        y_line.style.height = Math.abs(c_box.bottom - c_box.top) + "px";
-	        y_line.style.top = "0px";
+	        y_line.style.height = this.options.c4_y_top - this.options.c1_y_top + "px";
+	        y_line.style.top = this.options.c1_y_top + "px";
 	        this.options.cross.y_line = y_line;
 
 	        /*X轴标识线*/
@@ -95,14 +95,15 @@ var Interactive = (function() {
 		 	}
 	}
 
-	// 绘制移动平均线标识
 	Interactive.prototype.markMA = function (canvas,obj_5,obj_10,obj_20){
+	// 绘制移动平均线标识
 	    // var c_box = canvas.getBoundingClientRect();
 	    // var dpr = this.options.dpr;
 	    if(!this.options.mark_ma){
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div");
 	        div_mark.className = "mark-ma";
+	        div_mark.style.left = canvas.width - this.options.padding.right - 300 + "px";;
 	        div_mark.style.top = "5px";
 	        this.options.mark_ma.mark_ma = div_mark;
 
@@ -197,13 +198,13 @@ var Interactive = (function() {
 	// 缩放
 	Interactive.prototype.scale = function(canvas){
 		/*K线图表右下角相对于父容器的位置*/
-	    var w_pos = common.canvasToWindow.apply(this,[canvas,canvas.width,this.options.c_1_height]);
+	    var w_pos = common.canvasToWindow.apply(this,[canvas,canvas.width,this.options.c_k_height]);
 		if(!this.options.scale){
 			this.options.scale = {};
 			/*创建外部包裹元素*/
 			var scale_div = document.createElement("div");
 			scale_div.className = "scale-div";
-			scale_div.style.right = "20px";
+			scale_div.style.left = canvas.width - this.options.padding.right - 120 + "px";
 			scale_div.style.top = w_pos.y - 40 + "px";
 			this.options.scale.scale = scale_div;
 
@@ -235,16 +236,27 @@ var Interactive = (function() {
 	        this.options.tip = {};
 	        // 创建外部包裹元素
 	        var div_tip = document.createElement("div");
-	        div_tip.className = "show-tip";
+	        div_tip.className = "web-show-tip";
 
 	        this.options.tip.tip = div_tip;
+	        div_tip.style.top = this.options.c1_y_top + 30 + "px";
 
 	        // 创建文档碎片
 	        var frag = document.createDocumentFragment();
 
 	        // 创建收盘价格
-	        var close_data = document.createElement('span');
-	        close_data.className = "span-price";
+	        var date_data = document.createElement('div');
+	        date_data.className = "web-tip-first-line";
+	        this.options.tip.date_data = date_data;
+	        date_data.innerText = "2016-08-09";
+
+	        // 创建收盘价格
+	        var close_data_text = document.createElement('div');
+	        close_data_text.className = "web-tip-line-left";
+	        close_data_text.innerText = "收盘价";
+
+	        var close_data = document.createElement('div');
+	        close_data.className = "web-tip-line-right";
 	        this.options.tip.close = close_data;
 
 	        // 创建百分比
@@ -259,81 +271,59 @@ var Interactive = (function() {
 	        var time = document.createElement('span');
 	        this.options.tip.time = time;
 
-	        var tip_line_1 = document.createElement("div");
-	        tip_line_1.className = "tip-line-1";
-	        tip_line_1.appendChild(close_data);
-	        tip_line_1.appendChild(percent);
+	        // var tip_line_1 = document.createElement("div");
+	        // tip_line_1.className = "tip-line-1";
+	        // tip_line_1.appendChild(close_data);
+	        // tip_line_1.appendChild(percent);
 
-	        var tip_line_2 = document.createElement("div");
-	        tip_line_2.className = "tip-line-2";
-	        tip_line_2.appendChild(count);
-	        tip_line_2.appendChild(time);
+	        // var tip_line_2 = document.createElement("div");
+	        // tip_line_2.className = "tip-line-2";
+	        // tip_line_2.appendChild(count);
+	        // tip_line_2.appendChild(time);
 
-	        frag.appendChild(tip_line_1);
-	        frag.appendChild(tip_line_2);
+	        var web_tip_line_container = document.createElement("div");
+	        web_tip_line_container.className = "web-tip-line-container";
+	        web_tip_line_container.appendChild(close_data_text);
+	        web_tip_line_container.appendChild(close_data);
+
+	        frag.appendChild(date_data);
+	        frag.appendChild(web_tip_line_container);
 	        div_tip.appendChild(frag);
 	        document.getElementById(this.options.container).appendChild(div_tip);
+	        this.options.tip.div_tip_width = div_tip.clientWidth;
 
-	        var volume = obj.volume;
-	        if(type == "DK" || type == "WK" || type == "MK"){
-	            close_data.innerText = obj.close;
-	            percent.innerText = obj.percent+'%';
-            	count.innerText = common.format_unit(volume) + '手';
-	            time.innerText = obj.data_time;
-	            div_tip.style.top = - div_tip.clientHeight + "px";
-
-	            var c1 = "span-k-c1";
-	            var c2 = "span-k-c2";
-	        }else if(type == "TL"){
-	            close_data.innerText = obj.price;
-	            percent.innerText = obj.percent+'%';
-            	count.innerText = common.format_unit(volume)+'手';
-	            time.innerText = obj.time;
-	            div_tip.style.top = - div_tip.clientHeight + "px";
-	            div_tip.className = div_tip.className + " " + "time-tip"
-
-	            var c1 = "span-time-c1";
-	            var c2 = "span-time-c2";
-	        }
-
-	        close_data.className = close_data.className + " " + c1;
-            percent.className = percent.className + " " + c2;
-            count.className = count.className + " " + c1;
-            time.className = time.className + " " + c2;
+	        close_data.className = close_data.className;
+            percent.className = percent.className;
+            count.className = count.className;
+            time.className = time.className;
 
 	    }else{
 	        var tip_obj = this.options.tip;
 	        var div_tip = this.options.tip.tip;
 	        var volume = obj.volume;
 
-	        if(type == "DK" || type == "WK" || type == "MK"){
-	            tip_obj.close.innerText = obj.close;
-	            tip_obj.percent.innerText = obj.percent+'%';
-	            tip_obj.count.innerText = common.format_unit(volume)+'手';
-	            tip_obj.time.innerText = obj.data_time.replace(/-/g,"/");
-	        }else if(type == "TL"){
-	            tip_obj.close.innerText = obj.price;
-	            tip_obj.percent.innerText = obj.percent+'%';
-
-	            tip_obj.count.innerText = common.format_unit(volume)+'手';
-	            tip_obj.time.innerText = obj.time;
-	        }
+            tip_obj.close.innerText = obj.close;
+            tip_obj.percent.innerText = obj.percent+'%';
+            tip_obj.count.innerText = common.format_unit(volume);
+            tip_obj.time.innerText = obj.data_time.replace(/-/g,"/");
 	    }
 
-	    if(obj && obj.up){
-	        div_tip.style.backgroundColor = this.options.up_color;
-	    }else if(obj && !obj.up){
-	        div_tip.style.backgroundColor = this.options.down_color;
-	    }
+	    
 
-	    // if((c_box.left + div_tip.clientWidth/2) >= x){
-	    if(x <= (div_tip.clientWidth/2 + this.options.padding_left/this.options.dpr)){
-	        div_tip.style.left = this.options.padding_left/this.options.dpr + "px";
-	    }else if(x >= (canvas.width/this.options.dpr - div_tip.clientWidth/2)){
-	        div_tip.style.left = canvas.width/this.options.dpr - div_tip.clientWidth + "px";
-	    }else{
-	        div_tip.style.left = x - div_tip.clientWidth/2 + "px";
-	    }
+	    if(x <= (canvas.width/this.options.dpr/2)){
+    		div_tip.style.left = canvas.width/this.options.dpr - this.options.tip.div_tip_width - 3 + "px";
+    	}else if(x >= (canvas.width/this.options.dpr/2)){
+    		div_tip.style.left = this.options.padding.left / this.options.dpr + "px";
+    	}else{
+    	}
+
+	    // if(x <= (div_tip.clientWidth/2 + this.options.padding_left/this.options.dpr)){
+	    //     div_tip.style.left = this.options.padding_left/this.options.dpr + "px";
+	    // }else if(x >= (canvas.width/this.options.dpr - div_tip.clientWidth/2)){
+	    //     div_tip.style.left = canvas.width/this.options.dpr - div_tip.clientWidth + "px";
+	    // }else{
+	    //     div_tip.style.left = x - div_tip.clientWidth/2 + "px";
+	    // }
 	}
 
 	// 标记上榜日
