@@ -607,11 +607,11 @@ var ChartK = (function() {
             var XMark = this.options.XMark = [];
             var data_arr_length = data_arr.length;
             if(data_arr_length > 0){
-                XMark.push(data_arr[0]);
-                XMark.push(data_arr[Math.floor(data_arr_length * 1 / 4)]);
-                XMark.push(data_arr[Math.floor(data_arr_length * 2 / 4)]);
-                XMark.push(data_arr[Math.floor(data_arr_length * 3 / 4)]);
-                XMark.push(data_arr[data_arr_length - 1]);
+                XMark.push(data_arr[0].date_time);
+                XMark.push(data_arr[Math.floor(data_arr_length * 1 / 4)].date_time);
+                XMark.push(data_arr[Math.floor(data_arr_length * 2 / 4)].date_time);
+                XMark.push(data_arr[Math.floor(data_arr_length * 3 / 4)].date_time);
+                XMark.push(data_arr[data_arr_length - 1].date_time);
             }
             
 
