@@ -4,7 +4,8 @@
  * 返回的数据: result = {
  *			     			name: 名字,
  *			        		code: 编码,
- *			          		total: 总共的数据个数
+ *			          		total: 总共的数据个数,
+ *			          		extend(为 均线， sar等参数线): [{date:2012-11-22, value: 1000}, ....]
  *			          		data:[	
  *			          			{date_time(日期交易), 
  *			          			height(当天最高价), 
@@ -28,7 +29,7 @@ var dealData = require('../../dealdata/web/chart_k');
 /**
  * 根据传入的options获取相应的k线数据
  * @param 	obj   options  {
- *                        		id : 股票id
+ *                        		code : 股票id
  *                        		type： 数据类型：K（日K）,WK（周K）,MK（月K），T2（两天分时），
  *                        				T3（三天分时），T4（四天分时），T5（五天分时），m5k（历史五分钟），
  *                        		 		m15k（历史十五分钟），m30k（历史三十分钟），m60k（历史六十分钟）
@@ -44,7 +45,7 @@ function getData(options, callback){
 		options.type = 'k';
 	}
 	var urlData = {
-		id: options.id,
+		id: options.code,
         TYPE: options.type,
         js: callbackStr + '((x))',
         'rtntype': 5,
