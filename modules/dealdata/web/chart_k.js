@@ -35,28 +35,27 @@ function dealData(json, percent, extendType){
 		//当extend分别为MA, EXPMA, SAR, BOLL, BBI时对应的数据(除了ma，其他都有差错)
 		switch(extendType.toLowerCase()){
 			case "bbi":
-				rect.bbi = testData(items[1]);
+				intoArr.call(result, "bbi", items[1]);
 				break; 
 			case "expma":
 				var expmas = items[1].split(",");
-				rect.expma12 = testData(expmas[0]);
-				rect.expma50 = testData(expmas[1]); 
-				break;
+				intoArr.call(result, "expma12", expmas[0]);
+				intoArr.call(result, "expma50", expmas[1]);
 			case "sar":
-				rect.sar = items[1];
+				intoArr.call(result, "sar", items[1]); 
 				break;
 			case "boll":
 				var bolls = items[1].split(",");
-				rect.bollmb = testData(bolls[0]);
-				rect.bollup = testData(bolls[1]);
-				rect.bolldn = testData(bolls[2]);
+				intoArr.call(result, "bollmb", bolls[0]); 
+				intoArr.call(result, "bollup", bolls[1]); 
+				intoArr.call(result, "bolldn", bolls[2]); 
 				break;
 			case "ma": 
 				var mas = items[1].split(",");
-				rect.five_average = testData(mas[0]); 
-				rect.ten_average = testData(mas[1]);
-				rect.twenty_average = testData(mas[2]);
-				rect.ma30 = testData(mas[3]);
+				intoArr.call(result, "five_average", mas[0]);  
+				intoArr.call(result, "ten_average", mas[1]); 
+				intoArr.call(result, "twenty_average", mas[2]); 
+				intoArr.call(result, "ma30", mas[3]);  
 				break;
 			default:
 				break;
@@ -73,6 +72,17 @@ function dealData(json, percent, extendType){
 
 function testData(data){
 	return data === "-" ? null : data;
+}
+
+function intoArr(name, data) {
+    if (data === "-") {
+        data = null;
+    }
+    if (this[name] === undefined) {
+        this[name] = [data];
+    } else {
+        this[name].push(data);
+    }
 }
 
 module.exports = dealData;
