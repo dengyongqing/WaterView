@@ -28,8 +28,8 @@ function dealData(json, percent, extendType) {
         //得到每个时间点的数据
         var rect = {};
         rect.date_time = itemBase[0];
-        rect.height = itemBase[3];
-        rect.low = itemBase[4];
+        rect.highest = itemBase[3];
+        rect.lowest = itemBase[4];
         rect.open = itemBase[1];
         rect.close = itemBase[2];
         rect.volume = itemBase[5];
@@ -71,8 +71,8 @@ function dealData(json, percent, extendType) {
         result.data.push(rect);
 
         //获取时间段内的价格最大最小值和成交量的最大值
-        result.max = result.max > rect.height ? result.max : rect.height;
-        result.min = result.min > rect.low ? rect.low : result.min;
+        result.max = result.max > rect.highest ? result.max : rect.highest;
+        result.min = result.min > rect.lowest ? rect.lowest : result.min;
         result.v_max = result.v_max > rect.volume * 1.0 ? result.v_max : rect.volume;
     }
     return result;
