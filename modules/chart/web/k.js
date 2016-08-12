@@ -603,10 +603,22 @@ var ChartK = (function() {
             var rect_unit = common.get_rect.apply(this,[canvas,data.data.length]);
             this.options.rect_unit = rect_unit;
 
+            var data_arr = data.data;
+            var XMark = this.options.XMark = [];
+            var data_arr_length = data_arr.length;
+            if(data_arr_length > 0){
+                XMark.push(data_arr[0].date_time);
+                XMark.push(data_arr[Math.floor(data_arr_length * 1 / 4)].date_time);
+                XMark.push(data_arr[Math.floor(data_arr_length * 2 / 4)].date_time);
+                XMark.push(data_arr[Math.floor(data_arr_length * 3 / 4)].date_time);
+                XMark.push(data_arr[data_arr_length - 1].date_time);
+            }
+            
+
             // 绘制坐标轴
             new DrawXY(this.options);
 
-            var data_arr = data.data;
+            
 
             // 绘制K线图
             drawK.apply(this,[ctx,data_arr]);

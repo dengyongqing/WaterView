@@ -156,6 +156,10 @@ var DrawXY = (function(){
         // ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, y_date);
         
         var unit_w = (k_width - this.options.padding.left) / this.options.x_sepe_num;
+        var XMark = this.options.XMark;
+        var data_arr = this.options.data.data;
+        var data_arr_length = this.options.data.data.length;
+
         for(var i = 0;i <= this.options.x_sepe_num;i++){
 
             var x1 = this.options.padding.left + i * unit_w;
@@ -175,8 +179,12 @@ var DrawXY = (function(){
                 DrawDashLine(ctx, x1, y1, x2, y2, 5);
             }
             
-            ctx.fillText("2016-08-01", x1, y2 + 30);
         }
+        ctx.fillText(XMark[0],  0 / 4 * this.options.drawWidth + this.options.padding.left, this.options.c_k_height + 30);
+        ctx.fillText(XMark[1],  1 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width/2, this.options.c_k_height + 30);
+        ctx.fillText(XMark[2],  2 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width/2, this.options.c_k_height + 30);
+        ctx.fillText(XMark[3],  3 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width/2, this.options.c_k_height + 30);
+        ctx.fillText(XMark[4],  4 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width, this.options.c_k_height + 30);
         // ctx.moveTo(0,k_height + 10);
     }
     /*Y轴标识线列表*/
