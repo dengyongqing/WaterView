@@ -35,27 +35,27 @@ function dealData(json, percent, extendType){
 		//当extend分别为MA, EXPMA, SAR, BOLL, BBI时对应的数据(除了ma，其他都有差错)
 		switch(extendType.toLowerCase()){
 			case "bbi":
-				intoArr.call(result, "bbi", items[1]);
+				intoArr.call(result, "bbi", items[1], rect.date_time);
 				break; 
 			case "expma":
 				var expmas = items[1].split(",");
-				intoArr.call(result, "expma12", expmas[0]);
-				intoArr.call(result, "expma50", expmas[1]);
+				intoArr.call(result, "expma12", expmas[0], rect.date_time);
+				intoArr.call(result, "expma50", expmas[1], rect.date_time);
 			case "sar":
-				intoArr.call(result, "sar", items[1]); 
+				intoArr.call(result, "sar", items[1], rect.date_time); 
 				break;
 			case "boll":
 				var bolls = items[1].split(",");
-				intoArr.call(result, "bollmb", bolls[0]); 
-				intoArr.call(result, "bollup", bolls[1]); 
-				intoArr.call(result, "bolldn", bolls[2]); 
+				intoArr.call(result, "bollmb", bolls[0],rect.date_time); 
+				intoArr.call(result, "bollup", bolls[1], rect.date_time); 
+				intoArr.call(result, "bolldn", bolls[2], rect.date_time); 
 				break;
 			case "ma": 
 				var mas = items[1].split(",");
-				intoArr.call(result, "five_average", mas[0]);  
-				intoArr.call(result, "ten_average", mas[1]); 
-				intoArr.call(result, "twenty_average", mas[2]); 
-				intoArr.call(result, "ma30", mas[3]);  
+				intoArr.call(result, "five_average", mas[0], rect.date_time);  
+				intoArr.call(result, "ten_average", mas[1], rect.date_time); 
+				intoArr.call(result, "twenty_average", mas[2], rect.date_time); 
+				intoArr.call(result, "ma30", mas[3], rect.date_time);  
 				break;
 			default:
 				break;
@@ -74,14 +74,14 @@ function testData(data){
 	return data === "-" ? null : data;
 }
 
-function intoArr(name, data) {
-    if (data === "-") {
-        data = null;
+function intoArr(name, value, date) {
+    if (value === "-") {
+        value = null;
     }
     if (this[name] === undefined) {
-        this[name] = [data];
+        this[name] = [{value:value, date:date}];
     } else {
-        this[name].push(data);
+        this[name].push({value:value, date:date});
     }
 }
 
