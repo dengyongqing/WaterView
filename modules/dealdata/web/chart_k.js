@@ -63,7 +63,7 @@ function dealData(json, percent, extendType) {
                 intoArr.call(result, "five_average", mas[0], rect.date_time);
                 intoArr.call(result, "ten_average", mas[1], rect.date_time);
                 intoArr.call(result, "twenty_average", mas[2], rect.date_time);
-                intoArr.call(result, "ma30", mas[3], rect.date_time);
+                intoArr.call(result, "thirty_average", mas[3], rect.date_time);
                 break;
             default:
                 break;

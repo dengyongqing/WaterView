@@ -95,7 +95,7 @@ var Interactive = (function() {
 		 	}
 	}
 
-	Interactive.prototype.markMA = function (canvas,obj_5,obj_10,obj_20){
+	Interactive.prototype.markMA = function (canvas,obj_5,obj_10,obj_20,obj_30){
 	// 绘制移动平均线标识
 	    // var c_box = canvas.getBoundingClientRect();
 	    // var dpr = this.options.dpr;
@@ -103,7 +103,7 @@ var Interactive = (function() {
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div");
 	        div_mark.className = "mark-ma";
-	        div_mark.style.left = canvas.width - this.options.padding.right - 300 + "px";;
+	        div_mark.style.left = this.options.padding.left + "px";
 	        div_mark.style.top = "5px";
 	        this.options.mark_ma.mark_ma = div_mark;
 
@@ -113,6 +113,8 @@ var Interactive = (function() {
 	        /*5日均线*/
 	        var ma_5_data = document.createElement('span');
 	        ma_5_data.className = "span-m5";
+	        ma_5_data.style.position = "absolute";
+	        ma_5_data.style.left = 0;
 	        if(obj_5){
 	            ma_5_data.innerText = "MA5: " + obj_5.value;
 	        }else{
@@ -128,6 +130,8 @@ var Interactive = (function() {
 	        var ma_10_data = document.createElement('span');
 	        ma_10_data.id = "ma_10_data";
 	        ma_10_data.className = "span-m10";
+	        ma_10_data.style.position = "absolute";
+	        ma_10_data.style.left = this.options.padding.left + this.options.drawWidth * 1/3 - 50 + "px";
 	        if(obj_10){
 	            ma_10_data.innerText = "MA10: " + obj_10.value;
 	        }else{
@@ -143,6 +147,8 @@ var Interactive = (function() {
 	        var ma_20_data = document.createElement('span');
 	        ma_20_data.id = "ma_20_data";
 	        ma_20_data.className = "span-m20";
+	        ma_20_data.style.position = "absolute";
+	        ma_20_data.style.left = this.options.padding.left + this.options.drawWidth * 2/3 - 50 + "px";
 	        if(obj_20){
 	            ma_20_data.innerText = "MA20: " + obj_20.value;
 	        }else{
@@ -154,10 +160,30 @@ var Interactive = (function() {
 	        }
 	        this.options.mark_ma.ma_20_data = ma_20_data;
 
+	        /*30日均线*/
+	        var ma_30_data = document.createElement('span');
+	        ma_30_data.id = "ma_30_data";
+	        ma_30_data.className = "span-m30";
+	        ma_30_data.style.position = "absolute";
+	        // ma_30_data.style.left = this.options.padding.left + this.options.drawWidth * 3/4 + "px";
+	        ma_30_data.style.left = this.options.padding.left + this.options.drawWidth - 120 + "px";
+	        if(obj_30){
+	            ma_30_data.innerText = "MA30: " + obj_30.value;
+	        }else{
+	        	if(this.default_m20){
+	        		ma_30_data.innerText = "MA30: " + this.default_m30.value;
+	        	}else{
+	        		ma_30_data.innerText = "MA30: -";
+	        	}
+	        }
+	        this.options.mark_ma.ma_30_data = ma_30_data;
+
 	        frag.appendChild(ma_5_data);
 	        frag.appendChild(ma_10_data);
 	        frag.appendChild(ma_20_data);
+	        frag.appendChild(ma_30_data);
 	        div_mark.appendChild(frag);
+
 	        document.getElementById(this.options.container).appendChild(div_mark);
 	        // div_tip.style.left = w_pos.x - 300 + "px";
 	    }else{
@@ -192,9 +218,131 @@ var Interactive = (function() {
 	        	}
 	        }
 
+	        if(obj_30){
+	            this.options.mark_ma.ma_30_data.innerText = "MA30: " + obj_30.value;
+	        }else{
+	        	if(this.default_m30){
+	        		this.options.mark_ma.ma_30_data.innerText = "MA30: " + this.default_m30.value;
+	        	}else{
+	        		this.options.mark_ma.ma_30_data.innerText = "MA30: -";
+	        	}
+	        }
+
 	    }
 
 	}
+
+	Interactive.prototype.markVMA = function (canvas,volume,obj_5,obj_10){
+	// 绘制移动平均线标识
+	    // var c_box = canvas.getBoundingClientRect();
+	    // var dpr = this.options.dpr;
+	    if(!this.options.mark_v_ma){
+	        this.options.mark_v_ma = {};
+
+	        // 成交量均线
+	        var v_div_mark = document.createElement("div");
+	        v_div_mark.className = "mark-ma";
+	        v_div_mark.style.left = this.options.padding.left + "px";
+	        v_div_mark.style.top = this.options.c2_y_top  + "px";
+	        this.options.mark_v_ma.mark_v_ma = v_div_mark;
+
+	        /*创建文档碎片*/
+	        var v_frag = document.createDocumentFragment();
+
+	        // 成交量5日均线
+	        var v_volume = document.createElement('span');
+	        v_volume.className = "span-m5";
+	        v_volume.style.position = "absolute";
+	        v_volume.style.left = "10px";
+	        this.options.mark_v_ma.v_volume = v_volume;
+	        if(volume){
+	           this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + volume;
+	        }else{
+	        	if(this.default_volume){
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + this.default_volume.volume;
+	        	}else{
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: -";
+	        	}
+	        }
+
+	        // 成交量5日均线
+	        var v_ma_5 = document.createElement('span');
+	        v_ma_5.className = "span-m5";
+	        v_ma_5.style.position = "absolute";
+	        v_ma_5.style.left = "200px";
+	        this.options.mark_v_ma.v_ma_5 = v_ma_5;
+	        if(obj_5){
+	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + obj_5.value;
+	        }else{
+	        	if(this.default_vm5){
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + this.default_vm5.value;
+	        	}else{
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: -";
+	        	}
+	        }
+
+	        // 成交量10日均线
+	        var v_ma_10 = document.createElement('span');
+	        v_ma_10.className = "span-m10";
+	        v_ma_10.style.position = "absolute";
+	        // v_ma_10.style.left = this.options.padding.left + this.options.drawWidth * 1/3 - 50 + "px";
+	        v_ma_10.style.left = "400px";
+	        this.options.mark_v_ma.v_ma_10 = v_ma_10;
+	        if(obj_10){
+	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + obj_10.value;
+	        }else{
+	        	if(this.default_vm10){
+					this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + this.default_vm10.value;
+	        	}else{
+	        		this.options.mark_v_ma.v_ma_10.innerText = "MA10: -";
+	        	}
+	        }
+
+	        v_frag.appendChild(v_volume);
+	        v_frag.appendChild(v_ma_5);
+	        v_frag.appendChild(v_ma_10);
+	        v_div_mark.appendChild(v_frag);
+
+	        document.getElementById(this.options.container).appendChild(v_div_mark);
+	        // div_tip.style.left = w_pos.x - 300 + "px";
+	    }else{
+	        var mark_v_ma = this.options.mark_v_ma.mark_v_ma;
+
+	        if(volume){
+	           this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + volume;
+	        }else{
+	        	if(this.default_volume){
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + this.default_volume.volume;
+	        	}else{
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: -";
+	        	}
+	        }
+
+	        if(obj_5){
+	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + obj_5.value;
+	        }else{
+	        	if(this.default_vm5){
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + this.default_vm5.value;
+	        	}else{
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: -";
+	        	}
+	        }
+
+	        if(obj_10){
+	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + obj_10.value;
+	        }else{
+	        	if(this.default_vm10){
+					this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + this.default_vm10.value;
+	        	}else{
+	        		this.options.mark_v_ma.v_ma_10.innerText = "MA10: -";
+	        	}
+	        }
+
+
+	    }
+
+	}
+
 	// 缩放
 	Interactive.prototype.scale = function(canvas){
 		/*K线图表右下角相对于父容器的位置*/

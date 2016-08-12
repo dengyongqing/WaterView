@@ -1,3 +1,4 @@
+/*手机版图表样式*/
 .show-tip {
     position: absolute;
     top: 0px;
@@ -44,51 +45,6 @@
 	text-align: right;
 }
 
-.web-show-tip {
-	position: absolute;
-	top: 0px;
-	background-color: red;
-	z-index: 999;
-	border: 1px solid #97c8ff;
-	/*padding: 8px;*/
-	box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
-	background-color: #fff;
-	color: #666;
-	min-width: 108px;
-	font-size: 12px;
-	font-weight: lighter;
-	font-family: 'arial';
-
-	/*white-space: nowrap;*/
-}
-
-.web-tip-line-left{
-	float: left;
-	width:50%;
-	text-align: left;
-	height:20px;
-	line-height: 20px;
-}
-
-.web-tip-line-right{
-	float: left;
-	width:50%;
-	text-align: right;
-	height:20px;
-	line-height: 20px;
-}
-
-.web-tip-first-line{
-	width:100%;
-	background: #edf5ff;
-	height:30px;
-	line-height: 30px;
-	text-align: center;
-}
-
-.web-tip-line-container{
-	padding:8px;
-}
 
 .cross-y{
 	position:absolute;top:0px;z-index:98;border-left:1px dashed #8f8f8f;width:0px;background-color:#fff;
@@ -113,6 +69,9 @@
 }
 .mark-ma .span-m20{
 	color:#6e9fe9;
+}
+.mark-ma .span-m30{
+	color:#fe59fe;
 }
 .scale-div{
 	position:absolute;z-index:99;border:0px;width:90px;height:45px;
@@ -205,6 +164,7 @@
 	opacity: 1;
 }
 
+
 /*web港股的样式*/
 .web-tips{
 	display: none;
@@ -245,4 +205,52 @@
 
 .tech-index.current{
 	background-color: #c2c2c2;
+}
+
+
+/*web版图表样式*/
+.web-show-tip {
+	position: absolute;
+	top: 0px;
+	background-color: red;
+	z-index: 999;
+	border: 1px solid #97c8ff;
+	/*padding: 8px;*/
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+	background-color: #fff;
+	color: #666;
+	min-width: 108px;
+	font-size: 12px;
+	font-weight: lighter;
+	font-family: 'arial';
+
+	/*white-space: nowrap;*/
+}
+
+.web-tip-line-left{
+	float: left;
+	width:50%;
+	text-align: left;
+	height:20px;
+	line-height: 20px;
+}
+
+.web-tip-line-right{
+	float: left;
+	width:50%;
+	text-align: right;
+	height:20px;
+	line-height: 20px;
+}
+
+.web-tip-first-line{
+	width:100%;
+	background: #edf5ff;
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+}
+
+.web-tip-line-container{
+	padding:8px;
 }

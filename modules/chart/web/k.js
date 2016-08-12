@@ -151,8 +151,10 @@ var ChartK = (function() {
                 GetDataK(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
                     if(flag){
-                        // 均线数据标识
+                        // K线图均线数据标识
                         inter.markMA(_this.options.canvas);
+                        // 成交量均线数据标识
+                        inter.markVMA(_this.options.canvas);
                         // 缩放
                         inter.scale(_this.options.canvas);
                         // 绑定事件
@@ -292,7 +294,7 @@ var ChartK = (function() {
         // var y_min = data.min;
         /*最大成交量*/
         var v_max = (data.v_max/1).toFixed(0);
-        
+
         /*K线图表的高度*/
         // var c_k_height = this.options.c_k_height;
         //成交量图表的高度
@@ -341,6 +343,37 @@ var ChartK = (function() {
             ctx.rect(x - bar_w/2,y,bar_w,bar_height);
             ctx.stroke();
             ctx.fill();
+
+        }
+
+
+        var v_ma_5 = data.v_ma_5;
+        var v_ma_10 = data.v_ma_10;
+
+        this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5,"#f4cb15"]);
+        this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10,"#ff5b10"]);
+        
+        function getMAData(ctx,data_arr,color) {
+            var ma_data = [];
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            for(var i = 0;i < data_arr.length; i++){
+                var item = data_arr[i];
+                if(item){
+                     var x = common.get_x.call(this,i + 1);
+                     var y = (1 - item.value / v_max) * v_base_height + c2_y_top;
+                     //横坐标和均线数据
+                     ma_data.push(item);
+                     if(i == 0){
+                        ctx.moveTo(x,y);
+                     }else{
+                        ctx.lineTo(x,y);
+                     }
+                }
+                 
+            }
+            ctx.stroke();
+            return ma_data;
         }
 
 
@@ -381,10 +414,14 @@ var ChartK = (function() {
         var ten_average = data.ten_average;
         /*20日均线数据*/
         var twenty_average = data.twenty_average;
+        /*30日均线数据*/
+        var thirty_average = data.thirty_average;
 
         this.options.ma_5_data = getMAData.apply(this,[ctx,five_average,"#f4cb15"]);
         this.options.ma_10_data = getMAData.apply(this,[ctx,ten_average,"#ff5b10"]);
         this.options.ma_20_data = getMAData.apply(this,[ctx,twenty_average,"#488ee6"]);
+        this.options.ma_30_data = getMAData.apply(this,[ctx,thirty_average,"#fe59fe"]);
+
 
         var params = {};
 
@@ -594,9 +631,18 @@ var ChartK = (function() {
             var five_average = data.five_average;
             var ten_average = data.ten_average;
             var twenty_average = data.twenty_average;
+            var thirty_average = data.thirty_average;
+            var v_ma_5 = data.v_ma_5;
+            var v_ma_10 = data.v_ma_10;
+         
             inter.default_m5 = five_average[five_average.length - 1];
             inter.default_m10 = ten_average[ten_average.length - 1];
             inter.default_m20 = twenty_average[twenty_average.length - 1];
+            inter.default_m30 = thirty_average[thirty_average.length - 1];
+
+            inter.default_volume = data.data[data.data.length - 1];
+            inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
+            inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
 
             // 获取单位绘制区域
@@ -768,6 +814,9 @@ var ChartK = (function() {
         var ma_5_data = this.options.data.five_average;
         var ma_10_data = this.options.data.ten_average;
         var ma_20_data = this.options.data.twenty_average;
+        var ma_30_data = this.options.data.thirty_average;
+        var v_ma_5 = this.options.data.v_ma_5;
+        var v_ma_10 = this.options.data.v_ma_10;
 
         // 单位绘制区域
         var rect_unit = this.options.rect_unit;
@@ -804,7 +853,8 @@ var ChartK = (function() {
 
         if(ma_5_data[index]){
              // 标识均线数据
-             inter.markMA(canvas,ma_5_data[index],ma_10_data[index],ma_20_data[index]);
+             inter.markMA(canvas,ma_5_data[index],ma_10_data[index],ma_20_data[index],ma_30_data[index]);
+             inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
         }
 
     }
