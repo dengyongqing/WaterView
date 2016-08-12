@@ -25,9 +25,8 @@ var DrawXY = require('chart/web/k/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 获取K线图数据
-var GetDataDay = require('getdata/mobile/chart_day'); 
-var GetDataWeek = require('getdata/mobile/chart_week'); 
-var GetDataMonth = require('getdata/mobile/chart_month'); 
+var GetDataK = require('getdata/web/chart_k'); 
+
 // 绘制K线图
 var DrawK = require('chart/web/common/draw_k'); 
 // 工具
@@ -106,13 +105,13 @@ var ChartK = (function() {
         this.options.padding.bottom = 0;
         this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
 
-        this.options.y_sepe_num = 21;
+        this.options.y_sepe_num = 18;
         this.options.x_sepe_num = 10;
 
-        this.options.c1_y_top = canvas.height * 2 / this.options.y_sepe_num;
+        this.options.c1_y_top = canvas.height * 1 / this.options.y_sepe_num;
         this.options.c2_y_top = canvas.height * 10 / this.options.y_sepe_num;
         this.options.c3_y_top = canvas.height * 14 / this.options.y_sepe_num;
-        this.options.c4_y_top = canvas.height * 19 / this.options.y_sepe_num;
+        this.options.c4_y_top = canvas.height * 18 / this.options.y_sepe_num;
 
         // K线区域的高度
         this.options.c_k_height = canvas.height * 8 / this.options.y_sepe_num;
@@ -123,7 +122,7 @@ var ChartK = (function() {
 
         this.options.margin = {};
         this.options.margin.left = 0;
-        this.options.margin.top = canvas.height * 2 / this.options.y_sepe_num;
+        this.options.margin.top = canvas.height * 1 / this.options.y_sepe_num;
 
         // 移动坐标轴
         ctx.translate("0",this.options.margin.top);
@@ -149,7 +148,7 @@ var ChartK = (function() {
         var type = _this.options.type;
         try{
             if(type == "DK"){
-                GetDataDay(getParamsObj.call(_this),function(data){
+                GetDataK(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
                     if(flag){
                         // 均线数据标识
@@ -163,43 +162,7 @@ var ChartK = (function() {
                     if(callback){
                         callback(_this.options);
                     }
-
-                    
-                },inter);
-            }else if(type == "WK"){
-                GetDataWeek(getParamsObj.call(_this),function(data){
-                    var flag = dataCallback.apply(_this,[data]);
-                    if(flag){
-                        // 均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
-                        // 绑定事件
-                        bindEvent.call(_this,_this.options.context);
-                    }
-                    // 传入的回调函数
-                    if(callback){
-                        callback(_this.options);
-                    }
-
-                },inter);
-            }else if(type == "MK"){
-                GetDataMonth(getParamsObj.call(_this),function(data){
-                    var flag = dataCallback.apply(_this,[data]);
-                    if(flag){
-                        // 均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
-                        // 绑定事件
-                        bindEvent.call(_this,_this.options.context);
-                    }
-                    // 传入的回调函数
-                    if(callback){
-                        callback(_this.options);
-                    }
-
-                },inter);
+                });
             }
 
         }catch(e){
@@ -249,7 +212,7 @@ var ChartK = (function() {
         div_tech.className = "tech-index";
         div_tech.style.width = this.options.drawWidth;
         div_tech.style.left = this.options.padding.left + "px";
-        div_tech.style.top = canvas.height * 18 / this.options.y_sepe_num + "px";
+        div_tech.style.top = canvas.height * 17 / this.options.y_sepe_num + "px";
 
         // rsi指标
         var rsi = document.createElement("div");
@@ -328,7 +291,7 @@ var ChartK = (function() {
         /*Y轴上的最小值*/
         // var y_min = data.min;
         /*最大成交量*/
-        var v_max = (data.v_max).toFixed(0);
+        var v_max = (data.v_max/1).toFixed(0);
         
         /*K线图表的高度*/
         // var c_k_height = this.options.c_k_height;
@@ -573,32 +536,14 @@ var ChartK = (function() {
 
         try{
             if(type == "DK"){
-                GetDataDay(getParamsObj.call(_this),function(data){
+                GetDataK(getParamsObj.call(_this),function(data){
                     if(data){
                         dataCallback.apply(_this,[data]);
                         // 缩放按钮点击有效
                         _this.options.clickable = true;
                     }
 
-                },inter);
-            }else if(type == "WK"){
-                GetDataWeek(getParamsObj.call(_this),function(data){
-                    if(data){
-                        dataCallback.apply(_this,[data]);
-                        // 缩放按钮点击有效
-                        _this.options.clickable = true;
-                    }
-
-                },inter);
-            }else if(type == "MK"){
-                GetDataMonth(getParamsObj.call(_this),function(data){
-                    if(data){
-                        dataCallback.apply(_this,[data]);
-                        // 缩放按钮点击有效
-                        _this.options.clickable = true;
-                    }
-
-                },inter);
+                });
             }
 
         }catch(e){
@@ -617,7 +562,8 @@ var ChartK = (function() {
     function getParamsObj(){
         var obj = {};
         obj.code = this.options.code;
-        obj.count = this.options.scale_count;
+        obj.type = this.options.type;
+        obj.extend = this.options.extend;
         return obj;
     }
     // 回调函数
