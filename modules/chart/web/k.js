@@ -105,13 +105,13 @@ var ChartK = (function() {
         this.options.padding.bottom = 0;
         this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
 
-        this.options.y_sepe_num = 21;
+        this.options.y_sepe_num = 18;
         this.options.x_sepe_num = 10;
 
-        this.options.c1_y_top = canvas.height * 2 / this.options.y_sepe_num;
+        this.options.c1_y_top = canvas.height * 1 / this.options.y_sepe_num;
         this.options.c2_y_top = canvas.height * 10 / this.options.y_sepe_num;
         this.options.c3_y_top = canvas.height * 14 / this.options.y_sepe_num;
-        this.options.c4_y_top = canvas.height * 19 / this.options.y_sepe_num;
+        this.options.c4_y_top = canvas.height * 18 / this.options.y_sepe_num;
 
         // K线区域的高度
         this.options.c_k_height = canvas.height * 8 / this.options.y_sepe_num;
@@ -122,7 +122,7 @@ var ChartK = (function() {
 
         this.options.margin = {};
         this.options.margin.left = 0;
-        this.options.margin.top = canvas.height * 2 / this.options.y_sepe_num;
+        this.options.margin.top = canvas.height * 1 / this.options.y_sepe_num;
 
         // 移动坐标轴
         ctx.translate("0",this.options.margin.top);
@@ -212,7 +212,7 @@ var ChartK = (function() {
         div_tech.className = "tech-index";
         div_tech.style.width = this.options.drawWidth;
         div_tech.style.left = this.options.padding.left + "px";
-        div_tech.style.top = canvas.height * 18 / this.options.y_sepe_num + "px";
+        div_tech.style.top = canvas.height * 17 / this.options.y_sepe_num + "px";
 
         // rsi指标
         var rsi = document.createElement("div");
@@ -291,7 +291,7 @@ var ChartK = (function() {
         /*Y轴上的最小值*/
         // var y_min = data.min;
         /*最大成交量*/
-        var v_max = (data.v_max).toFixed(0);
+        var v_max = (data.v_max/1).toFixed(0);
         
         /*K线图表的高度*/
         // var c_k_height = this.options.c_k_height;
@@ -561,7 +561,7 @@ var ChartK = (function() {
     // 获取参数对象
     function getParamsObj(){
         var obj = {};
-        obj.id = this.options.code;
+        obj.code = this.options.code;
         obj.type = this.options.type;
         obj.extend = this.options.extend;
         return obj;
@@ -591,7 +591,6 @@ var ChartK = (function() {
             this.options.pricedigit = data.pricedigit;
 
             // 默认显示均线数据
-            debugger;
             var five_average = data.five_average;
             var ten_average = data.ten_average;
             var twenty_average = data.twenty_average;
@@ -612,7 +611,7 @@ var ChartK = (function() {
             // 绘制K线图
             drawK.apply(this,[ctx,data_arr]);
             // 绘制均线
-            // drawMA.apply(this,[this.options]);
+            drawMA.apply(this,[this.options]);
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标

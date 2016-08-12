@@ -305,7 +305,7 @@ var Interactive = (function() {
             tip_obj.close.innerText = obj.close;
             tip_obj.percent.innerText = obj.percent+'%';
             tip_obj.count.innerText = common.format_unit(volume);
-            tip_obj.time.innerText = obj.data_time.replace(/-/g,"/");
+            tip_obj.time.innerText = obj.date_time.replace(/-/g,"/");
 	    }
 
 	    

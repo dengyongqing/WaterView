@@ -37,7 +37,7 @@ var DrawXY = (function(){
         /*K线图的高度*/
         var k_height = this.options.c_k_height;
         /*Y轴标识线列表*/
-        var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
+        var line_list_array = getLineList(y_max/1, y_min/1, sepe_num, k_height);
 
         ctx.rect(this.options.padding.left,this.options.c3_y_top,ctx.canvas.width - this.options.padding.left - 2,ctx.canvas.height * 3 / this.options.y_sepe_num);
         ctx.stroke();
@@ -120,9 +120,8 @@ var DrawXY = (function(){
             }else{
                 DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width, Math.round(item.y),5);
             }
-            
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y + 5);
+            ctx.fillText((item.num/1).toFixed(this.options.pricedigit), 0, item.y + 5);
             ctx.stroke();
         }
 
