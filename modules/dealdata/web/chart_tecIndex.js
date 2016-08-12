@@ -8,6 +8,7 @@ function dealData(json, percent, extendStr) {
     var result = {};
     result.name = json.name;
     result.code = json.code;
+    result.pricedigit = json.info.pricedigit;
 
     var datas = json.data;
     //如果percent没定义，默认显示60个数据

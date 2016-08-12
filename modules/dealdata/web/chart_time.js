@@ -14,6 +14,7 @@ function dealData(json) {
     result.v_max = 0;
 
     result.yc = json.info.yc;
+    result.pricedigit = json.info.pricedigit;
     result.high = json.info.h;
     result.low = json.info.l;
     result.name = json.name;
