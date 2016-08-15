@@ -34,6 +34,7 @@ function dealData(json, percent, extendType) {
         rect.close = itemBase[2];
         rect.volume = itemBase[5];
         rect.percent = (Math.abs(rect.close * 1.0 - rect.open * 1.0) / rect.open * 1.0).toFixed(2);
+        rect.priceChange = Math.abs(rect.close * 1.0 - rect.open * 1.0).toFixed(2);
         rect.up = (rect.close * 1.0 - rect.open * 1.0) > 0 ? true : false;
         var volume_5 = avgDays(datas, result.total - i - 1, 5);
         var volume_10 = avgDays(datas, result.total - i - 1, 10);
@@ -69,10 +70,9 @@ function dealData(json, percent, extendType) {
                 break;
         }
         result.data.push(rect);
-
         //获取时间段内的价格最大最小值和成交量的最大值
-        result.max = result.max > rect.highest ? result.max : rect.highest;
-        result.min = result.min > rect.lowest ? rect.lowest : result.min;
+        result.max = getMax([result.max, rect.lowest, rect.highest*1.0, items[1].split(",")[0], items[1].split(",")[1], items[1].split(",")[2], items[1].split(",")[3]]); 
+        result.min = getMin([result.min, rect.lowest, rect.highest, items[1].split(",")[0], items[1].split(",")[1], items[1].split(",")[2], items[1].split(",")[3]]);
         result.v_max = result.v_max > rect.volume * 1.0 ? result.v_max : rect.volume;
     }
     return result;
@@ -105,6 +105,23 @@ function avgDays(datas, i, n) {
     	result = result/n;
     }
     return result.toFixed(2);
+}
+//数组冒泡得到最大值
+function getMax(arr){
+    var max = 0;
+    for(var i = 0; i < arr.length; i++){
+        max = max > arr[i]*1.0 ? max : arr[i]*1.0;
+    }
+    console.log(arr);
+    return max;
+}
+//数组冒泡得到最小值
+function getMin(arr){
+    var min = 100000;
+    for(var i = 0; i < arr.length; i++){
+        min = min < arr[i]*1.0 ? min : arr[i]*1.0;
+    }
+    return min;
 }
 
 module.exports = dealData;
