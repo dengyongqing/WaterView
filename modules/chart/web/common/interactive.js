@@ -251,13 +251,31 @@ var Interactive = (function() {
 	        date_data.innerText = "2016-08-09";
 
 	        // 创建收盘价格
-	        var close_data_text = document.createElement('div');
+	        /*var close_data_text = document.createElement('div');
 	        close_data_text.className = "web-tip-line-left";
 	        close_data_text.innerText = "收盘价";
 
 	        var close_data = document.createElement('div');
 	        close_data.className = "web-tip-line-right";
-	        this.options.tip.close = close_data;
+	        this.options.tip.close = close_data;*/
+
+	        //组建一行数据
+	        var tipsLine = function(type, name){
+	        	var data_name = document.createElement('div');
+	        	data_name.className = "web-tip-line-left";
+	        	data_name.innerText = name;
+
+	        	var data_data = document.createElement('div');
+	        	data_data.className = "web-tip-line-right";
+				this.options.tip[type] = data_data;
+
+	        	var web_tip_line_container = document.createElement("div");
+	        	web_tip_line_container.className = "web-tip-line-container";
+	        	web_tip_line_container.appendChild(data_name);
+	        	web_tip_line_container.appendChild(data_data);
+
+	        	return web_tip_line_container;
+	        }
 
 	        // 创建百分比
 	        var percent = document.createElement('span');
@@ -281,13 +299,22 @@ var Interactive = (function() {
 	        // tip_line_2.appendChild(count);
 	        // tip_line_2.appendChild(time);
 
-	        var web_tip_line_container = document.createElement("div");
+	        /*var web_tip_line_container = document.createElement("div");
 	        web_tip_line_container.className = "web-tip-line-container";
 	        web_tip_line_container.appendChild(close_data_text);
-	        web_tip_line_container.appendChild(close_data);
+	        web_tip_line_container.appendChild(close_data);*/
 
 	        frag.appendChild(date_data);
-	        frag.appendChild(web_tip_line_container);
+	        frag.appendChild(tipsLine.call(this, "open", "开盘"));
+	        frag.appendChild(tipsLine.call(this, "height", "最高"));
+	        frag.appendChild(tipsLine.call(this, "low", "最低"));
+	        frag.appendChild(tipsLine.call(this, "close", "收盘"));
+	        frag.appendChild(tipsLine.call(this, "percent", "涨跌幅"));
+	        frag.appendChild(tipsLine.call(this, "percent", "涨跌额"));
+	        frag.appendChild(tipsLine.call(this, "count", "成交量"));
+	        frag.appendChild(tipsLine.call(this, "count", "成交金额"));
+	        frag.appendChild(tipsLine.call(this, "count", "振幅"));
+	        frag.appendChild(tipsLine.call(this, "count", "换手率"));
 	        div_tip.appendChild(frag);
 	        document.getElementById(this.options.container).appendChild(div_tip);
 	        this.options.tip.div_tip_width = div_tip.clientWidth;
@@ -303,9 +330,11 @@ var Interactive = (function() {
 	        var volume = obj.volume;
 
             tip_obj.close.innerText = obj.close;
+            tip_obj.open.innerText = obj.open;
             tip_obj.percent.innerText = obj.percent+'%';
             tip_obj.count.innerText = common.format_unit(volume);
             tip_obj.time.innerText = obj.date_time.replace(/-/g,"/");
+
 	    }
 
 	    
