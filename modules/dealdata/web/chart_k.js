@@ -112,7 +112,6 @@ function getMax(arr){
     for(var i = 0; i < arr.length; i++){
         max = max > arr[i]*1.0 ? max : arr[i]*1.0;
     }
-    console.log(arr);
     return max;
 }
 //数组冒泡得到最小值
