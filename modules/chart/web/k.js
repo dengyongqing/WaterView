@@ -32,6 +32,8 @@ var GetTeacData = require('getdata/web/chart_tecIndex');
 var DrawK = require('chart/web/common/draw_k'); 
 // 绘制rsi指标
 var DrawRSI = require('chart/web/k/draw_rsi');
+// 绘制kdj指标
+var DrawKDJ = require('chart/web/k/draw_kdj');
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -184,7 +186,8 @@ var ChartK = (function() {
         ctx.stroke();
 
         drawT.apply(this,[]);
-        this.drawRSI();
+        // this.drawRSI();
+        this.drawKDJ();
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -551,6 +554,29 @@ var ChartK = (function() {
 
     // 绘制KDJ指标
     ChartK.prototype.drawKDJ = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "kdj";
+        GetTeacData(params,function(data){
+            var k = data.k;
+            var d = data.d;
+            var j = data.j;
+
+            var kdj_arr = k.concat(d).concat(j);
+            var kdj_arr_length = kdj_arr.length;
+            if(kdj_arr && kdj_arr[0]){
+                var max = kdj_arr[0].value;
+                var min = kdj_arr[0].value;
+            }
+
+            for(var i = 0;i < kdj_arr_length;i++){
+                max = Math.max(max,kdj_arr[i].value);
+                min = Math.min(min,kdj_arr[i].value);
+            }
+            DrawKDJ.apply(_this,[_this.options.context,max,min,k,d,j]);
+        });
         
     }
 
