@@ -7,7 +7,7 @@ var jsonp = require('jsonp');
 
 function getData(options, callback){
 	var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
-	var callbackStr = "fsData";
+	var callbackStr = "fsDataTeac";
 	var urlData = {
 		id: options.code,
         TYPE: options.type || "k",

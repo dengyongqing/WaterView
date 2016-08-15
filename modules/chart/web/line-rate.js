@@ -115,9 +115,10 @@ var ChartLine = (function() {
 
         // 折线数据
         var series = this.options.series;
+        var maxAndMin = getMaxAndMin(series);
         this.options.data = {};
-        this.options.data.max = 1;
-        this.options.data.min = 0;
+        this.options.data.max = maxAndMin.max * 1.1;
+        this.options.data.min = maxAndMin.min;
         this.options.padding_left = this.options.context.measureText("1000万").width + 20;
 
         // 绘制坐标轴
@@ -126,6 +127,7 @@ var ChartLine = (function() {
         new DrawLine(this.options);
 
         this.addInteractive();
+
 
     };
     // 重绘
@@ -265,6 +267,23 @@ var ChartLine = (function() {
         });
     }
 
+    function getMaxAndMin(series){
+
+        var max = 0,
+            min = 0,
+            seriesLength = series.length,
+            tempObj = {};
+        for (var i = 0; i < seriesLength; i++) {
+            for (var j = 0; j < series[i].data.length; j++) {
+                max = Math.max(max, series[i].data[j]);
+                min = Math.min(min, series[i].data[j]);
+            }
+        }
+       
+        tempObj.max = max;
+        tempObj.min = min;
+        return tempObj;
+    }
     return ChartLine;
 })();
 

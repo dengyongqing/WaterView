@@ -26,9 +26,12 @@ var DrawXY = require('chart/web/k/draw_xy');
 var theme = require('theme/default');
 // 获取K线图数据
 var GetDataK = require('getdata/web/chart_k'); 
-
+// 获取技术指标数据
+var GetTeacData = require('getdata/web/chart_tecIndex'); 
 // 绘制K线图
 var DrawK = require('chart/web/common/draw_k'); 
+// 绘制rsi指标
+var DrawRSI = require('chart/web/k/draw_rsi');
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -117,8 +120,10 @@ var ChartK = (function() {
         this.options.c_k_height = canvas.height * 8 / this.options.y_sepe_num;
         // 成交量区域的高度
         this.options.c_v_height = canvas.height * 3 / this.options.y_sepe_num;
+        this.options.v_base_height = this.options.c_v_height * 0.9;
         // 技术指标区域的高度
         this.options.c_t_height = canvas.height * 2 / this.options.y_sepe_num;
+
 
         this.options.margin = {};
         this.options.margin.left = 0;
@@ -179,6 +184,7 @@ var ChartK = (function() {
         ctx.stroke();
 
         drawT.apply(this,[]);
+        this.drawRSI();
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -301,7 +307,7 @@ var ChartK = (function() {
         // var v_height = ctx.canvas.height - c_k_height - this.options.k_v_away - this.options.margin.top;
         var v_height = ctx.canvas.height * 3 / this.options.y_sepe_num;
 
-        var v_base_height = v_height * 0.9;
+        var v_base_height = this.options.v_base_height;
 
         var c2_y_top = this.options.c2_y_top;
         var y_v_bottom = this.options.c2_y_top + v_height;
@@ -518,6 +524,28 @@ var ChartK = (function() {
 
     // 绘制RSI指标
     ChartK.prototype.drawRSI = function(){
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "rsi";
+        GetTeacData(params,function(data){
+            var rsi6 = data.rsi6;
+            var rsi12 = data.rsi12;
+            var rsi24 = data.rsi24;
+
+            var rsi_arr = rsi6.concat(rsi12).concat(rsi24);
+            var rsi_arr_length = rsi_arr.length;
+            if(rsi_arr && rsi_arr[0]){
+                var max = rsi_arr[0].value;
+                var min = rsi_arr[0].value;
+            }
+
+            for(var i = 0;i < rsi_arr_length;i++){
+                max = Math.max(max,rsi_arr[i].value);
+                min = Math.min(min,rsi_arr[i].value);
+            }
+            DrawRSI.apply(_this,[_this.options.context,max,min,rsi6,rsi12,rsi24]);
+        });
 
     }
 
