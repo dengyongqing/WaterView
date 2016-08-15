@@ -117,8 +117,10 @@ var ChartK = (function() {
         this.options.c_k_height = canvas.height * 8 / this.options.y_sepe_num;
         // 成交量区域的高度
         this.options.c_v_height = canvas.height * 3 / this.options.y_sepe_num;
+        this.options.v_base_height = this.options.c_v_height * 0.9;
         // 技术指标区域的高度
         this.options.c_t_height = canvas.height * 2 / this.options.y_sepe_num;
+
 
         this.options.margin = {};
         this.options.margin.left = 0;
@@ -301,7 +303,7 @@ var ChartK = (function() {
         // var v_height = ctx.canvas.height - c_k_height - this.options.k_v_away - this.options.margin.top;
         var v_height = ctx.canvas.height * 3 / this.options.y_sepe_num;
 
-        var v_base_height = v_height * 0.9;
+        var v_base_height = this.options.v_base_height;
 
         var c2_y_top = this.options.c2_y_top;
         var y_v_bottom = this.options.c2_y_top + v_height;

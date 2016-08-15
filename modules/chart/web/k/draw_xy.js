@@ -6,6 +6,8 @@ var extend = require('tools/extend');
 var theme = require('theme/default');
 /*绘制网格虚线*/
 var DrawDashLine = require('chart/web/common/draw_dash_line');
+// 工具
+var common = require('chart/web/common/common'); 
 var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -92,6 +94,12 @@ var DrawXY = (function(){
                 DrawDashLine(ctx,x1, y1, x2, y2,5);
             }
         }
+
+        var v_max = common.format_unit(this.options.data.v_max/1);
+        ctx.fillText(common.format_unit(this.options.data.v_max/1),  0, this.options.c2_y_top + 10);
+        ctx.fillText(common.format_unit(this.options.data.v_max/1 * 2/3),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 1/3);
+        ctx.fillText(common.format_unit(this.options.data.v_max/1 * 1/3),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
+        ctx.fillText(0,  this.options.padding.left - 20, this.options.c2_y_top + 10 + this.options.v_base_height * 3/3);
         ctx.stroke();
     }
 

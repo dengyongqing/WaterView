@@ -10,11 +10,12 @@ function getData(options, callback){
 	var callbackStr = "fsData";
 	var urlData = {
 		id: options.id,
-        TYPE: options.type,
+        TYPE: options.type || "k",
         js: callbackStr + '((x))',
         'rtntype': 5,
         'extend' : options.extend || "RSI",
-        isCR :false
+        isCR :false,
+        check:"kte"
 	};
 	jsonp(url, urlData, callbackStr, function(json){
 		
