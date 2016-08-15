@@ -32,7 +32,7 @@ function getData(options, callback){
 	var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
 	var callbackStr = "fsData";
 	var urlData = {
-		id: options.id,
+		id: options.code,
         TYPE: 'R',
         js: callbackStr+'((x))',
         'rtntype': 5
