@@ -41,34 +41,6 @@ function dealData(json, percent, extendType) {
         
         intoArr.call(result, "v_ma_5", volume_5, rect.date_time);
         intoArr.call(result, "v_ma_10", volume_10, rect.date_time);
-        //当extend分别为MA, EXPMA, SAR, BOLL, BBI时对应的数据(除了ma，其他都有差错)
-        switch (extendType.toLowerCase()) {
-            case "bbi":
-                intoArr.call(result, "bbi", items[1], rect.date_time);
-                break;
-            case "expma":
-                var expmas = items[1].split(",");
-                intoArr.call(result, "expma12", expmas[0], rect.date_time);
-                intoArr.call(result, "expma50", expmas[1], rect.date_time);
-            case "sar":
-                intoArr.call(result, "sar", items[1], rect.date_time);
-                break;
-            case "boll":
-                var bolls = items[1].split(",");
-                intoArr.call(result, "bollmb", bolls[0], rect.date_time);
-                intoArr.call(result, "bollup", bolls[1], rect.date_time);
-                intoArr.call(result, "bolldn", bolls[2], rect.date_time);
-                break;
-            case "ma":
-                var mas = items[1].split(",");
-                intoArr.call(result, "five_average", mas[0], rect.date_time);
-                intoArr.call(result, "ten_average", mas[1], rect.date_time);
-                intoArr.call(result, "twenty_average", mas[2], rect.date_time);
-                intoArr.call(result, "thirty_average", mas[3], rect.date_time);
-                break;
-            default:
-                break;
-        }
         result.data.push(rect);
         //获取时间段内的价格最大最小值和成交量的最大值
         result.max = getMax([result.max, rect.lowest, rect.highest*1.0, items[1].split(",")[0], items[1].split(",")[1], items[1].split(",")[2], items[1].split(",")[3]]); 

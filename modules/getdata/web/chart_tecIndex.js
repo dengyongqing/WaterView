@@ -13,7 +13,7 @@ function getData(options, callback){
         TYPE: options.type || "k",
         js: callbackStr + '((x))',
         'rtntype': 5,
-        'extend' : options.extend || "RSI",
+        'extend' : "RSI|MA",
         isCR :false,
         check:"kte"
 	};

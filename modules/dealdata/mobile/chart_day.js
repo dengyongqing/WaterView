@@ -26,45 +26,12 @@
 var transform = require('common').transform;
 var coordinate = require('../../dealdata/K_coordinate_range');
 // var fixed = require('common').fixed;
-
-
-//计算均线
-function average(avg_num,num,data) {
-    var result = [];
-    var items = [];
-    var i = 0;
-    var j = 0;
-    for (i = 0; i < data.length; i++) {
-        items[i] = {};
-        items[i].date = transform(data[i].split(',')[0]);
-        items[i].value = data[i].split(',')[2];
-    }
-
-    var len = items.length;
-    var start = len - num;
-    for (i = start; i < len; i++) {
-        var countValue = 0;
-        if(i < avg_num){
-            result[i - start] = null;
-        }else{
-            for (j = 0; j < avg_num; j++) {
-                countValue += items[i - j].value/1;
-            }
-            result[i - start] = {};
-            result[i - start].date = items[i].date;
-            result[i - start].value = (countValue / avg_num).toFixed(pricedigit);
-        }
-        
-    }
-    return result;
-}
-
-function dealData(json,num) {
+function dealData(json, num) {
     // var info = json.info;
     var arr = json.data;
     var result = {};
     var max = 0;
-    var min = 0;
+    var min = 100000;
     var maxVolume = 0;
     var i = 0;
     result.data = [];
@@ -73,70 +40,54 @@ function dealData(json,num) {
     var len = arr.length;
     var start = (len - num) > 0 ? (len - num) : 0;
     for (i = start; i < len; i++) {
-        try{
-            var item = arr[i].split(',');
-        }catch(e){
+        try {
+            var item = arr[i].split(/\[|\]/);
+            var itemBase = arr[i].split(/\[|\]/)[0].split(",");
+        } catch (e) {
 
         }
-        
+
         var rect = {};
 
-        if(i == start){
-            max = item[1];
-            min = item[4];
-        }
-
-        //进行最大最小值的计算
-        max = Math.max(max,item[3]);
-        maxVolume = (maxVolume > parseFloat(item[5])) ? maxVolume : parseFloat(item[5]);
-        min = Math.min(min,item[4]);
-
         //进行各个柱体的计算
-        rect.data_time = transform(item[0]);
-        rect.open = item[1];
-        rect.close = item[2];
-        rect.highest = item[3];
-        rect.lowest = item[4];
+        rect.data_time = itemBase[0];
+        rect.open = itemBase[1];
+        rect.close = itemBase[2];
+        rect.highest = itemBase[3];
+        rect.lowest = itemBase[4];
 
-        if(i>0){
-            rect.percent = ((parseFloat(item[2]) - parseFloat(arr[i - 1].split(',')[2])) / parseFloat(arr[i - 1].split(',')[2]) * 100).toFixed(2);
-        }else{
+        if (i > 0) {
+            rect.percent = (Math.abs(rect.close * 1.0 - rect.open * 1.0) / rect.open * 1.0).toFixed(2);
+        } else {
             rect.percent = 0;
+            max = min = rect.open;
         }
-        rect.volume = item[5];
-
-        // var close = rect.close;
-        // var open = rect.open;
-       
-        // //成交量数据
-        // if (close > open) {
-        //     var cl = "#ff4b1f";
-        // } else if (close == open && close >= open) {
-        //     var cl = "#ff4b1f";
-        // }else {
-        //     var cl = "#00aa11";
-        // }
+        rect.volume = itemBase[5];
 
         yes_clo_price = close;
-        rect.up = rect.percent >= 0 ? true : false;
+        rect.up = (rect.close * 1.0 - rect.open * 1.0) > 0 ? true : false;
+
+        var mas = item[1].split(",");
+        intoArr.call(result, "five_average", mas[0], rect.data_time);
+        intoArr.call(result, "ten_average", mas[1], rect.data_time);
+        intoArr.call(result, "twenty_average", mas[2], rect.data_time);
+        intoArr.call(result, "thirty_average", mas[3], rect.data_time);
+
+        //进行最大最小值计算
+        max = getMax([max, rect.lowest, rect.highest*1.0, mas[0], mas[1], mas[2], mas[3]]); ;
+        min = getMin([min, rect.lowest, rect.highest*1.0, mas[0], mas[1], mas[2], mas[3]]);
 
         result.data.push(rect);
 
     }
 
-    //五日均线
-    result.five_average = average(5,num,arr);
-    //十日均线
-    result.ten_average = average(10,num,arr);
-    //二十日均线
-    result.twenty_average = average(20,num,arr);
 
     //日期字符串
     result.timeStrs = [];
 
     result.timeStrs[0] = transform(arr[start].split(',')[0]);
-    result.timeStrs[1] = transform(arr[Math.floor((len+start)/2)].split(',')[0]);
-    result.timeStrs[2] = transform(arr[len-1].split(',')[0]);
+    result.timeStrs[1] = transform(arr[Math.floor((len + start) / 2)].split(',')[0]);
+    result.timeStrs[2] = transform(arr[len - 1].split(',')[0]);
 
     //坐标最大价格
     result.max = parseFloat(coordinate(max, min).max);
@@ -149,5 +100,35 @@ function dealData(json,num) {
 
     return result;
 }
+
+//创建一个数组，并且push值
+function intoArr(name, value, date) {
+    if (value === "-") {
+        value = null;
+    }
+    if (this[name] === undefined) {
+        this[name] = [{ value: value, date: date }];
+    } else {
+        this[name].push({ value: value, date: date });
+    }
+}
+
+//数组冒泡得到最大值
+function getMax(arr) {
+    var max = 0;
+    for (var i = 0; i < arr.length; i++) {
+        max = max > arr[i] * 1.0 ? max : arr[i] * 1.0;
+    }
+    return max;
+}
+//数组冒泡得到最小值
+function getMin(arr) {
+    var min = 100000;
+    for (var i = 0; i < arr.length; i++) {
+        min = min < arr[i] * 1.0 ? min : arr[i] * 1.0;
+    }
+    return min;
+}
+
 
 module.exports = dealData;
