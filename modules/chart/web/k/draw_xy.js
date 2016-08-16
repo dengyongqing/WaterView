@@ -124,9 +124,9 @@ var DrawXY = (function(){
 
             if(i == 0 || i == line_list_array.length - 1){
                 ctx.moveTo(this.options.padding.left, Math.round(item.y));
-                ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+                ctx.lineTo(ctx.canvas.width - this.options.padding.right, Math.round(item.y));
             }else{
-                DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width, Math.round(item.y),5);
+                DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width - this.options.padding.right, Math.round(item.y),5);
             }
             // 绘制纵坐标刻度
             ctx.fillText((item.num/1).toFixed(this.options.pricedigit), 0, item.y + 5);
@@ -168,7 +168,7 @@ var DrawXY = (function(){
         var data_arr = this.options.data.data;
         var data_arr_length = this.options.data.data.length;
 
-        for(var i = 0;i <= this.options.x_sepe_num;i++){
+        for(var i = 0;i < this.options.x_sepe_num;i++){
 
             var x1 = this.options.padding.left + i * unit_w;
             var y1 = 0;
@@ -179,9 +179,9 @@ var DrawXY = (function(){
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
                 ctx.stroke();
-            }else if(i == this.options.x_sepe_num){
-                ctx.moveTo(x1 - 1, y1);
-                ctx.lineTo(x2 - 1, y2);
+            }else if(i == this.options.x_sepe_num-1){
+                ctx.moveTo(x1 - 4, y1);
+                ctx.lineTo(x2 - 4, y2);
                 ctx.stroke();
             }else{
                 DrawDashLine(ctx, x1, y1, x2, y2, 5);
