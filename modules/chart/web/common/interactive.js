@@ -470,7 +470,7 @@ var Interactive = (function() {
 	    
 
 	    if(x <= (canvas.width/this.options.dpr/2)){
-    		div_tip.style.left = canvas.width/this.options.dpr - this.options.tip.div_tip_width - 3 + "px";
+    		div_tip.style.left = (canvas.width-this.options.padding.right)/this.options.dpr - this.options.tip.div_tip_width - 3 + "px";
     	}else if(x >= (canvas.width/this.options.dpr/2)){
     		div_tip.style.left = this.options.padding.left / this.options.dpr + "px";
     	}else{
