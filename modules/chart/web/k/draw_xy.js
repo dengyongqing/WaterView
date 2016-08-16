@@ -41,7 +41,13 @@ var DrawXY = (function(){
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max/1, y_min/1, sepe_num, k_height);
 
-        ctx.rect(this.options.padding.left,this.options.c3_y_top,ctx.canvas.width - this.options.padding.left - 2,ctx.canvas.height * 3 / this.options.y_sepe_num);
+        // ctx.rect(this.options.padding.left,this.options.c3_y_top,this.options.drawWidth - 2,ctx.canvas.height * 3 / this.options.y_sepe_num);
+        // ctx.stroke();
+
+        var ctx = this.options.context;
+        var canvas = this.options.canvas;
+        
+        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,canvas.height - this.options.c2_y_top + canvas.height * 1 / this.options.y_sepe_num);
         ctx.stroke();
 
         drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
@@ -62,7 +68,7 @@ var DrawXY = (function(){
         for(var i = 0;i<3;i++){
             var x1 = this.options.padding.left;
             var y1 = c3_y_top + ctx.canvas.height * 1 / this.options.y_sepe_num * i;
-            var x2 = ctx.canvas.width - this.options.padding.right;
+            var x2 = this.options.padding.left + this.options.drawWidth;
             var y2 = c3_y_top + ctx.canvas.height * 1 / this.options.y_sepe_num * i;
 
             if(i == 0 || i == 2){

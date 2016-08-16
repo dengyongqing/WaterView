@@ -44,6 +44,8 @@ var DrawBIAS = require('chart/web/k/draw_bias');
 var DrawOBV = require('chart/web/k/draw_obv');
 // 绘制cci指标
 var DrawCCI = require('chart/web/k/draw_cci');
+// 绘制roc指标
+var DrawROC = require('chart/web/k/draw_roc');
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -190,10 +192,7 @@ var ChartK = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-        var ctx = this.options.context;
-        var canvas = this.options.canvas;
-        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,canvas.height - this.options.c2_y_top + canvas.height * 1 / this.options.y_sepe_num);
-        ctx.stroke();
+        
 
         drawT.apply(this,[]);
         drawK_T.apply(this);
@@ -203,7 +202,8 @@ var ChartK = (function() {
         // this.drawDMI();
         // this.drawBIAS();
         // this.drawOBV();
-        this.drawCCI();
+        // this.drawCCI();
+        this.drawROC();
 
     };
     // 重绘
@@ -601,6 +601,11 @@ var ChartK = (function() {
         }
     };
 
+    // 绘制BBI指标
+    ChartK.prototype.drawBBI = function(){
+        
+    }
+
     // 绘制RSI指标
     ChartK.prototype.drawRSI = function(){
         var _this = this;
@@ -780,7 +785,6 @@ var ChartK = (function() {
         params.code = this.options.code;
         params.extend = "cci";
         GetTeacData(params,function(data){
-            debugger;
             var cci_arr = data.cci;
             var cci_arr_length = cci_arr.length;
             if(cci_arr && cci_arr[0]){
@@ -799,7 +803,27 @@ var ChartK = (function() {
 
     // 绘制ROC指标
     ChartK.prototype.drawROC = function(){
-        
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "roc";
+        GetTeacData(params,function(data){
+            var roc = data.roc;
+            var rocma = data.rocma;
+            var roc_arr = roc.concat(rocma);
+            var roc_arr_length = roc_arr.length;
+            if(roc_arr && roc_arr[0]){
+                var max = roc_arr[0].value;
+                var min = roc_arr[0].value;
+            }
+
+            for(var i = 0;i < roc_arr_length;i++){
+                max = Math.max(max,roc_arr[i].value);
+                min = Math.min(min,roc_arr[i].value);
+            }
+            DrawOBV.apply(_this,[_this.options.context,max,min,roc,rocma]);
+        });        
     }
 
     // 缩放图表

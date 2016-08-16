@@ -38,8 +38,10 @@ var dealData = function(json, yc) {
             var _max = items[3];
         }
         
-        max = max > _max ? max : _max;
-        min = min < _min ? min : _min;
+        // max = max > _max ? max : _max;
+        // min = min < _min ? min : _min;
+        max = Math.max(max,_max);
+        min = Math.min(min,_min);
 
         var point = {};
         point.time = items[0].split(" ")[1];
