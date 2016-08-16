@@ -120,11 +120,11 @@ var ChartK = (function() {
             if(type == "DK"){
                 GetDataDay(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
+                    // 均线数据标识
+                    inter.markMA(_this.options.canvas);
+                    // 缩放
+                    inter.scale(_this.options.canvas);
                     if(flag){
-                        // 均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
                         // 绑定事件
                         bindEvent.call(_this,_this.options.context);
                     }
@@ -138,11 +138,11 @@ var ChartK = (function() {
             }else if(type == "WK"){
                 GetDataWeek(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
+                    // 均线数据标识
+                    inter.markMA(_this.options.canvas);
+                    // 缩放
+                    inter.scale(_this.options.canvas);
                     if(flag){
-                        // 均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
                         // 绑定事件
                         bindEvent.call(_this,_this.options.context);
                     }
@@ -155,11 +155,11 @@ var ChartK = (function() {
             }else if(type == "MK"){
                 GetDataMonth(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
+                    // 均线数据标识
+                    inter.markMA(_this.options.canvas);
+                    // 缩放
+                    inter.scale(_this.options.canvas);
                     if(flag){
-                        // 均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
                         // 绑定事件
                         bindEvent.call(_this,_this.options.context);
                     }
@@ -266,27 +266,27 @@ var ChartK = (function() {
     }
     // 回调函数
     function dataCallback(data){
-
         var ctx = this.options.context;
         var canvas = ctx.canvas;
-        this.options.data = data == undefined ? this.options.data : data;
+        this.options.data = data == null ? this.options.data : data;
         data = this.options.data;
 
         // 图表交互
         var inter = this.options.interactive;
 
         try{
-
             if(!data || !data.data || data.data.length == 0){
-                // 隐藏loading效果
-                // inter.hideLoading();
-                // 暂无数据
-                // inter.showNoData();
-                // return;
+                this.options.data = {};
+                // 绘制坐标轴
+                new DrawXY(this.options);
+                // 绘制成交量图
+                new DrawV(this.options);
+                inter.hideLoading();
+                return;
             }
 
             // 保留的小数位
-            this.options.pricedigit = data.pricedigit;
+            this.options.pricedigit = data.pricedigit || 2;
 
             // 默认显示均线数据
             var five_average = data.five_average;
@@ -302,10 +302,13 @@ var ChartK = (function() {
 
             // 绘制坐标轴
             new DrawXY(this.options);
-            // 绘制K线图
-            new DrawK(this.options);
-            // 绘制均线图
-            new DrawMA(this.options);
+
+            if(data && data.data && data.data.length > 0){
+                // 绘制K线图
+                new DrawK(this.options);
+                // 绘制均线图
+                new DrawMA(this.options);
+            }
             // 绘制成交量图
             new DrawV(this.options);
 

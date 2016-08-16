@@ -603,6 +603,30 @@ var ChartK = (function() {
 
     // 绘制BBI指标
     ChartK.prototype.drawBBI = function(){
+        this.reDraw();
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "bbi";
+        GetTeacData(params,function(data){
+            var rsi6 = data.rsi6;
+            var rsi12 = data.rsi12;
+            var rsi24 = data.rsi24;
+
+            var rsi_arr = rsi6.concat(rsi12).concat(rsi24);
+            var rsi_arr_length = rsi_arr.length;
+            if(rsi_arr && rsi_arr[0]){
+                var max = rsi_arr[0].value;
+                var min = rsi_arr[0].value;
+            }
+
+            for(var i = 0;i < rsi_arr_length;i++){
+                max = Math.max(max,rsi_arr[i].value);
+                min = Math.min(min,rsi_arr[i].value);
+            }
+            DrawBBI.apply(_this,[_this.options.context,max,min,rsi6,rsi12,rsi24]);
+        });
         
     }
 

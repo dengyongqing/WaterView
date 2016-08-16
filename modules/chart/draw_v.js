@@ -27,13 +27,29 @@ var DrawV = (function(){
 	};
 	/*绘制分时图成交量*/
 	function drawVTime(){
-		if(this.options.type == "TL") {
-			this.options.data.v_max = getVMax(this.options.data);
-		}
 		var ctx = this.options.context;
 		var data = this.options.data;
 		/*成交量数组*/
 		var data_arr = data.data;
+		var v_height = ctx.canvas.height / 4;
+		var v_base_height = v_height * 0.9;
+		var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
+		var y_v_top = y_v_bottom - v_height;
+
+		if(!data_arr || data_arr.length == 0){
+			ctx.beginPath();
+			ctx.fillStyle = '#999';
+			ctx.strokeStyle = 'rgba(230,230,230, 1)';
+			ctx.fillText(0,0,y_v_top + 10);
+			ctx.rect(this.options.padding_left,y_v_top,ctx.canvas.width - this.options.padding_left -2,v_height);
+			ctx.stroke();
+			return;
+		}
+
+		if(this.options.type == "TL") {
+			this.options.data.v_max = getVMax(this.options.data);
+		}
+
 		/*Y轴上的最大值*/
 		// var y_max = data.max;
 		/*Y轴上的最小值*/
@@ -45,12 +61,7 @@ var DrawV = (function(){
 		// var c_1_height = this.options.c_1_height;
 		//成交量图表的高度
 		// var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
-		var v_height = ctx.canvas.height / 4;
-
-		var v_base_height = v_height * 0.9;
-
-		var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
-		var y_v_top = y_v_bottom - v_height;
+		
 		/*获取单位矩形对象*/
 		var rect_unit = this.options.rect_unit;
 		/*单位绘图矩形画布的宽度*/
@@ -107,11 +118,26 @@ var DrawV = (function(){
 	}
 	/*绘制K线图成交量*/
 	function drawVK(){
-
 		var ctx = this.options.context;
 		var data = this.options.data;
 		/*成交量数组*/
 		var data_arr = data.data;
+		var v_height = ctx.canvas.height / 4;
+		var v_base_height = v_height * 0.9;
+		var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
+		var y_v_top = y_v_bottom - v_height;
+
+		if(!data_arr || data_arr.length == 0){
+			ctx.beginPath();
+			ctx.fillStyle = '#999';
+			ctx.strokeStyle = 'rgba(230,230,230, 1)';
+			ctx.fillText(0,0,y_v_top + 10);
+			ctx.rect(this.options.padding_left,y_v_top,ctx.canvas.width - this.options.padding_left -2,v_height);
+			ctx.stroke();
+			return;
+		}
+
+
 		/*Y轴上的最大值*/
 		// var y_max = data.max;
 		/*Y轴上的最小值*/
@@ -123,12 +149,7 @@ var DrawV = (function(){
 		// var c_1_height = this.options.c_1_height;
 		//成交量图表的高度
 		// var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
-		var v_height = ctx.canvas.height / 4;
-
-		var v_base_height = v_height * 0.9;
-
-		var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
-		var y_v_top = y_v_bottom - v_height;
+		
 		/*获取单位矩形对象*/
 		var rect_unit = this.options.rect_unit;
 		/*单位绘图矩形画布的宽度*/
