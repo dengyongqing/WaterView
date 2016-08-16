@@ -34,6 +34,18 @@ var DrawK = require('chart/web/common/draw_k');
 var DrawRSI = require('chart/web/k/draw_rsi');
 // 绘制kdj指标
 var DrawKDJ = require('chart/web/k/draw_kdj');
+// 绘制wr指标
+var DrawWR = require('chart/web/k/draw_wr');
+// 绘制dmi指标
+var DrawDMI = require('chart/web/k/draw_dmi');
+// 绘制bias指标
+var DrawBIAS = require('chart/web/k/draw_bias');
+// 绘制obv指标
+var DrawOBV = require('chart/web/k/draw_obv');
+// 绘制cci指标
+var DrawCCI = require('chart/web/k/draw_cci');
+// 绘制roc指标
+var DrawROC = require('chart/web/k/draw_roc');
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -187,7 +199,14 @@ var ChartK = (function() {
 
         drawT.apply(this,[]);
         // this.drawRSI();
-        this.drawKDJ();
+        // this.drawKDJ();
+        // this.drawWD();
+        // this.drawDMI();
+        // this.drawBIAS();
+        // this.drawOBV();
+        // this.drawCCI();
+        this.drawROC();
+
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -588,31 +607,161 @@ var ChartK = (function() {
     // 绘制WD指标
     ChartK.prototype.drawWD = function(){
         
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "wr";
+        GetTeacData(params,function(data){
+            var wr6 = data.wr6;
+            var wr10 = data.wr10;
+
+            var wr_arr = wr6.concat(wr10);
+            var wr_arr_length = wr_arr.length;
+            if(wr_arr && wr_arr[0]){
+                var max = wr_arr[0].value;
+                var min = wr_arr[0].value;
+            }
+
+            for(var i = 0;i < wr_arr_length;i++){
+                max = Math.max(max,wr_arr[i].value);
+                min = Math.min(min,wr_arr[i].value);
+            }
+            DrawWR.apply(_this,[_this.options.context,max,min,wr6,wr10]);
+        });
+
     }
 
     // 绘制DMI指标
     ChartK.prototype.drawDMI = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "dmi";
+        GetTeacData(params,function(data){
+            var pdi = data.pdi;
+            var mdi = data.mdi;
+            var adx = data.adx;
+            var adxr = data.adxr;
+
+            var dmi_arr = pdi.concat(mdi).concat(adx).concat(adxr);
+            var dmi_arr_length = dmi_arr.length;
+            if(dmi_arr && dmi_arr[0]){
+                var max = dmi_arr[0].value;
+                var min = dmi_arr[0].value;
+            }
+
+            for(var i = 0;i < dmi_arr_length;i++){
+                max = Math.max(max,dmi_arr[i].value);
+                min = Math.min(min,dmi_arr[i].value);
+            }
+            DrawDMI.apply(_this,[_this.options.context,max,min,pdi,mdi,adx,adxr]);
+        });
+
         
     }
 
     // 绘制BIAS指标
     ChartK.prototype.drawBIAS = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "bias";
+        GetTeacData(params,function(data){
+            var bias6 = data.bias6;
+            var bias12 = data.bias12;
+            var bias24 = data.bias24;
+            var bias_arr = bias6.concat(bias12).concat(bias24);
+            var bias_arr_length = bias_arr.length;
+            if(bias_arr && bias_arr[0]){
+                var max = bias_arr[0].value;
+                var min = bias_arr[0].value;
+            }
+
+            for(var i = 0;i < bias_arr_length;i++){
+                max = Math.max(max,bias_arr[i].value);
+                min = Math.min(min,bias_arr[i].value);
+            }
+            DrawBIAS.apply(_this,[_this.options.context,max,min,bias6,bias12,bias24]);
+        });
+
         
     }
 
     // 绘制OBV指标
     ChartK.prototype.drawOBV = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "obv";
+        GetTeacData(params,function(data){
+            var obv = data.obv;
+            var maobv = data.maobv;
+            var obv_arr = obv.concat(maobv);
+            var obv_arr_length = obv_arr.length;
+            if(obv_arr && obv_arr[0]){
+                var max = obv_arr[0].value;
+                var min = obv_arr[0].value;
+            }
+
+            for(var i = 0;i < obv_arr_length;i++){
+                max = Math.max(max,obv_arr[i].value);
+                min = Math.min(min,obv_arr[i].value);
+            }
+            DrawOBV.apply(_this,[_this.options.context,max,min,obv,maobv]);
+        });
         
     }
 
     // 绘制CCI指标
     ChartK.prototype.drawCCI = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "cci";
+        GetTeacData(params,function(data){
+            var cci_arr = data.cci;
+            var cci_arr_length = cci_arr.length;
+            if(cci_arr && cci_arr[0]){
+                var max = cci_arr[0].value;
+                var min = cci_arr[0].value;
+            }
+
+            for(var i = 0;i < cci_arr_length;i++){
+                max = Math.max(max,cci_arr[i].value);
+                min = Math.min(min,cci_arr[i].value);
+            }
+            DrawCCI.apply(_this,[_this.options.context,max,min,cci_arr]);
+        });
         
     }
 
     // 绘制ROC指标
     ChartK.prototype.drawROC = function(){
-        
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "roc";
+        GetTeacData(params,function(data){
+            var roc = data.roc;
+            var rocma = data.rocma;
+            var roc_arr = roc.concat(rocma);
+            var roc_arr_length = roc_arr.length;
+            if(roc_arr && roc_arr[0]){
+                var max = roc_arr[0].value;
+                var min = roc_arr[0].value;
+            }
+
+            for(var i = 0;i < roc_arr_length;i++){
+                max = Math.max(max,roc_arr[i].value);
+                min = Math.min(min,roc_arr[i].value);
+            }
+            DrawOBV.apply(_this,[_this.options.context,max,min,roc,rocma]);
+        });        
     }
 
     // 缩放图表
@@ -724,6 +873,7 @@ var ChartK = (function() {
             drawK.apply(this,[ctx,data_arr]);
             // 绘制均线
             drawMA.apply(this,[this.options]);
+
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标

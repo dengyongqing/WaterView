@@ -115,9 +115,10 @@ var ChartLine = (function() {
         // 折线数据
         var series = this.options.series;
         this.options.data = {};
-        this.options.data.max = getMaxMark(series);
-        this.options.data.min = 0;
-        this.options.padding_left = this.options.context.measureText("1000万").width + 20;
+        var maxAndMin = getMaxMark(series);
+        this.options.data.max = maxAndMin.max;
+        this.options.data.min = maxAndMin.min;
+        this.options.padding_left = this.options.context.measureText("-1000万").width + 20;
 
         // 绘制坐标轴
         new DrawXY(this.options);
@@ -150,7 +151,7 @@ var ChartLine = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(data) {
-        var max =0,count=[];
+        var max = 0, min = 0,count=[];
         for(var i = 0;i<data.length;i++){
             count = count.concat(data[i].data);
         }
@@ -158,6 +159,7 @@ var ChartLine = (function() {
 
         for(var i =1;i<count.length;i++) {
             max = Math.max(max,count[i]);
+            min = Math.min(min,count[i]);
         }
         var step = Math.ceil((max * 1.1) / 5);
         if(step <= 10){
@@ -189,7 +191,10 @@ var ChartLine = (function() {
         //     step = base_step;
         // }
         max = step * 5;
-        return max;
+        return {
+            max:max,
+            min:min
+        };
      }
 
     return ChartLine;

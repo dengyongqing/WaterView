@@ -26,10 +26,10 @@
         /*Y轴上的最大值*/
         var y_max = this.options.data.max;
         /*Y轴上的最小值*/
-        var y_min = 0;
+        var y_min = this.options.data.min;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = 6;
+        var sepe_num = this.options.sepenum || 6;
         /*开盘收盘时间数组*/
         var oc_time_arr = this.options.xaxis;
 
@@ -55,7 +55,7 @@
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText(common.format_unit(i*this.options.data.max / 5,0), this.options.padding_left-20, item.y +10);
+            ctx.fillText(common.format_unit(item.num/1,0), this.options.padding_left-20, item.y +10);
             ctx.stroke();
         }
 

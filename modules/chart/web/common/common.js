@@ -91,15 +91,35 @@ var common = {
     // 格式化数据单位  
     format_unit: function(value, num) {
         num = num == undefined ? 2 : num;
-        if (value < 10000) {
-            return value;
-        } else if (value >= 10000 && value < 100000000) {
-            return (value / 10000).toFixed(num) + "万";
-        } else if (value >= 100000000) {
-            return (value / 100000000).toFixed(num) + "亿";
-        } else {
-            return value;
+        var flag = false;
+        if(value < 0){
+            value = Math.abs(value);
+            flag = true;
         }
+
+        if(flag){
+            if (value < 10000) {
+                return value * -1;
+            } else if (value >= 10000 && value < 100000000) {
+                return (value / 10000).toFixed(num) * -1 + "万";
+            } else if (value >= 100000000) {
+                return (value / 100000000).toFixed(num) * -1 + "亿";
+            } else {
+                return value * -1;
+            }
+
+        }else{
+            if (value < 10000) {
+                return value;
+            } else if (value >= 10000 && value < 100000000) {
+                return (value / 10000).toFixed(num) + "万";
+            } else if (value >= 100000000) {
+                return (value / 100000000).toFixed(num) + "亿";
+            } else {
+                return value;
+            }
+        }
+        
     },
     /**
      * 兼容性的事件添加
