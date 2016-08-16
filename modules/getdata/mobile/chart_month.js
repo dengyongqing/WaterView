@@ -64,6 +64,7 @@ function getdata(option, callback, interactive) {
         'rtntype': 5,
         "QueryStyle": "2.2",
         'QuerySpan': QuerySpan,
+        'extend':"ma",
         isCR :false
     };
 
