@@ -254,3 +254,45 @@
 .web-tip-line-container{
 	padding:8px;
 }
+
+/* web版 k线图指标样式 */
+
+.kt-pad {
+    position: absolute;
+    color: #5F5F5F;
+    margin-left: 15px;
+}
+
+.kt-title {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.kt-line {
+    position: relative;
+    padding: 2px 0px;
+}
+
+.kt-line:hover{
+    cursor: pointer;
+}
+
+.kt-radio {
+    display: inline-block;
+    border: solid 2px white;
+    width: 10px;
+    height: 10px;
+    outline: solid 1px #5F5F5F;
+    background-color: white;
+}
+
+.kt-name {
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+    font-size: 14px;
+}
+
+.kt-radio-choose {
+    background-color: #305896;
+}
