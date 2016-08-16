@@ -164,32 +164,29 @@ var ChartTime = (function() {
     /*回调函数*/
     function dataCallback(data){
 
-        this.options.data = data == undefined ? this.options.data : data;
+        this.options.data = data == null ? this.options.data : data;
 
         // 图表交互
         var inter = this.options.interactive;
 
         try{
-            if(!data || !data.data || data.data.length == 0){
-                // 隐藏loading效果
-                // inter.hideLoading();
-                // 暂无数据
-                // inter.showNoData();
-                // return;
-            }
 
             // 保留的小数位
-            this.options.pricedigit = data.pricedigit;
+            this.options.pricedigit = data.pricedigit || 2;
             // 获取单位绘制区域
             var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
             this.options.rect_unit = rect_unit;
 
             // 绘制坐标轴
             new DrawXY(this.options);
-            // 绘制分时折线图
-            new DrawLine(this.options);
-            // 绘制分时折线图平均线
-            new DrawAvgCost(this.options);
+
+            if(data && data.data && data.data.length > 0){
+                // 绘制分时折线图
+                new DrawLine(this.options);
+                // 绘制分时折线图平均线
+                new DrawAvgCost(this.options);
+            }
+            
             // 绘制分时图成交量
             new DrawV(this.options);
             // 隐藏loading效果

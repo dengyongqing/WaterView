@@ -16,7 +16,6 @@ var DrawXY = (function(){
     };
     /*绘图*/
     DrawXY.prototype.draw = function(){
-
         var data = this.options.data;
         var ctx = this.options.context;
         var type = this.options.type;
@@ -44,7 +43,10 @@ var DrawXY = (function(){
         }
 
         // 绘制横坐标刻度
-        drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
+        if(oc_time_arr){
+            drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
+        }
+        
     };
     // 绘制分时图坐标轴
     function drawXYTime(ctx,y_max,y_min,line_list_array){
@@ -104,7 +106,11 @@ var DrawXY = (function(){
             ctx.moveTo(0, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
+            if(isNaN(item.num)){
+                ctx.fillText("0.00", 0, item.y - 10);
+            }else{
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
+            }
             ctx.stroke();
         }
 
@@ -134,6 +140,7 @@ var DrawXY = (function(){
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = k_height + ctx.canvas.height/8/2;
+
         ctx.fillText(oc_time_arr[0], padding_left, y_date);
         ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);
         ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, y_date);
