@@ -115,7 +115,7 @@ var ChartK = (function() {
        
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
-        this.options.padding.right = 0;
+        this.options.padding.right = 100;
         this.options.padding.top = 0;
         this.options.padding.bottom = 0;
         this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
@@ -145,7 +145,7 @@ var ChartK = (function() {
         ctx.translate("0",this.options.margin.top);
 
         // 加水印
-        watermark.apply(this,[this.options.context,90,20,82,20]);
+        watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
        
     };
 
@@ -196,6 +196,7 @@ var ChartK = (function() {
         ctx.stroke();
 
         drawT.apply(this,[]);
+        drawK_T.apply(this);
         // this.drawRSI();
         // this.drawKDJ();
         // this.drawWD();
@@ -229,6 +230,65 @@ var ChartK = (function() {
     ChartK.prototype.getMarkPointsDom = function(cb) {
         var points =  this.options.interactive.options.pointsContainer.children;
         return points;
+    }
+
+    //绘制k线图的各种指标
+    function drawK_T(){
+        //首先绘制出div
+        var pad = document.createElement("div");
+        pad.className = "kt-pad";
+        var frag = document.createDocumentFragment();
+        var kt_title = document.createElement("div");
+        kt_title.className = "kt-title";
+        kt_title.innerText = "主图指标";
+        frag.appendChild(kt_title);
+        //
+        var appendLine = function(name, frag, isDefault){
+            var container = document.createElement("div");
+            container.className = "kt-line";
+            var radio = document.createElement("div");
+            radio.className = isDefault ?   "kt-radio kt-radio-choose"  : "kt-radio";
+
+
+            container.appendChild(radio);
+            var nameText = document.createElement("div");
+            nameText.className = "kt-name";
+            nameText.innerText = name;
+            container.appendChild(nameText);
+            //添加点击事件
+            common.addEvent(container, "click", function(e){
+                var rootElement , targetElement;
+                if(e.target.className == "kt-radio" || e.target.className == "kt-name"){
+                    rootElement = e.target.parentNode.parentNode;
+                    targetElement = e.target.parentNode.childNodes[0];
+                }else{
+                    rootElement = e.target.parentNode;
+                    targetElement = e.target.childNodes[0];
+                }
+                var lineElements = rootElement.childNodes;
+                for(var i = 0; i < lineElements.length; i++){
+                    if(lineElements[i].childNodes[0].className === "kt-radio kt-radio-choose"){
+                        lineElements[i].childNodes[0].className = "kt-radio";
+                    }
+                }
+                targetElement.className = "kt-radio kt-radio-choose";
+            });
+
+            frag.appendChild(container);
+        };
+        //添加各种kt指标进pad
+        appendLine("均线", frag, true);
+        appendLine("EXPMA", frag);
+        appendLine("SAR", frag);
+        appendLine("BOLL", frag);
+        appendLine("BBI", frag);
+
+        pad.appendChild(frag);
+        this.container.appendChild(pad);
+        
+        pad.style.top = this.options.c1_y_top + "px";
+        pad.style.left = this.options.canvas.width - this.options.padding.right + "px";
+        
     }
 
     // 绘制技术指标
@@ -884,7 +944,7 @@ var ChartK = (function() {
         // }
         
        // 加水印
-       watermark.apply(this,[this.options.context,90,20,82,20]);
+       // watermark.apply(this,[this.options.context,90,20,82,20]);
 
        return true;
     }
