@@ -446,7 +446,6 @@ var Interactive = (function() {
 	        document.getElementById(this.options.container).appendChild(div_tip);
 	        this.options.tip.div_tip_width = div_tip.clientWidth;
 
-	        close_data.className = close_data.className;
             percent.className = percent.className;
             count.className = count.className;
             time.className = time.className;

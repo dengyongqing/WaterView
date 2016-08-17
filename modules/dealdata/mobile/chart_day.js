@@ -39,7 +39,6 @@ function dealData(json, num) {
     var yes_clo_price = 0;
     var len = arr.length;
     var start = (len - num) > 0 ? (len - num) : 0;
-    debugger;
     for (i = start; i < len; i++) {
         try {
             var item = arr[i].split(/\[|\]/);

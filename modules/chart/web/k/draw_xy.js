@@ -194,12 +194,19 @@ var DrawXY = (function(){
             }
             
         }
-        ctx.fillText(XMark[0],  0 / 4 * this.options.drawWidth + this.options.padding.left, this.options.c_k_height + 30);
-        ctx.fillText(XMark[1],  1 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width/2, this.options.c_k_height + 30);
-        ctx.fillText(XMark[2],  2 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width/2, this.options.c_k_height + 30);
-        ctx.fillText(XMark[3],  3 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width/2, this.options.c_k_height + 30);
-        ctx.fillText(XMark[4],  4 / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[4]).width, this.options.c_k_height + 30);
-        // ctx.moveTo(0,k_height + 10);
+
+        var XMark_length = XMark.length;
+        for(var j = 0;j < XMark_length;j++){
+            if(j == 0){
+                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left, this.options.c_k_height + 30);
+            }else if(j == XMark_length - 1){
+                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[j]).width, this.options.c_k_height + 30);
+            }else{
+                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[j]).width/2, this.options.c_k_height + 30);
+            }
+
+        }
+     
     }
     /*Y轴标识线列表*/
     function getLineList(y_max, y_min, sepe_num, k_height) {
