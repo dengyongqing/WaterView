@@ -126,7 +126,6 @@ var DrawV = (function(){
 		var v_base_height = v_height * 0.9;
 		var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
 		var y_v_top = y_v_bottom - v_height;
-
 		if(!data_arr || data_arr.length == 0){
 			ctx.beginPath();
 			ctx.fillStyle = '#999';
