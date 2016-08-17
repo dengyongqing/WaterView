@@ -14,7 +14,7 @@ function drawEXPMA(ctx,max,min,expma12,expma50){
     ctx.strokeStyle = "#488ee6";
     for(var i = 0;i < expma12_length;i++){
 
-        var x = i * unit_w + unit_w/2;
+        var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,expma12[i].value);
 
         // var y = (c_t_height - (expma12[i].value - min)/base *  c_t_height) + this.options.c3_y_top
@@ -33,7 +33,7 @@ function drawEXPMA(ctx,max,min,expma12,expma50){
     ctx.strokeStyle = "#f4cb15";
     for(var i = 0;i < expma50_length;i++){
 
-        var x =  i * unit_w + unit_w/2;
+        var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,expma12[i].value);
 
         if(i == 0){

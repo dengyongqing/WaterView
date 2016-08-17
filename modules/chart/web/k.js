@@ -52,6 +52,8 @@ var DrawEXPMA = require('chart/web/k/draw_expma');
 var DrawSAR = require('chart/web/k/draw_sar');
 // 绘制boll指标
 var DrawBOLL = require('chart/web/k/draw_boll');
+// 绘制bbi指标
+var DrawBBI = require('chart/web/k/draw_bbi');
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -630,34 +632,7 @@ var ChartK = (function() {
         }
     };
 
-    // 绘制BBI指标
-    ChartK.prototype.drawBBI = function(){
-        this.reDraw();
 
-        var _this = this;
-        var params = {};
-        params.code = this.options.code;
-        params.extend = "bbi";
-        GetTeacData(params,function(data){
-            var rsi6 = data.rsi6;
-            var rsi12 = data.rsi12;
-            var rsi24 = data.rsi24;
-
-            var rsi_arr = rsi6.concat(rsi12).concat(rsi24);
-            var rsi_arr_length = rsi_arr.length;
-            if(rsi_arr && rsi_arr[0]){
-                var max = rsi_arr[0].value;
-                var min = rsi_arr[0].value;
-            }
-
-            for(var i = 0;i < rsi_arr_length;i++){
-                max = Math.max(max,rsi_arr[i].value);
-                min = Math.min(min,rsi_arr[i].value);
-            }
-            DrawBBI.apply(_this,[_this.options.context,max,min,rsi6,rsi12,rsi24]);
-        });
-        
-    }
 
     // 绘制RSI指标
     ChartK.prototype.drawRSI = function(){
@@ -953,6 +928,30 @@ var ChartK = (function() {
         });        
     }
 
+    // 绘制bbi指标
+    ChartK.prototype.drawBBI = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "bbi";
+        GetTeacData(params,function(data){
+            var bbi_arr = data.bbi;
+            var bbi_arr_length = bbi_arr.length;
+            if(bbi_arr && bbi_arr[0]){
+                var max = bbi_arr[0].value;
+                var min = bbi_arr[0].value;
+            }
+
+            for(var i = 0;i < bbi_arr_length;i++){
+                max = Math.max(max,bbi_arr[i].value);
+                min = Math.min(min,bbi_arr[i].value);
+            }
+            DrawBBI.apply(_this,[_this.options.context,max,min,bbi_arr]);
+        });
+        
+    }
+
 
     // 缩放图表
     function scaleClick() {
@@ -1045,8 +1044,9 @@ var ChartK = (function() {
 
             // this.options.data.min = "18.66";
             // this.drawEXPMA();
-            this.drawBOLL();
+            // this.drawBOLL();
             // this.drawSAR();
+            this.drawBBI();
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标
