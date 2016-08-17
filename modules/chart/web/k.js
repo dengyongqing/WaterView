@@ -54,6 +54,8 @@ var DrawSAR = require('chart/web/k/draw_sar');
 var DrawBOLL = require('chart/web/k/draw_boll');
 // 绘制bbi指标
 var DrawBBI = require('chart/web/k/draw_bbi');
+// 绘制macd指标
+var DrawMACD = require('chart/web/k/draw_macd');
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -130,7 +132,7 @@ var ChartK = (function() {
         this.options.padding.bottom = 0;
         this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
 
-        this.options.y_sepe_num = 18;
+        this.options.y_sepe_num = 20;
         this.options.x_sepe_num = 10;
 
         this.options.c1_y_top = canvas.height * 1 / this.options.y_sepe_num;
@@ -691,6 +693,30 @@ var ChartK = (function() {
 
     // 绘制MACD指标
     ChartK.prototype.drawMACD = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "macd";
+        GetTeacData(params,function(data){
+            var dea = data.dea;
+            var diff = data.diff;
+            var macd = data.macd;
+
+            var macd_arr = dea.concat(diff).concat(macd);
+            var macd_arr_length = macd_arr.length;
+            if(macd_arr && macd_arr[0]){
+                var max = macd_arr[0].value;
+                var min = macd_arr[0].value;
+            }
+
+            for(var i = 0;i < macd_arr_length;i++){
+                max = Math.max(max,macd_arr[i].value);
+                min = Math.min(min,macd_arr[i].value);
+            }
+            DrawMACD.apply(_this,[_this.options.context,max,min,dea,diff,macd]);
+        });
+
         
     }
 
@@ -1047,6 +1073,7 @@ var ChartK = (function() {
             // this.drawBOLL();
             // this.drawSAR();
             this.drawBBI();
+            // this.drawMACD();
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标
