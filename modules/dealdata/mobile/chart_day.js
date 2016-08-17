@@ -74,8 +74,10 @@ function dealData(json, num) {
         intoArr.call(result, "thirty_average", mas[3], rect.data_time);
 
         //进行最大最小值计算
-        max = getMax([max, rect.lowest, rect.highest*1.0, mas[0], mas[1], mas[2], mas[3]]);
-        min = getMin([min, rect.lowest, rect.highest*1.0, mas[0], mas[1], mas[2], mas[3]]);
+        // max = getMax([max, rect.lowest, rect.highest*1.0]);
+        // min = getMin([min, rect.lowest, rect.highest*1.0]);
+        max = Math.max(max,rect.highest);
+        min = Math.min(min,rect.lowest);
         maxVolume = maxVolume > rect.volume*1.0 ? maxVolume : rect.volume*1.0;
 
         result.data.push(rect);

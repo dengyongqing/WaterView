@@ -46,6 +46,12 @@ var DrawOBV = require('chart/web/k/draw_obv');
 var DrawCCI = require('chart/web/k/draw_cci');
 // 绘制roc指标
 var DrawROC = require('chart/web/k/draw_roc');
+// 绘制expma指标
+var DrawEXPMA = require('chart/web/k/draw_expma');
+// 绘制sar指标
+var DrawSAR = require('chart/web/k/draw_sar');
+// 绘制boll指标
+var DrawBOLL = require('chart/web/k/draw_boll');
 // 工具
 var common = require('chart/web/common/common'); 
 // 交互效果
@@ -869,9 +875,84 @@ var ChartK = (function() {
                 max = Math.max(max,roc_arr[i].value);
                 min = Math.min(min,roc_arr[i].value);
             }
-            DrawOBV.apply(_this,[_this.options.context,max,min,roc,rocma]);
+            DrawROC.apply(_this,[_this.options.context,max,min,roc,rocma]);
         });        
     }
+
+    // 绘制expma指标
+    ChartK.prototype.drawEXPMA = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "expma";
+        GetTeacData(params,function(data){
+            var expma12 = data.expma12;
+            var expma50 = data.expma50;
+            var expma_arr = expma12.concat(expma50);
+            var expma_arr_length = expma_arr.length;
+            if(expma_arr && expma_arr[0]){
+                var max = expma_arr[0].value;
+                var min = expma_arr[0].value;
+            }
+
+            for(var i = 0;i < expma_arr_length;i++){
+                max = Math.max(max,expma_arr[i].value);
+                min = Math.min(min,expma_arr[i].value);
+            }
+            DrawEXPMA.apply(_this,[_this.options.context,max,min,expma12,expma50]);
+        });        
+    }
+
+    // 绘制bool指标
+    ChartK.prototype.drawBOLL = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "boll";
+        GetTeacData(params,function(data){
+            var bollup = data.bollup;
+            var bollmb = data.bollmb;
+            var bolldn = data.bolldn;
+            var boll_arr = bollup.concat(bollmb).concat(bolldn);
+            var boll_arr_length = boll_arr.length;
+            if(boll_arr && boll_arr[0]){
+                var max = boll_arr[0].value;
+                var min = boll_arr[0].value;
+            }
+
+            for(var i = 0;i < boll_arr_length;i++){
+                max = Math.max(max,boll_arr[i].value);
+                min = Math.min(min,boll_arr[i].value);
+            }
+            DrawBOLL.apply(_this,[_this.options.context,max,min,bollup,bollmb,bolldn]);
+        });        
+    }
+
+    // 绘制bool指标
+    ChartK.prototype.drawSAR = function(){
+
+        var _this = this;
+        var params = {};
+        params.code = this.options.code;
+        params.extend = "sar";
+        GetTeacData(params,function(data){
+            var sar_arr = data.sar;
+            var sar_arr_length = sar_arr.length;
+            if(sar_arr && sar_arr[0]){
+                var max = sar_arr[0].value;
+                var min = sar_arr[0].value;
+            }
+
+            for(var i = 0;i < sar_arr_length;i++){
+                max = Math.max(max,sar_arr[i].value);
+                min = Math.min(min,sar_arr[i].value);
+            }
+            DrawSAR.apply(_this,[_this.options.context,max,min,sar_arr]);
+        });        
+    }
+
 
     // 缩放图表
     function scaleClick() {
@@ -953,18 +1034,19 @@ var ChartK = (function() {
                 XMark.push(data_arr[Math.floor(data_arr_length * 3 / 4)].date_time);
                 XMark.push(data_arr[data_arr_length - 1].date_time);
             }
-            
 
             // 绘制坐标轴
             new DrawXY(this.options);
 
-            
-
             // 绘制K线图
             drawK.apply(this,[ctx,data_arr]);
             // 绘制均线
-            drawMA.apply(this,[this.options]);
+            // drawMA.apply(this,[this.options]);
 
+            // this.options.data.min = "18.66";
+            // this.drawEXPMA();
+            this.drawBOLL();
+            // this.drawSAR();
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标
