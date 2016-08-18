@@ -40,7 +40,7 @@ var dealData = require('../../dealdata/web/chart_k');
  */
 function getData(options, callback){
 	var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
-	var callbackStr = "fsData";
+	var callbackStr = "fsData" + (new Date()).getTime().toString();
 	if(options.type.toLowerCase() == "dk"){
 		options.type = 'k';
 	}

@@ -641,24 +641,6 @@ var ChartK = (function() {
                 return ma_data;
             }
 
-
-            var rsi6 = data.rsi6;
-            var rsi12 = data.rsi12;
-            var rsi24 = data.rsi24;
-
-            var rsi_arr = rsi6.concat(rsi12).concat(rsi24);
-            var rsi_arr_length = rsi_arr.length;
-            if(rsi_arr && rsi_arr[0]){
-                var max = rsi_arr[0].value;
-                var min = rsi_arr[0].value;
-            }
-
-            for(var i = 0;i < rsi_arr_length;i++){
-                max = Math.max(max,rsi_arr[i].value);
-                min = Math.min(min,rsi_arr[i].value);
-            }
-            DrawRSI.apply(_this,[_this.options.context,max,min,rsi6,rsi12,rsi24]);
-
         });
 
     }
@@ -1183,9 +1165,8 @@ var ChartK = (function() {
             // this.drawSAR();
             // this.drawBBI();
             // this.drawMACD();
-
             // this.drawCCI();
-
+            this.drawRSI();
 
             // 绘制成交量
             drawV.apply(this,[this.options]);
