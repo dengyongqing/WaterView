@@ -44,15 +44,7 @@ var DrawXY = (function(){
         // ctx.rect(this.options.padding.left,this.options.c3_y_top,this.options.drawWidth - 2,ctx.canvas.height * 3 / this.options.y_sepe_num);
         // ctx.stroke();
 
-        var ctx = this.options.context;
-        var canvas = this.options.canvas;
-        
-        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,canvas.height - this.options.c2_y_top + canvas.height * 1 / this.options.y_sepe_num);
-        ctx.stroke();
-
         drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
-        // 绘制横坐标刻度
-        drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
         //绘制成交量坐标轴
         drawXYV.apply(this,[ctx]);
         //绘制技术指标坐标轴
@@ -61,6 +53,11 @@ var DrawXY = (function(){
 
     //绘制技术指标坐标轴
     function drawXYT(ctx){
+        var ctx = this.options.context;
+        var canvas = this.options.canvas;
+        
+        this.options.context.rect(this.options.padding.left,this.options.c3_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,this.options.c_t_height + canvas.height * 1 / this.options.y_sepe_num);
+        ctx.stroke();
 
         var c3_y_top = this.options.c3_y_top;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
@@ -82,8 +79,15 @@ var DrawXY = (function(){
 
     }
 
-    //绘制成交量坐标轴
+    // 绘制成交量坐标轴
     function drawXYV(ctx){
+
+        var ctx = this.options.context;
+        var canvas = this.options.canvas;
+        
+        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,this.options.c_v_height + canvas.height * 1 / this.options.y_sepe_num);
+        ctx.stroke();
+
         var c2_y_top = this.options.c2_y_top;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
         // ctx.rect(this.options.padding.left,c2_y_top,ctx.canvas.width - this.options.padding.left - 2,v_height);
@@ -139,6 +143,12 @@ var DrawXY = (function(){
             ctx.stroke();
         }
 
+        /*开盘收盘时间数组*/
+        var oc_time_arr = this.options.data.timeStrs;
+        /*K线图的高度*/
+        var k_height = this.options.c_k_height;
+        // 绘制横坐标刻度
+        drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
     }
     /*绘制纵坐标涨跌幅*/
     function drawYPercent(ctx,y_max, y_min, obj){

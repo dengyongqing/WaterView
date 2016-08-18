@@ -106,9 +106,7 @@ function dealData(json, num) {
 
 //创建一个数组，并且push值
 function intoArr(name, value, date) {
-    if (value === "-") {
-        value = null;
-    }
+    
     if (this[name] === undefined) {
         this[name] = [{ value: value, date: date }];
     } else {

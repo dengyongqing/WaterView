@@ -38,7 +38,7 @@ var DrawMA = (function(){
 		ctx.strokeStyle = color;
 		for(var i = 0;i < data_arr.length; i++){
 			var item = data_arr[i];
-			if(item){
+			if(item && item.value){
 				 var x = common.get_x.call(this,i + 1);
 				 var y = common.get_y.call(this,item.value);
 				 //横坐标和均线数据
