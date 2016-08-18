@@ -205,7 +205,7 @@ var ChartK = (function() {
         
 
         drawT.apply(this,[]);
-        drawK_T.apply(this);
+        drawKT.apply(this);
         // this.drawRSI();
         // this.drawKDJ();
         // this.drawWD();
@@ -243,7 +243,8 @@ var ChartK = (function() {
     }
 
     //绘制k线图的各种指标
-    function drawK_T(){
+    function drawKT(){
+        var _this = this;
         //首先绘制出div
         var pad = document.createElement("div");
         pad.className = "kt-pad";
@@ -253,10 +254,11 @@ var ChartK = (function() {
         kt_title.innerText = "主图指标";
         frag.appendChild(kt_title);
         //
-        var appendLine = function(name, frag, isDefault){
+        var appendLine = function(name,id, frag, isDefault){
             var container = document.createElement("div");
             container.className = "kt-line";
             var radio = document.createElement("div");
+            radio.setAttribute("id",id);
             radio.className = isDefault ?   "kt-radio kt-radio-choose"  : "kt-radio";
 
 
@@ -282,16 +284,29 @@ var ChartK = (function() {
                     }
                 }
                 targetElement.className = "kt-radio kt-radio-choose";
+
+                if(targetElement.id == "junxian"){
+                    _this.drawMA();
+                }else if(targetElement.id == "expma"){
+                    _this.drawEXPMA();
+                }else if(targetElement.id == "sar"){
+                    _this.drawSAR();
+                }else if(targetElement.id == "boll"){
+                    _this.drawBOLL();
+                }else if(targetElement.id == "bbi"){
+                    _this.drawBBI();
+                }
+
             });
 
             frag.appendChild(container);
         };
         //添加各种kt指标进pad
-        appendLine("均线", frag, true);
-        appendLine("EXPMA", frag);
-        appendLine("SAR", frag);
-        appendLine("BOLL", frag);
-        appendLine("BBI", frag);
+        appendLine("均线", "junxian", frag, true);
+        appendLine("EXPMA", "expma", frag);
+        appendLine("SAR", "sar", frag);
+        appendLine("BOLL", "boll", frag);
+        appendLine("BBI", "bbi", frag);
 
         pad.appendChild(frag);
         this.container.appendChild(pad);
@@ -303,6 +318,7 @@ var ChartK = (function() {
 
     // 绘制技术指标
     function drawT(){
+        var _this = this;
         var ctx = this.options.context;
         var canvas = this.options.canvas;
         var div_tech = document.createElement("div");
@@ -313,53 +329,62 @@ var ChartK = (function() {
 
         // rsi指标
         var rsi = document.createElement("div");
+        rsi.setAttribute("id","rsi");
         rsi.className = "tech-index-item";
         rsi.innerText = "RSI";
         rsi.style.width = this.options.drawWidth / 9 + "px";
 
         // kdj指标
         var kdj = document.createElement("div");
+        kdj.setAttribute("id","kdj");
         kdj.className = "tech-index-item";
         kdj.innerText = "KDJ";
         kdj.style.width = this.options.drawWidth / 9 + "px";
 
         // macd指标
         var macd = document.createElement("div");
+        macd.setAttribute("id","macd");
         macd.className = "tech-index-item";
         macd.innerText = "MACD";
         macd.style.width = this.options.drawWidth / 9 + "px";
 
-        // macd指标
-        var wd = document.createElement("div");
-        wd.className = "tech-index-item";
-        wd.innerText = "WD";
-        wd.style.width = this.options.drawWidth / 9 + "px";
+        // wr指标
+        var wr = document.createElement("div");
+        wr.setAttribute("id","wr");
+        wr.className = "tech-index-item";
+        wr.innerText = "WR";
+        wr.style.width = this.options.drawWidth / 9 + "px";
 
         // dmi指标
         var dmi = document.createElement("div");
+        dmi.setAttribute("id","dmi");
         dmi.className = "tech-index-item";
         dmi.innerText = "DMI";
         dmi.style.width = this.options.drawWidth / 9 + "px";
 
         // bias指标
         var bias = document.createElement("div");
+        bias.setAttribute("id","bias");
         bias.className = "tech-index-item";
         bias.innerText = "BIAS";
         bias.style.width = this.options.drawWidth / 9 + "px";
 
         // obv指标
         var obv = document.createElement("div");
+        obv.setAttribute("id","obv");
         obv.className = "tech-index-item";
         obv.innerText = "OBV";
         obv.style.width = this.options.drawWidth / 9 + "px";
 
         // cci指标
         var cci = document.createElement("div");
+        cci.setAttribute("id","cci");
         cci.className = "tech-index-item";
         cci.innerText = "CCI";
         cci.style.width = this.options.drawWidth / 9 + "px";
         // roc指标
         var roc = document.createElement("div");
+        roc.setAttribute("id","roc");
         roc.className = "tech-index-item";
         roc.innerText = "ROC";
         roc.style.width = this.options.drawWidth / 9 + "px";
@@ -367,14 +392,53 @@ var ChartK = (function() {
         div_tech.appendChild(rsi);
         div_tech.appendChild(kdj);
         div_tech.appendChild(macd);
-        div_tech.appendChild(wd);
+        div_tech.appendChild(wr);
         div_tech.appendChild(dmi);
         div_tech.appendChild(bias);
         div_tech.appendChild(obv);
         div_tech.appendChild(cci);
         div_tech.appendChild(roc);
         this.container.appendChild(div_tech);
+
+        common.addEvent.call(_this, rsi, "click",function(event){
+            _this.drawRSI();
+        });
+
+        common.addEvent.call(_this, kdj, "click",function(event){
+            _this.drawKDJ();
+        });
+
+        common.addEvent.call(_this, macd, "click",function(event){
+            _this.drawMACD();
+        });
+
+        common.addEvent.call(_this, wr, "click",function(event){
+            _this.drawWR();
+        });
+
+        common.addEvent.call(_this, dmi, "click",function(event){
+            _this.drawDMI();
+        });
+
+        common.addEvent.call(_this, bias, "click",function(event){
+            _this.drawBIAS();
+        });
+
+        common.addEvent.call(_this, obv, "click",function(event){
+            _this.drawOBV();
+        });
+
+        common.addEvent.call(_this, cci, "click",function(event){
+            _this.drawCCI();
+        });
+
+        common.addEvent.call(_this, roc, "click",function(event){
+            _this.drawROC();
+        });
+
     }
+
+
 
     // 绘制成交量
     function drawV(){
@@ -835,6 +899,7 @@ var ChartK = (function() {
     ChartK.prototype.drawCCI = function(){
 
         var _this = this;
+        _this.clearT();
         var params = {};
         params.code = this.options.code;
         params.extend = "cci";
@@ -859,6 +924,7 @@ var ChartK = (function() {
     ChartK.prototype.drawROC = function(){
 
         var _this = this;
+        _this.clearT();
         var params = {};
         params.code = this.options.code;
         params.extend = "roc";
@@ -884,6 +950,8 @@ var ChartK = (function() {
     ChartK.prototype.drawEXPMA = function(){
 
         var _this = this;
+        var _this = this;
+        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "expma";
@@ -909,6 +977,7 @@ var ChartK = (function() {
     ChartK.prototype.drawBOLL = function(){
 
         var _this = this;
+        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "boll";
@@ -935,6 +1004,7 @@ var ChartK = (function() {
     ChartK.prototype.drawSAR = function(){
 
         var _this = this;
+        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "sar";
@@ -958,6 +1028,7 @@ var ChartK = (function() {
     ChartK.prototype.drawBBI = function(){
 
         var _this = this;
+        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "bbi";
@@ -976,6 +1047,18 @@ var ChartK = (function() {
             DrawBBI.apply(_this,[_this.options.context,max,min,bbi_arr]);
         });
         
+    }
+
+    // 清除k线图区域
+    ChartK.prototype.clearK = function(){
+        var ctx = this.options.context;
+        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c2_y_top);
+    }
+
+    // 清除技术指标区域
+    ChartK.prototype.clearT = function(){
+        var ctx = this.options.context;
+        ctx.clearRect(0,this.options.c3_y_top,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
     }
 
 

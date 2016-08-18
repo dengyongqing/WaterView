@@ -1,7 +1,6 @@
 // 工具
 var common = require('chart/web/common/common'); 
 function drawSAR(ctx,max,min,sar){
-    debugger;
     // 保存画笔状态
     ctx.save();
     var base = max - min;
