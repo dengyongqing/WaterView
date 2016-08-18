@@ -900,6 +900,7 @@ var ChartK = (function() {
 
         var _this = this;
         _this.clearT();
+        this.options.drawXY.drawT();
         var params = {};
         params.code = this.options.code;
         params.extend = "cci";
@@ -1144,7 +1145,7 @@ var ChartK = (function() {
             }
 
             // 绘制坐标轴
-            new DrawXY(this.options);
+            this.options.drawXY = new DrawXY(this.options);
 
             // 绘制K线图
             drawK.apply(this,[ctx,data_arr]);
