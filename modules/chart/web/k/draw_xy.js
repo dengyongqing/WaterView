@@ -21,42 +21,26 @@ var DrawXY = (function(){
     /*绘图*/
     DrawXY.prototype.draw = function(){
 
-        var data = this.options.data;
-        var ctx = this.options.context;
-        var type = this.options.type;
-        // var dpr = this.options.dpr;
-
-        /*Y轴上的最大值*/
-        var y_max = data.max;
-        /*Y轴上的最小值*/
-        var y_min = data.min;
-
-        /*Y轴上分隔线数量*/
-        var sepe_num = 9;
-        /*开盘收盘时间数组*/
-        var oc_time_arr = data.timeStrs;
-
-        /*K线图的高度*/
-        var k_height = this.options.c_k_height;
-        /*Y轴标识线列表*/
-        var line_list_array = getLineList(y_max/1, y_min/1, sepe_num, k_height);
-
-        // ctx.rect(this.options.padding.left,this.options.c3_y_top,this.options.drawWidth - 2,ctx.canvas.height * 3 / this.options.y_sepe_num);
-        // ctx.stroke();
-
-        drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
+        this.drawXYK();
         //绘制成交量坐标轴
-        drawXYV.apply(this,[ctx]);
+        this.drawXYV();
         //绘制技术指标坐标轴
-        drawXYT.apply(this,[ctx]);
+        this.drawXYT();
     };
 
     //绘制技术指标坐标轴
-    function drawXYT(ctx){
+    DrawXY.prototype.drawXYT = function(){
+
         var ctx = this.options.context;
         var canvas = this.options.canvas;
+
+        // 保存画笔状态
+        ctx.save();
         
-        this.options.context.rect(this.options.padding.left,this.options.c3_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,this.options.c_t_height + canvas.height * 1 / this.options.y_sepe_num);
+        ctx.strokeStyle = 'rgba(230,230,230, 1)';
+        ctx.moveTo(this.options.padding.left,this.options.c3_y_top - this.options.unit_height);
+        ctx.lineTo(this.options.padding.left,this.options.c3_y_top + this.options.c_t_height);
+        this.options.context.rect(this.options.padding.left,this.options.c3_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_t_height + this.options.unit_height);
         ctx.stroke();
 
         var c3_y_top = this.options.c3_y_top;
@@ -77,13 +61,19 @@ var DrawXY = (function(){
         }
         ctx.stroke();
 
+        // 恢复画笔状态
+        ctx.restore();
+
     }
 
     // 绘制成交量坐标轴
-    function drawXYV(ctx){
+    DrawXY.prototype.drawXYV = function(){
 
         var ctx = this.options.context;
         var canvas = this.options.canvas;
+
+        // 保存画笔状态
+        ctx.save();
         
         this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,this.options.c_v_height + canvas.height * 1 / this.options.y_sepe_num);
         ctx.stroke();
@@ -111,10 +101,37 @@ var DrawXY = (function(){
         ctx.fillText(common.format_unit(this.options.data.v_max/1 * 1/3),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
         ctx.fillText(0,  this.options.padding.left - 20, this.options.c2_y_top + 10 + this.options.v_base_height * 3/3);
         ctx.stroke();
+
+        // 恢复画笔状态
+        ctx.restore();
     }
 
     //绘制K线图坐标轴
-    function drawXYK(ctx,y_max,y_min,line_list_array){
+    DrawXY.prototype.drawXYK = function(){
+
+        var ctx = this.options.context;
+        var canvas = this.options.canvas;
+        var data = this.options.data;
+        var type = this.options.type;
+
+        /*Y轴上的最大值*/
+        var y_max = data.max;
+        /*Y轴上的最小值*/
+        var y_min = data.min;
+
+        /*Y轴上分隔线数量*/
+        var sepe_num = 9;
+        /*开盘收盘时间数组*/
+        var oc_time_arr = data.timeStrs;
+
+        /*K线图的高度*/
+        var k_height = this.options.c_k_height;
+        /*Y轴标识线列表*/
+        var line_list_array = getLineList(y_max/1, y_min/1, sepe_num, k_height);
+
+        // 保存画笔状态
+        ctx.save();
+
         var sepe_num = line_list_array.length;
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
@@ -149,6 +166,9 @@ var DrawXY = (function(){
         var k_height = this.options.c_k_height;
         // 绘制横坐标刻度
         drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
+
+        // 恢复画笔状态
+        ctx.restore();
     }
     /*绘制纵坐标涨跌幅*/
     function drawYPercent(ctx,y_max, y_min, obj){

@@ -124,6 +124,7 @@ var ChartK = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
+        ctx.fillStyle = '#333';
        
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
@@ -135,6 +136,8 @@ var ChartK = (function() {
         this.options.y_sepe_num = 20;
         this.options.x_sepe_num = 10;
 
+        this.options.unit_height = canvas.height * 1 / this.options.y_sepe_num;
+        this.options.unit_width = canvas.width * 1 / this.options.x_sepe_num;
         this.options.c1_y_top = canvas.height * 1 / this.options.y_sepe_num;
         this.options.c2_y_top = canvas.height * 10 / this.options.y_sepe_num;
         this.options.c3_y_top = canvas.height * 14 / this.options.y_sepe_num;
@@ -208,7 +211,7 @@ var ChartK = (function() {
         drawKT.apply(this);
         // this.drawRSI();
         // this.drawKDJ();
-        // this.drawWD();
+        // this.drawWR();
         // this.drawDMI();
         // this.drawBIAS();
         // this.drawOBV();
@@ -563,15 +566,22 @@ var ChartK = (function() {
     }
 
     // 绘制均线
-    function drawMA(){
+    ChartK.prototype.drawMA = function(){
+
 
         var _this = this;
+
+        // this.clearK();
+        // this.drawK();
+        // this.options.drawXY.drawXYK();
+
         var params = {};
         params.code = this.options.code;
-        params.extend = "ma";
+        params.extend = "ma|rsi";
         GetTeacData(params,function(data){
 
             var ctx = _this.options.context;
+
             // var data = _this.options.data;
             // 图表交互
             var inter = _this.options.interactive;
@@ -605,37 +615,59 @@ var ChartK = (function() {
             var params = {};
 
             function getMAData(ctx,data_arr,color) {
+                // 保存画笔状态
+                ctx.save();
                 var ma_data = [];
                 ctx.beginPath();
                 ctx.strokeStyle = color;
                 for(var i = 0;i < data_arr.length; i++){
                     var item = data_arr[i];
-                    if(item){
+                    if(item && item.value){
                          var x = common.get_x.call(this,i + 1);
                          var y = common.get_y.call(this,item.value);
                          //横坐标和均线数据
                          ma_data.push(item);
-                         if(i == 0){
-                            ctx.moveTo(x,y);
-                         }else{
-                            ctx.lineTo(x,y);
-                         }
+                         // if(i == 0){
+                         //    ctx.moveTo(x,y);
+                         // }else{
+                         //    ctx.lineTo(x,y);
+                         // }
+                         ctx.lineTo(x,y);
                     }
                      
                 }
                 ctx.stroke();
+                ctx.restore();
                 return ma_data;
             }
 
-            ctx.stroke();
+
+            var rsi6 = data.rsi6;
+            var rsi12 = data.rsi12;
+            var rsi24 = data.rsi24;
+
+            var rsi_arr = rsi6.concat(rsi12).concat(rsi24);
+            var rsi_arr_length = rsi_arr.length;
+            if(rsi_arr && rsi_arr[0]){
+                var max = rsi_arr[0].value;
+                var min = rsi_arr[0].value;
+            }
+
+            for(var i = 0;i < rsi_arr_length;i++){
+                max = Math.max(max,rsi_arr[i].value);
+                min = Math.min(min,rsi_arr[i].value);
+            }
+            DrawRSI.apply(_this,[_this.options.context,max,min,rsi6,rsi12,rsi24]);
 
         });
 
     }
 
     // 绘制K线图
-    function drawK(ctx,data_arr){
+    ChartK.prototype.drawK = function(){
         
+        var data_arr = this.options.data.data;
+        var ctx = this.options.context;
         // 获取单位绘制区域
         var rect_unit = this.options.rect_unit;
         // 单位绘制区域的宽度
@@ -785,7 +817,7 @@ var ChartK = (function() {
     }
 
     // 绘制WD指标
-    ChartK.prototype.drawWD = function(){
+    ChartK.prototype.drawWR = function(){
         
         var _this = this;
         var params = {};
@@ -899,8 +931,7 @@ var ChartK = (function() {
     ChartK.prototype.drawCCI = function(){
 
         var _this = this;
-        _this.clearT();
-        this.options.drawXY.drawT();
+        
         var params = {};
         params.code = this.options.code;
         params.extend = "cci";
@@ -925,7 +956,6 @@ var ChartK = (function() {
     ChartK.prototype.drawROC = function(){
 
         var _this = this;
-        _this.clearT();
         var params = {};
         params.code = this.options.code;
         params.extend = "roc";
@@ -951,8 +981,6 @@ var ChartK = (function() {
     ChartK.prototype.drawEXPMA = function(){
 
         var _this = this;
-        var _this = this;
-        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "expma";
@@ -978,7 +1006,6 @@ var ChartK = (function() {
     ChartK.prototype.drawBOLL = function(){
 
         var _this = this;
-        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "boll";
@@ -1005,7 +1032,6 @@ var ChartK = (function() {
     ChartK.prototype.drawSAR = function(){
 
         var _this = this;
-        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "sar";
@@ -1029,7 +1055,6 @@ var ChartK = (function() {
     ChartK.prototype.drawBBI = function(){
 
         var _this = this;
-        _this.clearK();
         var params = {};
         params.code = this.options.code;
         params.extend = "bbi";
@@ -1059,7 +1084,7 @@ var ChartK = (function() {
     // 清除技术指标区域
     ChartK.prototype.clearT = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,this.options.c3_y_top,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
+        ctx.clearRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
     }
 
 
@@ -1148,7 +1173,7 @@ var ChartK = (function() {
             this.options.drawXY = new DrawXY(this.options);
 
             // 绘制K线图
-            drawK.apply(this,[ctx,data_arr]);
+            this.drawK();
             // 绘制均线
             // drawMA.apply(this,[this.options]);
 
@@ -1156,12 +1181,17 @@ var ChartK = (function() {
             // this.drawEXPMA();
             // this.drawBOLL();
             // this.drawSAR();
-            this.drawBBI();
+            // this.drawBBI();
             // this.drawMACD();
+
+            // this.drawCCI();
+
+
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标
             drawT.apply(this,[this.options]);
+            
 
             // 绘制均线图
             // new DrawMA(this.options);
@@ -1173,6 +1203,8 @@ var ChartK = (function() {
                 var points =  this.options.interactive.options.pointsContainer.children;
                 this.markPointsDom = points;
             }
+
+            this.drawMA();
 
             // 隐藏loading效果
             inter.hideLoading();

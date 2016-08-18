@@ -1,8 +1,13 @@
 // 工具
 var common = require('chart/web/common/common'); 
 function drawSAR(ctx,max,min,sar){
+
     // 保存画笔状态
     ctx.save();
+    this.clearK();
+    this.drawK();
+    this.options.drawXY.drawXYK();
+
     var base = max - min;
     var c_t_height = this.options.c_t_height;
 
@@ -33,12 +38,6 @@ function drawSAR(ctx,max,min,sar){
         // }
 
     }
-
-    var middle = (max + min)/2;
-    ctx.fillStyle = "#333";
-    ctx.fillText(common.format_unit(max), this.options.padding.left - ctx.measureText(common.format_unit(max)).width - 10, this.options.c3_y_top + 5);
-    ctx.fillText(common.format_unit(middle.toFixed(2)), this.options.padding.left - ctx.measureText(common.format_unit(middle.toFixed(2))).width - 10, this.options.c3_y_top + 5 + c_t_height/2);
-    ctx.fillText(common.format_unit(min.toFixed(2)), this.options.padding.left - ctx.measureText(common.format_unit(min.toFixed(2))).width - 10, this.options.c3_y_top + 5 + c_t_height);
 
     ctx.restore();
 }
