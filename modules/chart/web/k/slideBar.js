@@ -1,9 +1,9 @@
 var getTData = require('getdata/web/chart_k');
 var common = require('chart/web/common/common');
 /*一个测试*/
-var slideBar = function(options) {
-
-    getTData({ 'code': '3000592', 'type': 'k', percent: options.percent }, function(data) {
+var slideBar = function(callback) {
+    var _that = this;
+    getTData({ 'code': '3000592', 'type': 'k', percent: 1480 }, function(data) {
         var arr = [];
         var max = 0;
         var len = data.data.length;
@@ -11,12 +11,12 @@ var slideBar = function(options) {
             arr.push({ date: data.data[i].date_time, value: data.data[i].close });
             max = Math.max(max, data.data[i].close);
         }
-        var width = options.width;
-        var height = options.height * 1.1;
+        var width = _that.options.drawWidth;
+        var height = 70 * 1.1;
         var container = document.createElement("div");
         container.style.position = "absolute";
-        container.style.left = options.left + "px";
-        container.style.top = options.top + "px";
+        container.style.left = _that.options.padding.left + "px";
+        container.style.top = _that.options.c4_y_top + "px";
 
         var cvs = document.createElement("canvas");
         var ctx = cvs.getContext('2d');
@@ -50,9 +50,9 @@ var slideBar = function(options) {
         containerBar.style.backgroundColor = "rgba(108, 182, 229, 0.4)";
         containerBar.style.outline = "solid 1px #35709C";
         containerBar.style.height = height + "px";
-        containerBar.style.width = options.barWidth + "px";
+        containerBar.style.width = /*options.barWidth + */"40px";
         containerBar.style.top = "0px";
-        containerBar.style.left = options.barStart + "px";
+        containerBar.style.left = /*options.barStart + */"200px";
 
         var leftDrag = document.createElement("div");
         leftDrag.style.position = "absolute";
@@ -78,7 +78,7 @@ var slideBar = function(options) {
 
 
 
-        options.container.appendChild(container);
+        _that.container.appendChild(container);
 
         dragEvent(arr, cvs, containerBar, leftDrag, rightDrag);
     });

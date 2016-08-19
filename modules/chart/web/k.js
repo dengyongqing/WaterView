@@ -233,7 +233,6 @@ var ChartK = (function() {
     }
     // 删除canvas画布
     ChartK.prototype.clear = function(cb) {
-        debugger;
         var ctx = this.options.context;
         ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
     }
@@ -615,9 +614,9 @@ var ChartK = (function() {
 
         var _this = this;
 
-        // this.clearK();
-        // this.drawK();
-        // this.options.drawXY.drawXYK();
+        this.clearK();
+        this.drawK();
+        this.options.drawXY.drawXYK();
 
         var params = {};
         params.code = this.options.code;
