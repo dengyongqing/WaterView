@@ -749,10 +749,23 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "rsi";
-        GetTeacData(params,function(data){
-            var rsi6 = data.rsi6;
-            var rsi12 = data.rsi12;
-            var rsi24 = data.rsi24;
+
+        if(this.options.rsi){
+            temp_rsi.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.rsi = {};
+                _this.options.rsi.rsi6 = data.rsi6;
+                _this.options.rsi.rsi12 = data.rsi12;
+                _this.options.rsi.rsi24 = data.rsi24;
+                temp_rsi.apply(_this,[]);
+            });
+        }
+
+        function temp_rsi(){
+            var rsi6 = this.options.rsi.rsi6;
+            var rsi12 = this.options.rsi.rsi12;
+            var rsi24 = this.options.rsi.rsi24;
 
             var rsi_arr = rsi6.concat(rsi12).concat(rsi24);
             var rsi_arr_length = rsi_arr.length;
@@ -766,7 +779,7 @@ var ChartK = (function() {
                 min = Math.min(min,rsi_arr[i].value);
             }
             DrawRSI.apply(_this,[_this.options.context,max,min,rsi6,rsi12,rsi24]);
-        });
+        }
 
     }
 
@@ -777,10 +790,23 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "kdj";
-        GetTeacData(params,function(data){
-            var k = data.k;
-            var d = data.d;
-            var j = data.j;
+
+        if(this.options.kdj){
+            temp_kdj.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.kdj = {};
+                _this.options.kdj.k = data.k;
+                _this.options.kdj.d = data.d;
+                _this.options.kdj.j = data.j;
+                temp_kdj.apply(_this,[]);
+            });
+        }
+
+        function temp_kdj(){
+            var k = this.options.kdj.k;
+            var d = this.options.kdj.d;
+            var j = this.options.kdj.j;
 
             var kdj_arr = k.concat(d).concat(j);
             var kdj_arr_length = kdj_arr.length;
@@ -793,8 +819,9 @@ var ChartK = (function() {
                 max = Math.max(max,kdj_arr[i].value);
                 min = Math.min(min,kdj_arr[i].value);
             }
-            DrawKDJ.apply(_this,[_this.options.context,max,min,k,d,j]);
-        });
+            DrawKDJ.apply(this,[this.options.context,max,min,k,d,j]);
+
+        }
         
     }
 
@@ -805,10 +832,23 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "macd";
-        GetTeacData(params,function(data){
-            var dea = data.dea;
-            var diff = data.diff;
-            var macd = data.macd;
+
+        if(this.options.macd){
+            temp_macd.apply(this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.macd = {};
+                _this.options.macd.dea = data.dea;
+                _this.options.macd.diff = data.diff;
+                _this.options.macd.macd = data.macd;
+                temp_macd.apply(this,[]);
+            });
+        }
+
+        function temp_macd(){
+            var dea = this.options.macd.dea;
+            var diff = this.options.macd.diff;
+            var macd = this.options.macd.macd;
 
             var macd_arr = dea.concat(diff).concat(macd);
             var macd_arr_length = macd_arr.length;
@@ -822,8 +862,8 @@ var ChartK = (function() {
                 min = Math.min(min,macd_arr[i].value);
             }
             DrawMACD.apply(_this,[_this.options.context,max,min,dea,diff,macd]);
-        });
 
+        }
         
     }
 
@@ -834,9 +874,21 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "wr";
-        GetTeacData(params,function(data){
-            var wr6 = data.wr6;
-            var wr10 = data.wr10;
+        if(this.options.wr){
+            temp_wr.apply(this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.wr = {};
+                _this.options.wr.wr6 = data.wr6;
+                _this.options.wr.wr10 = data.wr10;
+                temp_wr.apply(this,[]);
+            });
+        }
+
+        function temp_wr(){
+
+            var wr6 = this.options.wr.wr6;
+            var wr10 = this.options.wr.wr10;
 
             var wr_arr = wr6.concat(wr10);
             var wr_arr_length = wr_arr.length;
@@ -850,7 +902,8 @@ var ChartK = (function() {
                 min = Math.min(min,wr_arr[i].value);
             }
             DrawWR.apply(_this,[_this.options.context,max,min,wr6,wr10]);
-        });
+
+        }
 
     }
 
@@ -861,11 +914,27 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "dmi";
-        GetTeacData(params,function(data){
-            var pdi = data.pdi;
-            var mdi = data.mdi;
-            var adx = data.adx;
-            var adxr = data.adxr;
+
+        if(this.options.dmi){
+             temp_dmi.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.dmi = {};
+                _this.options.dmi.pdi = data.pdi;
+                _this.options.dmi.mdi = data.mdi;
+                _this.options.dmi.adx = data.adx;
+                _this.options.dmi.adxr = data.adxr;
+                temp_dmi.apply(_this,[]);
+            });
+
+        }
+
+        function temp_dmi(){
+
+            var pdi = this.options.dmi.pdi;
+            var mdi = this.options.dmi.mdi;
+            var adx = this.options.dmi.adx;
+            var adxr = this.options.dmi.adxr;
 
             var dmi_arr = pdi.concat(mdi).concat(adx).concat(adxr);
             var dmi_arr_length = dmi_arr.length;
@@ -879,7 +948,8 @@ var ChartK = (function() {
                 min = Math.min(min,dmi_arr[i].value);
             }
             DrawDMI.apply(_this,[_this.options.context,max,min,pdi,mdi,adx,adxr]);
-        });
+
+        }
 
         
     }
@@ -891,10 +961,24 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "bias";
-        GetTeacData(params,function(data){
-            var bias6 = data.bias6;
-            var bias12 = data.bias12;
-            var bias24 = data.bias24;
+
+        if(this.options.bias){
+            temp_bias.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.bias = {};
+                _this.options.bias.bias6 = data.bias6;
+                _this.options.bias.bias12 = data.bias12;
+                _this.options.bias.bias24 = data.bias24;
+                temp_bias.apply(_this,[]);
+            });
+        }
+
+        function temp_bias(){
+
+            var bias6 = this.options.bias.bias6;
+            var bias12 = this.options.bias.bias12;
+            var bias24 = this.options.bias.bias24;
             var bias_arr = bias6.concat(bias12).concat(bias24);
             var bias_arr_length = bias_arr.length;
             if(bias_arr && bias_arr[0]){
@@ -906,9 +990,9 @@ var ChartK = (function() {
                 max = Math.max(max,bias_arr[i].value);
                 min = Math.min(min,bias_arr[i].value);
             }
-            DrawBIAS.apply(_this,[_this.options.context,max,min,bias6,bias12,bias24]);
-        });
+            DrawBIAS.apply(this,[this.options.context,max,min,bias6,bias12,bias24]);
 
+        }
         
     }
 
@@ -919,9 +1003,23 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "obv";
-        GetTeacData(params,function(data){
-            var obv = data.obv;
-            var maobv = data.maobv;
+
+        if(_this.options.obv){
+            temp_obv.apply(this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.obv = {};
+                var obv = _this.options.obv.obv = data.obv;
+                var maobv = _this.options.obv.maobv = data.maobv;
+                temp_obv.apply(_this,[]);
+            });
+        }
+
+        function temp_obv(){
+
+            var obv = this.options.obv.obv;
+            var maobv = this.options.obv.maobv;
+
             var obv_arr = obv.concat(maobv);
             var obv_arr_length = obv_arr.length;
             if(obv_arr && obv_arr[0]){
@@ -933,9 +1031,10 @@ var ChartK = (function() {
                 max = Math.max(max,obv_arr[i].value);
                 min = Math.min(min,obv_arr[i].value);
             }
-            DrawOBV.apply(_this,[_this.options.context,max,min,obv,maobv]);
-        });
-        
+            DrawOBV.apply(this,[this.options.context,max,min,obv,maobv]);
+        }
+
+
     }
 
     // 绘制CCI指标
@@ -946,8 +1045,19 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "cci";
-        GetTeacData(params,function(data){
-            var cci_arr = data.cci;
+        
+        if(this.options.cci){
+            temp_cci.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.cci = {};
+                _this.options.cci.cci = data.cci;
+                temp_cci.apply(_this,[]);
+            });
+        }
+
+        function temp_cci(){
+            var cci_arr = this.options.cci.cci;
             var cci_arr_length = cci_arr.length;
             if(cci_arr && cci_arr[0]){
                 var max = cci_arr[0].value;
@@ -958,8 +1068,9 @@ var ChartK = (function() {
                 max = Math.max(max,cci_arr[i].value);
                 min = Math.min(min,cci_arr[i].value);
             }
-            DrawCCI.apply(_this,[_this.options.context,max,min,cci_arr]);
-        });
+            DrawCCI.apply(this,[this.options.context,max,min,cci_arr]);
+        }
+        
         
     }
 
@@ -995,9 +1106,21 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "expma";
-        GetTeacData(params,function(data){
-            var expma12 = data.expma12;
-            var expma50 = data.expma50;
+
+        if(this.options.expma){
+            temp_expma.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.expma = {};
+                _this.options.expma.expma12 = data.expma12;
+                _this.options.expma.expma50 = data.expma50;
+                temp_expma.apply(_this,[]);
+            });  
+        }
+
+        function temp_expma(){
+            var expma12 = this.options.expma.expma12;
+            var expma50 = this.options.expma.expma50;
             var expma_arr = expma12.concat(expma50);
             var expma_arr_length = expma_arr.length;
             if(expma_arr && expma_arr[0]){
@@ -1009,8 +1132,8 @@ var ChartK = (function() {
                 max = Math.max(max,expma_arr[i].value);
                 min = Math.min(min,expma_arr[i].value);
             }
-            DrawEXPMA.apply(_this,[_this.options.context,max,min,expma12,expma50]);
-        });        
+            DrawEXPMA.apply(this,[this.options.context,max,min,expma12,expma50]);
+        }    
     }
 
     // 绘制bool指标
@@ -1020,10 +1143,23 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "boll";
-        GetTeacData(params,function(data){
-            var bollup = data.bollup;
-            var bollmb = data.bollmb;
-            var bolldn = data.bolldn;
+
+        if(this.options.boll){
+            temp_boll.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.boll = {};
+                _this.options.boll.bollup = data.bollup;
+                _this.options.boll.bollmb = data.bollmb;
+                _this.options.boll.bolldn = data.bolldn;
+                temp_boll.apply(_this,[]);
+            });   
+        }
+
+        function temp_boll(){
+            var bollup = this.options.boll.bollup;
+            var bollmb = this.options.boll.bollmb;
+            var bolldn = this.options.boll.bolldn;
             var boll_arr = bollup.concat(bollmb).concat(bolldn);
             var boll_arr_length = boll_arr.length;
             if(boll_arr && boll_arr[0]){
@@ -1036,7 +1172,7 @@ var ChartK = (function() {
                 min = Math.min(min,boll_arr[i].value);
             }
             DrawBOLL.apply(_this,[_this.options.context,max,min,bollup,bollmb,bolldn]);
-        });        
+        }
     }
 
     // 绘制bool指标
@@ -1046,8 +1182,19 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "sar";
-        GetTeacData(params,function(data){
-            var sar_arr = data.sar;
+
+        if(this.options.sar){
+            temp_sar.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.sar = {};
+                _this.options.sar.sar = data.sar;
+                temp_sar.apply(_this,[]);
+            });     
+        }
+         
+        function temp_sar(){
+            var sar_arr = this.options.sar.sar;
             var sar_arr_length = sar_arr.length;
             if(sar_arr && sar_arr[0]){
                 var max = sar_arr[0].value;
@@ -1059,7 +1206,7 @@ var ChartK = (function() {
                 min = Math.min(min,sar_arr[i].value);
             }
             DrawSAR.apply(_this,[_this.options.context,max,min,sar_arr]);
-        });        
+        }  
     }
 
     // 绘制bbi指标
