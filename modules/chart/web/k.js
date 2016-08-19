@@ -163,7 +163,7 @@ var ChartK = (function() {
 
         // 加水印
         watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
-        slideBar({container: this.container, percent: 1486, width: 900, height: 100, top:0, left: 0, barStart: 200, barWidth: 100});
+        slideBar.call(this,this.slideBarCallback);
        
     };
 
@@ -232,20 +232,30 @@ var ChartK = (function() {
     }
     // 删除canvas画布
     ChartK.prototype.clear = function(cb) {
-        if(this.container){
-            this.container.innerHTML = "";
-        }else{
-            document.getElementById(this.options.container).innerHTML = "";
-        }
-        if (cb) {
-            cb();
-        };
+        var ctx = this.options.context;
+        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
     }
 
     // 获取上榜日标识dom
     ChartK.prototype.getMarkPointsDom = function(cb) {
         var points =  this.options.interactive.options.pointsContainer.children;
         return points;
+    }
+
+    ChartK.prototype.slideBarCallback = function(start,end){
+
+        debugger;
+        this.clear();
+        this.options.drawXY.drawXYK();
+        this.options.drawXY.drawXYV();
+        this.options.drawXY.drawXYT();
+
+        this.drawK();
+        drawV.apply(this);
+        drawT.apply(this);
+
+        this.drawRSI();
+        this.drawMA();
     }
 
     //绘制k线图的各种指标
