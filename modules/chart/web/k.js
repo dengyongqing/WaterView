@@ -333,7 +333,7 @@ var ChartK = (function() {
         // rsi指标
         var rsi = document.createElement("div");
         rsi.setAttribute("id","rsi");
-        rsi.className = "tech-index-item";
+        rsi.className = "tech-index-item current";
         rsi.innerText = "RSI";
         rsi.style.width = this.options.drawWidth / 9 + "px";
 
@@ -403,40 +403,69 @@ var ChartK = (function() {
         div_tech.appendChild(roc);
         this.container.appendChild(div_tech);
 
+        var current = rsi;
+
         common.addEvent.call(_this, rsi, "click",function(event){
             _this.drawRSI();
+            current.className = current.className.replace(" current","");
+            current = rsi;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, kdj, "click",function(event){
             _this.drawKDJ();
+            current.className = current.className.replace(" current","");
+            current = kdj;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, macd, "click",function(event){
             _this.drawMACD();
+            current.className = current.className.replace(" current","");
+            current = macd;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, wr, "click",function(event){
             _this.drawWR();
+            current.className = current.className.replace(" current","");
+            current = wr;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, dmi, "click",function(event){
             _this.drawDMI();
+            current.className = current.className.replace(" current","");
+            current = dmi;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, bias, "click",function(event){
             _this.drawBIAS();
+            current.className = current.className.replace(" current","");
+            current = bias;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, obv, "click",function(event){
             _this.drawOBV();
+            current.className = current.className.replace(" current","");
+            current = obv;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, cci, "click",function(event){
             _this.drawCCI();
+            current.className = current.className.replace(" current","");
+            current = cci;
+            current.className = current.className + " current";
         });
 
         common.addEvent.call(_this, roc, "click",function(event){
             _this.drawROC();
+            current.className = current.className.replace(" current","");
+            current = roc;
+            current.className = current.className + " current";
         });
 
     }
