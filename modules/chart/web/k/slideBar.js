@@ -12,9 +12,9 @@ var slideBar = function(options) {
             max = Math.max(max, data.data[i].close);
         }
         var width = options.width;
-        var height = options.height;
+        var height = options.height * 1.1;
         var container = document.createElement("div");
-        container.style.position = "relative";
+        container.style.position = "absolute";
         container.style.left = options.left + "px";
         container.style.top = options.top + "px";
 
@@ -49,27 +49,27 @@ var slideBar = function(options) {
         containerBar.style.position = "absolute";
         containerBar.style.backgroundColor = "rgba(108, 182, 229, 0.4)";
         containerBar.style.outline = "solid 1px #35709C";
-        containerBar.style.height = "100px";
+        containerBar.style.height = height + "px";
         containerBar.style.width = options.barWidth + "px";
         containerBar.style.top = "0px";
         containerBar.style.left = options.barStart + "px";
 
         var leftDrag = document.createElement("div");
         leftDrag.style.position = "absolute";
-        leftDrag.style.height = options.height / 2 + "px";
+        leftDrag.style.height = height / 2 + "px";
         leftDrag.style.width = "10px";
         leftDrag.style.backgroundColor = "red";
-        leftDrag.style.top = options.height / 4 + "px";
+        leftDrag.style.top = height / 4 + "px";
         leftDrag.style.left = "-10px";
 
 
 
         var rightDrag = document.createElement("div");
         rightDrag.style.position = "absolute";
-        rightDrag.style.height = options.height / 2 + "px";
+        rightDrag.style.height = height / 2 + "px";
         rightDrag.style.width = "10px";
         rightDrag.style.backgroundColor = "red";
-        rightDrag.style.top = options.height / 4 + "px";
+        rightDrag.style.top = height / 4 + "px";
         rightDrag.style.right = "-10px";
 
         container.appendChild(containerBar);
@@ -89,7 +89,7 @@ var slideBar = function(options) {
     }
 
     function getY(max, y, height) {
-        return height - y / max * height;
+        return height - y / max * height + height*0.1;
     }
 
     var dragEvent = function(dataArr, container, containerBar, leftDrag, rightDrag) {

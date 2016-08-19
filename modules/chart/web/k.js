@@ -163,7 +163,7 @@ var ChartK = (function() {
 
         // 加水印
         watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
-        slideBar({container: this.container, percent: 1486, width: 900, height: 100, top:0, left: 0, barStart: 200, barWidth: 100});
+        slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
        
     };
 
