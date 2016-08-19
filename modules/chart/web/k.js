@@ -60,6 +60,8 @@ var DrawMACD = require('chart/web/k/draw_macd');
 var common = require('chart/web/common/common'); 
 // 交互效果
 var Interactive = require('chart/web/common/interactive'); 
+// 滑块
+var slideBar = require('chart/web/k/slideBar');
 // 拓展，合并，复制
 var extend = require('tools/extend');
 // 水印
@@ -161,6 +163,7 @@ var ChartK = (function() {
 
         // 加水印
         watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
+        slideBar({container: this.container, percent: 1486, width: 900, height: 100, top:0, left: 0, barStart: 200, barWidth: 100});
        
     };
 

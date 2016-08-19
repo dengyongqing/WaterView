@@ -17,7 +17,7 @@ function dealData(json, percent, extendType) {
 
     var datas = json.data;
     //如果percent没定义，默认显示60个数据（需要改进）
-    var askLength = 60;
+    var askLength = percent || 60;
 
     
     for (var i = askLength-1; i >= 0; i--) {
