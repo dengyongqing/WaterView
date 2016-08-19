@@ -164,6 +164,7 @@ var ChartK = (function() {
         // 加水印
         watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
         slideBar.call(this,this.slideBarCallback);
+        // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
        
     };
 
