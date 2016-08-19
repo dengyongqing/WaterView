@@ -164,6 +164,7 @@ var ChartK = (function() {
         // 加水印
         watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
         slideBar.call(this,this.slideBarCallback);
+        // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
        
     };
 
@@ -171,7 +172,7 @@ var ChartK = (function() {
     ChartK.prototype.draw = function(callback) {
         var _this = this;
         // 删除canvas画布
-        _this.clear();
+        // _this.clear();
         // 初始化
         _this.init();
 
@@ -232,6 +233,7 @@ var ChartK = (function() {
     }
     // 删除canvas画布
     ChartK.prototype.clear = function(cb) {
+        debugger;
         var ctx = this.options.context;
         ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
     }
