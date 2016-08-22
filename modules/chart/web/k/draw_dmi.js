@@ -1,10 +1,23 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawDMI(ctx,max,min,pdi,mdi,adx,adxr){
+function drawDMI(ctx,pdi,mdi,adx,adxr){
     this.clearT();
     this.options.drawXY.drawXYT();
     // 保存画笔状态
     ctx.save();
+
+    var dmi_arr = pdi.concat(mdi).concat(adx).concat(adxr);
+    var dmi_arr_length = dmi_arr.length;
+    if(dmi_arr && dmi_arr[0]){
+        var max = dmi_arr[0].value;
+        var min = dmi_arr[0].value;
+    }
+
+    for(var i = 0;i < dmi_arr_length;i++){
+        max = Math.max(max,dmi_arr[i].value);
+        min = Math.min(min,dmi_arr[i].value);
+    }
+
     var base = max - min;
     var c_t_height = this.options.c_t_height;
 

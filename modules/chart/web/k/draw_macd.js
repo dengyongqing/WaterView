@@ -1,10 +1,23 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawMACD(ctx,max,min,dea,diff,macd){
+function drawMACD(ctx,dea,diff,macd){
     this.clearT();
     this.options.drawXY.drawXYT();
     // 保存画笔状态
     ctx.save();
+
+    var macd_arr = dea.concat(diff).concat(macd);
+    var macd_arr_length = macd_arr.length;
+    if(macd_arr && macd_arr[0]){
+        var max = macd_arr[0].value;
+        var min = macd_arr[0].value;
+    }
+
+    for(var i = 0;i < macd_arr_length;i++){
+        max = Math.max(max,macd_arr[i].value);
+        min = Math.min(min,macd_arr[i].value);
+    }
+
     var base = (max - min)/2;
     var middle = (max + min)/2
     var middle_y =  this.options.c3_y_top + this.options.c_t_height/2;

@@ -1,10 +1,23 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawRSI(ctx,max,min,bias6,bias12,bias24){
+function drawRSI(ctx,bias6,bias12,bias24){
     this.clearT();
     this.options.drawXY.drawXYT();
     // 保存画笔状态
     ctx.save();
+
+    var bias_arr = bias6.concat(bias12).concat(bias24);
+    var bias_arr_length = bias_arr.length;
+    if(bias_arr && bias_arr[0]){
+        var max = bias_arr[0].value;
+        var min = bias_arr[0].value;
+    }
+
+    for(var i = 0;i < bias_arr_length;i++){
+        max = Math.max(max,bias_arr[i].value);
+        min = Math.min(min,bias_arr[i].value);
+    }
+
     var base = max - min;
     var c_t_height = this.options.c_t_height;
 

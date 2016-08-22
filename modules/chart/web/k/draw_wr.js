@@ -1,10 +1,23 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawWR(ctx,max,min,wr6,wr10){
+function drawWR(ctx,wr6,wr10){
     this.clearT();
     this.options.drawXY.drawXYT();
     // 保存画笔状态
     ctx.save();
+
+    var wr_arr = wr6.concat(wr10);
+    var wr_arr_length = wr_arr.length;
+    if(wr_arr && wr_arr[0]){
+        var max = wr_arr[0].value;
+        var min = wr_arr[0].value;
+    }
+
+    for(var i = 0;i < wr_arr_length;i++){
+        max = Math.max(max,wr_arr[i].value);
+        min = Math.min(min,wr_arr[i].value);
+    }
+
     var base = max - min;
     var c_t_height = this.options.c_t_height;
 

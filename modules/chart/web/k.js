@@ -249,7 +249,6 @@ var ChartK = (function() {
 
         this.drawK();
         drawV.apply(this);
-        drawT.apply(this);
 
         this.drawMA();
 
@@ -855,7 +854,7 @@ var ChartK = (function() {
     }
 
     // 绘制MACD指标
-    ChartK.prototype.drawMACD = function(){
+    ChartK.prototype.drawMACD = function(start,end){
 
         var _this = this;
         var params = {};
@@ -879,25 +878,17 @@ var ChartK = (function() {
             var diff = this.options.macd.diff;
             var macd = this.options.macd.macd;
 
-            var macd_arr = dea.concat(diff).concat(macd);
-            var macd_arr_length = macd_arr.length;
-            if(macd_arr && macd_arr[0]){
-                var max = macd_arr[0].value;
-                var min = macd_arr[0].value;
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
-
-            for(var i = 0;i < macd_arr_length;i++){
-                max = Math.max(max,macd_arr[i].value);
-                min = Math.min(min,macd_arr[i].value);
-            }
-            DrawMACD.apply(_this,[_this.options.context,max,min,dea,diff,macd]);
-
+            DrawMACD.apply(_this,[_this.options.context,dea.slice(start,end),diff.slice(start,end),macd.slice(start,end)]);
         }
         
     }
 
     // 绘制WD指标
-    ChartK.prototype.drawWR = function(){
+    ChartK.prototype.drawWR = function(start,end){
         
         var _this = this;
         var params = {};
@@ -919,25 +910,18 @@ var ChartK = (function() {
             var wr6 = this.options.wr.wr6;
             var wr10 = this.options.wr.wr10;
 
-            var wr_arr = wr6.concat(wr10);
-            var wr_arr_length = wr_arr.length;
-            if(wr_arr && wr_arr[0]){
-                var max = wr_arr[0].value;
-                var min = wr_arr[0].value;
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
-
-            for(var i = 0;i < wr_arr_length;i++){
-                max = Math.max(max,wr_arr[i].value);
-                min = Math.min(min,wr_arr[i].value);
-            }
-            DrawWR.apply(_this,[_this.options.context,max,min,wr6,wr10]);
+            DrawWR.apply(_this,[_this.options.context,wr6.slice(start,end),wr10.slice(start,end)]);
 
         }
 
     }
 
     // 绘制DMI指标
-    ChartK.prototype.drawDMI = function(){
+    ChartK.prototype.drawDMI = function(start,end){
 
         var _this = this;
         var params = {};
@@ -965,18 +949,12 @@ var ChartK = (function() {
             var adx = this.options.dmi.adx;
             var adxr = this.options.dmi.adxr;
 
-            var dmi_arr = pdi.concat(mdi).concat(adx).concat(adxr);
-            var dmi_arr_length = dmi_arr.length;
-            if(dmi_arr && dmi_arr[0]){
-                var max = dmi_arr[0].value;
-                var min = dmi_arr[0].value;
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
 
-            for(var i = 0;i < dmi_arr_length;i++){
-                max = Math.max(max,dmi_arr[i].value);
-                min = Math.min(min,dmi_arr[i].value);
-            }
-            DrawDMI.apply(_this,[_this.options.context,max,min,pdi,mdi,adx,adxr]);
+            DrawDMI.apply(_this,[_this.options.context,pdi.slice(start,end),mdi.slice(start,end),adx.slice(start,end),adxr.slice(start,end)]);
 
         }
 
@@ -984,7 +962,7 @@ var ChartK = (function() {
     }
 
     // 绘制BIAS指标
-    ChartK.prototype.drawBIAS = function(){
+    ChartK.prototype.drawBIAS = function(start,end){
 
         var _this = this;
         var params = {};
@@ -1008,25 +986,20 @@ var ChartK = (function() {
             var bias6 = this.options.bias.bias6;
             var bias12 = this.options.bias.bias12;
             var bias24 = this.options.bias.bias24;
-            var bias_arr = bias6.concat(bias12).concat(bias24);
-            var bias_arr_length = bias_arr.length;
-            if(bias_arr && bias_arr[0]){
-                var max = bias_arr[0].value;
-                var min = bias_arr[0].value;
+       
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
 
-            for(var i = 0;i < bias_arr_length;i++){
-                max = Math.max(max,bias_arr[i].value);
-                min = Math.min(min,bias_arr[i].value);
-            }
-            DrawBIAS.apply(this,[this.options.context,max,min,bias6,bias12,bias24]);
+            DrawBIAS.apply(this,[this.options.context,bias6.slice(start,end),bias12.slice(start,end),bias24.slice(start,end)]);
 
         }
         
     }
 
     // 绘制OBV指标
-    ChartK.prototype.drawOBV = function(){
+    ChartK.prototype.drawOBV = function(start,end){
 
         var _this = this;
         var params = {};
@@ -1049,25 +1022,19 @@ var ChartK = (function() {
             var obv = this.options.obv.obv;
             var maobv = this.options.obv.maobv;
 
-            var obv_arr = obv.concat(maobv);
-            var obv_arr_length = obv_arr.length;
-            if(obv_arr && obv_arr[0]){
-                var max = obv_arr[0].value;
-                var min = obv_arr[0].value;
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
 
-            for(var i = 0;i < obv_arr_length;i++){
-                max = Math.max(max,obv_arr[i].value);
-                min = Math.min(min,obv_arr[i].value);
-            }
-            DrawOBV.apply(this,[this.options.context,max,min,obv,maobv]);
+            DrawOBV.apply(this,[this.options.context,obv.slice(start,end),maobv.slice(start,end)]);
         }
 
 
     }
 
     // 绘制CCI指标
-    ChartK.prototype.drawCCI = function(){
+    ChartK.prototype.drawCCI = function(start,end){
 
         var _this = this;
         
@@ -1086,46 +1053,50 @@ var ChartK = (function() {
         }
 
         function temp_cci(){
-            var cci_arr = this.options.cci.cci;
-            var cci_arr_length = cci_arr.length;
-            if(cci_arr && cci_arr[0]){
-                var max = cci_arr[0].value;
-                var min = cci_arr[0].value;
+            var cci = this.options.cci.cci;
+
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
 
-            for(var i = 0;i < cci_arr_length;i++){
-                max = Math.max(max,cci_arr[i].value);
-                min = Math.min(min,cci_arr[i].value);
-            }
-            DrawCCI.apply(this,[this.options.context,max,min,cci_arr]);
+            DrawCCI.apply(this,[this.options.context,cci.slice(start,end)]);
         }
         
         
     }
 
     // 绘制ROC指标
-    ChartK.prototype.drawROC = function(){
+    ChartK.prototype.drawROC = function(start,end){
 
         var _this = this;
         var params = {};
         params.code = this.options.code;
         params.extend = this.options.down_t = "roc";
-        GetTeacData(params,function(data){
-            var roc = data.roc;
-            var rocma = data.rocma;
-            var roc_arr = roc.concat(rocma);
-            var roc_arr_length = roc_arr.length;
-            if(roc_arr && roc_arr[0]){
-                var max = roc_arr[0].value;
-                var min = roc_arr[0].value;
+
+        if(_this.options.roc){
+            temp_roc.apply(_this,[]);
+        }else{
+            GetTeacData(params,function(data){
+                _this.options.roc = {};
+                _this.options.roc.roc = data.roc;
+                _this.options.roc.rocma = data.rocma;
+                
+                temp_roc.apply(_this,[]);
+            });
+        }
+
+        function temp_roc(){
+            var roc = _this.options.roc.roc;
+            var rocma = _this.options.roc.rocma;
+
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
 
-            for(var i = 0;i < roc_arr_length;i++){
-                max = Math.max(max,roc_arr[i].value);
-                min = Math.min(min,roc_arr[i].value);
-            }
-            DrawROC.apply(_this,[_this.options.context,max,min,roc,rocma]);
-        });        
+            DrawROC.apply(_this,[_this.options.context,roc.slice(start,end),rocma.slice(start,end)]);
+        }        
     }
 
     // 绘制expma指标
