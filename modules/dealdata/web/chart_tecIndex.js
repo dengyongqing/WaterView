@@ -3,7 +3,7 @@
  * 返回各个指标对应的数据
  */
 
-function dealData(json, percent, extendStr) {
+function dealData(json,  extendStr) {
 
     var result = {};
     result.name = json.name;
@@ -12,7 +12,7 @@ function dealData(json, percent, extendStr) {
 
     var datas = json.data;
     //如果percent没定义，默认显示60个数据
-    var askLength = !percent ? 60 : Math.floor(json.info.total * percent);
+    var askLength =  json.info.total * 1;
     for (var i = askLength - 1; i >= 0; i--) {
         //分割data中的字符串
         var strGroup = datas[json.info.total - i - 1].split(/\[|\]/);
