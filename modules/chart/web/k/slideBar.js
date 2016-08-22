@@ -89,7 +89,7 @@ var slideBar = function(callback) {
     }
 
     function getY(max, y, height) {
-        return height - y / max * height + height*0.1;
+        return height - y / max * height;
     }
 
     var dragEvent = function(dataArr, container, containerBar, leftDrag, rightDrag) {
