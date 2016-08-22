@@ -18,7 +18,7 @@ function getData(options, callback){
         check:"kte"
 	};
 	jsonp(url, urlData, callbackStr, function(json){
-		
+		if(urlData.extend.toLowerCase() == "rsi"){options.percent = 1;}
 		var result = dealData(json, options.percent, urlData.extend);
 
 		callback(result);
