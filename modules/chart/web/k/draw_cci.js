@@ -1,10 +1,23 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawOBV(ctx,max,min,cci){
+function drawOBV(ctx,cci){
     this.clearT();
     this.options.drawXY.drawXYT();
     // 保存画笔状态
     ctx.save();
+
+    var cci_arr = cci;
+    var cci_arr_length = cci.length;
+    if(cci_arr && cci_arr[0]){
+        var max = cci_arr[0].value;
+        var min = cci_arr[0].value;
+    }
+
+    for(var i = 0;i < cci_arr_length;i++){
+        max = Math.max(max,cci_arr[i].value);
+        min = Math.min(min,cci_arr[i].value);
+    }
+
     var base = max - min;
     var c_t_height = this.options.c_t_height;
 
