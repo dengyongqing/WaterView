@@ -88,7 +88,6 @@ var slideBar = function(callback) {
         leftDrag.style.left = "-10px";
 
 
-
         var rightDrag = document.createElement("div");
         rightDrag.style.position = "absolute";
         rightDrag.style.height = height / 2 + "px";
@@ -191,10 +190,9 @@ var slideBar = function(callback) {
             var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
             if (inArea) {
                 inArea = false;
-                // console.log(getDuring(dataArr, start, end));
                 callback.call(_this, getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
             }
-            
+
         });
 
         common.addEvent(body, "mousemove", function(e) {
@@ -252,10 +250,9 @@ var slideBar = function(callback) {
                 var start = ContainerB_left / toNumber(container.style.width);
                 var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
                 if (inArea) {
-                    inArea = false;
                     callback.call(_this, getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
                 }
-                
+
             }
 
             e.preventDefault();
