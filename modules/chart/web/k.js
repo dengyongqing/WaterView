@@ -243,6 +243,11 @@ var ChartK = (function() {
 
     function slideBarCallback(start,end){
         this.clear();
+
+        this.options.start = start;
+        this.options.end = end;
+
+
         this.options.drawXY.drawXYK();
         this.options.drawXY.drawXYV();
         this.options.drawXY.drawXYT();
@@ -719,9 +724,9 @@ var ChartK = (function() {
     }
 
     // 绘制K线图
-    ChartK.prototype.drawK = function(){
+    ChartK.prototype.drawK = function(data){
         
-        var data_arr = this.options.data.data;
+        var data_arr = data == undefined ? this.options.data.data : data;
         var ctx = this.options.context;
         // 获取单位绘制区域
         var rect_unit = this.options.rect_unit;
