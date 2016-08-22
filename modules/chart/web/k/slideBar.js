@@ -17,7 +17,6 @@ var slideBar = function(callback) {
             max = Math.max(max, data.data[i].close);
             min = Math.min(min, data.data[i].close);
         }
-        console.log(max + " : " + min);
         //添加包含的容器div和相应的canvas
         var width = _that.options.drawWidth;
         var height = 70 * 1.1;
@@ -191,10 +190,11 @@ var slideBar = function(callback) {
             var start = ContainerB_left / toNumber(container.style.width);
             var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
             if (inArea) {
+                inArea = false;
                 // console.log(getDuring(dataArr, start, end));
                 callback(getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
             }
-            inArea = false;
+            
         });
 
         common.addEvent(body, "mousemove", function(e) {
@@ -252,8 +252,10 @@ var slideBar = function(callback) {
                 var start = ContainerB_left / toNumber(container.style.width);
                 var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
                 if (inArea) {
+                    inArea = false;
                     callback(getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
                 }
+                
             }
 
             e.preventDefault();
