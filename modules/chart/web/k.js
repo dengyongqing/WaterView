@@ -251,8 +251,43 @@ var ChartK = (function() {
         drawV.apply(this);
         drawT.apply(this);
 
-        this.drawRSI(start,end);
         this.drawMA();
+
+        var up_t = this.options.up_t;
+        var down_t = this.options.down_t;
+
+        if(up_t == "junxian"){
+            this.drawMA(start,end);
+        }else if(up_t == "sar"){
+            this.drawSAR(start,end);
+        }else if(up_t == "boll"){
+            this.drawBOLL(start,end);
+        }else if(up_t == "bbi"){
+            this.drawBBI(start,end);
+        }
+
+        if(down_t == "rsi"){
+            this.drawRSI(start,end);
+        }else if(down_t == "kdj"){
+            this.drawKDJ(start,end);
+        }else if(down_t == "macd"){
+            this.drawMACD(start,end);
+        }else if(down_t == "wr"){
+            this.drawWR(start,end);
+        }else if(down_t == "dmi"){
+            this.drawDMI(start,end);
+        }else if(down_t == "bias"){
+            this.drawBIAS(start,end);
+        }else if(down_t == "obv"){
+            this.drawOBV(start,end);
+        }else if(down_t == "cci"){
+            this.drawCCI(start,end);
+        }else if(down_t == "roc"){
+            this.drawROC(start,end);
+        }
+
+        
+        
     }
 
     //绘制k线图的各种指标
