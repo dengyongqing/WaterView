@@ -242,7 +242,6 @@ var ChartK = (function() {
     }
 
     function slideBarCallback(start,end){
-
         this.clear();
         this.options.drawXY.drawXYK();
         this.options.drawXY.drawXYV();
