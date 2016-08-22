@@ -75,10 +75,10 @@ var slideBar = function(callback) {
         containerBar.style.backgroundColor = "rgba(108, 182, 229, 0.4)";
         containerBar.style.outline = "solid 1px #35709C";
         containerBar.style.height = height + "px";
-        containerBar.style.width = /*options.barWidth + */ "40px";
+        containerBar.style.width = /*options.barWidth + */ 60/_that.options.data.total*width + "px";
         containerBar.style.top = "0px";
-        containerBar.style.left = /*options.barStart + */ "200px";
-
+        containerBar.style.left = /*options.barStart + */ _that.options.start/_that.options.data.total*width + "px";
+        console.log(_that.options.start);
         var leftDrag = document.createElement("div");
         leftDrag.style.position = "absolute";
         leftDrag.style.height = height / 2 + "px";
@@ -254,7 +254,6 @@ var slideBar = function(callback) {
                 }
 
             }
-
             e.preventDefault();
         });
 

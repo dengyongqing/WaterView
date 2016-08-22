@@ -759,7 +759,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "rsi";
+        params.extend = this.options.down_t = "rsi";
 
         if(this.options.rsi){
             temp_rsi.apply(_this,[]);
@@ -773,8 +773,6 @@ var ChartK = (function() {
             });
         }
 
-
-
         function temp_rsi(){
             var rsi6 = this.options.rsi.rsi6;
             var rsi12 = this.options.rsi.rsi12;
@@ -782,21 +780,19 @@ var ChartK = (function() {
             if(start == undefined || end == undefined ){
                 start = this.options.start;
                 end = this.options.end;
-                DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
-            }else{
-                DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
             }
+            DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
         }
 
     }
 
     // 绘制KDJ指标
-    ChartK.prototype.drawKDJ = function(){
+    ChartK.prototype.drawKDJ = function(start,end){
 
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "kdj";
+        params.extend = this.options.down_t = "kdj";
 
         if(this.options.kdj){
             temp_kdj.apply(_this,[]);
@@ -815,19 +811,11 @@ var ChartK = (function() {
             var d = this.options.kdj.d;
             var j = this.options.kdj.j;
 
-            var kdj_arr = k.concat(d).concat(j);
-            var kdj_arr_length = kdj_arr.length;
-            if(kdj_arr && kdj_arr[0]){
-                var max = kdj_arr[0].value;
-                var min = kdj_arr[0].value;
+            if(start == undefined || end == undefined ){
+                start = this.options.start;
+                end = this.options.end;
             }
-
-            for(var i = 0;i < kdj_arr_length;i++){
-                max = Math.max(max,kdj_arr[i].value);
-                min = Math.min(min,kdj_arr[i].value);
-            }
-            DrawKDJ.apply(this,[this.options.context,max,min,k,d,j]);
-
+            DrawKDJ.apply(this,[this.options.context,k.slice(start,end),d.slice(start,end),j.slice(start,end)]);
         }
         
     }
@@ -838,7 +826,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "macd";
+        params.extend = this.options.down_t = "macd";
 
         if(this.options.macd){
             temp_macd.apply(this,[]);
@@ -880,7 +868,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "wr";
+        params.extend = this.options.down_t = "wr";
         if(this.options.wr){
             temp_wr.apply(this,[]);
         }else{
@@ -920,7 +908,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "dmi";
+        params.extend = this.options.down_t = "dmi";
 
         if(this.options.dmi){
              temp_dmi.apply(_this,[]);
@@ -967,7 +955,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "bias";
+        params.extend = this.options.down_t = "bias";
 
         if(this.options.bias){
             temp_bias.apply(_this,[]);
@@ -1009,7 +997,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "obv";
+        params.extend = this.options.down_t = "obv";
 
         if(_this.options.obv){
             temp_obv.apply(this,[]);
@@ -1051,7 +1039,7 @@ var ChartK = (function() {
         
         var params = {};
         params.code = this.options.code;
-        params.extend = "cci";
+        params.extend = this.options.down_t = "cci";
         
         if(this.options.cci){
             temp_cci.apply(_this,[]);
@@ -1087,7 +1075,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "roc";
+        params.extend = this.options.down_t = "roc";
         GetTeacData(params,function(data){
             var roc = data.roc;
             var rocma = data.rocma;
@@ -1112,7 +1100,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "expma";
+        params.extend = this.options.up_t = "expma";
 
         if(this.options.expma){
             temp_expma.apply(_this,[]);
@@ -1149,7 +1137,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "boll";
+        params.extend = this.options.up_t = "boll";
 
         if(this.options.boll){
             temp_boll.apply(_this,[]);
@@ -1188,7 +1176,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "sar";
+        params.extend = this.options.up_t = "sar";
 
         if(this.options.sar){
             temp_sar.apply(_this,[]);
@@ -1222,7 +1210,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
-        params.extend = "bbi";
+        params.extend = this.options.up_t = "bbi";
         GetTeacData(params,function(data){
             var bbi_arr = data.bbi;
             var bbi_arr_length = bbi_arr.length;
