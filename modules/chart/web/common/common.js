@@ -59,15 +59,17 @@ var common = {
     },
     // 图表y轴坐标计算
     get_y: function(y) {
-        return this.options.c_k_height - (this.options.c_k_height * (y - this.options.data.min) / (this.options.data.max - this.options.data.min));
+        var max = this.options.currentData.max || this.options.data.max;
+        var min = this.options.currentData.min || this.options.data.min;
+        return this.options.c_k_height - (this.options.c_k_height * (y - min) / (max - min));
     },
     // 图表x轴坐标计算
     get_x: function(x) {
         var canvas = this.options.context.canvas;
         var type = this.options.type;
         var rect_w = this.options.rect_unit.rect_w;
-        var num = this.options.data.data.length;
-        var total = this.options.data.total;
+        var num = this.options.currentData.data.length || this.options.data.data.length;
+        var total = this.options.currentData.total || this.options.data.total;
         var padding_left = this.options.padding.left;
         var padding_right = this.options.padding.right;
         // var dpr = this.options.dpr;

@@ -247,6 +247,9 @@ var ChartK = (function() {
         this.options.start = start;
         this.options.end = end;
 
+        var sourceData = [];
+        sourceData = this.options.data.data.slice(0);
+        this.options.data.data = sliceData(this.options.data.data,start,end);
 
         this.options.drawXY.drawXYK();
         this.options.drawXY.drawXYV();
@@ -290,8 +293,8 @@ var ChartK = (function() {
             this.drawROC(start,end);
         }
 
-        
-        
+        this.options.data.data = sourceData;
+
     }
 
     //绘制k线图的各种指标
@@ -525,7 +528,7 @@ var ChartK = (function() {
     function drawV(){
 
         var ctx = this.options.context;
-        var data = this.options.data;
+        var data = this.options.currentData;
         /*成交量数组*/
         var data_arr = data.data;
         /*Y轴上的最大值*/
@@ -586,7 +589,6 @@ var ChartK = (function() {
 
         }
 
-
         var v_ma_5 = data.v_ma_5;
         var v_ma_10 = data.v_ma_10;
 
@@ -646,7 +648,6 @@ var ChartK = (function() {
     // 绘制均线
     ChartK.prototype.drawMA = function(){
 
-
         var _this = this;
 
         this.clearK();
@@ -663,7 +664,6 @@ var ChartK = (function() {
             // var data = _this.options.data;
             // 图表交互
             var inter = _this.options.interactive;
-
             /*5日均线数据*/
             var five_average = data.five_average;
             /*10日均线数据*/
@@ -726,7 +726,8 @@ var ChartK = (function() {
     // 绘制K线图
     ChartK.prototype.drawK = function(data){
         
-        var data_arr = data == undefined ? this.options.data.data : data;
+        var data_arr = data == undefined ? this.options.currentData.data : data;
+        debugger;
         var ctx = this.options.context;
         // 获取单位绘制区域
         var rect_unit = this.options.rect_unit;
@@ -788,6 +789,7 @@ var ChartK = (function() {
             DrawK.apply(this,[params]);
 
         }
+
     };
 
 
@@ -1301,6 +1303,28 @@ var ChartK = (function() {
         this.options.data = data == undefined ? this.options.data : data;
         data = this.options.data;
 
+        var data_arr = data.data;
+        var XMark = this.options.XMark = [];
+        var data_arr_length = data_arr.length;
+
+        if(data_arr_length >= 1){
+            if(data_arr_length > 60){
+                this.options.start = data_arr_length - 60;
+            }else{
+                this.options.start = 0;
+            }
+            this.options.end = data_arr_length;
+        }else{
+            this.options.start = 0;
+            this.options.end = 0;
+        }
+
+        this.options.data.sourceData = this.options.data.data.slice(0);
+        this.options.currentData = sliceData(this.options.data,this.options.start,this.options.end);
+        debugger;
+        var current_arr = this.options.currentData.data;
+        var current_arr_length = current_arr.length;
+
         // 图表交互
         var inter = this.options.interactive;
 
@@ -1318,34 +1342,18 @@ var ChartK = (function() {
             this.options.pricedigit = data.pricedigit;
 
             // 获取单位绘制区域
-            var rect_unit = common.get_rect.apply(this,[canvas,data.data.length]);
+            var rect_unit = common.get_rect.apply(this,[canvas,current_arr_length]);
             this.options.rect_unit = rect_unit;
-
-            var data_arr = data.data;
-            var XMark = this.options.XMark = [];
-            var data_arr_length = data_arr.length;
-
-            if(data_arr_length >= 1){
-                if(data_arr_length > 60){
-                    this.options.start = data_arr_length - 60;
-                }else{
-                    this.options.start = 0;
-                }
-                this.options.end = data_arr_length;
-            }else{
-                this.options.start = 0;
-                this.options.end = 0;
-            }
 
             slideBar.call(this,slideBarCallback);
             // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
        
             if(data_arr_length > 0){
-                XMark.push(data_arr[0].date_time);
-                XMark.push(data_arr[Math.floor(data_arr_length * 1 / 4)].date_time);
-                XMark.push(data_arr[Math.floor(data_arr_length * 2 / 4)].date_time);
-                XMark.push(data_arr[Math.floor(data_arr_length * 3 / 4)].date_time);
-                XMark.push(data_arr[data_arr_length - 1].date_time);
+                XMark.push(current_arr[0].date_time);
+                XMark.push(current_arr[Math.floor(current_arr_length * 1 / 4)].date_time);
+                XMark.push(current_arr[Math.floor(current_arr_length * 2 / 4)].date_time);
+                XMark.push(current_arr[Math.floor(current_arr_length * 3 / 4)].date_time);
+                XMark.push(current_arr[current_arr_length - 1].date_time);
             }
 
             // 绘制坐标轴
@@ -1398,7 +1406,7 @@ var ChartK = (function() {
         //     // 隐藏loading效果
         //     inter.hideLoading();
         // }
-        
+       // this.options.data.data = this.options.data.sourceData;
        return true;
     }
     // 绑定事件
@@ -1505,7 +1513,8 @@ var ChartK = (function() {
 
         var canvas = this.options.canvas;
 
-        var k_data = this.options.data.data;
+        var k_data = this.options.currentData.data;
+
         var five_average = this.options.five_average;
         var ten_average = this.options.ten_average;
         var twenty_average = this.options.twenty_average;
@@ -1552,6 +1561,38 @@ var ChartK = (function() {
              inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
         }
 
+    }
+
+    //截取数据
+    function sliceData(sourceData, start, end){
+
+        var result = deepCopy(sourceData);
+        result.max = 0;
+        result.min = 100000;
+        result.v_max = 0;
+        result.total = end - start + 1;
+        result.name = sourceData.name;
+        result.code = sourceData.code;
+        result.data = [];
+
+        for(var i = start; i <= end; i++){
+            if(sourceData.data[i]){
+                result.data.push(sourceData.data[i]);
+                result.max = Math.max(sourceData.data[i].highest, result.max);
+                result.min = Math.min(sourceData.data[i].lowest, result.min);
+                result.v_max = Math.max(sourceData.data[i].volume, result.v_max);
+            }
+        }
+
+        return result;
+    }
+
+    function deepCopy(source) { 
+        var result={};
+        for (var key in source) {
+          result[key] = typeof source[key]==="object"? deepCopy(source[key]): source[key];
+        } 
+        return result; 
     }
 
     return ChartK;
