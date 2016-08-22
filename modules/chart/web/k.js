@@ -1578,6 +1578,27 @@ var ChartK = (function() {
 
     }
 
+    //截取数据
+    function sliceData(sourceData, start, end){
+        var result= {};
+        result.max = 0;
+        result.min = 100000;
+        result.v_max = 0;
+        result.total = end - start + 1;
+        result.name = sourceData.name;
+        result.code = sourceData.code;
+        result.data = [];
+
+        for(var i = start, i <= end; i++){
+            result.data.push(sourceData.data[i]);
+            result.max = Math.max(sourceData.data[i].highest, result.max);
+            result.min = Math.min(sourceData.data[i].lowest, result.min);
+            result.v_max = Math.max(sourceData.data[i].volume, result.max);
+        }
+
+        return result;
+    }
+
     return ChartK;
 })();
 
