@@ -105,7 +105,7 @@ var slideBar = function(callback) {
 
         _that.container.appendChild(container);
         //添加滑动块中的事件处理
-        dragEvent(arr, cvs, containerBar, leftDrag, rightDrag);
+        dragEvent.call(_that, arr, cvs, containerBar, leftDrag, rightDrag);
     });
 
     /*根据数据获取坐标*/
@@ -118,7 +118,7 @@ var slideBar = function(callback) {
     }
 
     var dragEvent = function(dataArr, container, containerBar, leftDrag, rightDrag) {
-
+        var _this = this;
         //containerBar的位置以及宽度
         var ContainerB_left = toNumber(containerBar.style.left);
         var ContainerB_width = toNumber(containerBar.style.width);
@@ -192,7 +192,7 @@ var slideBar = function(callback) {
             if (inArea) {
                 inArea = false;
                 // console.log(getDuring(dataArr, start, end));
-                callback(getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
+                callback.call(_this, getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
             }
             
         });
@@ -253,7 +253,7 @@ var slideBar = function(callback) {
                 var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
                 if (inArea) {
                     inArea = false;
-                    callback(getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
+                    callback.call(_this, getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
                 }
                 
             }
