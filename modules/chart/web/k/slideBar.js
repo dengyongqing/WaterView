@@ -191,7 +191,8 @@ var slideBar = function(callback) {
             var start = ContainerB_left / toNumber(container.style.width);
             var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
             if (inArea) {
-                callback(start, end);
+                // console.log(getDuring(dataArr, start, end));
+                callback(getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
             }
             inArea = false;
         });
@@ -251,30 +252,12 @@ var slideBar = function(callback) {
                 var start = ContainerB_left / toNumber(container.style.width);
                 var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
                 if (inArea) {
-                    callback(start, end);
+                    callback(getDuring(dataArr, start, end).start, getDuring(dataArr, start, end).end);
                 }
             }
 
             e.preventDefault();
         });
-
-        common.addEvent(body, "mouseleave", function(e) {
-            //当离开页面的时候，状态恢复
-            clickedLeft = false;
-            clickedRight = false;
-            clickedBar = false;
-            body.style.cursor = "default";
-            ContainerB_left = toNumber(containerBar.style.left);
-            ContainerB_width = toNumber(containerBar.style.width);
-            LeftD_left = ContainerB_left - LeftD_width;
-            RightD_left = ContainerB_left + ContainerB_width;
-            var start = ContainerB_left / toNumber(container.style.width);
-            var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
-            if (inArea) {
-                callback(start, end);
-            }
-            inArea = false;
-        })
 
         function toNumber(str) {
             return str.replace("px", "") * 1.0;
