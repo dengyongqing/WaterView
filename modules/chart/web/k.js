@@ -163,9 +163,7 @@ var ChartK = (function() {
 
         // 加水印
         watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
-        slideBar.call(this,this.slideBarCallback);
-        // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
-       
+        
     };
 
     // 绘图
@@ -243,9 +241,8 @@ var ChartK = (function() {
         return points;
     }
 
-    ChartK.prototype.slideBarCallback = function(start,end){
+    function slideBarCallback(start,end){
 
-        debugger;
         this.clear();
         this.options.drawXY.drawXYK();
         this.options.drawXY.drawXYV();
@@ -255,7 +252,7 @@ var ChartK = (function() {
         drawV.apply(this);
         drawT.apply(this);
 
-        this.drawRSI();
+        this.drawRSI(start,end);
         this.drawMA();
     }
 
@@ -758,7 +755,7 @@ var ChartK = (function() {
 
 
     // 绘制RSI指标
-    ChartK.prototype.drawRSI = function(){
+    ChartK.prototype.drawRSI = function(start,end){
         var _this = this;
         var params = {};
         params.code = this.options.code;
@@ -780,19 +777,13 @@ var ChartK = (function() {
             var rsi6 = this.options.rsi.rsi6;
             var rsi12 = this.options.rsi.rsi12;
             var rsi24 = this.options.rsi.rsi24;
-
-            var rsi_arr = rsi6.concat(rsi12).concat(rsi24);
-            var rsi_arr_length = rsi_arr.length;
-            if(rsi_arr && rsi_arr[0]){
-                var max = rsi_arr[0].value;
-                var min = rsi_arr[0].value;
+            if(start && end){
+                DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
+            }else{
+                start = this.options.start;
+                end = this.options.end;
+                DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
             }
-
-            for(var i = 0;i < rsi_arr_length;i++){
-                max = Math.max(max,rsi_arr[i].value);
-                min = Math.min(min,rsi_arr[i].value);
-            }
-            DrawRSI.apply(_this,[_this.options.context,max,min,rsi6,rsi12,rsi24]);
         }
 
     }
@@ -1333,6 +1324,23 @@ var ChartK = (function() {
             var data_arr = data.data;
             var XMark = this.options.XMark = [];
             var data_arr_length = data_arr.length;
+
+            if(data_arr_length >= 1){
+                if(data_arr_length > 60){
+                    this.options.start = data_arr_length - 60;
+                }else{
+                    this.options.start = 0;
+                }
+                this.options.end = data_arr_length;
+            }else{
+                this.options.start = 0;
+                this.options.end = 0;
+            }
+            this.options.start = data_arr_length - 60;
+
+            slideBar.call(this,slideBarCallback);
+            // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
+       
             if(data_arr_length > 0){
                 XMark.push(data_arr[0].date_time);
                 XMark.push(data_arr[Math.floor(data_arr_length * 1 / 4)].date_time);
