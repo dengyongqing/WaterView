@@ -773,15 +773,17 @@ var ChartK = (function() {
             });
         }
 
+
+
         function temp_rsi(){
             var rsi6 = this.options.rsi.rsi6;
             var rsi12 = this.options.rsi.rsi12;
             var rsi24 = this.options.rsi.rsi24;
-            if(start && end){
-                DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
-            }else{
+            if(start == undefined || end == undefined ){
                 start = this.options.start;
                 end = this.options.end;
+                DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
+            }else{
                 DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
             }
         }
@@ -1241,7 +1243,7 @@ var ChartK = (function() {
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c2_y_top);
+        ctx.clearRect(0,-10,this.options.padding.left + this.options.drawWidth,this.options.c2_y_top);
     }
 
     // 清除技术指标区域
@@ -1336,7 +1338,6 @@ var ChartK = (function() {
                 this.options.start = 0;
                 this.options.end = 0;
             }
-            this.options.start = data_arr_length - 60;
 
             slideBar.call(this,slideBarCallback);
             // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
