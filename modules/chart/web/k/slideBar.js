@@ -3,14 +3,22 @@ var common = require('chart/web/common/common');
 /*一个测试*/
 var slideBar = function(callback) {
     var _that = this;
-    getTData({ 'code': '3000592', 'type': 'k', percent: 1480 }, function(data) {
+    getTData({ 'code': '3000592', 'type': 'k', percent: 1489 }, function(data) {
         var arr = [];
+        var arrYear = [];
         var max = 0;
+        var min = 10000;
         var len = data.data.length;
         for (var i = 0; i < data.data.length; i++) {
             arr.push({ date: data.data[i].date_time, value: data.data[i].close });
+            if (i == 0 || data.data[i].date_time.substring(0, 4) != data.data[i - 1].date_time.substring(0, 4)) {
+                arrYear.push({ year: data.data[i].date_time.substring(0, 4), order: i });
+            }
             max = Math.max(max, data.data[i].close);
+            min = Math.min(min, data.data[i].close);
         }
+        console.log(max + " : " + min);
+        //添加包含的容器div和相应的canvas
         var width = _that.options.drawWidth;
         var height = 70 * 1.1;
         var container = document.createElement("div");
@@ -19,7 +27,13 @@ var slideBar = function(callback) {
         container.style.top = _that.options.c4_y_top + "px";
 
         var cvs = document.createElement("canvas");
-        var ctx = cvs.getContext('2d');
+        try {
+            var ctx = cvs.getContext('2d');
+        } catch (error) {
+            cvs = window.G_vmlCanvasManager.initElement(cvs);
+            var ctx = cvs.getContext('2d');
+        }
+        container.appendChild(cvs);
         cvs.style.outline = "solid 1px #E9E9E9";
         ctx.strokeStyle = "#E9E9E9";
 
@@ -28,31 +42,43 @@ var slideBar = function(callback) {
         cvs.style.width = width + "px";
         cvs.style.height = height + "px";
         cvs.style.backgroundColor = "white";
-
+        //绘制背景图
         ctx.beginPath();
         for (i = 0; i < len; i++) {
             if (i == 0) {
-                ctx.moveTo(getX(len, i, cvs.width), getY(max, arr[i].value, cvs.height));
+                ctx.moveTo(getX(len, i, cvs.width), getY(max, min, arr[i].value, cvs.height));
             } else {
-                ctx.lineTo(getX(len, i, cvs.width), getY(max, arr[i].value, cvs.height));
+                ctx.lineTo(getX(len, i, cvs.width), getY(max, min, arr[i].value, cvs.height));
             }
         }
         ctx.stroke();
-        ctx.lineTo(getX(len, i, cvs.width), getY(max, 0, cvs.height));
-        ctx.lineTo(getX(len, 0, cvs.width), getY(max, 0, cvs.height));
-        ctx.lineTo(getX(len, 0, cvs.width), getY(max, arr[0].value, cvs.height));
+
+        ctx.lineTo(getX(len, i, cvs.width), getY(max, min, 0, cvs.height));
+        ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, 0, cvs.height));
+        ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, arr[0].value, cvs.height));
         ctx.fillStyle = "#E9E9E9";
         ctx.fill();
 
-        container.appendChild(cvs);
+        // //写上年标记
+        // if(arrYear.length === 1){
+
+        // }else if(arrYear.length == 2){
+
+        // }else if(arrYear.length <= 4){
+
+        // }else{
+
+        // }
+
+        //添加滑动块
         var containerBar = document.createElement("div");
         containerBar.style.position = "absolute";
         containerBar.style.backgroundColor = "rgba(108, 182, 229, 0.4)";
         containerBar.style.outline = "solid 1px #35709C";
         containerBar.style.height = height + "px";
-        containerBar.style.width = /*options.barWidth + */"40px";
+        containerBar.style.width = /*options.barWidth + */ "40px";
         containerBar.style.top = "0px";
-        containerBar.style.left = /*options.barStart + */"200px";
+        containerBar.style.left = /*options.barStart + */ "200px";
 
         var leftDrag = document.createElement("div");
         leftDrag.style.position = "absolute";
@@ -79,7 +105,7 @@ var slideBar = function(callback) {
 
 
         _that.container.appendChild(container);
-
+        //添加滑动块中的事件处理
         dragEvent(arr, cvs, containerBar, leftDrag, rightDrag);
     });
 
@@ -88,8 +114,8 @@ var slideBar = function(callback) {
         return i / len * width;
     }
 
-    function getY(max, y, height) {
-        return height - y / max * height;
+    function getY(max, min, value, height) {
+        return height - (value - min) / (max - min) * height;
     }
 
     var dragEvent = function(dataArr, container, containerBar, leftDrag, rightDrag) {
@@ -157,7 +183,6 @@ var slideBar = function(callback) {
             clickedLeft = false;
             clickedRight = false;
             clickedBar = false;
-            console.log("up: " + clickedLeft + " : " + clickedRight + " : " + clickedBar);
             body.style.cursor = "default";
             ContainerB_left = toNumber(containerBar.style.left);
             ContainerB_width = toNumber(containerBar.style.width);
@@ -166,7 +191,7 @@ var slideBar = function(callback) {
             var start = ContainerB_left / toNumber(container.style.width);
             var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
             if (inArea) {
-                console.log(getDuring(dataArr, start, end));
+                callback(start, end);
             }
             inArea = false;
         });
@@ -218,7 +243,7 @@ var slideBar = function(callback) {
                 } else {
                     containerBar.style.left = (winX - offset) + "px";
                 }
-                
+
                 ContainerB_left = toNumber(containerBar.style.left);
                 ContainerB_width = toNumber(containerBar.style.width);
                 LeftD_left = ContainerB_left - LeftD_width;
@@ -226,7 +251,7 @@ var slideBar = function(callback) {
                 var start = ContainerB_left / toNumber(container.style.width);
                 var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
                 if (inArea) {
-                    console.log(getDuring(dataArr, start, end));
+                    callback(start, end);
                 }
             }
 
@@ -246,7 +271,7 @@ var slideBar = function(callback) {
             var start = ContainerB_left / toNumber(container.style.width);
             var end = (ContainerB_left + ContainerB_width) / toNumber(container.style.width);
             if (inArea) {
-                console.log(getDuring(dataArr, start, end));
+                callback(start, end);
             }
             inArea = false;
         })
