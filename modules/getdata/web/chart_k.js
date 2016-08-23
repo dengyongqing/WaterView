@@ -54,7 +54,7 @@ function getData(options, callback){
 	};
 	jsonp(url, urlData, callbackStr, function(json){
 
-		var result = dealData(json, options.percent, urlData.extend);
+		var result = dealData(json, urlData.extend);
 		callback(result);
 	});
 }
