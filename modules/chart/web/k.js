@@ -253,14 +253,16 @@ var ChartK = (function() {
 
         var canvas = this.options.canvas;
         this.options.currentData = sliceData(this.options.data,start,end);
-
         var current_arr_length = this.options.currentData.data.length;
+        
 
         // 获取单位绘制区域
         var rect_unit = common.get_rect.apply(this,[canvas,current_arr_length]);
         this.options.rect_unit = rect_unit;
 
         this.options.drawXY.options.currentData = this.options.currentData;
+
+        this.options.drawXY.options.XMark = getXMARK.apply(this,[this.options.currentData.data]);
         this.options.drawXY.drawXYK();
         this.options.drawXY.drawXYV();
         this.options.drawXY.drawXYT();
@@ -734,6 +736,7 @@ var ChartK = (function() {
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
+<<<<<<< HEAD
             _this.options.five_average = getMAData.apply(_this, [ctx, five_average, "#f4cb15"]);
             _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, "#ff5b10"]);
             _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
@@ -762,6 +765,34 @@ var ChartK = (function() {
                             // ctx.lineTo(x, y);
                         }
 
+=======
+            _this.options.five_average = getMAData.apply(_this,[ctx,five_average,"#f4cb15"]);
+            _this.options.ten_average = getMAData.apply(_this,[ctx,ten_average,"#ff5b10"]);
+            _this.options.twenty_average = getMAData.apply(_this,[ctx,twenty_average,"#488ee6"]);
+            _this.options.thirty_average = getMAData.apply(_this,[ctx,thirty_average,"#fe59fe"]);
+
+            var params = {};
+
+            function getMAData(ctx,data_arr,color) {
+                // 保存画笔状态
+                ctx.save();
+                var ma_data = [];
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                for(var i = 0;i < data_arr.length; i++){
+                    var item = data_arr[i];
+                    if(item && item.value){
+                         var x = common.get_x.call(this,i + 1);
+                         var y = common.get_y.call(this,item.value);
+                         //横坐标和均线数据
+                         ma_data.push(item);
+                         if(i == 0  || y > (this.options.c_k_height) || y < 0){
+                            ctx.moveTo(x,y);
+                         }else{
+                            ctx.lineTo(x,y);
+                         }
+                         // ctx.lineTo(x,y);
+>>>>>>> 117f7629808b28d027913f27e7096efa273996e7
                     }
                     ctx.stroke();
                     ctx.restore();
@@ -1351,8 +1382,10 @@ var ChartK = (function() {
         data = this.options.data;
 
         var data_arr = data.data;
-        var XMark = this.options.XMark = [];
+        
         var data_arr_length = data_arr.length;
+
+
 
         if(data_arr_length >= 1){
             if(data_arr_length > 60){
@@ -1367,9 +1400,9 @@ var ChartK = (function() {
         }
 
         this.options.currentData = sliceData(this.options.data,this.options.start,this.options.end);
-
         var current_arr = this.options.currentData.data;
         var current_arr_length = current_arr.length;
+        this.options.XMark = getXMARK.apply(this,[current_arr]);
 
         // 图表交互
         var inter = this.options.interactive;
@@ -1393,42 +1426,20 @@ var ChartK = (function() {
 
             slideBar.call(this,slideBarCallback);
             // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
-       
-            if(data_arr_length > 0){
-                XMark.push(current_arr[0].date_time);
-                XMark.push(current_arr[Math.floor(current_arr_length * 1 / 4)].date_time);
-                XMark.push(current_arr[Math.floor(current_arr_length * 2 / 4)].date_time);
-                XMark.push(current_arr[Math.floor(current_arr_length * 3 / 4)].date_time);
-                XMark.push(current_arr[current_arr_length - 1].date_time);
-            }
-
+            
             // 绘制坐标轴
             this.options.drawXY = new DrawXY(this.options);
-
+            // 绘制均线
+            this.drawMA();
+            // 绘制rsi指标
+            this.drawRSI();
             // 绘制K线图
             this.drawK();
-            // 绘制均线
-            // drawMA.apply(this,[this.options]);
-
-            // this.options.data.min = "18.66";
-            // this.drawEXPMA();
-            // this.drawBOLL();
-            // this.drawSAR();
-            // this.drawBBI();
-            // this.drawMACD();
-            // this.drawCCI();
-            this.drawRSI();
 
             // 绘制成交量
             drawV.apply(this,[this.options]);
             // 绘制技术指标
             drawT.apply(this,[this.options]);
-            
-
-            // 绘制均线图
-            // new DrawMA(this.options);
-            // 绘制成交量图
-            // new DrawV(this.options);
 
             // 上榜日标识点
             if(this.options.interactive.options.pointsContainer){
@@ -1437,6 +1448,7 @@ var ChartK = (function() {
             }
 
             this.drawMA(this.options.start, this.options.end);
+
 
             // 隐藏loading效果
             inter.hideLoading();
@@ -1453,6 +1465,23 @@ var ChartK = (function() {
         //     inter.hideLoading();
         // }
        return true;
+    }
+
+    function getXMARK(arr){
+
+        var XMark = [];
+        var current_arr = arr || this.options.currentData.data;
+        var current_arr_length = current_arr.length;
+
+        if(current_arr_length > 0){
+            XMark.push(current_arr[0].date_time);
+            XMark.push(current_arr[Math.floor(current_arr_length * 1 / 4)].date_time);
+            XMark.push(current_arr[Math.floor(current_arr_length * 2 / 4)].date_time);
+            XMark.push(current_arr[Math.floor(current_arr_length * 3 / 4)].date_time);
+            XMark.push(current_arr[current_arr_length - 1].date_time);
+        }
+
+        return XMark;
     }
     // 绑定事件
     function bindEvent(ctx){
