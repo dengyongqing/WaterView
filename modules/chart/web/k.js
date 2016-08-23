@@ -405,6 +405,8 @@ var ChartK = (function() {
         rsi.className = "tech-index-item current";
         rsi.innerText = "RSI";
         rsi.style.width = this.options.drawWidth / 9 + "px";
+        rsi.style.height = this.options.unit_height + "px";
+        rsi.style.lineHeight = this.options.unit_height + "px";
 
         // kdj指标
         var kdj = document.createElement("div");
@@ -412,6 +414,8 @@ var ChartK = (function() {
         kdj.className = "tech-index-item";
         kdj.innerText = "KDJ";
         kdj.style.width = this.options.drawWidth / 9 + "px";
+        kdj.style.height = this.options.unit_height + "px";
+        kdj.style.lineHeight = this.options.unit_height + "px";
 
         // macd指标
         var macd = document.createElement("div");
@@ -419,6 +423,8 @@ var ChartK = (function() {
         macd.className = "tech-index-item";
         macd.innerText = "MACD";
         macd.style.width = this.options.drawWidth / 9 + "px";
+        macd.style.height = this.options.unit_height + "px";
+        macd.style.lineHeight = this.options.unit_height + "px";
 
         // wr指标
         var wr = document.createElement("div");
@@ -426,6 +432,8 @@ var ChartK = (function() {
         wr.className = "tech-index-item";
         wr.innerText = "WR";
         wr.style.width = this.options.drawWidth / 9 + "px";
+        wr.style.height = this.options.unit_height + "px";
+        wr.style.lineHeight = this.options.unit_height + "px";
 
         // dmi指标
         var dmi = document.createElement("div");
@@ -433,6 +441,8 @@ var ChartK = (function() {
         dmi.className = "tech-index-item";
         dmi.innerText = "DMI";
         dmi.style.width = this.options.drawWidth / 9 + "px";
+        dmi.style.height = this.options.unit_height + "px";
+        dmi.style.lineHeight = this.options.unit_height + "px";
 
         // bias指标
         var bias = document.createElement("div");
@@ -440,6 +450,8 @@ var ChartK = (function() {
         bias.className = "tech-index-item";
         bias.innerText = "BIAS";
         bias.style.width = this.options.drawWidth / 9 + "px";
+        bias.style.height = this.options.unit_height + "px";
+        bias.style.lineHeight = this.options.unit_height + "px";
 
         // obv指标
         var obv = document.createElement("div");
@@ -447,6 +459,8 @@ var ChartK = (function() {
         obv.className = "tech-index-item";
         obv.innerText = "OBV";
         obv.style.width = this.options.drawWidth / 9 + "px";
+        obv.style.height = this.options.unit_height + "px";
+        obv.style.lineHeight = this.options.unit_height + "px";
 
         // cci指标
         var cci = document.createElement("div");
@@ -454,12 +468,17 @@ var ChartK = (function() {
         cci.className = "tech-index-item";
         cci.innerText = "CCI";
         cci.style.width = this.options.drawWidth / 9 + "px";
+        cci.style.height = this.options.unit_height + "px";
+        cci.style.lineHeight = this.options.unit_height + "px";
+
         // roc指标
         var roc = document.createElement("div");
         roc.setAttribute("id","roc");
         roc.className = "tech-index-item";
         roc.innerText = "ROC";
         roc.style.width = this.options.drawWidth / 9 + "px";
+        roc.style.height = this.options.unit_height + "px";
+        roc.style.lineHeight = this.options.unit_height + "px";
 
         div_tech.appendChild(rsi);
         div_tech.appendChild(kdj);
@@ -687,11 +706,10 @@ var ChartK = (function() {
 
         var params = {};
         params.code = this.options.code;
-        params.extend = "ma|rsi";
+        params.extend = "ma";
 
         if(!this.options.ma){
             GetTeacData(params, function(data) {
-
                 _this.options.ma = {};
                 _this.options.ma = data;
                 var ctx = _this.options.context;
@@ -954,7 +972,7 @@ var ChartK = (function() {
                 _this.options.macd.dea = data.dea;
                 _this.options.macd.diff = data.diff;
                 _this.options.macd.macd = data.macd;
-                temp_macd.apply(this,[]);
+                temp_macd.apply(_this,[]);
             });
         }
 
@@ -986,7 +1004,7 @@ var ChartK = (function() {
                 _this.options.wr = {};
                 _this.options.wr.wr6 = data.wr6;
                 _this.options.wr.wr10 = data.wr10;
-                temp_wr.apply(this,[]);
+                temp_wr.apply(_this,[]);
             });
         }
 

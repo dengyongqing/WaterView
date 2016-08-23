@@ -104,7 +104,7 @@ var Interactive = (function() {
 	        var div_mark = document.createElement("div");
 	        div_mark.className = "mark-ma";
 	        div_mark.style.left = this.options.padding.left + "px";
-	        div_mark.style.top = "5px";
+	        div_mark.style.top = "0px";
 	        this.options.mark_ma.mark_ma = div_mark;
 
 	        /*创建文档碎片*/
@@ -244,7 +244,7 @@ var Interactive = (function() {
 	        var v_div_mark = document.createElement("div");
 	        v_div_mark.className = "mark-ma";
 	        v_div_mark.style.left = this.options.padding.left + "px";
-	        v_div_mark.style.top = this.options.c2_y_top + 10 + "px";
+	        v_div_mark.style.top = this.options.c2_y_top + "px";
 	        this.options.mark_v_ma.mark_v_ma = v_div_mark;
 
 	        /*创建文档碎片*/
@@ -270,7 +270,7 @@ var Interactive = (function() {
 	        var v_ma_5 = document.createElement('span');
 	        v_ma_5.className = "span-m5";
 	        v_ma_5.style.position = "absolute";
-	        v_ma_5.style.left = "200px";
+	        v_ma_5.style.left = "160px";
 	        this.options.mark_v_ma.v_ma_5 = v_ma_5;
 	        if(obj_5){
 	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + obj_5.value;
@@ -287,7 +287,7 @@ var Interactive = (function() {
 	        v_ma_10.className = "span-m10";
 	        v_ma_10.style.position = "absolute";
 	        // v_ma_10.style.left = this.options.padding.left + this.options.drawWidth * 1/3 - 50 + "px";
-	        v_ma_10.style.left = "400px";
+	        v_ma_10.style.left = "310px";
 	        this.options.mark_v_ma.v_ma_10 = v_ma_10;
 	        if(obj_10){
 	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + obj_10.value;
