@@ -672,7 +672,7 @@ var ChartK = (function() {
                     max=item[i].volume;
                 }
             }
-            return max
+            return max;
         }
     }
 
@@ -1305,7 +1305,7 @@ var ChartK = (function() {
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,-10,this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
+        ctx.clearRect(0,-10,this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top - this.options.unit_height);
     }
 
     // 清除技术指标区域
@@ -1494,7 +1494,6 @@ var ChartK = (function() {
             common.addEvent.call(_this, canvas, "mouseleave",function(event){
                 //console.info(event);
                 inter.hide();
-                inter.markVMA(canvas);
                 try {
                     event.preventDefault();
                 } catch (e) {
