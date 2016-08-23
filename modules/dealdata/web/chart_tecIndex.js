@@ -11,8 +11,7 @@ function dealData(json,  extendStr) {
     result.pricedigit = (json.info.pricedigit).split('.')[1].length;
 
     var datas = json.data;
-    //如果percent没定义，默认显示60个数据
-    var askLength =  json.info.total * 1;
+    var askLength =  json.info.total ;
     for (var i = askLength - 1; i >= 0; i--) {
         //分割data中的字符串
         var strGroup = datas[json.info.total - i - 1].split(/\[|\]/);

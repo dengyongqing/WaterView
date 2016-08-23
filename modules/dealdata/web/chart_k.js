@@ -18,7 +18,6 @@ function dealData(json,  extendType) {
     var datas = json.data;
     //如果percent没定义，默认显示60个数据（需要改进）
     var askLength = json.data.length;
-    debugger;
     for (var i = askLength-1; i >= 0; i--) {
         //分割data中的字符串
         var items = datas[result.total - i - 1].split(/\[|\]/);
