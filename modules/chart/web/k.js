@@ -63,7 +63,7 @@ var Interactive = require('chart/web/common/interactive');
 // 滑块
 var slideBar = require('chart/web/k/slideBar');
 // 拓展，合并，复制
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 // 水印
 var watermark = require('chart/watermark');
 /*绘制网格虚线*/
@@ -73,8 +73,9 @@ var ChartK = (function() {
 
     function ChartK(options) {
         this.defaultoptions = theme.chartK;
-        this.options = {};
-        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
+        // this.options = {};
+        // extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
+        this.options = extend(theme.defaulttheme,this.defaultoptions,options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -127,6 +128,9 @@ var ChartK = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
         ctx.fillStyle = '#333';
+        this.options.color = {};
+        this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
+        this.options.color.fillStyle = '#333';
        
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
@@ -249,13 +253,14 @@ var ChartK = (function() {
 
         var canvas = this.options.canvas;
         this.options.currentData = sliceData(this.options.data,start,end);
+
         var current_arr_length = this.options.currentData.data.length;
 
         // 获取单位绘制区域
         var rect_unit = common.get_rect.apply(this,[canvas,current_arr_length]);
         this.options.rect_unit = rect_unit;
 
-
+        this.options.drawXY.options.currentData = this.options.currentData;
         this.options.drawXY.drawXYK();
         this.options.drawXY.drawXYV();
         this.options.drawXY.drawXYT();

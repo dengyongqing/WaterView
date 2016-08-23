@@ -1,7 +1,7 @@
 /**
  * 绘制直角坐标系
  */
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 /*主题*/
 var theme = require('theme/default');
 /*绘制网格虚线*/
@@ -13,8 +13,7 @@ var DrawXY = (function(){
     function DrawXY(options){
         /*设置默认参数*/
         this.defaultoptions = theme.draw_xy;
-        this.options = {};
-        extend(false,this.options, this.defaultoptions, options);
+        this.options = extend(this.defaultoptions,options);
         /*绘图*/
         this.draw();
     };
@@ -37,14 +36,16 @@ var DrawXY = (function(){
         // 保存画笔状态
         ctx.save();
         
-        ctx.strokeStyle = 'rgba(230,230,230, 1)';
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.strokeStyle = this.options.color.strokeStyle;
         ctx.moveTo(this.options.padding.left,this.options.c3_y_top - this.options.unit_height);
         ctx.lineTo(this.options.padding.left,this.options.c3_y_top + this.options.c_t_height);
         this.options.context.rect(this.options.padding.left,this.options.c3_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_t_height + this.options.unit_height);
         ctx.stroke();
 
         var c3_y_top = this.options.c3_y_top;
-        ctx.strokeStyle = 'rgba(230,230,230, 1)';
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.strokeStyle = this.options.color.strokeStyle;
         // ctx.rect(this.options.padding.left,c2_y_top,ctx.canvas.width - this.options.padding.left - 2,v_height);
         for(var i = 0;i<3;i++){
             var x1 = this.options.padding.left;
@@ -71,6 +72,7 @@ var DrawXY = (function(){
 
         var ctx = this.options.context;
         var canvas = this.options.canvas;
+        var data = this.options.currentData || this.options.data;
 
         // 保存画笔状态
         ctx.save();
@@ -79,7 +81,8 @@ var DrawXY = (function(){
         ctx.stroke();
 
         var c2_y_top = this.options.c2_y_top;
-        ctx.strokeStyle = 'rgba(230,230,230, 1)';
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.strokeStyle = this.options.color.strokeStyle;
         // ctx.rect(this.options.padding.left,c2_y_top,ctx.canvas.width - this.options.padding.left - 2,v_height);
         for(var i = 0;i<4;i++){
             var x1 = this.options.padding.left;
@@ -95,10 +98,12 @@ var DrawXY = (function(){
             }
         }
 
-        var v_max = common.format_unit(this.options.data.v_max/1);
-        ctx.fillText(common.format_unit(this.options.data.v_max/1),  0, this.options.c2_y_top + 10);
-        ctx.fillText(common.format_unit(this.options.data.v_max/1 * 2/3),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 1/3);
-        ctx.fillText(common.format_unit(this.options.data.v_max/1 * 1/3),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
+        var v_max = common.format_unit(data.v_max/1);
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.strokeStyle = this.options.color.strokeStyle;
+        ctx.fillText(common.format_unit(data.v_max/1),  0, this.options.c2_y_top + 10);
+        ctx.fillText(common.format_unit(data.v_max/1 * 2/3),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 1/3);
+        ctx.fillText(common.format_unit(data.v_max/1 * 1/3),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
         ctx.fillText(0,  this.options.padding.left - 20, this.options.c2_y_top + 10 + this.options.v_base_height * 3/3);
         ctx.stroke();
 
@@ -111,7 +116,7 @@ var DrawXY = (function(){
 
         var ctx = this.options.context;
         var canvas = this.options.canvas;
-        var data = this.options.data;
+        var data = this.options.currentData || this.options.data;
         var type = this.options.type;
 
         /*Y轴上的最大值*/
@@ -121,8 +126,6 @@ var DrawXY = (function(){
 
         /*Y轴上分隔线数量*/
         var sepe_num = 9;
-        /*开盘收盘时间数组*/
-        var oc_time_arr = data.timeStrs;
 
         /*K线图的高度*/
         var k_height = this.options.c_k_height;
@@ -133,21 +136,10 @@ var DrawXY = (function(){
         ctx.save();
 
         var sepe_num = line_list_array.length;
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.strokeStyle = this.options.color.strokeStyle;
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
-
-            if (i < (sepe_num -1) / 2) {
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else if(i > (sepe_num -1) / 2){
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else{
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
 
             if(i == 0 || i == line_list_array.length - 1){
                 ctx.moveTo(this.options.padding.left, Math.round(item.y));
@@ -160,49 +152,27 @@ var DrawXY = (function(){
             ctx.stroke();
         }
 
-        /*开盘收盘时间数组*/
-        var oc_time_arr = this.options.data.timeStrs;
         /*K线图的高度*/
         var k_height = this.options.c_k_height;
         // 绘制横坐标刻度
-        drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
+        drawXMark.apply(this,[ctx,k_height]);
 
         // 恢复画笔状态
         ctx.restore();
     }
-    /*绘制纵坐标涨跌幅*/
-    function drawYPercent(ctx,y_max, y_min, obj){
-        /*纵坐标中间值*/
-        var y_middle = (y_max + y_min)/2;
-        /*画布宽度*/
-        var k_width = ctx.canvas.width;
-        /*纵坐标刻度涨跌幅*/
-        if(y_middle){
-            var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(2) + "%";
-        }else{
-            var percent = "0.00%";
-        }
-        /*绘制纵坐标刻度百分比*/
-        ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y - 10);
-        ctx.stroke();
-    }
+   
     /*绘制横坐标刻度值*/
-    function drawXMark(ctx,k_height,oc_time_arr){
+    function drawXMark(ctx,k_height){
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
-        ctx.fillStyle = '#999';
+        
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = k_height + ctx.canvas.height/8/2;
-        // ctx.fillText(oc_time_arr[0], padding_left, y_date);
-        // ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);
-        // ctx.fillText(oc_time_arr[2], k_width - ctx.measureText(oc_time_arr[2]).width, y_date);
         
         var unit_w = (k_width - this.options.padding.left) / this.options.x_sepe_num;
         var XMark = this.options.XMark;
-        var data_arr = this.options.data.data;
-        var data_arr_length = this.options.data.data.length;
 
         for(var i = 0;i < this.options.x_sepe_num;i++){
 
