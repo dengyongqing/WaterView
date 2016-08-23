@@ -715,7 +715,7 @@ var ChartK = (function() {
                          var y = common.get_y.call(this,item.value);
                          //横坐标和均线数据
                          ma_data.push(item);
-                         if(i == 0  || y > (this.options.c_k_height) || y < 0){
+                         if(i == 0 || y > (this.options.c_k_height) || y < 20){
                             ctx.moveTo(x,y);
                          }else{
                             ctx.lineTo(x,y);
