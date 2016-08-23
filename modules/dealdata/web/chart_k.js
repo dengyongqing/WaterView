@@ -3,7 +3,7 @@
  * json为根据id和type获得的k线数据
  */
 
-function dealData(json, percent, extendType) {
+function dealData(json,  extendType) {
 
     var result = {};
     result.data = [];
@@ -17,9 +17,8 @@ function dealData(json, percent, extendType) {
 
     var datas = json.data;
     //如果percent没定义，默认显示60个数据（需要改进）
-    var askLength = percent || 60;
-
-    
+    var askLength = json.data.length;
+    debugger;
     for (var i = askLength-1; i >= 0; i--) {
         //分割data中的字符串
         var items = datas[result.total - i - 1].split(/\[|\]/);
@@ -69,14 +68,15 @@ function avgDays(datas, i, n) {
     var result = 0;
     var len = datas.length;
     if(i < n){
-    	result = null;
+        return "-";
     }else{
     	for(var j = 0; j < n; j++){
     		result += datas[i-j].split(",")[5]*1.0;
     	}
-    	result = result/n;
+        result = result/n;
+        return result.toFixed(2) ;
     }
-    return result.toFixed(2);
+    
 }
 //数组冒泡得到最大值
 function getMax(arr){
