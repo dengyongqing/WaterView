@@ -1,6 +1,6 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawSAR(ctx,max,min,sar){
+function drawSAR(ctx,sar){
 
     // 保存画笔状态
     ctx.save();
@@ -8,7 +8,6 @@ function drawSAR(ctx,max,min,sar){
     this.drawK();
     this.options.drawXY.drawXYK();
 
-    var base = max - min;
     var c_t_height = this.options.c_t_height;
 
     var sar_length = sar.length;

@@ -1,12 +1,11 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawEXPMA(ctx,max,min,expma12,expma50){
+function drawEXPMA(ctx,expma12,expma50){
     // 保存画笔状态
     ctx.save();
     this.clearK();
     this.drawK();
     this.options.drawXY.drawXYK();
-    var base = max - min;
     var c_t_height = this.options.c_t_height;
 
     var expma12_length = expma12.length;

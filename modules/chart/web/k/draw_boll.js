@@ -1,12 +1,11 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawBOLL(ctx,max,min,bollup,bollmb,bolldn){
+function drawBOLL(ctx,bollup,bollmb,bolldn){
     // 保存画笔状态
     ctx.save();
     this.clearK();
     this.drawK();
     this.options.drawXY.drawXYK();
-    var base = max - min;
     var c_t_height = this.options.c_t_height;
 
     var bollup_length = bollup.length;
