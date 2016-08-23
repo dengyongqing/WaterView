@@ -77,7 +77,7 @@ var DrawXY = (function(){
         // 保存画笔状态
         ctx.save();
         
-        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,this.options.c_v_height + canvas.height * 1 / this.options.y_sepe_num);
+        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_v_height + this.options.unit_height);
         ctx.stroke();
 
         var c2_y_top = this.options.c2_y_top;

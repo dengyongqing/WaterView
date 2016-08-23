@@ -244,7 +244,7 @@ var Interactive = (function() {
 	        var v_div_mark = document.createElement("div");
 	        v_div_mark.className = "mark-ma";
 	        v_div_mark.style.left = this.options.padding.left + "px";
-	        v_div_mark.style.top = this.options.c2_y_top  + "px";
+	        v_div_mark.style.top = this.options.c2_y_top + 10 + "px";
 	        this.options.mark_v_ma.mark_v_ma = v_div_mark;
 
 	        /*创建文档碎片*/
