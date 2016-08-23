@@ -270,7 +270,7 @@ var ChartK = (function() {
         this.drawK();
         drawV.apply(this);
 
-        this.drawMA(start,end);
+        // this.drawMA(start,end);
 
         var up_t = this.options.up_t;
         var down_t = this.options.down_t;
@@ -283,6 +283,8 @@ var ChartK = (function() {
             this.drawBOLL(start,end);
         }else if(up_t == "bbi"){
             this.drawBBI(start,end);
+        }else if(up_t == "expma"){
+            this.drawEXPMA(start,end);
         }
 
         if(down_t == "rsi"){
@@ -351,14 +353,19 @@ var ChartK = (function() {
                 targetElement.className = "kt-radio kt-radio-choose";
 
                 if(targetElement.id == "junxian"){
+                    _this.options.up_t = "junxian";
                     _this.drawMA(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "expma"){
+                    _this.options.up_t = "expma";
                     _this.drawEXPMA(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "sar"){
+                    _this.options.up_t = "sar";
                     _this.drawSAR(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "boll"){
+                    _this.options.up_t = "boll";
                     _this.drawBOLL(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "bbi"){
+                    _this.options.up_t = "bbi";
                     _this.drawBBI(_this.options.start, _this.options.end);
                 }
 
@@ -736,7 +743,6 @@ var ChartK = (function() {
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
-<<<<<<< HEAD
             _this.options.five_average = getMAData.apply(_this, [ctx, five_average, "#f4cb15"]);
             _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, "#ff5b10"]);
             _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
@@ -745,59 +751,32 @@ var ChartK = (function() {
         }
 
         function getMAData(ctx, data_arr, color) {
-                    // 保存画笔状态
-                    ctx.save();
-                    var ma_data = [];
-                    ctx.beginPath();
-                    ctx.strokeStyle = color;
-                    for (var i = 0; i < data_arr.length; i++) {
-                        var item = data_arr[i];
-                        if (item && item.value) {
-                            var x = common.get_x.call(this, i + 1);
-                            var y = common.get_y.call(this, item.value);
-                            //横坐标和均线数据
-                            ma_data.push(item);
-                            if(i == 0 || y > (this.options.c_k_height) || y < 0){
-                               ctx.moveTo(x,y);
-                            }else{
-                               ctx.lineTo(x,y);
-                            }
-                            // ctx.lineTo(x, y);
-                        }
-
-=======
-            _this.options.five_average = getMAData.apply(_this,[ctx,five_average,"#f4cb15"]);
-            _this.options.ten_average = getMAData.apply(_this,[ctx,ten_average,"#ff5b10"]);
-            _this.options.twenty_average = getMAData.apply(_this,[ctx,twenty_average,"#488ee6"]);
-            _this.options.thirty_average = getMAData.apply(_this,[ctx,thirty_average,"#fe59fe"]);
-
-            var params = {};
-
-            function getMAData(ctx,data_arr,color) {
-                // 保存画笔状态
-                ctx.save();
-                var ma_data = [];
-                ctx.beginPath();
-                ctx.strokeStyle = color;
-                for(var i = 0;i < data_arr.length; i++){
-                    var item = data_arr[i];
-                    if(item && item.value){
-                         var x = common.get_x.call(this,i + 1);
-                         var y = common.get_y.call(this,item.value);
-                         //横坐标和均线数据
-                         ma_data.push(item);
-                         if(i == 0  || y > (this.options.c_k_height) || y < 0){
-                            ctx.moveTo(x,y);
-                         }else{
-                            ctx.lineTo(x,y);
-                         }
-                         // ctx.lineTo(x,y);
->>>>>>> 117f7629808b28d027913f27e7096efa273996e7
+            // 保存画笔状态
+            ctx.save();
+            var ma_data = [];
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            for (var i = 0; i < data_arr.length; i++) {
+                var item = data_arr[i];
+                if (item && item.value) {
+                    var x = common.get_x.call(this, i + 1);
+                    var y = common.get_y.call(this, item.value);
+                    //横坐标和均线数据
+                    ma_data.push(item);
+                    var flag = true;
+                    if (i == 0 || y > (this.options.c_k_height) || y < 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
                     }
-                    ctx.stroke();
-                    ctx.restore();
-                    return ma_data;
+                    // ctx.lineTo(x,y);
+
                 }
+            }
+            ctx.stroke();
+            ctx.restore();
+            return ma_data;
+        }
 
     }
 
@@ -1193,31 +1172,22 @@ var ChartK = (function() {
         params.extend = this.options.up_t = "expma";
 
         if(this.options.expma){
-            temp_expma.apply(_this,[]);
+            temp_expma.apply(_this,[this.options.start, this.options.end]);
         }else{
             GetTeacData(params,function(data){
                 _this.options.expma = {};
-                _this.options.expma.expma12 = data.expma12.slice(_this.options.start, _this.options.end);
-                _this.options.expma.expma50 = data.expma50.slice(_this.options.start, _this.options.end);
-                temp_expma.apply(_this,[]);
+                _this.options.expma.expma12 = data.expma12;
+                _this.options.expma.expma50 = data.expma50;
+                temp_expma.apply(_this,[_this.options.start, _this.options.end]);
             });  
         }
 
-        function temp_expma(){
-            var expma12 = this.options.expma.expma12;
-            var expma50 = this.options.expma.expma50;
+        function temp_expma(start, end){
+            var expma12 = this.options.expma.expma12.slice(start, end);
+            var expma50 = this.options.expma.expma50.slice(start, end);
             var expma_arr = expma12.concat(expma50);
             var expma_arr_length = expma_arr.length;
-            if(expma_arr && expma_arr[0]){
-                var max = expma_arr[0].value;
-                var min = expma_arr[0].value;
-            }
-
-            for(var i = 0;i < expma_arr_length;i++){
-                max = Math.max(max,expma_arr[i].value);
-                min = Math.min(min,expma_arr[i].value);
-            }
-            DrawEXPMA.apply(this,[this.options.context,max,min,expma12,expma50]);
+            DrawEXPMA.apply(this,[this.options.context,expma12,expma50]);
         }    
     }
 
@@ -1230,33 +1200,22 @@ var ChartK = (function() {
         params.extend = this.options.up_t = "boll";
 
         if(this.options.boll){
-            temp_boll.apply(_this,[]);
+            temp_boll.apply(_this,[_this.options.start, _this.options.end]);
         }else{
             GetTeacData(params,function(data){
                 _this.options.boll = {};
                 _this.options.boll.bollup = data.bollup;
                 _this.options.boll.bollmb = data.bollmb;
                 _this.options.boll.bolldn = data.bolldn;
-                temp_boll.apply(_this,[]);
+                temp_boll.apply(_this,[_this.options.start, _this.options.end]);
             });   
         }
 
-        function temp_boll(){
-            var bollup = this.options.boll.bollup;
-            var bollmb = this.options.boll.bollmb;
-            var bolldn = this.options.boll.bolldn;
-            var boll_arr = bollup.concat(bollmb).concat(bolldn);
-            var boll_arr_length = boll_arr.length;
-            if(boll_arr && boll_arr[0]){
-                var max = boll_arr[0].value;
-                var min = boll_arr[0].value;
-            }
-
-            for(var i = 0;i < boll_arr_length;i++){
-                max = Math.max(max,boll_arr[i].value);
-                min = Math.min(min,boll_arr[i].value);
-            }
-            DrawBOLL.apply(_this,[_this.options.context,max,min,bollup,bollmb,bolldn]);
+        function temp_boll(start, end){
+            var bollup = this.options.boll.bollup.slice(start, end);
+            var bollmb = this.options.boll.bollmb.slice(start, end);
+            var bolldn = this.options.boll.bolldn.slice(start, end);
+            DrawBOLL.apply(_this,[_this.options.context,bollup,bollmb,bolldn]);
         }
     }
 
@@ -1269,28 +1228,19 @@ var ChartK = (function() {
         params.extend = this.options.up_t = "sar";
 
         if(this.options.sar){
-            temp_sar.apply(_this,[]);
+            temp_sar.apply(_this,[_this.options.start, _this.options.end]);
         }else{
             GetTeacData(params,function(data){
                 _this.options.sar = {};
                 _this.options.sar.sar = data.sar;
-                temp_sar.apply(_this,[]);
+                temp_sar.apply(_this,[_this.options.start, _this.options.end]);
             });     
         }
          
-        function temp_sar(){
-            var sar_arr = this.options.sar.sar;
+        function temp_sar(start, end){
+            var sar_arr = this.options.sar.sar.slice(start, end);
             var sar_arr_length = sar_arr.length;
-            if(sar_arr && sar_arr[0]){
-                var max = sar_arr[0].value;
-                var min = sar_arr[0].value;
-            }
-
-            for(var i = 0;i < sar_arr_length;i++){
-                max = Math.max(max,sar_arr[i].value);
-                min = Math.min(min,sar_arr[i].value);
-            }
-            DrawSAR.apply(_this,[_this.options.context,max,min,sar_arr]);
+            DrawSAR.apply(_this,[_this.options.context,sar_arr]);
         }  
     }
 
@@ -1301,21 +1251,16 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = this.options.up_t = "bbi";
-        GetTeacData(params,function(data){
-            var bbi_arr = data.bbi;
-            var bbi_arr_length = bbi_arr.length;
-            if(bbi_arr && bbi_arr[0]){
-                var max = bbi_arr[0].value;
-                var min = bbi_arr[0].value;
-            }
-
-            for(var i = 0;i < bbi_arr_length;i++){
-                max = Math.max(max,bbi_arr[i].value);
-                min = Math.min(min,bbi_arr[i].value);
-            }
-            DrawBBI.apply(_this,[_this.options.context,max,min,bbi_arr]);
-        });
-        
+        if (this.options.bbi) {
+            var bbi_arr = this.options.bbi.bbi.slice(_this.options.start, _this.options.end);
+            DrawBBI.apply(_this, [_this.options.context, bbi_arr]);
+        } else {
+            GetTeacData(params, function(data) {
+                _this.options.bbi = data;
+                var bbi_arr = data.bbi.slice(_this.options.start, _this.options.end);
+                DrawBBI.apply(_this, [_this.options.context,  bbi_arr]);
+            });
+        }
     }
 
     // 清除k线图区域
@@ -1430,7 +1375,7 @@ var ChartK = (function() {
             // 绘制坐标轴
             this.options.drawXY = new DrawXY(this.options);
             // 绘制均线
-            this.drawMA();
+            // this.drawMA();
             // 绘制rsi指标
             this.drawRSI();
             // 绘制K线图
