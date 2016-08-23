@@ -236,7 +236,7 @@ var ChartK = (function() {
     // 删除canvas画布
     ChartK.prototype.clear = function(cb) {
         var ctx = this.options.context;
-        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
+        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth + 10,this.options.c4_y_top);
     }
 
     // 获取上榜日标识dom
@@ -267,10 +267,6 @@ var ChartK = (function() {
         this.options.drawXY.drawXYV();
         this.options.drawXY.drawXYT();
 
-        this.drawK();
-        drawV.apply(this);
-
-        // this.drawMA(start,end);
 
         var up_t = this.options.up_t;
         var down_t = this.options.down_t;
@@ -307,6 +303,10 @@ var ChartK = (function() {
             this.drawROC(start,end);
         }
 
+        drawV.apply(this);
+        // 绘制成交量均线
+        this.drawVMA();
+        this.drawK();
     }
 
     //绘制k线图的各种指标
@@ -539,8 +539,6 @@ var ChartK = (function() {
 
     }
 
-
-
     // 绘制成交量
     function drawV(){
 
@@ -606,14 +604,30 @@ var ChartK = (function() {
 
         }
 
+    }
+    // 绘制成交量均线
+    ChartK.prototype.drawVMA = function(){
+
+        var data = this.options.currentData;
+        var ctx = this.options.context;
+        // 图表交互
+        var inter = this.options.interactive;
         var v_ma_5 = data.v_ma_5;
         var v_ma_10 = data.v_ma_10;
+        var v_max = (data.v_max/1).toFixed(0);
+        var v_base_height = this.options.v_base_height;
+        var c2_y_top = this.options.c2_y_top;
 
         this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5,"#f4cb15"]);
         this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10,"#ff5b10"]);
         
+        inter.default_volume = data.data[data.data.length - 1];
+        inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
+        inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
+
         function getMAData(ctx,data_arr,color) {
             var ma_data = [];
+            ctx.save();
             ctx.beginPath();
             ctx.strokeStyle = color;
             for(var i = 0;i < data_arr.length; i++){
@@ -632,9 +646,9 @@ var ChartK = (function() {
                  
             }
             ctx.stroke();
+            ctx.restore();
             return ma_data;
         }
-
 
         // 标识最大成交量
         function markVMax(ctx,v_max,y_v_end){
@@ -643,6 +657,7 @@ var ChartK = (function() {
             ctx.fillText(common.format_unit(v_max),0,y_v_end + 10);
             ctx.stroke();
         }
+
         // 获取最大成交量
         function getVMax(data){
             if(data.data[0]){
@@ -659,27 +674,26 @@ var ChartK = (function() {
             }
             return max
         }
-
     }
 
-    // 绘制均线
+    // 绘制K线均线
     ChartK.prototype.drawMA = function(start, end){
 
         var _this = this;
 
         this.clearK();
-        this.drawK();
         this.options.drawXY.drawXYK();
+        this.drawK();
 
         var params = {};
         params.code = this.options.code;
         params.extend = "ma|rsi";
-        if (!this.options.avg) {
-            this.options.avg = {};
+
+        if(!this.options.ma){
             GetTeacData(params, function(data) {
 
-                _this.options.avg = data;
-
+                _this.options.ma = {};
+                _this.options.ma = data;
                 var ctx = _this.options.context;
                 // var data = _this.options.data;
                 // 图表交互
@@ -710,13 +724,11 @@ var ChartK = (function() {
                 _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
                 _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, "#fe59fe"]);
 
-                var params = {};
-
             });
 
         } else {
-            data = this.options.avg;
 
+            data = _this.options.ma;
             var ctx = _this.options.context;
 
             // var data = _this.options.data;
@@ -742,7 +754,6 @@ var ChartK = (function() {
             // inter.default_volume = data.data[data.data.length - 1];
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
-
             _this.options.five_average = getMAData.apply(_this, [ctx, five_average, "#f4cb15"]);
             _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, "#ff5b10"]);
             _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
@@ -751,11 +762,13 @@ var ChartK = (function() {
         }
 
         function getMAData(ctx, data_arr, color) {
+
             // 保存画笔状态
             ctx.save();
             var ma_data = [];
             ctx.beginPath();
             ctx.strokeStyle = color;
+            var flag = false;
             for (var i = 0; i < data_arr.length; i++) {
                 var item = data_arr[i];
                 if (item && item.value) {
@@ -763,21 +776,29 @@ var ChartK = (function() {
                     var y = common.get_y.call(this, item.value);
                     //横坐标和均线数据
                     ma_data.push(item);
-                    var flag = true;
-                    if (i == 0 || y > (this.options.c_k_height) || y < 0) {
-                        ctx.moveTo(x, y);
-                    } else {
-                        ctx.lineTo(x, y);
+                    if(i == 0){
+                       ctx.moveTo(x,y);
+                    }else if(y > this.options.c_k_height || y < 0){
+                       ctx.moveTo(x,y);
+                       flag = true;
+                    }else{
+                        // if(flag){
+                        //     ctx.moveTo(x,y);
+                        // }else{
+                            ctx.lineTo(x,y);
+                        // }
+                        flag = false;
                     }
-                    // ctx.lineTo(x,y);
-
+                    // ctx.lineTo(x, y);
                 }
+                ctx.lineTo(x,y);
             }
+
             ctx.stroke();
             ctx.restore();
+
             return ma_data;
         }
-
     }
 
     // 绘制K线图
@@ -794,7 +815,7 @@ var ChartK = (function() {
         var bar_w = rect_unit.bar_w;
         // K线柱体的颜色
         var up_color = this.options.up_color;
-        var down_color =this.options.down_color
+        var down_color = this.options.down_color
         // 图表交互
         var inter = this.options.interactive;
         // 上榜日数组
@@ -1172,10 +1193,12 @@ var ChartK = (function() {
         params.extend = this.options.up_t = "expma";
 
         if(this.options.expma){
+
             temp_expma.apply(_this,[this.options.start, this.options.end]);
         }else{
             GetTeacData(params,function(data){
                 _this.options.expma = {};
+
                 _this.options.expma.expma12 = data.expma12;
                 _this.options.expma.expma50 = data.expma50;
                 temp_expma.apply(_this,[_this.options.start, _this.options.end]);
@@ -1187,9 +1210,12 @@ var ChartK = (function() {
             var expma50 = this.options.expma.expma50.slice(start, end);
             var expma_arr = expma12.concat(expma50);
             var expma_arr_length = expma_arr.length;
+
             DrawEXPMA.apply(this,[this.options.context,expma12,expma50]);
         }    
+
     }
+
 
     // 绘制bool指标
     ChartK.prototype.drawBOLL = function(){
@@ -1200,6 +1226,7 @@ var ChartK = (function() {
         params.extend = this.options.up_t = "boll";
 
         if(this.options.boll){
+
             temp_boll.apply(_this,[_this.options.start, _this.options.end]);
         }else{
             GetTeacData(params,function(data){
@@ -1207,9 +1234,11 @@ var ChartK = (function() {
                 _this.options.boll.bollup = data.bollup;
                 _this.options.boll.bollmb = data.bollmb;
                 _this.options.boll.bolldn = data.bolldn;
+
                 temp_boll.apply(_this,[_this.options.start, _this.options.end]);
             });   
         }
+
 
         function temp_boll(start, end){
             var bollup = this.options.boll.bollup.slice(start, end);
@@ -1217,7 +1246,9 @@ var ChartK = (function() {
             var bolldn = this.options.boll.bolldn.slice(start, end);
             DrawBOLL.apply(_this,[_this.options.context,bollup,bollmb,bolldn]);
         }
+
     }
+
 
     // 绘制bool指标
     ChartK.prototype.drawSAR = function(){
@@ -1226,6 +1257,7 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = this.options.up_t = "sar";
+        var k_data_arr = this.options.currentData.data;
 
         if(this.options.sar){
             temp_sar.apply(_this,[_this.options.start, _this.options.end]);
@@ -1240,9 +1272,12 @@ var ChartK = (function() {
         function temp_sar(start, end){
             var sar_arr = this.options.sar.sar.slice(start, end);
             var sar_arr_length = sar_arr.length;
-            DrawSAR.apply(_this,[_this.options.context,sar_arr]);
+           
+            DrawSAR.apply(_this,[_this.options.context,sar_arr,k_data_arr]);
         }  
+
     }
+
 
     // 绘制bbi指标
     ChartK.prototype.drawBBI = function(){
@@ -1256,23 +1291,27 @@ var ChartK = (function() {
             DrawBBI.apply(_this, [_this.options.context, bbi_arr]);
         } else {
             GetTeacData(params, function(data) {
+
                 _this.options.bbi = data;
                 var bbi_arr = data.bbi.slice(_this.options.start, _this.options.end);
                 DrawBBI.apply(_this, [_this.options.context,  bbi_arr]);
             });
         }
+
     }
+
+
 
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,-10,this.options.padding.left + this.options.drawWidth,this.options.c2_y_top);
+        ctx.clearRect(0,-10,this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
     }
 
     // 清除技术指标区域
     ChartK.prototype.clearT = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
+        ctx.clearRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth + 10,this.options.c4_y_top);
     }
 
 
@@ -1375,7 +1414,8 @@ var ChartK = (function() {
             // 绘制坐标轴
             this.options.drawXY = new DrawXY(this.options);
             // 绘制均线
-            // this.drawMA();
+            this.options.up_t = "junxian";
+            this.drawMA(this.options.start,this.options.end);
             // 绘制rsi指标
             this.drawRSI();
             // 绘制K线图
@@ -1383,6 +1423,8 @@ var ChartK = (function() {
 
             // 绘制成交量
             drawV.apply(this,[this.options]);
+            // 绘制成交量均线
+            this.drawVMA();
             // 绘制技术指标
             drawT.apply(this,[this.options]);
 
@@ -1391,9 +1433,6 @@ var ChartK = (function() {
                 var points =  this.options.interactive.options.pointsContainer.children;
                 this.markPointsDom = points;
             }
-
-            this.drawMA(this.options.start, this.options.end);
-
 
             // 隐藏loading效果
             inter.hideLoading();
@@ -1455,6 +1494,7 @@ var ChartK = (function() {
             common.addEvent.call(_this, canvas, "mouseleave",function(event){
                 //console.info(event);
                 inter.hide();
+                inter.markVMA(canvas);
                 try {
                     event.preventDefault();
                 } catch (e) {
@@ -1538,8 +1578,9 @@ var ChartK = (function() {
         var ten_average = this.options.ten_average;
         var twenty_average = this.options.twenty_average;
         var thirty_average = this.options.thirty_average;
-        var v_ma_5 = this.options.data.v_ma_5;
-        var v_ma_10 = this.options.data.v_ma_10;
+      
+        var v_ma_5 = this.options.v_ma_5;
+        var v_ma_10 = this.options.v_ma_10;
 
         // 单位绘制区域
         var rect_unit = this.options.rect_unit;
@@ -1592,6 +1633,8 @@ var ChartK = (function() {
         result.total = end - start + 1;
         result.name = sourceData.name;
         result.code = sourceData.code;
+        result.v_ma_5 = sourceData.v_ma_5.slice(start,end);
+        result.v_ma_10 = sourceData.v_ma_10.slice(start,end);
         result.data = [];
 
         for(var i = start; i <= end; i++){
