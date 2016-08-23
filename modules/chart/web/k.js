@@ -247,9 +247,14 @@ var ChartK = (function() {
         this.options.start = start;
         this.options.end = end;
 
-        var sourceData = [];
-        sourceData = this.options.data.data.slice(0);
-        this.options.data.data = sliceData(this.options.data.data,start,end);
+        var canvas = this.options.canvas;
+        this.options.currentData = sliceData(this.options.data,start,end);
+        var current_arr_length = this.options.currentData.data.length;
+
+        // 获取单位绘制区域
+        var rect_unit = common.get_rect.apply(this,[canvas,current_arr_length]);
+        this.options.rect_unit = rect_unit;
+
 
         this.options.drawXY.drawXYK();
         this.options.drawXY.drawXYV();
@@ -292,8 +297,6 @@ var ChartK = (function() {
         }else if(down_t == "roc"){
             this.drawROC(start,end);
         }
-
-        this.options.data.data = sourceData;
 
     }
 
@@ -727,7 +730,7 @@ var ChartK = (function() {
     ChartK.prototype.drawK = function(data){
         
         var data_arr = data == undefined ? this.options.currentData.data : data;
-        debugger;
+
         var ctx = this.options.context;
         // 获取单位绘制区域
         var rect_unit = this.options.rect_unit;
@@ -1319,9 +1322,8 @@ var ChartK = (function() {
             this.options.end = 0;
         }
 
-        this.options.data.sourceData = this.options.data.data.slice(0);
         this.options.currentData = sliceData(this.options.data,this.options.start,this.options.end);
-        debugger;
+
         var current_arr = this.options.currentData.data;
         var current_arr_length = current_arr.length;
 
@@ -1406,7 +1408,6 @@ var ChartK = (function() {
         //     // 隐藏loading效果
         //     inter.hideLoading();
         // }
-       // this.options.data.data = this.options.data.sourceData;
        return true;
     }
     // 绑定事件
@@ -1583,7 +1584,6 @@ var ChartK = (function() {
                 result.v_max = Math.max(sourceData.data[i].volume, result.v_max);
             }
         }
-
         return result;
     }
 
