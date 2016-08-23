@@ -268,7 +268,7 @@ var ChartK = (function() {
         this.drawK();
         drawV.apply(this);
 
-        this.drawMA();
+        this.drawMA(start,end);
 
         var up_t = this.options.up_t;
         var down_t = this.options.down_t;
@@ -349,15 +349,15 @@ var ChartK = (function() {
                 targetElement.className = "kt-radio kt-radio-choose";
 
                 if(targetElement.id == "junxian"){
-                    _this.drawMA();
+                    _this.drawMA(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "expma"){
-                    _this.drawEXPMA();
+                    _this.drawEXPMA(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "sar"){
-                    _this.drawSAR();
+                    _this.drawSAR(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "boll"){
-                    _this.drawBOLL();
+                    _this.drawBOLL(_this.options.start, _this.options.end);
                 }else if(targetElement.id == "bbi"){
-                    _this.drawBBI();
+                    _this.drawBBI(_this.options.start, _this.options.end);
                 }
 
             });
@@ -654,7 +654,7 @@ var ChartK = (function() {
     }
 
     // 绘制均线
-    ChartK.prototype.drawMA = function(){
+    ChartK.prototype.drawMA = function(start, end){
 
         var _this = this;
 
@@ -665,7 +665,48 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "ma|rsi";
-        GetTeacData(params,function(data){
+        if (!this.options.avg) {
+            this.options.avg = {};
+            GetTeacData(params, function(data) {
+
+                _this.options.avg = data;
+
+                var ctx = _this.options.context;
+                // var data = _this.options.data;
+                // 图表交互
+                var inter = _this.options.interactive;
+                /*5日均线数据*/
+                var five_average = data.five_average.slice(start, end);
+                /*10日均线数据*/
+                var ten_average = data.ten_average.slice(start, end);
+                /*20日均线数据*/
+                var twenty_average = data.twenty_average.slice(start, end);
+                /*30日均线数据*/
+                var thirty_average = data.thirty_average.slice(start, end);
+
+                // var v_ma_5 = data.v_ma_5;
+                // var v_ma_10 = data.v_ma_10;
+
+                inter.default_m5 = five_average[five_average.length - 1];
+                inter.default_m10 = ten_average[ten_average.length - 1];
+                inter.default_m20 = twenty_average[twenty_average.length - 1];
+                inter.default_m30 = thirty_average[thirty_average.length - 1];
+
+                // inter.default_volume = data.data[data.data.length - 1];
+                // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
+                // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
+
+                _this.options.five_average = getMAData.apply(_this, [ctx, five_average, "#f4cb15"]);
+                _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, "#ff5b10"]);
+                _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
+                _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, "#fe59fe"]);
+
+                var params = {};
+
+            });
+
+        } else {
+            data = this.options.avg;
 
             var ctx = _this.options.context;
 
@@ -673,17 +714,17 @@ var ChartK = (function() {
             // 图表交互
             var inter = _this.options.interactive;
             /*5日均线数据*/
-            var five_average = data.five_average;
+            var five_average = data.five_average.slice(start, end);
             /*10日均线数据*/
-            var ten_average = data.ten_average;
+            var ten_average = data.ten_average.slice(start, end);
             /*20日均线数据*/
-            var twenty_average = data.twenty_average;
+            var twenty_average = data.twenty_average.slice(start, end);
             /*30日均线数据*/
-            var thirty_average = data.thirty_average;
+            var thirty_average = data.thirty_average.slice(start, end);
 
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
-         
+
             inter.default_m5 = five_average[five_average.length - 1];
             inter.default_m10 = ten_average[ten_average.length - 1];
             inter.default_m20 = twenty_average[twenty_average.length - 1];
@@ -693,41 +734,39 @@ var ChartK = (function() {
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
-            _this.options.five_average = getMAData.apply(_this,[ctx,five_average,"#f4cb15"]);
-            _this.options.ten_average = getMAData.apply(_this,[ctx,ten_average,"#ff5b10"]);
-            _this.options.twenty_average = getMAData.apply(_this,[ctx,twenty_average,"#488ee6"]);
-            _this.options.thirty_average = getMAData.apply(_this,[ctx,thirty_average,"#fe59fe"]);
+            _this.options.five_average = getMAData.apply(_this, [ctx, five_average, "#f4cb15"]);
+            _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, "#ff5b10"]);
+            _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
+            _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, "#fe59fe"]);
 
-            var params = {};
+        }
 
-            function getMAData(ctx,data_arr,color) {
-                // 保存画笔状态
-                ctx.save();
-                var ma_data = [];
-                ctx.beginPath();
-                ctx.strokeStyle = color;
-                for(var i = 0;i < data_arr.length; i++){
-                    var item = data_arr[i];
-                    if(item && item.value){
-                         var x = common.get_x.call(this,i + 1);
-                         var y = common.get_y.call(this,item.value);
-                         //横坐标和均线数据
-                         ma_data.push(item);
-                         // if(i == 0){
-                         //    ctx.moveTo(x,y);
-                         // }else{
-                         //    ctx.lineTo(x,y);
-                         // }
-                         ctx.lineTo(x,y);
+        function getMAData(ctx, data_arr, color) {
+                    // 保存画笔状态
+                    ctx.save();
+                    var ma_data = [];
+                    ctx.beginPath();
+                    ctx.strokeStyle = color;
+                    for (var i = 0; i < data_arr.length; i++) {
+                        var item = data_arr[i];
+                        if (item && item.value) {
+                            var x = common.get_x.call(this, i + 1);
+                            var y = common.get_y.call(this, item.value);
+                            //横坐标和均线数据
+                            ma_data.push(item);
+                            if(i == 0 || y > (this.options.c_k_height) || y < 0){
+                               ctx.moveTo(x,y);
+                            }else{
+                               ctx.lineTo(x,y);
+                            }
+                            // ctx.lineTo(x, y);
+                        }
+
                     }
-                     
+                    ctx.stroke();
+                    ctx.restore();
+                    return ma_data;
                 }
-                ctx.stroke();
-                ctx.restore();
-                return ma_data;
-            }
-
-        });
 
     }
 
@@ -1127,8 +1166,8 @@ var ChartK = (function() {
         }else{
             GetTeacData(params,function(data){
                 _this.options.expma = {};
-                _this.options.expma.expma12 = data.expma12;
-                _this.options.expma.expma50 = data.expma50;
+                _this.options.expma.expma12 = data.expma12.slice(_this.options.start, _this.options.end);
+                _this.options.expma.expma50 = data.expma50.slice(_this.options.start, _this.options.end);
                 temp_expma.apply(_this,[]);
             });  
         }
@@ -1397,7 +1436,7 @@ var ChartK = (function() {
                 this.markPointsDom = points;
             }
 
-            this.drawMA();
+            this.drawMA(this.options.start, this.options.end);
 
             // 隐藏loading效果
             inter.hideLoading();
