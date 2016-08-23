@@ -219,6 +219,7 @@ var DrawXY = (function(){
                 x: 0,
                 y: k_height - (i / (sepe_num-1)) * k_height
             });
+
         }
         return result;
     }
