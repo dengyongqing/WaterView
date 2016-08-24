@@ -665,7 +665,7 @@ var ChartK = (function() {
 
     // 绘制均线
     ChartK.prototype.drawMA = function(start, end){
-
+        
         var _this = this;
 
         this.clearK();
@@ -941,7 +941,7 @@ var ChartK = (function() {
                 _this.options.macd.dea = data.dea;
                 _this.options.macd.diff = data.diff;
                 _this.options.macd.macd = data.macd;
-                temp_macd.apply(this,[]);
+                temp_macd.apply(_this,[]);
             });
         }
 
@@ -973,7 +973,7 @@ var ChartK = (function() {
                 _this.options.wr = {};
                 _this.options.wr.wr6 = data.wr6;
                 _this.options.wr.wr10 = data.wr10;
-                temp_wr.apply(this,[]);
+                temp_wr.apply(_this,[]);
             });
         }
 
@@ -1400,7 +1400,9 @@ var ChartK = (function() {
             // 绘制坐标轴
             this.options.drawXY = new DrawXY(this.options);
             // 绘制均线
-           
+            
+            this.drawMA(this.options.start, this.options.end);
+            this.options.up_t = "junxian";
             // 绘制rsi指标
             this.drawRSI();
             // 绘制K线图
@@ -1555,7 +1557,7 @@ var ChartK = (function() {
     // 图表交互
     function dealEvent(inter,eventposition){
 
-        var canvas = this.options.canvas;
+        var canvas = this.options.canvas;   
 
         var k_data = this.options.currentData.data;
 
@@ -1604,6 +1606,7 @@ var ChartK = (function() {
              // 标识均线数据
              inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
              inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
+             inter.markT(canvas, this.options.down_t, this.options[this.options.down_t], this.options.start, this.options.end, index);
         }
 
     }
