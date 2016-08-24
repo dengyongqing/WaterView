@@ -19,7 +19,7 @@ var slideBar = function(callback) {
     }
     //添加包含的容器div和相应的canvas
     var width = _that.options.drawWidth;
-    var height =  _that.options.unit_height;
+    var height =  _that.options.unit_height*2;
     var container = document.createElement("div");
     container.style.position = "absolute";
     container.style.left = _that.options.padding.left + "px";
@@ -78,7 +78,6 @@ var slideBar = function(callback) {
     containerBar.style.width = /*options.barWidth + */ 60 / _that.options.data.total * width + "px";
     containerBar.style.top = "0px";
     containerBar.style.left = /*options.barStart + */ _that.options.start / _that.options.data.total * width + "px";
-    console.log(_that.options.start);
     var leftDrag = document.createElement("div");
     leftDrag.style.position = "absolute";
     leftDrag.style.height = height / 2 + "px";
