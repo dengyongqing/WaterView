@@ -708,22 +708,39 @@ var ChartK = (function() {
         params.code = this.options.code;
         params.extend = "ma|rsi";
 
-        if(!this.options.ma){
-            GetTeacData(params, function(data) {
+        if(this.options.ma && this.options.rsi){
+            temp_ma.apply(_this,[]);
+            temp_rsi.apply(_this,[]);
+        } else {
+             GetTeacData(params, function(data) {
                 _this.options.ma = {};
                 _this.options.ma = data;
-                temp_ma.apply(_this,[]);
-            });
 
-        } else {
-            data = _this.options.ma;
-            temp_ma.apply(_this,[]);
+                _this.options.rsi = {};
+                _this.options.rsi.rsi6 = data.rsi6;
+                _this.options.rsi.rsi12 = data.rsi12;
+                _this.options.rsi.rsi24 = data.rsi24;
+
+                temp_ma.apply(_this,[]);
+                temp_rsi.apply(_this,[]);
+            });
+        }
+
+        function temp_rsi(){
+            var rsi6 = this.options.rsi.rsi6;
+            var rsi12 = this.options.rsi.rsi12;
+            var rsi24 = this.options.rsi.rsi24;
+            var start = this.options.start;
+            var end = this.options.end;
+            DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
         }
 
         function temp_ma(){
             var _this = this;
             var ctx = _this.options.context;
-            // var data = _this.options.data;
+            var data = _this.options.ma;
+            var start = _this.options.start;
+            var end = _this.options.end;
             // 图表交互
             var inter = _this.options.interactive;
             /*5日均线数据*/
@@ -807,16 +824,15 @@ var ChartK = (function() {
         params.code = this.options.code;
         params.extend = "ma";
 
-        if(!this.options.ma){
-            GetTeacData(params, function(data) {
+        if(this.options.ma){
+            data = _this.options.ma;
+            temp_ma.apply(_this,[]);
+        } else {
+             GetTeacData(params, function(data) {
                 _this.options.ma = {};
                 _this.options.ma = data;
                 temp_ma.apply(_this,[]);
             });
-
-        } else {
-            data = _this.options.ma;
-            temp_ma.apply(_this,[]);
         }
 
         function temp_ma(){
@@ -1506,11 +1522,9 @@ var ChartK = (function() {
             this.options.drawXY = new DrawXY(this.options);
             // 绘制均线
             this.options.up_t = "junxian";
-            this.drawMA(this.options.start,this.options.end);
-            this.drawMA(this.options.start, this.options.end);
-            this.options.up_t = "junxian";
-            // 绘制rsi指标
-            this.drawRSI();
+            
+            // 绘制均线和rsi指标
+            init_ma_rsi.apply(this,[]);
             // 绘制K线图
             this.drawK();
 
