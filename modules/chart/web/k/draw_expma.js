@@ -36,7 +36,7 @@ function drawEXPMA(ctx,expma12,expma50){
     for(var i = 0;i < expma50_length;i++){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
-        var y = common.get_y.call(this,expma12[i].value);
+        var y = common.get_y.call(this,expma50[i].value);
 
         if(i == 0){
             ctx.moveTo(x,y);
@@ -46,7 +46,7 @@ function drawEXPMA(ctx,expma12,expma50){
 
     }
     ctx.stroke();
-
+    ctx.beginPath();
     ctx.restore();
 }
 

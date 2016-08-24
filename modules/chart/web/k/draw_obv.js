@@ -62,6 +62,7 @@ function drawOBV(ctx,obv,maobv){
     ctx.fillText(common.format_unit(max), 0, this.options.c3_y_top + 5);
     ctx.fillText(common.format_unit(middle.toFixed(2)), 0, this.options.c3_y_top + 5 + c_t_height/2);
     ctx.fillText(common.format_unit(min.toFixed(2)), 0, this.options.c3_y_top + 5 + c_t_height);
+    ctx.beginPath();
     ctx.restore();
 }
 

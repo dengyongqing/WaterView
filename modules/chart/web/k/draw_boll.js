@@ -62,6 +62,8 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
     }
     ctx.stroke();
 
+    ctx.beginPath();
+
     ctx.restore();
 }
 

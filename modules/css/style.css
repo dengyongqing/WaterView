@@ -61,14 +61,15 @@
 .mark-ma span {
 	display:inline-block;padding-right:10px;font-size:14px;text-align:left;color:#ffba42;
 }
+
 .mark-ma .span-m5{
-	color:#ffba42;
+	color:#f4cb15;
 }
 .mark-ma .span-m10{
-	color:#ff7e58;
+	color:#ff5b10;
 }
 .mark-ma .span-m20{
-	color:#6e9fe9;
+	color:#488ee6;
 }
 .mark-ma .span-m30{
 	color:#fe59fe;
