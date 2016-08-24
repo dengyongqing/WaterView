@@ -1452,7 +1452,7 @@ var ChartK = (function() {
 
         _this.options.start = start;
         _this.options.end = end;
-        slideBarCallback.apply(_this,[start,end]);
+
 
         // 初始化交互
         var inter = _this.options.interactive
@@ -1460,8 +1460,8 @@ var ChartK = (function() {
         this.options.interactive.showLoading();
 
         try{
-            slideBarCallback();
-
+            slideBar.apply(this,[slideBarCallback,start,end]);
+            inter.hideLoading();
         }catch(e){
             // 缩放按钮点击有效
             _this.options.clickable = true;
