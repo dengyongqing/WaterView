@@ -356,15 +356,16 @@ var Interactive = (function() {
 		}
 
 		//判断是不是第一次，是否需要创建元素
-		if (this.options.type != type) {
+		if (this.options.markTType != type) {
 			//作为是否切换技术指标的依据
-			this.options.type = type;
+			this.options.markTType = type;
 		    //清空markTContainer里面的所有span
-		    var spans = markTContainer.childNodes;
-		    for(var i = 0; i < spans.length; i++ ){
-		    	markTContainer.removeChild(spans[i]);
+		    var spans = markTContainer.getElementsByTagName("span");
+		    var len = spans.length;
+		    for(var i = 0; i < len; i++ ){
+		    	markTContainer.removeChild(spans[0]);
 		    }
-
+		    // debugger;
 		    var dataObj = [];
 		    for (var item in datas) {
 		        dataObj.push({ value: datas[item].slice(start, end), name: item });
@@ -376,7 +377,7 @@ var Interactive = (function() {
 		        var span = document.createElement('span');
 		        span.innerText = dataObj[i].name + ": " + dataObj[i].value[index];
 		        span.style.width = "100px";
-		        span.setAttribute("id", dataObj[i].name);
+		        span.setAttribute("id", dataObj[i].name+"_mark");
 		        m_frag.appendChild(span);
 		    }
 		    /*添加到包含元素上*/
@@ -388,8 +389,16 @@ var Interactive = (function() {
 		    }
 		    //更改内容
 		    for (var i = 0; i < dataObj.length; i++) {
-		        var span = document.getElementById(dataObj[i].name);
-		        span.innerText = dataObj[i].name + ": " + dataObj[i].value[index].value;
+		        var span = document.getElementById(dataObj[i].name+"_mark");
+		        try{
+			        span.innerText = dataObj[i].name + ": " + dataObj[i].value[index].value;
+		        }catch(e){
+		        	var span = document.createElement('span');
+		        	span.innerText = dataObj[i].name + ": " + dataObj[i].value[index];
+		        	span.style.width = "100px";
+		        	span.setAttribute("id", dataObj[i].name+"_mark");
+		        	markTContainer.appendChild(span);
+		        }
 		    }
 
 		}

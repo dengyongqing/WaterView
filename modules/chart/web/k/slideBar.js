@@ -1,109 +1,128 @@
 var getTData = require('getdata/web/chart_k');
 var common = require('chart/web/common/common');
 /*一个测试*/
-var slideBar = function(callback) {
+var slideBar = function() {
     var _that = this;
-    var data = this.options.data;
-    var arr = [];
-    var arrYear = [];
-    var max = 0;
-    var min = 10000;
-    var len = data.data.length;
-    for (var i = 0; i < data.data.length; i++) {
-        arr.push({ date: data.data[i].date_time, value: data.data[i].close });
-        if (i == 0 || data.data[i].date_time.substring(0, 4) != data.data[i - 1].date_time.substring(0, 4)) {
-            arrYear.push({ year: data.data[i].date_time.substring(0, 4), order: i });
+    var callback = arguments[0];
+    debugger;
+    if (arguments.length == 1) {
+        
+        //第一次绘制元素
+        var data = this.options.data;
+        var arr = [];
+        var arrYear = [];
+        var max = 0;
+        var min = 10000;
+        var len = data.data.length;
+        for (var i = 0; i < data.data.length; i++) {
+            arr.push({ date: data.data[i].date_time, value: data.data[i].close });
+            if (i == 0 || data.data[i].date_time.substring(0, 4) != data.data[i - 1].date_time.substring(0, 4)) {
+                arrYear.push({ year: data.data[i].date_time.substring(0, 4), order: i });
+            }
+            max = Math.max(max, data.data[i].close);
+            min = Math.min(min, data.data[i].close);
         }
-        max = Math.max(max, data.data[i].close);
-        min = Math.min(min, data.data[i].close);
-    }
-    //添加包含的容器div和相应的canvas
-    var width = _that.options.drawWidth;
-    var height =  _that.options.unit_height*2;
-    var container = document.createElement("div");
-    container.style.position = "absolute";
-    container.style.left = _that.options.padding.left + "px";
-    container.style.top = _that.options.c4_y_top + "px";
+        //添加包含的容器div和相应的canvas
+        var width = _that.options.drawWidth;
+        var height = _that.options.unit_height * 2;
+        var container = document.createElement("div");
+        container.style.position = "absolute";
+        container.style.left = _that.options.padding.left + "px";
+        container.style.top = _that.options.c4_y_top + "px";
 
-    var cvs = document.createElement("canvas");
-    try {
-        var ctx = cvs.getContext('2d');
-    } catch (error) {
-        cvs = window.G_vmlCanvasManager.initElement(cvs);
-        var ctx = cvs.getContext('2d');
-    }
-    container.appendChild(cvs);
-    cvs.style.outline = "solid 1px #E9E9E9";
-    ctx.strokeStyle = "#E9E9E9";
-
-    cvs.width = width;
-    cvs.height = height;
-    cvs.style.width = width + "px";
-    cvs.style.height = height + "px";
-    cvs.style.backgroundColor = "white";
-    //绘制背景图
-    ctx.beginPath();
-    for (i = 0; i < len; i++) {
-        if (i == 0) {
-            ctx.moveTo(getX(len, i, cvs.width), getY(max, min, arr[i].value, cvs.height));
-        } else {
-            ctx.lineTo(getX(len, i, cvs.width), getY(max, min, arr[i].value, cvs.height));
+        var cvs = document.createElement("canvas");
+        try {
+            var ctx = cvs.getContext('2d');
+        } catch (error) {
+            cvs = window.G_vmlCanvasManager.initElement(cvs);
+            var ctx = cvs.getContext('2d');
         }
+        container.appendChild(cvs);
+        cvs.style.outline = "solid 1px #E9E9E9";
+        ctx.strokeStyle = "#E9E9E9";
+
+        cvs.width = width;
+        cvs.height = height;
+        cvs.style.width = width + "px";
+        cvs.style.height = height + "px";
+        cvs.style.backgroundColor = "white";
+        //绘制背景图
+        ctx.beginPath();
+        for (i = 0; i < len; i++) {
+            if (i == 0) {
+                ctx.moveTo(getX(len, i, cvs.width), getY(max, min, arr[i].value, cvs.height));
+            } else {
+                ctx.lineTo(getX(len, i, cvs.width), getY(max, min, arr[i].value, cvs.height));
+            }
+        }
+        ctx.stroke();
+
+        ctx.lineTo(getX(len, i, cvs.width), getY(max, min, 0, cvs.height));
+        ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, 0, cvs.height));
+        ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, arr[0].value, cvs.height));
+        ctx.fillStyle = "#E9E9E9";
+        ctx.fill();
+
+        // //写上年标记
+        // if(arrYear.length === 1){
+
+        // }else if(arrYear.length == 2){
+
+        // }else if(arrYear.length <= 4){
+
+        // }else{
+
+        // }
+
+        //添加滑动块
+        var containerBar = document.createElement("div");
+        containerBar.setAttribute("id", "slideBarWrap");
+        containerBar.style.position = "absolute";
+        containerBar.style.backgroundColor = "rgba(108, 182, 229, 0.4)";
+        containerBar.style.outline = "solid 1px #35709C";
+        containerBar.style.height = height + "px";
+        containerBar.style.width = /*options.barWidth + */ 60 / _that.options.data.total * width + "px";
+        containerBar.style.top = "0px";
+        containerBar.style.left = /*options.barStart + */ _that.options.start / _that.options.data.total * width + "px";
+        var leftDrag = document.createElement("div");
+        leftDrag.style.position = "absolute";
+        leftDrag.style.height = height / 2 + "px";
+        leftDrag.style.width = "10px";
+        leftDrag.style.backgroundColor = "red";
+        leftDrag.style.top = height / 4 + "px";
+        leftDrag.style.left = "-10px";
+
+
+        var rightDrag = document.createElement("div");
+        rightDrag.style.position = "absolute";
+        rightDrag.style.height = height / 2 + "px";
+        rightDrag.style.width = "10px";
+        rightDrag.style.backgroundColor = "red";
+        rightDrag.style.top = height / 4 + "px";
+        rightDrag.style.right = "-10px";
+
+        container.appendChild(containerBar);
+        containerBar.appendChild(leftDrag);
+        containerBar.appendChild(rightDrag);
+
+
+
+        _that.container.appendChild(container);
+        //添加滑动块中的事件处理
+        dragEvent.call(_that, callback, arr, cvs, containerBar, leftDrag, rightDrag);
+    } else {
+        var start = _that.options.start;
+        var end = _that.options.end;
+        var len = this.options.data.data.length;
+        var slideBar = document.getElementById("slideBarWrap");
+        var width = _that.options.drawWidth;
+        var slideBarLeft = width*start/len + "px";
+        var slideBarWidth = width*(end-start)/len + "px";
+        slideBar.style.left = slideBarLeft;
+        slideBar.style.width = slideBarWidth;
+        callback.call(_that, start, end);
     }
-    ctx.stroke();
 
-    ctx.lineTo(getX(len, i, cvs.width), getY(max, min, 0, cvs.height));
-    ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, 0, cvs.height));
-    ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, arr[0].value, cvs.height));
-    ctx.fillStyle = "#E9E9E9";
-    ctx.fill();
-
-    // //写上年标记
-    // if(arrYear.length === 1){
-
-    // }else if(arrYear.length == 2){
-
-    // }else if(arrYear.length <= 4){
-
-    // }else{
-
-    // }
-
-    //添加滑动块
-    var containerBar = document.createElement("div");
-    containerBar.style.position = "absolute";
-    containerBar.style.backgroundColor = "rgba(108, 182, 229, 0.4)";
-    containerBar.style.outline = "solid 1px #35709C";
-    containerBar.style.height = height + "px";
-    containerBar.style.width = /*options.barWidth + */ 60 / _that.options.data.total * width + "px";
-    containerBar.style.top = "0px";
-    containerBar.style.left = /*options.barStart + */ _that.options.start / _that.options.data.total * width + "px";
-    var leftDrag = document.createElement("div");
-    leftDrag.style.position = "absolute";
-    leftDrag.style.height = height / 2 + "px";
-    leftDrag.style.width = "10px";
-    leftDrag.style.backgroundColor = "red";
-    leftDrag.style.top = height / 4 + "px";
-    leftDrag.style.left = "-10px";
-
-
-    var rightDrag = document.createElement("div");
-    rightDrag.style.position = "absolute";
-    rightDrag.style.height = height / 2 + "px";
-    rightDrag.style.width = "10px";
-    rightDrag.style.backgroundColor = "red";
-    rightDrag.style.top = height / 4 + "px";
-    rightDrag.style.right = "-10px";
-
-    container.appendChild(containerBar);
-    containerBar.appendChild(leftDrag);
-    containerBar.appendChild(rightDrag);
-
-
-
-    _that.container.appendChild(container);
-    //添加滑动块中的事件处理
-    dragEvent.call(_that, callback, arr, cvs, containerBar, leftDrag, rightDrag);
 }
 
 /*根据数据获取坐标*/
@@ -159,13 +178,13 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
             clickedLeft = true;
             inArea = true;
             offset = ContainerB_left - winX;
-            body.style.cursor = "w-resize"
+            body.style.cursor = "w-resize";
         } else if (e.target == rightDrag) {
             //点击了右边拖拽
             clickedRight = true;
             inArea = true;
             offset = winX - ContainerB_left - ContainerB_width;
-            body.style.cursor = "e-resize"
+            body.style.cursor = "e-resize";
         } else if (e.target == containerBar) {
             //点击了半透明区域
             clickedBar = true;
