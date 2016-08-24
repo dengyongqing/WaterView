@@ -30,6 +30,8 @@ function drawEXPMA(ctx,bbi){
     }
     ctx.stroke();
 
+    ctx.beginPath();
+
     ctx.restore();
 }
 

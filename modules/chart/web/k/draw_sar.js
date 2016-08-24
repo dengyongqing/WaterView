@@ -43,7 +43,7 @@ function drawSAR(ctx,sar,k_data_arr){
         // }
 
     }
-
+    ctx.beginPath();
     ctx.restore();
 }
 
