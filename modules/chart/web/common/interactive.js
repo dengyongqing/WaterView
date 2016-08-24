@@ -104,7 +104,7 @@ var Interactive = (function() {
 	        var div_mark = document.createElement("div");
 	        div_mark.className = "mark-ma";
 	        div_mark.style.left = this.options.padding.left + "px";
-	        div_mark.style.top = "5px";
+	        div_mark.style.top = "0px";
 	        this.options.mark_ma.mark_ma = div_mark;
 
 	        /*创建文档碎片*/
@@ -170,7 +170,7 @@ var Interactive = (function() {
 	        if(obj_30){
 	            ma_30_data.innerText = "MA30: " + obj_30.value;
 	        }else{
-	        	if(this.default_m20){
+	        	if(this.default_m30){
 	        		ma_30_data.innerText = "MA30: " + this.default_m30.value;
 	        	}else{
 	        		ma_30_data.innerText = "MA30: -";
@@ -187,6 +187,7 @@ var Interactive = (function() {
 	        document.getElementById(this.options.container).appendChild(div_mark);
 	        // div_tip.style.left = w_pos.x - 300 + "px";
 	    }else{
+
 	        var div_mark = this.options.mark_ma.mark_ma;
 	        if(obj_5){
 	           this.options.mark_ma.ma_5_data.innerText = "MA5: " + obj_5.value;
@@ -217,7 +218,6 @@ var Interactive = (function() {
 	        		this.options.mark_ma.ma_20_data.innerText = "MA20: -";
 	        	}
 	        }
-
 	        if(obj_30){
 	            this.options.mark_ma.ma_30_data.innerText = "MA30: " + obj_30.value;
 	        }else{
@@ -233,7 +233,8 @@ var Interactive = (function() {
 	}
 
 	Interactive.prototype.markVMA = function (canvas,volume,obj_5,obj_10){
-	// 绘制移动平均线标识
+
+		// 绘制移动平均线标识
 	    // var c_box = canvas.getBoundingClientRect();
 	    // var dpr = this.options.dpr;
 	    if(!this.options.mark_v_ma){
@@ -243,7 +244,7 @@ var Interactive = (function() {
 	        var v_div_mark = document.createElement("div");
 	        v_div_mark.className = "mark-ma";
 	        v_div_mark.style.left = this.options.padding.left + "px";
-	        v_div_mark.style.top = this.options.c2_y_top  + "px";
+	        v_div_mark.style.top = this.options.c2_y_top + "px";
 	        this.options.mark_v_ma.mark_v_ma = v_div_mark;
 
 	        /*创建文档碎片*/
@@ -269,7 +270,7 @@ var Interactive = (function() {
 	        var v_ma_5 = document.createElement('span');
 	        v_ma_5.className = "span-m5";
 	        v_ma_5.style.position = "absolute";
-	        v_ma_5.style.left = "200px";
+	        v_ma_5.style.left = "160px";
 	        this.options.mark_v_ma.v_ma_5 = v_ma_5;
 	        if(obj_5){
 	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + common.format_unit(obj_5.value,2);
@@ -286,7 +287,7 @@ var Interactive = (function() {
 	        v_ma_10.className = "span-m10";
 	        v_ma_10.style.position = "absolute";
 	        // v_ma_10.style.left = this.options.padding.left + this.options.drawWidth * 1/3 - 50 + "px";
-	        v_ma_10.style.left = "400px";
+	        v_ma_10.style.left = "310px";
 	        this.options.mark_v_ma.v_ma_10 = v_ma_10;
 	        if(obj_10){
 	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + common.format_unit(obj_10.value,2);
@@ -651,6 +652,50 @@ var Interactive = (function() {
 	        		ma_20_data.innerText = "MA20: -";
 	        	}
             }
+
+            var ma_30_data = this.options.mark_ma.ma_30_data;
+            if(ma_30_data){
+            	if(this.default_m20){
+	        		ma_30_data.innerText = "MA30: " + this.default_m30.value;
+	        	}else{
+	        		ma_30_data.innerText = "MA30: -";
+	        	}
+            }
+
+        }
+
+        if(this.options.mark_v_ma){
+
+        	// 成交量5日均线
+	        var v_volume = this.options.mark_v_ma.v_volume;
+	      	if(v_volume){
+	      		if(this.default_volume){
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + this.default_volume.volume;
+	        	}else{
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: -";
+	        	}
+	      	}
+        	
+
+	        // 成交量5日均线
+	        var v_ma_5 = this.options.mark_v_ma.v_ma_5;
+	        if(v_ma_5){
+	           if(this.default_vm5){
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + this.default_vm5.value;
+	        	}else{
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: -";
+	        	}
+	        }
+
+	        // 成交量10日均线
+	        var v_ma_10 = this.options.mark_v_ma.v_ma_10;
+	        if(v_ma_10){
+	           if(this.default_vm10){
+	        		this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + this.default_vm10.value;
+	        	}else{
+	        		this.options.mark_v_ma.v_ma_10.innerText = "MA10: -";
+	        	}
+	        }
 
         }
 

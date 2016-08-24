@@ -267,9 +267,6 @@ var ChartK = (function() {
         this.options.drawXY.drawXYV();
         this.options.drawXY.drawXYT();
 
-        drawV.apply(this);
-
-        this.drawK();
 
         var up_t = this.options.up_t;
         var down_t = this.options.down_t;
@@ -306,6 +303,10 @@ var ChartK = (function() {
             this.drawROC(start,end);
         }
 
+        drawV.apply(this);
+        // 绘制成交量均线
+        this.drawVMA();
+        this.drawK();
     }
 
     //绘制k线图的各种指标
@@ -404,6 +405,8 @@ var ChartK = (function() {
         rsi.className = "tech-index-item current";
         rsi.innerText = "RSI";
         rsi.style.width = this.options.drawWidth / 9 + "px";
+        rsi.style.height = this.options.unit_height + "px";
+        rsi.style.lineHeight = this.options.unit_height + "px";
 
         // kdj指标
         var kdj = document.createElement("div");
@@ -411,6 +414,8 @@ var ChartK = (function() {
         kdj.className = "tech-index-item";
         kdj.innerText = "KDJ";
         kdj.style.width = this.options.drawWidth / 9 + "px";
+        kdj.style.height = this.options.unit_height + "px";
+        kdj.style.lineHeight = this.options.unit_height + "px";
 
         // macd指标
         var macd = document.createElement("div");
@@ -418,6 +423,8 @@ var ChartK = (function() {
         macd.className = "tech-index-item";
         macd.innerText = "MACD";
         macd.style.width = this.options.drawWidth / 9 + "px";
+        macd.style.height = this.options.unit_height + "px";
+        macd.style.lineHeight = this.options.unit_height + "px";
 
         // wr指标
         var wr = document.createElement("div");
@@ -425,6 +432,8 @@ var ChartK = (function() {
         wr.className = "tech-index-item";
         wr.innerText = "WR";
         wr.style.width = this.options.drawWidth / 9 + "px";
+        wr.style.height = this.options.unit_height + "px";
+        wr.style.lineHeight = this.options.unit_height + "px";
 
         // dmi指标
         var dmi = document.createElement("div");
@@ -432,6 +441,8 @@ var ChartK = (function() {
         dmi.className = "tech-index-item";
         dmi.innerText = "DMI";
         dmi.style.width = this.options.drawWidth / 9 + "px";
+        dmi.style.height = this.options.unit_height + "px";
+        dmi.style.lineHeight = this.options.unit_height + "px";
 
         // bias指标
         var bias = document.createElement("div");
@@ -439,6 +450,8 @@ var ChartK = (function() {
         bias.className = "tech-index-item";
         bias.innerText = "BIAS";
         bias.style.width = this.options.drawWidth / 9 + "px";
+        bias.style.height = this.options.unit_height + "px";
+        bias.style.lineHeight = this.options.unit_height + "px";
 
         // obv指标
         var obv = document.createElement("div");
@@ -446,6 +459,8 @@ var ChartK = (function() {
         obv.className = "tech-index-item";
         obv.innerText = "OBV";
         obv.style.width = this.options.drawWidth / 9 + "px";
+        obv.style.height = this.options.unit_height + "px";
+        obv.style.lineHeight = this.options.unit_height + "px";
 
         // cci指标
         var cci = document.createElement("div");
@@ -453,12 +468,17 @@ var ChartK = (function() {
         cci.className = "tech-index-item";
         cci.innerText = "CCI";
         cci.style.width = this.options.drawWidth / 9 + "px";
+        cci.style.height = this.options.unit_height + "px";
+        cci.style.lineHeight = this.options.unit_height + "px";
+
         // roc指标
         var roc = document.createElement("div");
         roc.setAttribute("id","roc");
         roc.className = "tech-index-item";
         roc.innerText = "ROC";
         roc.style.width = this.options.drawWidth / 9 + "px";
+        roc.style.height = this.options.unit_height + "px";
+        roc.style.lineHeight = this.options.unit_height + "px";
 
         div_tech.appendChild(rsi);
         div_tech.appendChild(kdj);
@@ -538,8 +558,6 @@ var ChartK = (function() {
 
     }
 
-
-
     // 绘制成交量
     function drawV(){
 
@@ -605,12 +623,27 @@ var ChartK = (function() {
 
         }
 
+    }
+    // 绘制成交量均线
+    ChartK.prototype.drawVMA = function(){
+
+        var data = this.options.currentData;
+        var ctx = this.options.context;
+        // 图表交互
+        var inter = this.options.interactive;
         var v_ma_5 = data.v_ma_5;
         var v_ma_10 = data.v_ma_10;
+        var v_max = (data.v_max/1).toFixed(0);
+        var v_base_height = this.options.v_base_height;
+        var c2_y_top = this.options.c2_y_top;
 
         this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5,"#f4cb15"]);
         this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10,"#ff5b10"]);
         
+        inter.default_volume = data.data[data.data.length - 1];
+        inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
+        inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
+
         function getMAData(ctx,data_arr,color) {
             var ma_data = [];
             ctx.save();
@@ -636,7 +669,6 @@ var ChartK = (function() {
             return ma_data;
         }
 
-
         // 标识最大成交量
         function markVMax(ctx,v_max,y_v_end){
             ctx.beginPath();
@@ -644,6 +676,7 @@ var ChartK = (function() {
             ctx.fillText(common.format_unit(v_max),0,y_v_end + 10);
             ctx.stroke();
         }
+
         // 获取最大成交量
         function getVMax(data){
             if(data.data[0]){
@@ -658,27 +691,25 @@ var ChartK = (function() {
                     max=item[i].volume;
                 }
             }
-            return max
+            return max;
         }
-
     }
 
-    // 绘制均线
+    // 绘制K线均线
     ChartK.prototype.drawMA = function(start, end){
         
         var _this = this;
 
         this.clearK();
-        this.drawK();
         this.options.drawXY.drawXYK();
+        this.drawK();
 
         var params = {};
         params.code = this.options.code;
-        params.extend = "ma|rsi";
+        params.extend = "ma";
 
         if(!this.options.ma){
             GetTeacData(params, function(data) {
-
                 _this.options.ma = {};
                 _this.options.ma = data;
                 var ctx = _this.options.context;
@@ -1244,6 +1275,7 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = this.options.up_t = "sar";
+        var k_data_arr = this.options.currentData.data;
 
         if(this.options.sar){
             temp_sar.apply(_this,[_this.options.start, _this.options.end]);
@@ -1259,7 +1291,7 @@ var ChartK = (function() {
             var sar_arr = this.options.sar.sar.slice(start, end);
             var sar_arr_length = sar_arr.length;
            
-            DrawSAR.apply(_this,[_this.options.context,sar_arr]);
+            DrawSAR.apply(_this,[_this.options.context,sar_arr,k_data_arr]);
         }  
 
     }
@@ -1291,13 +1323,13 @@ var ChartK = (function() {
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,-10,this.options.padding.left + this.options.drawWidth,this.options.c2_y_top);
+        ctx.clearRect(0,-10,this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top - this.options.unit_height);
     }
 
     // 清除技术指标区域
     ChartK.prototype.clearT = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
+        ctx.clearRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth + 10,this.options.c4_y_top);
     }
 
 
@@ -1400,7 +1432,8 @@ var ChartK = (function() {
             // 绘制坐标轴
             this.options.drawXY = new DrawXY(this.options);
             // 绘制均线
-            
+            this.options.up_t = "junxian";
+            this.drawMA(this.options.start,this.options.end);
             this.drawMA(this.options.start, this.options.end);
             this.options.up_t = "junxian";
             // 绘制rsi指标
@@ -1410,6 +1443,8 @@ var ChartK = (function() {
 
             // 绘制成交量
             drawV.apply(this,[this.options]);
+            // 绘制成交量均线
+            this.drawVMA();
             // 绘制技术指标
             drawT.apply(this,[this.options]);
 
@@ -1418,9 +1453,6 @@ var ChartK = (function() {
                 var points =  this.options.interactive.options.pointsContainer.children;
                 this.markPointsDom = points;
             }
-
-
-
 
             // 隐藏loading效果
             inter.hideLoading();

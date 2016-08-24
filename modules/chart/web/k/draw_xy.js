@@ -77,7 +77,7 @@ var DrawXY = (function(){
         // 保存画笔状态
         ctx.save();
         
-        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - canvas.height * 1 / this.options.y_sepe_num,this.options.drawWidth - 2,this.options.c_v_height + canvas.height * 1 / this.options.y_sepe_num);
+        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_v_height + this.options.unit_height);
         ctx.stroke();
 
         var c2_y_top = this.options.c2_y_top;
@@ -168,13 +168,12 @@ var DrawXY = (function(){
         ctx.beginPath();
         
         /*画布宽度*/
-        var k_width = ctx.canvas.width;
-        var y_date = k_height + ctx.canvas.height/8/2;
+        var k_width = this.options.drawWidth;
         
-        var unit_w = (k_width - this.options.padding.left) / this.options.x_sepe_num;
+        var unit_w = (k_width) / (this.options.x_sepe_num);
         var XMark = this.options.XMark;
 
-        for(var i = 0;i < this.options.x_sepe_num;i++){
+        for(var i = 0;i <= this.options.x_sepe_num;i++){
 
             var x1 = this.options.padding.left + i * unit_w;
             var y1 = 0;
@@ -185,7 +184,7 @@ var DrawXY = (function(){
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
                 ctx.stroke();
-            }else if(i == this.options.x_sepe_num-1){
+            }else if(i == this.options.x_sepe_num){
                 ctx.moveTo(x1 - 4, y1);
                 ctx.lineTo(x2 - 4, y2);
                 ctx.stroke();
@@ -198,11 +197,11 @@ var DrawXY = (function(){
         var XMark_length = XMark.length;
         for(var j = 0;j < XMark_length;j++){
             if(j == 0){
-                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left, this.options.c_k_height + 30);
+                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left, this.options.c_k_height + this.options.unit_height/2 + 5);
             }else if(j == XMark_length - 1){
-                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[j]).width, this.options.c_k_height + 30);
+                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[j]).width, this.options.c_k_height + this.options.unit_height/2 + 5);
             }else{
-                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[j]).width/2, this.options.c_k_height + 30);
+                ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left - ctx.measureText(XMark[j]).width/2, this.options.c_k_height + this.options.unit_height/2 + 5);
             }
 
         }

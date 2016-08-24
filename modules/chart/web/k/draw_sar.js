@@ -1,24 +1,30 @@
 // 工具
 var common = require('chart/web/common/common'); 
-function drawSAR(ctx,sar){
-
+function drawSAR(ctx,sar,k_data_arr){
     // 保存画笔状态
     ctx.save();
     this.clearK();
-    this.drawK();
     this.options.drawXY.drawXYK();
+    this.drawK();
 
     var c_t_height = this.options.c_t_height;
-
     var sar_length = sar.length;
 
     var unit_w = this.options.drawWidth/sar_length;
-    ctx.beginPath();
-  
-    ctx.fillStyle = "#ff0000";
-    ctx.strokeStyle = "#ff0000";
+    var up_color = this.options.up_color;
+    var down_color = this.options.down_color
+    
     for(var i = 0;i < sar_length;i++){
-
+        ctx.beginPath();
+        var is_up = k_data_arr[i].up;
+        if(is_up){
+            ctx.fillStyle = up_color;
+            ctx.strokeStyle = up_color;
+        }else{
+            ctx.fillStyle = down_color;
+            ctx.strokeStyle = down_color;
+        }
+        
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,sar[i].value);
 
