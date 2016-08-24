@@ -74,7 +74,7 @@ function drawMACD(ctx,dea,diff,macd){
     for(var i = 0;i < macd_length;i++){
         ctx.beginPath();
         var x = this.options.padding.left + (i + 1) * unit_w - unit_w/2;
-        if(macd[i].value >= 0){
+        if(macd[i].value >= middle){
             ctx.strokeStyle = "#ff0000";
             ctx.fillStyle = "#ff0000";
             var y = (c_t_height/2 - (macd[i].value - middle)/base *  c_t_height/2) + this.options.c3_y_top
@@ -97,6 +97,7 @@ function drawMACD(ctx,dea,diff,macd){
     ctx.fillText(common.format_unit(max), 0, this.options.c3_y_top + 5);
     ctx.fillText(common.format_unit(middle.toFixed(2)), 0, this.options.c3_y_top + 5 + c_t_height/2);
     ctx.fillText(common.format_unit(min.toFixed(2)), 0, this.options.c3_y_top + 5 + c_t_height);
+    ctx.beginPath();
     ctx.restore();
 }
 
