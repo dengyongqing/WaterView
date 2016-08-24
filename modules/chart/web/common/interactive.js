@@ -358,7 +358,7 @@ var Interactive = (function() {
 		}else{
 			var markTContainer = this.options.markTContainer;
 		}
-		var colors = ["#ffba42", "#ff7e58", "#6e9fe9", "#fe59fe"];
+		var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
 		//判断是不是第一次，是否需要创建元素
 		if (this.options.markTType != type) {
 			//作为是否切换技术指标的依据
