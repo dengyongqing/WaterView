@@ -252,7 +252,7 @@ var Interactive = (function() {
 
 	        // 成交量5日均线
 	        var v_volume = document.createElement('span');
-	        v_volume.className = "span-m5";
+	        v_volume.className = "span-m30";
 	        v_volume.style.position = "absolute";
 	        v_volume.style.left = "10px";
 	        this.options.mark_v_ma.v_volume = v_volume;
@@ -268,7 +268,7 @@ var Interactive = (function() {
 
 	        // 成交量5日均线
 	        var v_ma_5 = document.createElement('span');
-	        v_ma_5.className = "span-m5";
+	        v_ma_5.className = "span-m20";
 	        v_ma_5.style.position = "absolute";
 	        v_ma_5.style.left = "160px";
 	        this.options.mark_v_ma.v_ma_5 = v_ma_5;
@@ -284,7 +284,7 @@ var Interactive = (function() {
 
 	        // 成交量10日均线
 	        var v_ma_10 = document.createElement('span');
-	        v_ma_10.className = "span-m10";
+	        v_ma_10.className = "span-m5";
 	        v_ma_10.style.position = "absolute";
 	        // v_ma_10.style.left = this.options.padding.left + this.options.drawWidth * 1/3 - 50 + "px";
 	        v_ma_10.style.left = "310px";

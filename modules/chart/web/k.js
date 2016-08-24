@@ -637,8 +637,9 @@ var ChartK = (function() {
         var v_base_height = this.options.v_base_height;
         var c2_y_top = this.options.c2_y_top;
 
-        this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5,"#f4cb15"]);
-        this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10,"#ff5b10"]);
+        this.options.volume = getMAData.apply(this,[ctx,v_ma_5,"#fe59fe"]);
+        this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5,"#488ee6"]);
+        this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10,"#f4cb15"]);
         
         inter.default_volume = data.data[data.data.length - 1];
         inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
@@ -1413,7 +1414,7 @@ var ChartK = (function() {
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top - this.options.unit_height);
+        ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
     }
 
     // 清除技术指标区域
