@@ -350,11 +350,15 @@ var Interactive = (function() {
 			this.options.markTContainer = document.createElement("div");
 			var markTContainer = this.options.markTContainer;
 			markTContainer.setAttribute("id", "markTContainer");
+			// debugger;
+			markTContainer.style.position = "absolute";
+			markTContainer.style.top = this.options.c3_y_top+5+"px";
+			markTContainer.style.left = this.options.padding.left + "px";
 			document.getElementById(this.options.container).appendChild(markTContainer);
 		}else{
 			var markTContainer = this.options.markTContainer;
 		}
-
+		var colors = ["#ffba42", "#ff7e58", "#6e9fe9", "#fe59fe"];
 		//判断是不是第一次，是否需要创建元素
 		if (this.options.markTType != type) {
 			//作为是否切换技术指标的依据
@@ -375,8 +379,10 @@ var Interactive = (function() {
 		    //添加元素
 		    for (var i = 0; i < dataObj.length; i++) {
 		        var span = document.createElement('span');
-		        span.innerText = dataObj[i].name + ": " + dataObj[i].value[index];
+		        span.innerText = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
 		        span.style.width = "100px";
+		        span.style.color = colors[i];
+		        span.style.marginRight = "20px";
 		        span.setAttribute("id", dataObj[i].name+"_mark");
 		        m_frag.appendChild(span);
 		    }
@@ -391,11 +397,13 @@ var Interactive = (function() {
 		    for (var i = 0; i < dataObj.length; i++) {
 		        var span = document.getElementById(dataObj[i].name+"_mark");
 		        try{
-			        span.innerText = dataObj[i].name + ": " + dataObj[i].value[index].value;
+			        span.innerText = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
 		        }catch(e){
 		        	var span = document.createElement('span');
-		        	span.innerText = dataObj[i].name + ": " + dataObj[i].value[index];
+		        	span.innerText = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
 		        	span.style.width = "100px";
+		        	span.style.color = colors[i];
+		        	span.style.marginRight = "20px";
 		        	span.setAttribute("id", dataObj[i].name+"_mark");
 		        	markTContainer.appendChild(span);
 		        }
