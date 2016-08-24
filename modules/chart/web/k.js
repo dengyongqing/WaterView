@@ -267,7 +267,6 @@ var ChartK = (function() {
         this.options.drawXY.drawXYV();
         this.options.drawXY.drawXYT();
 
-
         var up_t = this.options.up_t;
         var down_t = this.options.down_t;
 
@@ -707,6 +706,8 @@ var ChartK = (function() {
         var params = {};
         params.code = this.options.code;
         params.extend = "ma|rsi";
+        this.options.up_t = "junxian";
+        this.options.down_t = "rsi";
 
         if(this.options.ma && this.options.rsi){
             temp_ma.apply(_this,[]);
@@ -1424,25 +1425,42 @@ var ChartK = (function() {
 
     // 缩放图表
     function scaleClick() {
-      
+        
         var _this = this;
+        var start = _this.options.start;
+        var end = _this.options.end;
         var type = _this.options.type;
+        var data_arr_length = _this.options.data.data.length;
+        var scale_count = _this.options.scale_count;
+
+        if(scale_count > 0){
+
+            if(start + 20 >= end){
+                start = end - 20;
+            }else{
+                start = start + 20;
+            }
+
+        }else{
+
+            if(start - 20 <= 0){
+                start = 0;
+            }else{
+                start = start - 20;
+            }
+        }
+
+        _this.options.start = start;
+        _this.options.end = end;
+        slideBarCallback.apply(_this,[start,end]);
+
         // 初始化交互
         var inter = _this.options.interactive
         // 显示loading效果
         this.options.interactive.showLoading();
 
         try{
-            if(type == "DK"){
-                GetDataK(getParamsObj.call(_this),function(data){
-                    if(data){
-                        dataCallback.apply(_this,[data]);
-                        // 缩放按钮点击有效
-                        _this.options.clickable = true;
-                    }
-
-                });
-            }
+            slideBarCallback();
 
         }catch(e){
             // 缩放按钮点击有效
@@ -1627,11 +1645,11 @@ var ChartK = (function() {
         // 点击放大
         common.addEvent.call(_this, scale_plus, "click",function(event){
             var scale_count = _this.options.scale_count;
-            if(scale_count < 2 && _this.options.clickable){
+            if(_this.options.clickable){
                 // 缩放按钮点击无效
                 _this.options.clickable = false;
                 scale_minus.style.opacity = "1";
-                _this.options.scale_count = scale_count + 1;
+                _this.options.scale_count = 1;
 
                 // 清除上榜日标识
                 if(_this.options.interactive.options.pointsContainer){
@@ -1640,10 +1658,6 @@ var ChartK = (function() {
                 // 清空画布
                 ctx.clearRect(0,-_this.options.margin.top,canvas.width,canvas.height);
                 scaleClick.apply(_this);
-            }
-
-            if(_this.options.scale_count >= 2){
-                scale_plus.style.opacity = "0.5";
             }
             
         });
@@ -1651,11 +1665,11 @@ var ChartK = (function() {
         // 点击缩小
         common.addEvent.call(_this, scale_minus, "click",function(event){
             var scale_count = _this.options.scale_count;
-            if(scale_count > -2 && _this.options.clickable){
+            if(_this.options.clickable){
                 // 缩放按钮点击无效
                 _this.options.clickable = false;
                 scale_plus.style.opacity = "1";
-                _this.options.scale_count = scale_count - 1;
+                _this.options.scale_count = -1;
 
                 // 清除上榜日标识
                 if(_this.options.interactive.options.pointsContainer){
@@ -1664,10 +1678,6 @@ var ChartK = (function() {
                 // 清空画布
                 ctx.clearRect(0,-_this.options.margin.top,canvas.width,canvas.height);
                 scaleClick.apply(_this);
-            }
-
-            if(_this.options.scale_count <= -2){
-                scale_minus.style.opacity = "0.5";
             }
             
         });
