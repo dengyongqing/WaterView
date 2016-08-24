@@ -28,6 +28,8 @@ function drawDMI(ctx,pdi,mdi,adx,adxr){
 
     var unit_w = this.options.drawWidth/pdi_length;
     ctx.beginPath();
+
+
     ctx.strokeStyle = "#488ee6";
     for(var i = 0;i < pdi_length;i++){
 
@@ -44,6 +46,7 @@ function drawDMI(ctx,pdi,mdi,adx,adxr){
     ctx.stroke();
 
     ctx.beginPath();
+  
     ctx.strokeStyle = "#f4cb15";
     for(var i = 0;i < mdi_length;i++){
 
@@ -64,6 +67,22 @@ function drawDMI(ctx,pdi,mdi,adx,adxr){
     for(var i = 0;i < adx_length;i++){
 
         var y = (c_t_height - (adx[i].value - min)/base *  c_t_height) + this.options.c3_y_top
+        var x = this.options.padding.left + (i + 1) * unit_w - unit_w/2;
+
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else{
+            ctx.lineTo(x,y);
+        }
+
+    }
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#ff5b10";
+    for(var i = 0;i < adxr_length;i++){
+
+        var y = (c_t_height - (adxr[i].value - min)/base *  c_t_height) + this.options.c3_y_top
         var x = this.options.padding.left + (i + 1) * unit_w - unit_w/2;
 
         if(i == 0){

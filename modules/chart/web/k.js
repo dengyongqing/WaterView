@@ -131,7 +131,11 @@ var ChartK = (function() {
         this.options.color = {};
         this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
         this.options.color.fillStyle = '#333';
-       
+        this.options.color.m5Color = "#f4cb15";
+        this.options.color.m10Color = "#ff5b10";
+        this.options.color.m20Color = "#488ee6";
+        this.options.color.m30Color = "#fe59fe";
+
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
         this.options.padding.right = 100;
@@ -637,8 +641,9 @@ var ChartK = (function() {
         var v_base_height = this.options.v_base_height;
         var c2_y_top = this.options.c2_y_top;
 
-        this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5,"#f4cb15"]);
-        this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10,"#ff5b10"]);
+
+        this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5, this.options.color.m20Color]);
+        this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10, this.options.color.m5Color]);
         
         inter.default_volume = data.data[data.data.length - 1];
         inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
@@ -764,10 +769,10 @@ var ChartK = (function() {
             // inter.default_volume = data.data[data.data.length - 1];
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
-            _this.options.five_average = getMAData.apply(_this, [ctx, five_average, "#f4cb15"]);
-            _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, "#ff5b10"]);
-            _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
-            _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, "#fe59fe"]);
+            _this.options.five_average = getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
+            _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
+            _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
+            _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
         }
         
 
@@ -862,10 +867,10 @@ var ChartK = (function() {
             // inter.default_volume = data.data[data.data.length - 1];
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
-            _this.options.five_average = getMAData.apply(_this, [ctx, five_average, "#f4cb15"]);
-            _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, "#ff5b10"]);
-            _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, "#488ee6"]);
-            _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, "#fe59fe"]);
+            _this.options.five_average = getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
+            _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
+            _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
+            _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
         }
         
 
@@ -1413,7 +1418,7 @@ var ChartK = (function() {
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top - this.options.unit_height);
+        ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
     }
 
     // 清除技术指标区域
