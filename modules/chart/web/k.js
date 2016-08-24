@@ -1460,6 +1460,7 @@ var ChartK = (function() {
         this.options.interactive.showLoading();
 
         try{
+            // slideBarCallback.apply(this,[start,end]);
             slideBar.apply(this,[slideBarCallback,start,end]);
             inter.hideLoading();
         }catch(e){
@@ -1647,7 +1648,7 @@ var ChartK = (function() {
             var scale_count = _this.options.scale_count;
             if(_this.options.clickable){
                 // 缩放按钮点击无效
-                _this.options.clickable = false;
+                _this.options.clickable = true;
                 scale_minus.style.opacity = "1";
                 _this.options.scale_count = 1;
 
@@ -1667,7 +1668,7 @@ var ChartK = (function() {
             var scale_count = _this.options.scale_count;
             if(_this.options.clickable){
                 // 缩放按钮点击无效
-                _this.options.clickable = false;
+                _this.options.clickable = true;
                 scale_plus.style.opacity = "1";
                 _this.options.scale_count = -1;
 
