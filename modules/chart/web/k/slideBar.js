@@ -6,7 +6,7 @@ var slideBar = function() {
     var callback = arguments[0];
 
     if (arguments.length == 1) {
-        
+
         //第一次绘制元素
         var data = this.options.data;
         var arr = [];
@@ -63,17 +63,24 @@ var slideBar = function() {
         ctx.fillStyle = "#E9E9E9";
         ctx.fill();
 
-        // //写上年标记
-        // if(arrYear.length === 1){
 
-        // }else if(arrYear.length == 2){
-
-        // }else if(arrYear.length <= 4){
-
-        // }else{
-
-        // }
-
+        //写上年标记
+        var yearLen = arrYear.length;
+        var sapce = 1;
+        if (yearLen <= 2) {
+            sapce  = 1;
+        } else if (yearLen <= 7) {
+            sapce = 2;
+        } else if (yearLen <= 13) {
+            sapce = 3;
+        } else if(yearLen <= 17){
+            sapce = 4;
+        }else{
+            sapce = 5;
+        }
+        for (i = 0; i < yearLen; i += sapce) {
+            drawYear(ctx, arrYear[i].order, arrYear[i].year, arr.length, width, height);
+        }
         //添加滑动块
         var containerBar = document.createElement("div");
         containerBar.setAttribute("id", "slideBarWrap");
@@ -116,8 +123,8 @@ var slideBar = function() {
         var len = this.options.data.data.length;
         var slideBar = document.getElementById("slideBarWrap");
         var width = _that.options.drawWidth;
-        var slideBarLeft = width*start/len + "px";
-        var slideBarWidth = width*(end-start)/len + "px";
+        var slideBarLeft = width * start / len + "px";
+        var slideBarWidth = width * (end - start) / len + "px";
         slideBar.style.left = slideBarLeft;
         slideBar.style.width = slideBarWidth;
         callback.call(_that, start, end);
@@ -132,6 +139,22 @@ function getX(len, i, width) {
 
 function getY(max, min, value, height) {
     return height - (value - min) / (max - min) * height;
+}
+
+/*画年限*/
+function drawYear(ctx, order, yearText, len, totalWidth, totalHeight) {
+    ctx.save()
+    ctx.fillStyle = "#aaa";
+    ctx.strokeStyle = "#aaa";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+
+    ctx.moveTo(Math.ceil(getX(len, order, totalWidth)) + 0.5, totalHeight);
+    ctx.lineTo(Math.ceil(getX(len, order, totalWidth)) + 0.5, totalHeight / 2);
+    ctx.fillText(yearText, Math.ceil(getX(len, order, totalWidth) + 5), totalHeight * 2 / 3);
+
+    ctx.stroke();
+    ctx.restore();
 }
 
 var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, rightDrag) {
