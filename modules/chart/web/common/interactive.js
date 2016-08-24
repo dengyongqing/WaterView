@@ -257,10 +257,10 @@ var Interactive = (function() {
 	        v_volume.style.left = "10px";
 	        this.options.mark_v_ma.v_volume = v_volume;
 	        if(volume){
-	           this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + volume;
+	           this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + common.format_unit(volume,2);
 	        }else{
 	        	if(this.default_volume){
-	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + this.default_volume.volume;
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + common.format_unit(this.default_volume.volume,2);
 	        	}else{
 	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: -";
 	        	}
@@ -273,10 +273,10 @@ var Interactive = (function() {
 	        v_ma_5.style.left = "160px";
 	        this.options.mark_v_ma.v_ma_5 = v_ma_5;
 	        if(obj_5){
-	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + obj_5.value;
+	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + common.format_unit(obj_5.value,2);
 	        }else{
 	        	if(this.default_vm5){
-	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + this.default_vm5.value;
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + common.format_unit(this.default_vm5.value,2);
 	        	}else{
 	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: -";
 	        	}
@@ -290,10 +290,10 @@ var Interactive = (function() {
 	        v_ma_10.style.left = "310px";
 	        this.options.mark_v_ma.v_ma_10 = v_ma_10;
 	        if(obj_10){
-	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + obj_10.value;
+	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + common.format_unit(obj_10.value,2);
 	        }else{
 	        	if(this.default_vm10){
-					this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + this.default_vm10.value;
+					this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + common.format_unit(this.default_vm10.value,2);
 	        	}else{
 	        		this.options.mark_v_ma.v_ma_10.innerText = "MA10: -";
 	        	}
@@ -310,30 +310,30 @@ var Interactive = (function() {
 	        var mark_v_ma = this.options.mark_v_ma.mark_v_ma;
 
 	        if(volume){
-	           this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + volume;
+	           this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + common.format_unit(volume,2);
 	        }else{
 	        	if(this.default_volume){
-	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + this.default_volume.volume;
+	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + common.format_unit(this.default_volume.volume,2);
 	        	}else{
 	        		this.options.mark_v_ma.v_volume.innerText = "VOLUME: -";
 	        	}
 	        }
 
 	        if(obj_5){
-	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + obj_5.value;
+	           this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + common.format_unit(obj_5.value,2);
 	        }else{
 	        	if(this.default_vm5){
-	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + this.default_vm5.value;
+	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + common.format_unit(this.default_vm5.value,2);
 	        	}else{
 	        		this.options.mark_v_ma.v_ma_5.innerText = "MA5: -";
 	        	}
 	        }
 
 	        if(obj_10){
-	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + obj_10.value;
+	            this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + common.format_unit(obj_10.value,2);
 	        }else{
 	        	if(this.default_vm10){
-					this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + this.default_vm10.value;
+					this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + common.format_unit(this.default_vm10.value,2);
 	        	}else{
 	        		this.options.mark_v_ma.v_ma_10.innerText = "MA10: -";
 	        	}
@@ -341,6 +341,58 @@ var Interactive = (function() {
 
 
 	    }
+
+	}
+
+	Interactive.prototype.markT = function(canvas, type, datas, start, end, index){
+		if(!this.options.markTContainer){
+			//创建并添加最下方一系列技术指标的外部包含div
+			this.options.markTContainer = document.createElement("div");
+			var markTContainer = this.options.markTContainer;
+			markTContainer.setAttribute("id", "markTContainer");
+			document.getElementById(this.options.container).appendChild(markTContainer);
+		}else{
+			var markTContainer = this.options.markTContainer;
+		}
+
+		//判断是不是第一次，是否需要创建元素
+		if (this.options.type != type) {
+			//作为是否切换技术指标的依据
+			this.options.type = type;
+		    //清空markTContainer里面的所有span
+		    var spans = markTContainer.childNodes;
+		    for(var i = 0; i < spans.length; i++ ){
+		    	markTContainer.removeChild(spans[i]);
+		    }
+
+		    var dataObj = [];
+		    for (var item in datas) {
+		        dataObj.push({ value: datas[item].slice(start, end), name: item });
+		    }
+		    /*创建文档碎片*/
+		    var m_frag = document.createDocumentFragment();
+		    //添加元素
+		    for (var i = 0; i < dataObj.length; i++) {
+		        var span = document.createElement('span');
+		        span.innerText = dataObj[i].name + ": " + dataObj[i].value[index];
+		        span.style.width = "100px";
+		        span.setAttribute("id", dataObj[i].name);
+		        m_frag.appendChild(span);
+		    }
+		    /*添加到包含元素上*/
+		    markTContainer.appendChild(m_frag);
+		}else{
+			var dataObj = [];
+		    for (var item in datas) {
+		        dataObj.push({ value: datas[item].slice(start, end), name: item });
+		    }
+		    //更改内容
+		    for (var i = 0; i < dataObj.length; i++) {
+		        var span = document.getElementById(dataObj[i].name);
+		        span.innerText = dataObj[i].name + ": " + dataObj[i].value[index].value;
+		    }
+
+		}
 
 	}
 

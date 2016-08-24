@@ -196,7 +196,6 @@ var DrawXY = (function(){
 
         var XMark_length = XMark.length;
         for(var j = 0;j < XMark_length;j++){
-            console.log(XMark[j]);
             if(j == 0){
                 ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left, this.options.c_k_height + this.options.unit_height/2 + 5);
             }else if(j == XMark_length - 1){
@@ -218,6 +217,7 @@ var DrawXY = (function(){
                 x: 0,
                 y: k_height - (i / (sepe_num-1)) * k_height
             });
+
         }
         return result;
     }

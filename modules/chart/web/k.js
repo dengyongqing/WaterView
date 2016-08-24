@@ -236,7 +236,7 @@ var ChartK = (function() {
     // 删除canvas画布
     ChartK.prototype.clear = function(cb) {
         var ctx = this.options.context;
-        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth + 10,this.options.c4_y_top);
+        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
     }
 
     // 获取上榜日标识dom
@@ -796,7 +796,7 @@ var ChartK = (function() {
 
     // 绘制K线均线
     ChartK.prototype.drawMA = function(start, end){
-
+        
         var _this = this;
 
         this.clearK();
@@ -906,7 +906,7 @@ var ChartK = (function() {
         var bar_w = rect_unit.bar_w;
         // K线柱体的颜色
         var up_color = this.options.up_color;
-        var down_color = this.options.down_color
+        var down_color =this.options.down_color
         // 图表交互
         var inter = this.options.interactive;
         // 上榜日数组
@@ -1507,6 +1507,8 @@ var ChartK = (function() {
             // 绘制均线
             this.options.up_t = "junxian";
             this.drawMA(this.options.start,this.options.end);
+            this.drawMA(this.options.start, this.options.end);
+            this.options.up_t = "junxian";
             // 绘制rsi指标
             this.drawRSI();
             // 绘制K线图
@@ -1660,7 +1662,7 @@ var ChartK = (function() {
     // 图表交互
     function dealEvent(inter,eventposition){
 
-        var canvas = this.options.canvas;
+        var canvas = this.options.canvas;   
 
         var k_data = this.options.currentData.data;
 
@@ -1709,6 +1711,7 @@ var ChartK = (function() {
              // 标识均线数据
              inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
              inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
+             inter.markT(canvas, this.options.down_t, this.options[this.options.down_t], this.options.start, this.options.end, index);
         }
 
     }
