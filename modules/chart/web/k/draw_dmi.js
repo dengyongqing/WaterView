@@ -75,6 +75,22 @@ function drawDMI(ctx,pdi,mdi,adx,adxr){
     }
     ctx.stroke();
 
+    ctx.beginPath();
+    ctx.strokeStyle = "#ff5b10";
+    for(var i = 0;i < adxr_length;i++){
+
+        var y = (c_t_height - (adxr[i].value - min)/base *  c_t_height) + this.options.c3_y_top
+        var x = this.options.padding.left + (i + 1) * unit_w - unit_w/2;
+
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else{
+            ctx.lineTo(x,y);
+        }
+
+    }
+    ctx.stroke();
+
    var middle = (max + min)/2;
     ctx.fillStyle = "#333";
     ctx.fillText(common.format_unit(max), 0, this.options.c3_y_top + 5);
