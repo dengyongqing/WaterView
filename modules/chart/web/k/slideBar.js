@@ -287,5 +287,4 @@ function getDuring(arr, start, end) {
     return result;
 }
 
-
 module.exports = slideBar;
