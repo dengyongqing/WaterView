@@ -323,6 +323,6 @@
 	background-color: #3385FF;
 	opacity: 0.5;
 	filter: alpha(opacity=50);
-	outline:solid 1px #35709C;
+	border:solid 1px #35709C;
 }
 .containerBar:hover{cursor: move;}

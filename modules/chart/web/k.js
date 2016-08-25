@@ -321,7 +321,7 @@ var ChartK = (function() {
         var frag = document.createDocumentFragment();
         var kt_title = document.createElement("div");
         kt_title.className = "kt-title";
-        kt_title.innerText = "主图指标";
+        kt_title.innerHTML = "主图指标";
         frag.appendChild(kt_title);
         //
         var appendLine = function(name,id, frag, isDefault){
@@ -335,7 +335,7 @@ var ChartK = (function() {
             container.appendChild(radio);
             var nameText = document.createElement("div");
             nameText.className = "kt-name";
-            nameText.innerText = name;
+            nameText.innerHTML = name;
             container.appendChild(nameText);
             //添加点击事件
             common.addEvent(container, "click", function(e){
