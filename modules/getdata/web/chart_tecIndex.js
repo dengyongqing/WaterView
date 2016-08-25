@@ -6,6 +6,7 @@ var dealData = require('../../dealData/web/chart_tecIndex');
 var jsonp = require('jsonp');
 
 function getData(options, callback){
+
 	var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
 	var callbackStr = "fsDataTeac"+ options.extend.substring(0, 2) + (new Date()).getTime().toString();
 	var urlData = {
@@ -18,7 +19,6 @@ function getData(options, callback){
         check:"kte"
 	};
 	jsonp(url, urlData, callbackStr, function(json){
-		
 		var result = dealData(json, urlData.extend);
 
 		callback(result);

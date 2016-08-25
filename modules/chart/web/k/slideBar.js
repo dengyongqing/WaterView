@@ -38,14 +38,14 @@ var slideBar = function() {
             var ctx = cvs.getContext('2d');
         }
         container.appendChild(cvs);
-        cvs.style.outline = "solid 1px #E9E9E9";
         ctx.strokeStyle = "#E9E9E9";
 
         cvs.width = width;
         cvs.height = height;
         cvs.style.width = width + "px";
         cvs.style.height = height + "px";
-        cvs.style.backgroundColor = "white";
+        cvs.className = "slideBarCVS";
+
         //绘制背景图
         ctx.beginPath();
         for (i = 0; i < len; i++) {
@@ -78,28 +78,34 @@ var slideBar = function() {
         var containerBar = document.createElement("div");
         containerBar.setAttribute("id", "slideBarWrap");
         containerBar.style.position = "absolute";
-        containerBar.style.backgroundColor = "rgba(108, 182, 229, 0.4)";
-        containerBar.style.outline = "solid 1px #35709C";
         containerBar.style.height = height + "px";
-        containerBar.style.width = /*options.barWidth + */ 60 / _that.options.data.total * width + "px";
+        containerBar.style.width = 60 / _that.options.data.total * width + "px";
         containerBar.style.top = "0px";
-        containerBar.style.left = /*options.barStart + */ _that.options.start / _that.options.data.total * width + "px";
+        containerBar.style.left = _that.options.start / _that.options.data.total * width + "px";
+        containerBar.className = "containerBar";
+
         var leftDrag = document.createElement("div");
         leftDrag.style.position = "absolute";
         leftDrag.style.height = height / 2 + "px";
-        leftDrag.style.width = "10px";
-        leftDrag.style.backgroundColor = "red";
+        leftDrag.style.width = "7px";
+        leftDrag.style.border = "solid 1px #aaa";
         leftDrag.style.top = height / 4 + "px";
-        leftDrag.style.left = "-10px";
+        leftDrag.style.left = "-4px";
+        leftDrag.style.color= "#aaa";
+        leftDrag.className = "leftDrag";
+        leftDrag.innerHTML = "|";
 
 
         var rightDrag = document.createElement("div");
         rightDrag.style.position = "absolute";
         rightDrag.style.height = height / 2 + "px";
-        rightDrag.style.width = "10px";
-        rightDrag.style.backgroundColor = "red";
+        rightDrag.style.width = "7px";
+        rightDrag.style.border = "solid 1px #aaa";
         rightDrag.style.top = height / 4 + "px";
-        rightDrag.style.right = "-10px";
+        rightDrag.style.right = "-4px";
+        rightDrag.style.color= "#aaa";
+        rightDrag.className = "rightDrag";
+        rightDrag.innerHTML = "|";
 
         container.appendChild(containerBar);
         containerBar.appendChild(leftDrag);
@@ -173,24 +179,22 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
         }
 
         //判断点击了那个区域
-        if (winX > LeftD_left && winX < ContainerB_left) {
+        var target = e.target || e.srcElement;
+        if (target == leftDrag) {
             //点击了左边拖拽
             clickedLeft = true;
             inArea = true;
             offset = ContainerB_left - winX;
-            body.style.cursor = "w-resize";
-        } else if (e.target == rightDrag) {
+        } else if (target == rightDrag) {
             //点击了右边拖拽
             clickedRight = true;
             inArea = true;
             offset = winX - ContainerB_left - ContainerB_width;
-            body.style.cursor = "e-resize";
-        } else if (e.target == containerBar) {
+        } else if (target == containerBar) {
             //点击了半透明区域
             clickedBar = true;
             inArea = true;
             offset = winX - ContainerB_left;
-            body.style.cursor = "move";
         }
     });
 
@@ -272,7 +276,11 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
             }
 
         }
-        e.preventDefault();
+        try {
+            e.preventDefault();
+        } catch (e) {
+            e.returnValue = false;
+        }
     });
 
     function toNumber(str) {

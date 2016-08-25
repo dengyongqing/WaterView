@@ -87,7 +87,7 @@ var ChartK = (function() {
 
     /*初始化*/
     ChartK.prototype.init = function() {
-        this.options.type = this.options.type == undefined ? "DK" : this.options.type;
+        this.options.type = this.options.type == undefined ? "K" : this.options.type;
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         this.container.style.position = "relative";
@@ -1556,14 +1556,16 @@ var ChartK = (function() {
             // slideBar({container: this.container, percent: 1486, width: this.options.drawWidth, height: 70, top:this.options.c4_y_top, left: this.options.padding.left, barStart: 200, barWidth: 100});
             
             // 绘制坐标轴
-            this.options.drawXY = new DrawXY(this.options);
+            var drawXY = this.options.drawXY = new DrawXY(this.options);
+            // drawXY.drawXYK();
+            // 绘制K线图
+            this.drawK();
             // 绘制均线
             this.options.up_t = "junxian";
             
             // 绘制均线和rsi指标
             init_ma_rsi.apply(this,[]);
-            // 绘制K线图
-            this.drawK();
+            
 
             // 绘制成交量
             drawV.apply(this,[this.options]);

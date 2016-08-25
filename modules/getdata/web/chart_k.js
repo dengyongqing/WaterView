@@ -53,7 +53,6 @@ function getData(options, callback){
         isCR :false
 	};
 	jsonp(url, urlData, callbackStr, function(json){
-
 		var result = dealData(json, urlData.extend);
 		callback(result);
 	});

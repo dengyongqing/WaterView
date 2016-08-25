@@ -35,7 +35,7 @@ var DrawXY = (function(){
 
         // 保存画笔状态
         ctx.save();
-        
+        ctx.beginPath();
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
         ctx.moveTo(this.options.padding.left,this.options.c3_y_top - this.options.unit_height);
@@ -61,7 +61,7 @@ var DrawXY = (function(){
             }
         }
         ctx.stroke();
-
+        ctx.beginPath();
         // 恢复画笔状态
         ctx.restore();
 
@@ -76,7 +76,7 @@ var DrawXY = (function(){
 
         // 保存画笔状态
         ctx.save();
-        
+        ctx.beginPath();
         this.options.context.rect(this.options.padding.left,this.options.c2_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_v_height + this.options.unit_height);
         ctx.stroke();
 
@@ -106,7 +106,7 @@ var DrawXY = (function(){
         ctx.fillText(common.format_unit(data.v_max/1 * 1/3,2),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
         ctx.fillText(0,  this.options.padding.left - 20, this.options.c2_y_top + 10 + this.options.v_base_height * 3/3);
         ctx.stroke();
-
+        ctx.beginPath();
         // 恢复画笔状态
         ctx.restore();
     }
@@ -134,7 +134,7 @@ var DrawXY = (function(){
 
         // 保存画笔状态
         ctx.save();
-
+        ctx.beginPath();
         var sepe_num = line_list_array.length;
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
@@ -173,6 +173,9 @@ var DrawXY = (function(){
         var unit_w = (k_width) / (this.options.x_sepe_num);
         var XMark = this.options.XMark;
 
+        // 保存画笔状态
+        ctx.save();
+        ctx.beginPath();
         for(var i = 0;i <= this.options.x_sepe_num;i++){
 
             var x1 = this.options.padding.left + i * unit_w;
@@ -205,7 +208,9 @@ var DrawXY = (function(){
             }
 
         }
-     
+
+        // 恢复画笔状态
+        ctx.restore();
     }
     /*Y轴标识线列表*/
     function getLineList(y_max, y_min, sepe_num, k_height) {
