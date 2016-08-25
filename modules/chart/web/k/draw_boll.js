@@ -16,15 +16,23 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
 
     ctx.beginPath();
     ctx.strokeStyle = "#f4cb15";
+    var flag = false;
     for(var i = 0;i < bollup_length;i++){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,bollup[i].value);
 
-        if(i == 0 || y > this.options.c_k_height || y < 0){
+        if(i == 0 || y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
+            flag = true;
         }else{
-            ctx.lineTo(x,y);
+            if(flag){
+                ctx.moveTo(x,y);
+                flag = false;
+            }else{
+                ctx.lineTo(x,y);
+            }
+            
         }
 
     }
@@ -32,15 +40,22 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
 
     ctx.beginPath();
     ctx.strokeStyle = "#488ee6";
+    flag = false;
     for(var i = 0;i < bollmb_length;i++){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,bollmb[i].value);
 
-        if(i == 0 || y > this.options.c_k_height || y < 0){
+        if(i == 0 || y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
+            flag = true;
         }else{
-            ctx.lineTo(x,y);
+            if(flag){
+                ctx.moveTo(x,y);
+                flag = false;
+            }else{
+                ctx.lineTo(x,y);
+            }
         }
 
     }
@@ -48,15 +63,22 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
 
     ctx.beginPath();
     ctx.strokeStyle = "#fe59fe";
+    flag = false;
     for(var i = 0;i < bolldn_length;i++){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,bolldn[i].value);
 
-        if(i == 0 || y > this.options.c_k_height || y < 0){
+        if(i == 0 || y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
+            flag = true;
         }else{
-            ctx.lineTo(x,y);
+            if(flag){
+                ctx.moveTo(x,y);
+                flag = false;
+            }else{
+                ctx.lineTo(x,y);
+            }
         }
 
     }

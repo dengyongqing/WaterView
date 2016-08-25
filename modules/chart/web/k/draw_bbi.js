@@ -13,6 +13,7 @@ function drawEXPMA(ctx,bbi){
     var unit_w = this.options.drawWidth/bbi_length;
     ctx.beginPath();
     ctx.strokeStyle = "#488ee6";
+    var flag = false;
     for(var i = 0;i < bbi_length;i++){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
@@ -23,8 +24,14 @@ function drawEXPMA(ctx,bbi){
 
         if(i == 0 || y > this.options.c_k_height || y < 0){
             ctx.moveTo(x,y);
+            flag = true;
         }else{
-            ctx.lineTo(x,y);
+            if(flag){
+                ctx.moveTo(x,y);
+                flag = false;
+            }else{
+                ctx.lineTo(x,y);
+            }
         }
 
     }
