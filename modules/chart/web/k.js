@@ -189,25 +189,25 @@ var ChartK = (function() {
 
         var type = _this.options.type;
         try{
-            if(type == "DK"){
-                GetDataK(getParamsObj.call(_this),function(data){
-                    var flag = dataCallback.apply(_this,[data]);
-                    if(flag){
-                        // K线图均线数据标识
-                        inter.markMA(_this.options.canvas);
-                        // 成交量均线数据标识
-                        inter.markVMA(_this.options.canvas);
-                        // 缩放
-                        inter.scale(_this.options.canvas);
-                        // 绑定事件
-                        bindEvent.call(_this,_this.options.context);
-                    }
-                    // 传入的回调函数
-                    if(callback){
-                        callback(_this.options);
-                    }
-                });
-            }
+            
+            GetDataK(getParamsObj.call(_this),function(data){
+                var flag = dataCallback.apply(_this,[data]);
+                if(flag){
+                    // K线图均线数据标识
+                    inter.markMA(_this.options.canvas);
+                    // 成交量均线数据标识
+                    inter.markVMA(_this.options.canvas);
+                    // 缩放
+                    inter.scale(_this.options.canvas);
+                    // 绑定事件
+                    bindEvent.call(_this,_this.options.context);
+                }
+                // 传入的回调函数
+                if(callback){
+                    callback(_this.options);
+                }
+            });
+            
 
         }catch(e){
             // 暂无数据
@@ -989,6 +989,7 @@ var ChartK = (function() {
     ChartK.prototype.drawRSI = function(start,end){
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "rsi";
 
@@ -1022,6 +1023,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "kdj";
 
@@ -1056,6 +1058,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "macd";
 
@@ -1090,6 +1093,7 @@ var ChartK = (function() {
         
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "wr";
         if(this.options.wr){
@@ -1123,6 +1127,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "dmi";
 
@@ -1164,6 +1169,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "bias";
 
@@ -1201,6 +1207,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "obv";
 
@@ -1237,6 +1244,7 @@ var ChartK = (function() {
         var _this = this;
         
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "cci";
         
@@ -1269,6 +1277,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.down_t = "roc";
 
@@ -1302,6 +1311,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.up_t = "expma";
 
@@ -1336,6 +1346,7 @@ var ChartK = (function() {
         var _this = this;
         var params = {};
         params.code = this.options.code;
+        params.type = this.options.type;
         params.extend = this.options.up_t = "boll";
 
         if(this.options.boll){
@@ -1368,6 +1379,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.up_t = "sar";
         var k_data_arr = this.options.currentData.data;
@@ -1397,6 +1409,7 @@ var ChartK = (function() {
 
         var _this = this;
         var params = {};
+        params.type = this.options.type;
         params.code = this.options.code;
         params.extend = this.options.up_t = "bbi";
         if (this.options.bbi) {
