@@ -340,12 +340,13 @@ var ChartK = (function() {
             //添加点击事件
             common.addEvent(container, "click", function(e){
                 var rootElement , targetElement;
-                if(e.target.className == "kt-radio" || e.target.className == "kt-name"){
-                    rootElement = e.target.parentNode.parentNode;
-                    targetElement = e.target.parentNode.childNodes[0];
+                var current_target = e.target || e.srcElement;
+                if(current_target.className == "kt-radio" || current_target.className == "kt-name"){
+                    rootElement = current_target.parentNode.parentNode;
+                    targetElement = current_target.parentNode.childNodes[0];
                 }else{
-                    rootElement = e.target.parentNode;
-                    targetElement = e.target.childNodes[0];
+                    rootElement = current_target.parentNode;
+                    targetElement = current_target.childNodes[0];
                 }
                 var lineElements = rootElement.childNodes;
                 for(var i = 0; i < lineElements.length; i++){
@@ -966,7 +967,6 @@ var ChartK = (function() {
 
             item.cross_x = x;
             item.cross_y = y_close;
-            // console.log(x.toFixed(2).toString());
 
             //标识上榜日
             if(pointObj[item.data_time]){
@@ -1626,7 +1626,6 @@ var ChartK = (function() {
 
         // if(!delaytouch){
             common.addEvent.call(_this, canvas, "mousemove",function(event){
-                //console.info(event);
                 dealEvent.apply(_this,[inter,event]);
                 try {
                     event.preventDefault();
@@ -1636,7 +1635,6 @@ var ChartK = (function() {
             });
 
             common.addEvent.call(_this, canvas, "mouseleave",function(event){
-                //console.info(event);
                 inter.hide();
                 try {
                     event.preventDefault();
@@ -1646,7 +1644,6 @@ var ChartK = (function() {
             });
 
             common.addEvent.call(_this, canvas, "mouseenter",function(event){
-                //console.info(event);
                 inter.show();
                 try {
                     event.preventDefault();
