@@ -321,7 +321,7 @@ var ChartK = (function() {
         var frag = document.createDocumentFragment();
         var kt_title = document.createElement("div");
         kt_title.className = "kt-title";
-        kt_title.innerText = "主图指标";
+        kt_title.innerHTML = "主图指标";
         frag.appendChild(kt_title);
         //
         var appendLine = function(name,id, frag, isDefault){
@@ -335,7 +335,7 @@ var ChartK = (function() {
             container.appendChild(radio);
             var nameText = document.createElement("div");
             nameText.className = "kt-name";
-            nameText.innerText = name;
+            nameText.innerHTML = name;
             container.appendChild(nameText);
             //添加点击事件
             common.addEvent(container, "click", function(e){
@@ -711,6 +711,7 @@ var ChartK = (function() {
 
         var params = {};
         params.code = this.options.code;
+        params.type = this.options.type;
         params.extend = "ma|rsi";
         this.options.up_t = "junxian";
         this.options.down_t = "rsi";
@@ -846,6 +847,7 @@ var ChartK = (function() {
             var _this = this;
             var ctx = _this.options.context;
             var data = _this.options.ma;
+
             // 图表交互
             var inter = _this.options.interactive;
             /*5日均线数据*/
@@ -1431,13 +1433,17 @@ var ChartK = (function() {
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
+        ctx.fillStyle = "#fff";
+        // ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
+        ctx.fillRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
     }
 
     // 清除技术指标区域
     ChartK.prototype.clearT = function(){
         var ctx = this.options.context;
-        ctx.clearRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth + 10,this.options.c4_y_top);
+        ctx.fillStyle = "#fff";
+        // ctx.clearRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth + 10,this.options.c4_y_top);
+        ctx.fillRect(0,this.options.c3_y_top - 10,this.options.padding.left + this.options.drawWidth + 10,this.options.c4_y_top);
     }
 
 

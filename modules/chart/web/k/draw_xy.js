@@ -113,7 +113,6 @@ var DrawXY = (function(){
 
     //绘制K线图坐标轴
     DrawXY.prototype.drawXYK = function(){
-
         var ctx = this.options.context;
         var canvas = this.options.canvas;
         var data = this.options.currentData || this.options.data;
@@ -134,22 +133,22 @@ var DrawXY = (function(){
 
         // 保存画笔状态
         ctx.save();
-        ctx.beginPath();
+        
         var sepe_num = line_list_array.length;
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
-
             if(i == 0 || i == line_list_array.length - 1){
                 ctx.moveTo(this.options.padding.left, Math.round(item.y));
                 ctx.lineTo(ctx.canvas.width - this.options.padding.right, Math.round(item.y));
+                ctx.stroke();
             }else{
                 DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width - this.options.padding.right, Math.round(item.y),5);
             }
             // 绘制纵坐标刻度
+            ctx.moveTo(0, item.y + 5);
             ctx.fillText((item.num/1).toFixed(this.options.pricedigit), 0, item.y + 5);
-            ctx.stroke();
         }
 
         /*K线图的高度*/

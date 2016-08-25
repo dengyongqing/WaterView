@@ -6,7 +6,7 @@ var slideBar = function() {
     var callback = arguments[0];
 
     if (arguments.length == 1) {
-        
+
         //第一次绘制元素
         var data = this.options.data;
         var arr = [];
@@ -29,6 +29,7 @@ var slideBar = function() {
         container.style.position = "absolute";
         container.style.left = _that.options.padding.left + "px";
         container.style.top = _that.options.c4_y_top + "px";
+        _that.container.appendChild(container);
 
         var cvs = document.createElement("canvas");
         try {
@@ -63,16 +64,23 @@ var slideBar = function() {
         ctx.fillStyle = "#E9E9E9";
         ctx.fill();
 
-        // //写上年标记
-        // if(arrYear.length === 1){
-
-        // }else if(arrYear.length == 2){
-
-        // }else if(arrYear.length <= 4){
-
-        // }else{
-
-        // }
+        //写上年标记
+        var yearLen = arrYear.length;
+        var sapce = 1;
+        if (yearLen <= 2) {
+            sapce  = 1;
+        } else if (yearLen <= 7) {
+            sapce = 2;
+        } else if (yearLen <= 13) {
+            sapce = 3;
+        }else if(yearLen <= 17){
+            sapce = 4;
+        }else{
+            sapce = 5;
+        }
+        for (i = 0; i < yearLen; i += sapce) {
+            drawYear(ctx, arrYear[i].order, arrYear[i].year, arr.length, width, height);
+        }
 
         //添加滑动块
         var containerBar = document.createElement("div");
@@ -91,7 +99,7 @@ var slideBar = function() {
         leftDrag.style.border = "solid 1px #aaa";
         leftDrag.style.top = height / 4 + "px";
         leftDrag.style.left = "-4px";
-        leftDrag.style.color= "#aaa";
+        leftDrag.style.color = "#aaa";
         leftDrag.className = "leftDrag";
         leftDrag.innerHTML = "|";
 
@@ -103,7 +111,7 @@ var slideBar = function() {
         rightDrag.style.border = "solid 1px #aaa";
         rightDrag.style.top = height / 4 + "px";
         rightDrag.style.right = "-4px";
-        rightDrag.style.color= "#aaa";
+        rightDrag.style.color = "#aaa";
         rightDrag.className = "rightDrag";
         rightDrag.innerHTML = "|";
 
@@ -111,9 +119,6 @@ var slideBar = function() {
         containerBar.appendChild(leftDrag);
         containerBar.appendChild(rightDrag);
 
-
-
-        _that.container.appendChild(container);
         //添加滑动块中的事件处理
         dragEvent.call(_that, callback, arr, cvs, containerBar, leftDrag, rightDrag);
     } else {
@@ -122,8 +127,8 @@ var slideBar = function() {
         var len = this.options.data.data.length;
         var slideBar = document.getElementById("slideBarWrap");
         var width = _that.options.drawWidth;
-        var slideBarLeft = width*start/len + "px";
-        var slideBarWidth = width*(end-start)/len + "px";
+        var slideBarLeft = width * start / len + "px";
+        var slideBarWidth = width * (end - start) / len + "px";
         slideBar.style.left = slideBarLeft;
         slideBar.style.width = slideBarWidth;
         callback.call(_that, start, end);
@@ -134,6 +139,23 @@ var slideBar = function() {
 /*根据数据获取坐标*/
 function getX(len, i, width) {
     return i / len * width;
+}
+
+/*画年限*/
+function drawYear(ctx, order, yearText, len, totalWidth, totalHeight) {
+    ctx.save()
+    ctx.fillStyle = "#aaa";
+    ctx.strokeStyle = "#aaa";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+
+    ctx.moveTo(Math.ceil(getX(len, order, totalWidth)) + 0.5, totalHeight);
+    ctx.lineTo(Math.ceil(getX(len, order, totalWidth)) + 0.5, totalHeight / 2);
+    ctx.font = "12px";
+    ctx.fillText(yearText, Math.ceil(getX(len, order, totalWidth) + 5), totalHeight * 2 / 3);
+
+    ctx.stroke();
+    ctx.restore();
 }
 
 function getY(max, min, value, height) {
@@ -168,18 +190,11 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
 
     common.addEvent(body, "mousedown", function(e) {
         /*检测点击了哪一个元素*/
-        var winX, winY;
-        //浏览器检测，获取到相对元素的x和y
-        if (e.pageX) {
-            winX = e.pageX - pageOffset.left;
-            winY = e.pageY - pageOffset.top;
-        } else if (e.offsetX) {
-            winX = e.offsetX - pageOffset.left;
-            winY = e.offsetY - pageOffset.top;
-        }
+        var winX = e.clientX - pageOffset.left;
 
         //判断点击了那个区域
         var target = e.target || e.srcElement;
+        // debugger;
         if (target == leftDrag) {
             //点击了左边拖拽
             clickedLeft = true;
@@ -218,15 +233,9 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
     });
 
     common.addEvent(body, "mousemove", function(e) {
-        var winX, winY;
-        //浏览器检测，获取到相对元素的x和y
-        if (e.pageX) {
-            winX = e.pageX - pageOffset.left;
-            winY = e.pageY - pageOffset.top;
-        } else if (e.offsetX) {
-            winX = e.offsetX - pageOffset.left;
-            winY = e.offsetY - pageOffset.top;
-        }
+
+        var winX = e.clientX - pageOffset.left;
+
         //判断点击了那个区域
         if (clickedLeft === true) {
             //分别改变left和width
