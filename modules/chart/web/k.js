@@ -115,7 +115,7 @@ var ChartK = (function() {
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
-        this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
+        this.options.scale_count = this.options.scale_count == undefined ? false : this.options.scale_count;
         
 
         canvas.style.width = this.options.width + "px";
@@ -1511,6 +1511,7 @@ var ChartK = (function() {
         var data_arr_length = _this.options.data.data.length;
         var scale_count = flag || _this.options.scale_count;
 
+
         if(scale_count){    
 
             if(start + 20 >= end){
@@ -1728,7 +1729,7 @@ var ChartK = (function() {
                 // 缩放按钮点击无效
                 _this.options.clickable = true;
                 scale_minus.style.opacity = "1";
-                _this.options.scale_count = 1;
+                _this.options.scale_count = true;
 
                 // 清除上榜日标识
                 if(_this.options.interactive.options.pointsContainer){
@@ -1748,7 +1749,7 @@ var ChartK = (function() {
                 // 缩放按钮点击无效
                 _this.options.clickable = true;
                 scale_plus.style.opacity = "1";
-                _this.options.scale_count = -1;
+                _this.options.scale_count = false;
 
                 // 清除上榜日标识
                 if(_this.options.interactive.options.pointsContainer){

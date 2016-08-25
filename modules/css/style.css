@@ -281,6 +281,7 @@
 
 .kt-radio {
     display: inline-block;
+    _zoom:1;
     border: solid 2px white;
     width: 10px;
     height: 10px;
@@ -290,6 +291,7 @@
 
 .kt-name {
     display: inline-block;
+    _zoom:1;
     position: absolute;
     left: 20px;
     font-size: 14px;
