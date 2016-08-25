@@ -298,3 +298,31 @@
 .kt-radio-choose {
     background-color: #305896;
 }
+
+/* web k 线的滑动 */
+.slideBarCVS{
+	background-color: white;
+	outline: solid 1px #E9E9E9;
+
+}
+
+.leftDrag{
+	background-color: white;
+	opacity: 2;
+	filter: alpha(opacity=200);
+}
+.leftDrag:hover{
+	cursor: w-resize;
+}
+
+.rightDrag{
+	background-color: white;
+}
+.rightDrag:hover{cursor: e-resize;}
+.containerBar{
+	background-color: #3385FF;
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	outline:solid 1px #35709C;
+}
+.containerBar:hover{cursor: move;}
