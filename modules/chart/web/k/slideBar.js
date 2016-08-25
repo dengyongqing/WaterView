@@ -35,7 +35,6 @@ var slideBar = function() {
         try {
             var ctx = cvs.getContext('2d');
         } catch (error) {
-            alert();
             cvs = window.G_vmlCanvasManager.initElement(cvs);
             var ctx = cvs.getContext('2d');
         }
@@ -69,14 +68,14 @@ var slideBar = function() {
         var yearLen = arrYear.length;
         var sapce = 1;
         if (yearLen <= 2) {
-            sapce = 1;
+            sapce  = 1;
         } else if (yearLen <= 7) {
             sapce = 2;
         } else if (yearLen <= 13) {
             sapce = 3;
-        } else if (yearLen <= 17) {
+        }else if(yearLen <= 17){
             sapce = 4;
-        } else {
+        }else{
             sapce = 5;
         }
         for (i = 0; i < yearLen; i += sapce) {
@@ -234,6 +233,7 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
     });
 
     common.addEvent(body, "mousemove", function(e) {
+
         var winX = e.clientX - pageOffset.left;
 
         //判断点击了那个区域
