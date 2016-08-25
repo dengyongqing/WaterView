@@ -379,7 +379,7 @@ var Interactive = (function() {
             //添加元素
             for (var i = 0; i < dataObj.length; i++) {
                 var span = document.createElement('span');
-                span.innerText = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
+                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
                 span.style.width = "100px";
                 span.style.color = colors[i];
                 span.style.marginRight = "20px";
@@ -397,14 +397,14 @@ var Interactive = (function() {
             for (var i = 0; i < dataObj.length; i++) {
                 var span = document.getElementById(dataObj[i].name + "_mark");
                 try {
-                    span.innerText = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
                 } catch (e) {
                     // markTContainer.removeChild(span);
                     if(dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined){
                     	span.innerText = dataObj[i].name.toUpperCase() + ": -";
                     }else{
                     	var span = document.createElement('span');
-	                    span.innerText = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
+	                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
 	                    span.style.width = "100px";
 	                    span.style.color = colors[i];
 	                    span.style.marginRight = "20px";
