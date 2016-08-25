@@ -138,7 +138,7 @@ var DrawXY = (function(){
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
         for (var i = 0,item; item = line_list_array[i]; i++) {
-            ctx.beginPath();
+            
             if(i == 0 || i == line_list_array.length - 1){
                 ctx.moveTo(this.options.padding.left, Math.round(item.y));
                 ctx.lineTo(ctx.canvas.width - this.options.padding.right, Math.round(item.y));
