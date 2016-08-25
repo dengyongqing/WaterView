@@ -71,7 +71,7 @@ var ChartTime = (function() {
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height * 0.5;
+        this.options.c_k_height = this.options.c_1_height = canvas.height * 0.5;
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
