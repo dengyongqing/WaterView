@@ -271,34 +271,27 @@
 }
 
 .kt-line {
-    position: relative;
-    padding: 2px 0px;
+    background-color: white; position: relative; margin: 10px 0px;
 }
 
 .kt-line:hover{
     cursor: pointer;
 }
 
+.kt-radio-wrap{
+	position: relative; display: inline-block; *zoom:1;*display:inline; border: solid 1px #305896;height: 10px; width: 10px;background-color: white;
+}
+
 .kt-radio {
-    display: inline-block;
-    _zoom:1;
-    border: solid 2px white;
-    width: 10px;
-    height: 10px;
-    outline: solid 1px #5F5F5F;
-    background-color: white;
+    position:absolute; margin: 2px; width: 6px; height: 6px; background-color: #305896;display: none;
 }
 
 .kt-name {
-    display: inline-block;
-    _zoom:1;
-    position: absolute;
-    left: 20px;
-    font-size: 14px;
+    color: #555;line-height: 10px;display: inline-block; height: 10px;padding-left: 5px;position: absolute; top: 3px; left: 15px;
 }
 
 .kt-radio-choose {
-    background-color: #305896;
+    display: block;
 }
 
 /* web k 线的滑动 */
