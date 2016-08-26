@@ -84,7 +84,8 @@ var DrawXY = (function() {
             if (isNaN(item.num)) {
                 ctx.fillText("0.00", 0, item.y);
             } else {
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y);
+                var num = (item.num*1.0).toFixed(this.options.pricedigit);
+                ctx.fillText(num, 0, item.y);
             }
             ctx.stroke();
             // 绘制纵坐标涨跌幅
@@ -155,7 +156,7 @@ var DrawXY = (function() {
         var result = [];
         for (var i = 0; i < sepe_num; i++) {
             result.push({
-                num: (y_min + i * ratio),
+                num: (y_min*1.0 + i * ratio),
                 x: 0,
                 y: k_height - (i / (sepe_num - 1)) * k_height
             });

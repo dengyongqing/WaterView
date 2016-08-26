@@ -8,7 +8,7 @@ var DrawXY = require('chart/web/time/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 获取分时图数据
-var GetDataTime = require('getdata/mobile/chart_time');
+var GetDataTime = require('getdata/web/chart_time');
 // 工具
 var common = require('chart/web/common/common');
 var draw_dash = require('chart/web/common/draw_dash_line');
@@ -102,27 +102,34 @@ var ChartTime = (function() {
         // 显示loading效果
         inter.showLoading();
         var _this = this;
+        var param = {
+            code : this.options.code
+        };
         try {
 
-            GetDataTime(this.options.code,
-                function(data) {
-
-                    if (data) {
-                        dataCallback.apply(_this, [data]);
+            GetDataTime(param,
+                function(error, data) {debugger;
+                    if (error) {
+                        // 暂无数据
+                        inter.showNoData();
+                        // 隐藏loading效果
+                        inter.hideLoading();
                     } else {
-                        dataCallback.apply(_this, [
-                            []
-                        ]);
+                        if (data) {
+                            dataCallback.apply(_this, [data]);
+                        } else {
+                            dataCallback.apply(_this, [
+                                []
+                            ]);
+                        }
+                        /*绑定事件*/
+                        bindEvent.call(_this, _this.options.context);
+                        // 传入的回调函数
+                        if (callback) {
+                            callback();
+                        }
                     }
-                    /*绑定事件*/
-                    bindEvent.call(_this, _this.options.context);
-                    // 传入的回调函数
-                    if (callback) {
-                        callback();
-                    }
-
-                }, inter);
-
+                });
         } catch (e) {
             // 暂无数据
             inter.showNoData();
@@ -254,8 +261,8 @@ var ChartTime = (function() {
         // K线柱体的宽度
         // var bar_w = rect_unit.bar_w;
         // 鼠标事件位置
-        var w_x = eventposition.offsetX || (eventposition.clientX - this.container.getBoundingClientRect().left);
-        var w_y = eventposition.offsetY || (eventposition.clientY - this.container.getBoundingClientRect().top);
+        var w_x = (eventposition.clientX - this.container.getBoundingClientRect().left);
+        var w_y = (eventposition.clientY - this.container.getBoundingClientRect().top);
 
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this, [canvas, w_x, w_y]);
@@ -266,13 +273,13 @@ var ChartTime = (function() {
         var index = Math.floor((c_x - this.options.padding.left) / rect_w);
 
         if (time_data[index]) {
-            // Tip显示行情数据
-            inter.showTip(canvas, w_x, time_data[index]);
             // 显示十字指示线的
             var cross = common.canvasToWindow.apply(this, [canvas, time_data[index].cross_x, time_data[index].cross_y]);
             var cross_w_x = cross.x;
             var cross_w_y = cross.y;
-            inter.cross(canvas, cross_w_x, cross_w_y);
+            inter.crossTime(canvas, cross_w_x, cross_w_y);
+            /*显示交互数据*/
+            inter.showTipsTime(cross_w_x, cross_w_y, time_data, index);
         }
 
     }

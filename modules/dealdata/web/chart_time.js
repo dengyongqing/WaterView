@@ -15,12 +15,13 @@ function dealData(json) {
 
     result.yc = json.info.yc;
     result.pricedigit = (json.info.pricedigit).split('.')[1].length;
+    result.currentPrice = json.info.c;
     result.high = json.info.h;
     result.low = json.info.l;
-    result.name = json.name;
     result.code = json.code;
     result.timeStrs = [];
     result.data = [];
+    result.total = json.info.total;
     //横坐标的时间列表
     var ticks = (json.info.ticks).split('|');
     if (ticks.length === 7) {
@@ -56,6 +57,11 @@ function dealData(json) {
 
         result.data.push(point);
     }
+
+    //坐标的最大最小值
+    result.max = coordinate(result.high, result.low, result.yc).max;
+    //坐标的最小值
+    result.min = coordinate(result.high, result.low, result.yc).min;
 
 
     return result;

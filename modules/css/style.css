@@ -256,6 +256,18 @@
 	padding:8px;
 }
 
+.time-tips-coordinate{
+	position: absolute;
+	padding: 0px 3px;
+	background-color: #aaa;
+	color: white;
+	z-index: 1000;
+}
+.time-tips-top{
+	position: absolute;
+	top: 0px;
+}
+
 /* web版 k线图指标样式 */
 
 .kt-pad {

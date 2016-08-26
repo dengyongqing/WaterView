@@ -95,6 +95,126 @@ var Interactive = (function() {
         }
     }
 
+    // 鼠标十字标识线(webTime)
+    Interactive.prototype.crossTime = function(canvas, w_x, w_y) {
+        var c_box = canvas.getBoundingClientRect();
+        var dpr = this.options.dpr;
+        var padding_left = this.options.padding.left;
+        var offsetTop = this.options.canvas_offset_top;
+        var canvasHeight = this.options.canvas.height;
+        var containerId = this.options.container;
+
+        if (!this.options.cross) {
+            this.options.cross = {};
+            /*Y轴标识线*/
+            var y_line = document.createElement("div");
+            y_line.className = "cross-y";
+            y_line.style.height = canvasHeight - offsetTop + "px";
+            y_line.style.top = offsetTop + "px";
+            this.options.cross.y_line = y_line;
+
+            /*X轴标识线*/
+            var x_line = document.createElement("div");
+            x_line.className = "cross-x";
+            x_line.style.width = canvas.width + "px";
+            this.options.cross.x_line = x_line;
+            /*创建文档碎片*/
+            var frag = document.createDocumentFragment();
+            if (this.options.crossline) {
+                frag.appendChild(x_line);
+                frag.appendChild(y_line);
+            } else {
+                frag.appendChild(y_line);
+            }
+            document.getElementById(containerId).appendChild(frag);
+        }
+        var y_line = this.options.cross.y_line;
+        if (this.options.cross.y_line) {
+            y_line.style.left = w_x + "px";
+        }
+        var x_line = this.options.cross.x_line;
+        if (this.options.cross.x_line) {
+            x_line.style.top = w_y + "px";
+        }
+    }
+
+    Interactive.prototype.showTipsTime = function(cross_w_x, cross_w_y, time_data, index){
+        /*将要用到的各种参数*/
+        var canvas = this.options.canvas;
+        var padding_left = this.options.padding.left;
+        var padding_right = this.options.padding.right;
+        var offsetTop = this.options.canvas_offset_top;
+        var c_1_height = this.options.c_1_height;
+        var containerId = this.options.container;
+
+        // debugger;
+        if(!this.options.showTimeTip){
+            var y_left, y_right, x_bottom, x_top;
+            this.options.showTimeTip = true;
+            var frag = document.createDocumentFragment();
+            /*y轴上左边的提示*/
+            y_left = document.createElement("div");
+            y_left.setAttribute("id", "time_y_left");
+            y_left.className = "time-tips-coordinate";
+            y_left.style.right =canvas.width + padding_left + "px";
+            /*y轴上右边的提示*/
+            y_right = document.createElement("div");
+            y_right.setAttribute("id", "time_y_right");
+            y_right.className = "time-tips-coordinate";
+            y_right.style.left = canvas.width - padding_right + "px";
+            /*x轴底部的时间提示*/
+            x_bottom = document.createElement("div");
+            x_bottom.setAttribute("id", "time_x_bottom");
+            x_bottom.className = "time-tips-coordinate";
+            x_bottom.style.top = c_1_height + offsetTop + "px";
+            /*x轴顶部的时间提示*/
+            x_top = document.createElement("div");
+            x_top.setAttribute("id", "time_x_top");
+            x_top.className = "time-tips-top";
+            x_top.style.top = offsetTop - 18 + "px";
+            x_top.style.left = padding_left + "px";
+
+            frag.appendChild(y_left)
+            frag.appendChild(y_right)
+            frag.appendChild(x_bottom)
+            frag.appendChild(x_top)
+            document.getElementById(containerId).appendChild(frag);
+
+            //跟随鼠标变化需要更改的纵坐标上的的提示*/
+            y_left.style.top = cross_w_y + "px";
+            y_left.innerHTML = time_data[index].price;
+            y_right.style.top = cross_w_y + "px";
+            y_right.innerHTML = time_data[index].percent;
+            
+            //跟随鼠标变化需要更改的横坐标上的的提示*/
+            x_bottom.innerHTML = time_data[index].time;
+            x_bottom.style.left = cross_w_x - x_bottom.clientWidth/2 + "px";
+            x_top.innerHTML = time_data[index];
+        }else{
+            var y_left = document.getElementById("time_y_left");
+            var y_right = document.getElementById("time_y_right");
+            var x_bottom = document.getElementById("time_x_bottom");
+            var x_top = document.getElementById("time_x_top");
+            //跟随鼠标变化需要更改的纵坐标上的的提示*/
+            y_left.style.top = cross_w_y + "px";
+            y_left.innerHTML = time_data[index].price;
+            y_right.style.top = cross_w_y + "px";
+            y_right.innerHTML = time_data[index].percent;
+            
+            //跟随鼠标变化需要更改的横坐标上的的提示*/
+            x_bottom.style.left = cross_w_x + "px";
+            x_bottom.innerHTML = time_data[index].time;
+            if(cross_w_x < padding_left + x_bottom.clientWidth/2){
+                x_bottom.style.left = padding_left + "px";
+            }else if(cross_w_x > canvas.width - padding_right - x_bottom.clientWidth/2){
+                x_bottom.style.left = canvas.width - padding_right - x_bottom.clientWidth + "px";
+            }else{
+                x_bottom.style.left = cross_w_x - x_bottom.clientWidth/2 + "px";
+            }
+            x_top.innerHTML = time_data[index];
+        }
+    };
+
     Interactive.prototype.markMA = function(canvas, obj_5, obj_10, obj_20, obj_30) {
         // 绘制移动平均线标识
         // var c_box = canvas.getBoundingClientRect();

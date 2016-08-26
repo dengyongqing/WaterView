@@ -41,8 +41,9 @@ function getData(options, callback){
 	jsonp(url, urlData, callbackStr, function(json){	
 
 		var result = dealData(json);
-
-		callback(result);
+		var error;
+		if(json){error = false;}else{error = true;}
+		callback(error, result);
 	});
 }
 
