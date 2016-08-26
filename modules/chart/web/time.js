@@ -42,9 +42,7 @@ var ChartTime = (function() {
 
         this.options.type = "TL";
         var canvas = document.createElement("canvas");
-        // 去除画布上粘贴效果
-        // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
-        // this.container.setAttribute("unselectable","on");
+
         this.container.style.position = "relative";
         // 画布
         try {
@@ -369,17 +367,9 @@ var ChartTime = (function() {
             var data = this.options.data;
             /*成交量数组*/
             var data_arr = data.data;
-            /*Y轴上的最大值*/
-            // var y_max = data.max;
-            /*Y轴上的最小值*/
-            // var y_min = data.min;
             /*最大成交量*/
             var v_max = (data.v_max).toFixed(0);
 
-            /*K线图表的高度*/
-            // var c_1_height = this.options.c_1_height;
-            //成交量图表的高度
-            // var v_height = ctx.canvas.height - c_1_height - this.options.k_v_away - this.options.canvas_offset_top;
             var v_height = ctx.canvas.height / 4;
 
             var v_base_height = v_height * 0.9;
@@ -387,9 +377,6 @@ var ChartTime = (function() {
             var y_v_top = y_v_bottom - v_height;
             /*获取单位矩形对象*/
             var rect_unit = this.options.rect_unit;
-            /*单位绘图矩形画布的宽度*/
-            // var rect_w = rect_unit.rect_w;
-            /*K线柱体的宽度*/
 
             var bar_w = rect_unit.bar_w;
             /*K线柱体的颜色*/
@@ -401,16 +388,19 @@ var ChartTime = (function() {
             var padding_left = this.options.padding.left;
             var padding_right = this.options.padding.right;
 
+            ctx.lineWidth = 1;
             //写字
+            ctx.fillStyle = "#666";
             for (var i = 0; i < 3; i++) {
-                ctx.fillText(common.format_unit(Math.floor(v_max / 3 * (3 - i))), 0, y_v_top + v_height / 3 * i + 10);
+                ctx.fillText(common.format_unit(Math.floor(v_max / 3 * (3 - i))), 10, y_v_top + v_height / 3 * i + 10);
                 if (i != 0) {
                     draw_dash(ctx, padding_left, y_v_top + v_height / 3 * i, ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);
                 }
             }
+            ctx.fill();
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            ctx.lineWidth = this.options.dpr;
-            ctx.rect(this.options.padding.left, y_v_top, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
+            ctx.lineWidth = 1;
+            ctx.rect(this.options.padding.left+0.5, y_v_top-0.5, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
             ctx.stroke();
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var volume = item.volume;
