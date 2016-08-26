@@ -87,9 +87,9 @@ var slideBar = function() {
         containerBar.setAttribute("id", "slideBarWrap");
         containerBar.style.position = "absolute";
         containerBar.style.height = height + "px";
-        containerBar.style.width = 60 / _that.options.data.total * width + "px";
+        containerBar.style.width = (len >= 60 ? 60/ len : 1)  * width + "px";
         containerBar.style.top = "0px";
-        containerBar.style.left = _that.options.start / _that.options.data.total * width + "px";
+        containerBar.style.left = _that.options.start / len * width + "px";
         containerBar.className = "containerBar";
 
         var leftDrag = document.createElement("div");
@@ -175,6 +175,9 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
     var RightD_width = toNumber(rightDrag.style.width);
     var RightD_left = ContainerB_left + ContainerB_width;
     var body = document.getElementsByTagName("html")[0];
+    var len = dataArr.length;
+    var width = toNumber(container.style.width);
+    var min_width = (len > 20 ? (20 / len) : 1) * width;
     //点击状态
     var clickedLeft = false;
     var clickedRight = false;
@@ -240,7 +243,7 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
         if (clickedLeft === true) {
             //分别改变left和width
             if ((winX - offset) >= 0) {
-                if (ContainerB_width - (winX + offset - ContainerB_left) > 20) {
+                if (ContainerB_width - (winX + offset - ContainerB_left) > min_width) {
                     containerBar.style.left = (winX + offset) + "px";
                     containerBar.style.width = ContainerB_width - (winX + offset - ContainerB_left) + "px";
                 }
@@ -255,7 +258,7 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
             //拖动右边
             if ((winX - offset) <= toNumber(container.style.width)) {
                 //保证最小宽度
-                if (winX - ContainerB_left - offset > 20) {
+                if (winX - ContainerB_left - offset > min_width) {
                     containerBar.style.width = winX - ContainerB_left - offset + "px";
                 }
             } else {

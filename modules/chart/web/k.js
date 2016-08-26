@@ -197,9 +197,10 @@ var ChartK = (function() {
                 var flag = dataCallback.apply(_this,[data]);
                 if(flag){
                     // K线图均线数据标识
-                    inter.markMA(_this.options.canvas);
+                    // inter.markMA(_this.options.canvas);
                     // 成交量均线数据标识
                     inter.markVMA(_this.options.canvas);
+
                     // 缩放
                     inter.scale(_this.options.canvas);
                     // 绑定事件
@@ -718,6 +719,8 @@ var ChartK = (function() {
         this.options.drawXY.drawXYK();
         this.drawK();
 
+        var inter = this.options.interactive;
+
         var params = {};
         params = getParamsObj.call(this);
         params.extend = "ma|rsi";
@@ -747,7 +750,11 @@ var ChartK = (function() {
 
                 temp_ma.apply(_this,[]);
                 temp_rsi.apply(_this,[]);
+
+                inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "");
+                inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, "");
             });
+
         }
 
         function temp_rsi(){
@@ -876,13 +883,13 @@ var ChartK = (function() {
             // 图表交互
             var inter = _this.options.interactive;
             /*5日均线数据*/
-            var five_average = data.five_average.slice(start, end);
+            var five_average = data.ma5.slice(start, end);
             /*10日均线数据*/
-            var ten_average = data.ten_average.slice(start, end);
+            var ten_average = data.ma10.slice(start, end);
             /*20日均线数据*/
-            var twenty_average = data.twenty_average.slice(start, end);
+            var twenty_average = data.ma20.slice(start, end);
             /*30日均线数据*/
-            var thirty_average = data.thirty_average.slice(start, end);
+            var thirty_average = data.ma30.slice(start, end);
 
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;

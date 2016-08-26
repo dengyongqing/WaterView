@@ -82,9 +82,9 @@ var DrawXY = (function() {
 
             // 绘制纵坐标刻度
             if (isNaN(item.num)) {
-                ctx.fillText("0.00", 0, item.y - 10);
+                ctx.fillText("0.00", 0, item.y);
             } else {
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y);
             }
             ctx.stroke();
             // 绘制纵坐标涨跌幅
@@ -105,7 +105,7 @@ var DrawXY = (function() {
             var percent = "0.00%";
         }
         /*绘制纵坐标刻度百分比*/
-        ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y - 10);
+        ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y);
         ctx.stroke();
     }
     /*绘制横坐标刻度值*/
@@ -143,7 +143,6 @@ var DrawXY = (function() {
                     ctx.moveTo(Math.floor(padding_left + i * itemWidth), y_min);
                     ctx.lineTo(Math.floor(padding_left + i * itemWidth), 0);
                 }
-                // console.log("x1: "+padding_left+i*(k_width/len)+" y1: "+y_min+" x2: "+padding_left+i*(k_width/len));
             })(i);
         }
 

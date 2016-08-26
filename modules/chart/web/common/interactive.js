@@ -235,6 +235,7 @@ var Interactive = (function() {
 
     Interactive.prototype.markMA = function(canvas, type, datas, start, end, index) {
 
+        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
         if (!this.options.markMAContainer) {
             //创建并添加最下方一系列技术指标的外部包含div
             this.options.markMAContainer = document.createElement("div");
@@ -244,78 +245,102 @@ var Interactive = (function() {
             markMAContainer.style.position = "absolute";
             markMAContainer.style.top = "5px";
             markMAContainer.style.left = this.options.padding.left + "px";
+            
+            /*创建文档碎片*/
+            var frag = document.createDocumentFragment();
+            var co = 0;
+            this.options.markUPTType = type;
+            for (var item in datas) {
+                var temp = datas[item][datas[item].length - 1];
+                var span = document.createElement('span');
+                span.innerHTML = item.toUpperCase() + ": " + temp.value;
+                span.style.width = "100px";
+                span.style.color = colors[co];
+                co++;
+                span.style.marginRight = "30px";
+                span.setAttribute("id", item + "_mark");
+                frag.appendChild(span);
+            }
+
+            markMAContainer.appendChild(frag);
+            this.options[type] = {};
+            this.options[type].defaultMaHtml = markMAContainer.innerHTML;
             document.getElementById(this.options.container).appendChild(markMAContainer);
         } else {
+
             var markMAContainer = this.options.markMAContainer;
-        }
-        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
-        //判断是不是第一次，是否需要创建元素
-        if (this.options.markUPTType != type) {
-            //作为是否切换技术指标的依据
-            this.options.markUPTType = type;
-            //清空markTContainer里面的所有span
-            var spans = markMAContainer.getElementsByTagName("span");
-            var len = spans.length;
 
-            // for (var i = 0; i < len; i++) {
-            //     markMAContainer.removeChild(spans[0]);
-            // }
+            //判断是不是第一次，是否需要创建元素
+            if (this.options.markUPTType != type) {
+                //作为是否切换技术指标的依据
+                this.options.markUPTType = type;
+                //清空markTContainer里面的所有span
+                var spans = markMAContainer.getElementsByTagName("span");
+                var len = spans.length;
 
-            markMAContainer.innerHTML = "";
-            // debugger;
-            var dataObj = [];
-
-            for (var item in datas) {
-                dataObj.push({ value: datas[item].slice(start,end), name: item });
-            }
-            /*创建文档碎片*/
-            var m_frag = document.createDocumentFragment();
-            //添加元素
-
-            for (var i = 0; i < dataObj.length; i++) {
-                var span = document.createElement('span');
-                // if(dataObj[i].value[index].value){
-                //     var text = dataObj[i].value[index].value;
-                // }else{
-                //     var text = "-"
+                // for (var i = 0; i < len; i++) {
+                //     markMAContainer.removeChild(spans[0]);
                 // }
-                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                span.style.width = "100px";
-                span.style.color = colors[i];
-                span.style.marginRight = "20px";
-                span.setAttribute("id", dataObj[i].name + "ma_mark");
-                m_frag.appendChild(span);
-            }
-            /*添加到包含元素上*/
-            markMAContainer.appendChild(m_frag);
-        } else {
-            var dataObj = [];
-            for (var item in datas) {
-                dataObj.push({ value: datas[item].slice(start,end), name: item });
-            }
-            //更改内容
-            for (var i = 0; i < dataObj.length; i++) {
-                var span = document.getElementById(dataObj[i].name + "_mark");
-                try {
-                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                } catch (e) {
-                    // markMAContainer.removeChild(span);
-                    if(dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined){
-                        span.innerText = dataObj[i].name.toUpperCase() + ": -";
-                    }else{
-                        var span = document.createElement('span');
-                        span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                        span.style.width = "100px";
-                        span.style.color = colors[i];
-                        span.style.marginRight = "20px";
-                        span.setAttribute("id", dataObj[i].name + "_mark");
-                        markMAContainer.appendChild(span);
-                    }
-                                                                  
-                }
-            }
 
+                markMAContainer.innerHTML = "";
+                // debugger;
+                var dataObj = [];
+
+                for (var item in datas) {
+                    dataObj.push({ value: datas[item].slice(start,end), name: item });
+                }
+                /*创建文档碎片*/
+                var m_frag = document.createDocumentFragment();
+                //添加元素
+
+                for (var i = 0; i < dataObj.length; i++) {
+                    var span = document.createElement('span');
+                    // if(dataObj[i].value[index].value){
+                    //     var text = dataObj[i].value[index].value;
+                    // }else{
+                    //     var text = "-"
+                    // }
+                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                    span.style.width = "100px";
+                    span.style.color = colors[i];
+                    span.style.marginRight = "30px";
+                    span.setAttribute("id", dataObj[i].name + "_mark");
+                    m_frag.appendChild(span);
+                }
+                /*添加到包含元素上*/
+                markMAContainer.appendChild(m_frag);
+            } else {
+
+                var dataObj = [];
+                for (var item in datas) {
+                    dataObj.push({ value: datas[item].slice(start,end), name: item });
+                }
+                //更改内容
+                for (var i = 0; i < dataObj.length; i++) {
+                    var span = document.getElementById(dataObj[i].name + "_mark");
+                    try {
+                        span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                    } catch (e) {
+                        // markMAContainer.removeChild(span);
+                        if(dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined){
+                            span.innerText = dataObj[i].name.toUpperCase() + ": -";
+                        }else{
+                            var span = document.createElement('span');
+                            span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                            span.style.width = "100px";
+                            span.style.color = colors[i];
+                            span.style.marginRight = "30px";
+                            span.setAttribute("id", dataObj[i].name + "_mark");
+                            markMAContainer.appendChild(span);
+                        }
+                                                                      
+                    }
+                }
+
+            }
         }
+        
+        
 
     }
 
@@ -432,6 +457,7 @@ var Interactive = (function() {
     }
 
     Interactive.prototype.markT = function(canvas, type, datas, start, end, index) {
+        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
         if (!this.options.markTContainer) {
             //创建并添加最下方一系列技术指标的外部包含div
             this.options.markTContainer = document.createElement("div");
@@ -440,69 +466,92 @@ var Interactive = (function() {
             // debugger;
             markTContainer.style.position = "absolute";
             markTContainer.style.top = this.options.c3_y_top + 5 + "px";
-            markTContainer.style.left = this.options.padding.left + "px";
+            markTContainer.style.left = this.options.padding.left + 10 + "px";
+
+            /*创建文档碎片*/
+            var frag = document.createDocumentFragment();
+            var co = 0;
+            this.options.markTType = type;
+            for (var item in datas) {
+                var temp = datas[item][datas[item].length - 1];
+                var span = document.createElement('span');
+                span.innerHTML = item.toUpperCase() + ": " + temp.value;
+                span.style.width = "100px";
+                span.style.color = colors[co];
+                co++;
+                span.style.marginRight = "30px";
+                span.setAttribute("id", item + "_mark");
+                frag.appendChild(span);
+            }
+
+            markTContainer.appendChild(frag);
+            this.options[type] = {};
+            this.options[type].defaultTHtml = markTContainer.innerHTML;
+
             document.getElementById(this.options.container).appendChild(markTContainer);
         } else {
             var markTContainer = this.options.markTContainer;
-        }
-        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
-        //判断是不是第一次，是否需要创建元素
-        if (this.options.markTType != type) {
-            //作为是否切换技术指标的依据
-            this.options.markTType = type;
-            //清空markTContainer里面的所有span
-            var spans = markTContainer.getElementsByTagName("span");
-            var len = spans.length;
-            for (var i = 0; i < len; i++) {
-                markTContainer.removeChild(spans[0]);
-            }
-            // debugger;
-            var dataObj = [];
-            for (var item in datas) {
-                dataObj.push({ value: datas[item].slice(start, end), name: item });
-            }
-            /*创建文档碎片*/
-            var m_frag = document.createDocumentFragment();
-            //添加元素
-            for (var i = 0; i < dataObj.length; i++) {
-                var span = document.createElement('span');
-                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                span.style.width = "100px";
-                span.style.color = colors[i];
-                span.style.marginRight = "20px";
-                span.setAttribute("id", dataObj[i].name + "_mark");
-                m_frag.appendChild(span);
-            }
-            /*添加到包含元素上*/
-            markTContainer.appendChild(m_frag);
-        } else {
-            var dataObj = [];
-            for (var item in datas) {
-                dataObj.push({ value: datas[item].slice(start, end), name: item });
-            }
-            //更改内容
-            for (var i = 0; i < dataObj.length; i++) {
-                var span = document.getElementById(dataObj[i].name + "_mark");
-                try {
-                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                } catch (e) {
-                    // markTContainer.removeChild(span);
-                    if(dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined){
-                    	span.innerText = dataObj[i].name.toUpperCase() + ": -";
-                    }else{
-                    	var span = document.createElement('span');
-	                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
-	                    span.style.width = "100px";
-	                    span.style.color = colors[i];
-	                    span.style.marginRight = "20px";
-	                    span.setAttribute("id", dataObj[i].name + "_mark");
-	                    markTContainer.appendChild(span);
-                    }
-                    
-                }
-            }
 
+            //判断是不是第一次，是否需要创建元素
+            if (this.options.markTType != type) {
+                //作为是否切换技术指标的依据
+                this.options.markTType = type;
+                //清空markTContainer里面的所有span
+                var spans = markTContainer.getElementsByTagName("span");
+                var len = spans.length;
+                for (var i = 0; i < len; i++) {
+                    markTContainer.removeChild(spans[0]);
+                }
+                // debugger;
+                var dataObj = [];
+                for (var item in datas) {
+                    dataObj.push({ value: datas[item].slice(start, end), name: item });
+                }
+                /*创建文档碎片*/
+                var m_frag = document.createDocumentFragment();
+                //添加元素
+                for (var i = 0; i < dataObj.length; i++) {
+                    var span = document.createElement('span');
+                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                    span.style.width = "100px";
+                    span.style.color = colors[i];
+                    span.style.marginRight = "20px";
+                    span.setAttribute("id", dataObj[i].name + "_mark");
+                    m_frag.appendChild(span);
+                }
+                /*添加到包含元素上*/
+                markTContainer.appendChild(m_frag);
+            } else {
+                var dataObj = [];
+                for (var item in datas) {
+                    dataObj.push({ value: datas[item].slice(start, end), name: item });
+                }
+                //更改内容
+                for (var i = 0; i < dataObj.length; i++) {
+                    var span = document.getElementById(dataObj[i].name + "_mark");
+                    try {
+                        span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                    } catch (e) {
+                        // markTContainer.removeChild(span);
+                        if(dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined){
+                            span.innerText = dataObj[i].name.toUpperCase() + ": -";
+                        }else{
+                            var span = document.createElement('span');
+                            span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
+                            span.style.width = "100px";
+                            span.style.color = colors[i];
+                            span.style.marginRight = "20px";
+                            span.setAttribute("id", dataObj[i].name + "_mark");
+                            markTContainer.appendChild(span);
+                        }
+                        
+                    }
+                }
+
+            }
         }
+        
+        
 
     }
 
@@ -559,7 +608,7 @@ var Interactive = (function() {
             var date_data = document.createElement('div');
             date_data.className = "web-tip-first-line";
             this.options.tip.date_data = date_data;
-            date_data.innerText = "2016-08-09";
+            date_data.innerText = obj.date_time;
 
 
             //组建一行数据
@@ -575,7 +624,7 @@ var Interactive = (function() {
                 var web_tip_line_container = document.createElement("div");
                 web_tip_line_container.className = "web-tip-line-container";
                 web_tip_line_container.appendChild(data_name);
-                web_tip_line_container.appendChild(data_data);
+                web_tip_line_container.appendChild(data_data);  
 
                 return web_tip_line_container;
             }
@@ -625,7 +674,8 @@ var Interactive = (function() {
             tip_obj.percent.innerText = obj.percent + '%';
             tip_obj.count.innerText = common.format_unit(volume);
             tip_obj.priceChange.innerText = obj.priceChange;
-            tip_obj.time.innerText = obj.date_time.replace(/-/g, "/");
+            tip_obj.date_data.innerHTML = obj.date_time;
+            // tip_obj.time.innerText = obj.date_time.replace(/-/g, "/");
 
         }
 
@@ -721,6 +771,7 @@ var Interactive = (function() {
 
     // 隐藏交互效果
     Interactive.prototype.hide = function() {
+
         if (this.options.cross) {
             var x_line = this.options.cross.x_line;
             if (x_line) {
@@ -735,6 +786,15 @@ var Interactive = (function() {
                 point.style.display = "none";
             }
         }
+
+        if(this.options.markMAContainer){
+            this.options.markMAContainer.innerHTML = this.options[this.options.markUPTType].defaultMaHtml;
+        }
+
+        if(this.options.markTContainer){
+            this.options.markTContainer.innerHTML = this.options[this.options.markTType].defaultTHtml;
+        }
+        
 
         // if (this.options.mark_ma) {
         //     var ma_5_data = this.options.mark_ma.ma_5_data;
