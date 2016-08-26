@@ -18,6 +18,9 @@ function getData(options, callback){
         isCR :false,
         check:"kte"
 	};
+	// if(options.authorityType != ""){
+	// 	urlData.authorityType = options.authorityType;
+	// }
 	jsonp(url, urlData, callbackStr, function(json){
 		var result = dealData(json, urlData.extend);
 

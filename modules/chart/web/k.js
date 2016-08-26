@@ -327,33 +327,39 @@ var ChartK = (function() {
         var appendLine = function(name,id, frag, isDefault){
             var container = document.createElement("div");
             container.className = "kt-line";
+            var radioWrap = document.createElement('div');
+            radioWrap.className = "kt-radio-wrap";
             var radio = document.createElement("div");
             radio.setAttribute("id",id);
             radio.className = isDefault ?   "kt-radio kt-radio-choose"  : "kt-radio";
+            radioWrap.appendChild(radio);
 
-
-            container.appendChild(radio);
+            container.appendChild(radioWrap);
             var nameText = document.createElement("div");
             nameText.className = "kt-name";
             nameText.innerHTML = name;
             container.appendChild(nameText);
             //添加点击事件
             common.addEvent(container, "click", function(e){
-                var rootElement , targetElement;
-                var current_target = e.target || e.srcElement;
-                if(current_target.className == "kt-radio" || current_target.className == "kt-name"){
-                    rootElement = current_target.parentNode.parentNode;
-                    targetElement = current_target.parentNode.childNodes[0];
-                }else{
-                    rootElement = current_target.parentNode;
-                    targetElement = current_target.childNodes[0];
+                var targetElement;
+                var currentTarget = e.srcElement || e.target;
+
+                switch(currentTarget.className){
+                    case "kt-line":
+                        targetElement = currentTarget.children[0].children[0];
+                        break;
+                    case "kt-radio-wrap":
+                        targetElement = currentTarget.children[0];
+                        break;
+                    case "kt-radio":
+                        targetElement = currentTarget;
+                        break;
+                    case "kt-name":
+                        targetElement = currentTarget.parentNode.children[0].children[0];
+                        break;
                 }
-                var lineElements = rootElement.childNodes;
-                for(var i = 0; i < lineElements.length; i++){
-                    if(lineElements[i].childNodes[0].className === "kt-radio kt-radio-choose"){
-                        lineElements[i].childNodes[0].className = "kt-radio";
-                    }
-                }
+                var preEle = document.getElementById(_this.options.up_t);
+                preEle.className = "kt-radio";
                 targetElement.className = "kt-radio kt-radio-choose";
 
                 if(targetElement.id == "junxian"){
