@@ -156,7 +156,7 @@ var Interactive = (function() {
             y_left = document.createElement("div");
             y_left.setAttribute("id", "time_y_left");
             y_left.className = "time-tips-coordinate";
-            y_left.style.right =canvas.width + padding_left + "px";
+            y_left.style.left =padding_left + "px";
             /*y轴上右边的提示*/
             y_right = document.createElement("div");
             y_right.setAttribute("id", "time_y_right");
@@ -198,6 +198,7 @@ var Interactive = (function() {
             //跟随鼠标变化需要更改的纵坐标上的的提示*/
             y_left.style.top = cross_w_y + "px";
             y_left.innerHTML = time_data[index].price;
+            y_left.style.left = padding_left - y_left.clientWidth + "px";
             y_right.style.top = cross_w_y + "px";
             y_right.innerHTML = time_data[index].percent;
             
@@ -211,6 +212,7 @@ var Interactive = (function() {
             }else{
                 x_bottom.style.left = cross_w_x - x_bottom.clientWidth/2 + "px";
             }
+            
             x_top.innerHTML = time_data[index];
         }
     };

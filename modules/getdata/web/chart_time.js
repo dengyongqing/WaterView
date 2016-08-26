@@ -35,7 +35,8 @@ function getData(options, callback){
 		id: options.code,
         TYPE: 'R',
         js: callbackStr+'((x))',
-        'rtntype': 5
+        'rtntype': 5,
+        isCR:false
 	};
 
 	jsonp(url, urlData, callbackStr, function(json){	

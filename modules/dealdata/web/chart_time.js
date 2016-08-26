@@ -44,7 +44,7 @@ function dealData(json) {
         var point = {};
         var dataItem = item.split(",");
         //成交量的最大值
-        result.v_max = dataItem[2] > result.v_max ? dataItem[2] : result.v_max;
+        result.v_max = Math.max(dataItem[2]*1.0, result.v_max); 
 
         //涨跌百分比
         point.up = (dataItem[1] - yc) > 0 ? true : false;
@@ -54,6 +54,7 @@ function dealData(json) {
         point.time = dataItem[0].split(" ")[1];
         point.price = dataItem[1];
         point.avg_cost = dataItem[3];
+        point.volume = dataItem[2]*1.0;
 
         result.data.push(point);
     }

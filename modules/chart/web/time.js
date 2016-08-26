@@ -108,7 +108,7 @@ var ChartTime = (function() {
         try {
 
             GetDataTime(param,
-                function(error, data) {debugger;
+                function(error, data) {
                     if (error) {
                         // 暂无数据
                         inter.showNoData();
@@ -177,7 +177,7 @@ var ChartTime = (function() {
             // 保留的小数位
             this.options.pricedigit = data.pricedigit;
             // 获取单位绘制区域
-            var rect_unit = common.get_rect.apply(this, [this.options.context.canvas, this.options.data.total]);
+            var rect_unit = common.get_rect.apply(this, [this.options.context.canvas, this.options.data.data.length]);
             this.options.rect_unit = rect_unit;
 
             // 绘制坐标轴
@@ -266,7 +266,7 @@ var ChartTime = (function() {
 
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this, [canvas, w_x, w_y]);
-        var c_x = (c_pos.x).toFixed(0);
+        var c_x = (c_pos.x*1.0).toFixed(0);
         // var c_y = (c_pos.y).toFixed(0);
 
         // 当前点在数组中的下标
@@ -367,9 +367,6 @@ var ChartTime = (function() {
         drawVTime.call(that);
         /*绘制分时图成交量*/
         function drawVTime() {
-            if (this.options.type == "TL") {
-                this.options.data.v_max = getVMax(this.options.data);
-            }
             var ctx = this.options.context;
             var data = this.options.data;
             /*成交量数组*/
@@ -444,7 +441,7 @@ var ChartTime = (function() {
 
         }
         // 获取最大成交量
-        function getVMax(data) {
+        /*function getVMax(data) {
             if (data.data[0]) {
                 var max = data.data[0].volume;
             } else {
@@ -457,7 +454,7 @@ var ChartTime = (function() {
                 }
             }
             return max
-        }
+        }*/
     }
 
 
