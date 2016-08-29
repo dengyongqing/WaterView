@@ -52,6 +52,7 @@ function dealData(json) {
 
         //每个点的时间（小时：分钟），价格，均价
         point.time = dataItem[0].split(" ")[1];
+        point.dateTime = dataItem[0].split(" ")[0];
         point.price = dataItem[1];
         point.avg_cost = dataItem[3];
         point.volume = dataItem[2]*1.0;

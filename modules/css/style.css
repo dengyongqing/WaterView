@@ -260,12 +260,15 @@
 	display: none;
 	position: absolute;
 	padding: 0px 3px;
+	font-size: 14px;
 	background-color: #aaa;
 	color: white;
 	z-index: 1000;
 }
 .time-tips-top{
 	display: none;
+	font-size: 14px;
+	color: #888;
 	position: absolute;
 	top: 0px;
 }

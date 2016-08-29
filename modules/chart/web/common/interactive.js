@@ -146,11 +146,23 @@ var Interactive = (function() {
         var offsetTop = this.options.canvas_offset_top;
         var c_1_height = this.options.c_1_height;
         var containerId = this.options.container;
+        var map = ['周一', '周二', '周三', '周四','周五', '周六', '周日'];
+        var itemData;
+        if(index < 0){
+            itemData = time_data[0];
+        }else if(index > time_data.length-1){
+            itemData = time_data[time_data.length-1];
+        }else{
+            itemData = time_data[index];
+        }
+        var topText = itemData.dateTime.substring(5)+" "+ itemData.time + " "+
+                                map[(new Date(itemData.dateTime)).getDay()]+" 最新价:"+itemData.price+
+                                " 成交量:"+ common.format_unit(itemData.volume.toFixed(0), 2)+"(手) 成交额:"+ 
+                                common.format_unit(itemData.volume*itemData.price*100, 2) + " 均价:"+ itemData.avg_cost;
 
         // debugger;
-        if(!this.options.showTimeTip){
+        if(!this.options.webTimeTips){
             var y_left, y_right, x_bottom, x_top;
-            this.options.showTimeTip = true;
             var frag = document.createDocumentFragment();
             /*y轴上左边的提示*/
             y_left = document.createElement("div");
@@ -171,6 +183,11 @@ var Interactive = (function() {
             x_top.className = "time-tips-top";
             x_top.style.top = offsetTop - 18 + "px";
             x_top.style.left = padding_left + "px";
+            this.options.webTimeTips = {};
+            this.options.webTimeTips.time_y_left = y_left;
+            this.options.webTimeTips.time_y_right = y_right;
+            this.options.webTimeTips.time_x_top = x_top;
+            this.options.webTimeTips.time_x_bottom = x_bottom;
 
             frag.appendChild(y_left)
             frag.appendChild(y_right)
@@ -180,14 +197,15 @@ var Interactive = (function() {
 
             //跟随鼠标变化需要更改的纵坐标上的的提示*/
             y_left.style.top = cross_w_y + "px";
-            y_left.innerHTML = time_data[index].price;
+            y_left.innerHTML = itemData.price;
             y_right.style.top = cross_w_y + "px";
-            y_right.innerHTML = time_data[index].percent;
+            y_right.innerHTML = itemData.percent;
             
             //跟随鼠标变化需要更改的横坐标上的的提示*/
-            x_bottom.innerHTML = time_data[index].time;
+            x_bottom.innerHTML = itemData.time;
             x_bottom.style.left = cross_w_x - x_bottom.clientWidth/2 + "px";
-            x_top.innerHTML = time_data[index];
+            x_top.innerHTML = topText;
+            x_top.style.display = 'block';
         }else{
             var y_left = document.getElementById("time_y_left");
             var y_right = document.getElementById("time_y_right");
@@ -195,17 +213,17 @@ var Interactive = (function() {
             var x_top = document.getElementById("time_x_top");
             //跟随鼠标变化需要更改的纵坐标上的的提示*/
             y_left.style.top = cross_w_y + "px";
-            y_left.innerHTML = time_data[index].price;
+            y_left.innerHTML = itemData.price;
             y_left.style.left = padding_left - y_left.clientWidth + 'px';
             y_left.style.display = 'block';
             y_right.style.top = cross_w_y + "px";
             y_right.style.display = 'block';
-            y_right.innerHTML = time_data[index].percent;
+            y_right.innerHTML = itemData.percent;
             
             //跟随鼠标变化需要更改的横坐标上的的提示*/
             x_bottom.style.left = cross_w_x + "px";
             x_bottom.style.display = 'block';
-            x_bottom.innerHTML = time_data[index].time;
+            x_bottom.innerHTML = itemData.time;
             if(cross_w_x < padding_left + x_bottom.clientWidth/2){
                 x_bottom.style.left = padding_left + "px";
             }else if(cross_w_x > canvas.width - padding_right - x_bottom.clientWidth/2){
@@ -215,7 +233,8 @@ var Interactive = (function() {
             }
             x_bottom.style.top = c_1_height + offsetTop - x_bottom.clientHeight + "px";
             
-            x_top.innerHTML = time_data[index];
+            x_top.style.display = 'block';
+            x_top.innerHTML = topText;
         }
     };
 
@@ -754,6 +773,23 @@ var Interactive = (function() {
 
         }
 
+        if(this.options.webTimeTips){
+            var time_y_left = this.options.webTimeTips.time_y_left;
+            if(time_y_left){
+                time_y_left.style.display = 'block';
+            }
+            var time_y_right = this.options.webTimeTips.time_y_right;
+            if(time_y_right){
+                time_y_right.style.display = 'block';
+            }
+            var time_x_bottom = this.options.webTimeTips.time_x_bottom;
+            if(time_x_bottom){
+                time_x_bottom.style.display = 'block';
+            }
+        }
+
+
+
     }
 
     // 隐藏交互效果
@@ -771,6 +807,7 @@ var Interactive = (function() {
             if (point) {
                 point.style.display = "none";
             }
+            
         }
 
         if (this.options.mark_ma) {
@@ -851,6 +888,21 @@ var Interactive = (function() {
                 tip.style.display = "none";
             }
 
+        }
+
+        if(this.options.webTimeTips){
+            var time_y_left = this.options.webTimeTips.time_y_left;
+            if(time_y_left){
+                time_y_left.style.display = 'none';
+            }
+            var time_y_right = this.options.webTimeTips.time_y_right;
+            if(time_y_right){
+                time_y_right.style.display = 'none';
+            }
+            var time_x_bottom = this.options.webTimeTips.time_x_bottom;
+            if(time_x_bottom){
+                time_x_bottom.style.display = 'none';
+            }
         }
 
     }

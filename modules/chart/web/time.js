@@ -190,6 +190,7 @@ var ChartTime = (function() {
             draw_v.call(this);
             // 隐藏loading效果
             inter.hideLoading();
+            inter.showTipsTime(0, 0, data.data, data.data.length-1);
             // 图表加载完成时间
             this.onChartLoaded(this);
 
