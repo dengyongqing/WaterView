@@ -103,9 +103,9 @@ var ChartTime = (function() {
         inter.showLoading();
         var _this = this;
         var param = {
-            code : this.options.code,
-            type : this.options.type,
-            isCR : this.options.isCR
+            code: this.options.code,
+            type: this.options.type,
+            isCR: this.options.isCR
         };
         try {
 
@@ -192,7 +192,7 @@ var ChartTime = (function() {
             draw_v.call(this);
             // 隐藏loading效果
             inter.hideLoading();
-            inter.showTipsTime(0, 0, data.data, data.data.length-1);
+            inter.showTipsTime(0, 0, data.data, data.data.length - 1);
             // 图表加载完成时间
             this.onChartLoaded(this);
 
@@ -269,7 +269,7 @@ var ChartTime = (function() {
 
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this, [canvas, w_x, w_y]);
-        var c_x = (c_pos.x*1.0).toFixed(0);
+        var c_x = (c_pos.x * 1.0).toFixed(0);
         // var c_y = (c_pos.y).toFixed(0);
 
         // 当前点在数组中的下标
@@ -389,7 +389,7 @@ var ChartTime = (function() {
             /*K线柱体的颜色*/
             var up_color = this.options.up_color;
             var down_color = this.options.down_color;
-                //标识最大成交量
+            //标识最大成交量
             ctx.beginPath();
             ctx.strokeStyle = '#999';
             var padding_left = this.options.padding.left;
@@ -407,7 +407,7 @@ var ChartTime = (function() {
             ctx.fill();
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             ctx.lineWidth = 1;
-            ctx.rect(this.options.padding.left+0.5, y_v_top-0.5, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
+            ctx.rect(this.options.padding.left + 0.5, y_v_top - 0.5, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
             ctx.stroke();
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var volume = item.volume;
