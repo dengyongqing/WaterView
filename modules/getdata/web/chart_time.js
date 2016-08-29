@@ -28,24 +28,29 @@ var fix = require('common').fixed;
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-function getData(options, callback){
-	var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
-	var callbackStr = "fsData"+(new Date()).getTime().toString().substring(0, 10);
-	var urlData = {
-		id: options.code,
-        TYPE: options.type || 'R' ,
-        js: callbackStr+'((x))',
+function getData(options, callback) {
+    var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
+    var callbackStr = "fsData" + (new Date()).getTime().toString().substring(0, 10);
+    var urlData = {
+        id: options.code,
+        TYPE: options.type || 'R',
+        js: callbackStr + '((x))',
         'rtntype': 5,
-        isCR:false
-	};
+        isCR: options.isCR || false
+    };
 
-	jsonp(url, urlData, callbackStr, function(json){	
+    jsonp(url, urlData, callbackStr, function(json) {
 
-		var result = dealData(json);
-		var error;
-		if(json){error = false;}else{error = true;}
-		callback(error, result);
-	});
+
+        var error;
+        if (json) { 
+        	error = false;
+            var result = dealData(json, urlData.isCR, options.type); 
+        } else { 
+        	error = true; 
+        }
+        callback(error, result);
+    });
 }
 
 module.exports = getData;
