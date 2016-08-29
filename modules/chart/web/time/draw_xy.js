@@ -84,7 +84,7 @@ var DrawXY = (function() {
             if (isNaN(item.num)) {
                 ctx.fillText("0.00", 0, item.y);
             } else {
-                var num = (item.num*1.0).toFixed(this.options.pricedigit);
+                var num = (item.num * 1.0).toFixed(this.options.pricedigit);
                 ctx.fillText(num, 0, item.y);
             }
             ctx.stroke();
@@ -121,32 +121,61 @@ var DrawXY = (function() {
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = k_height + ctx.canvas.height / 8 / 2;
-        /*通过type判断，是一日分时还是多日分时，根据判断结果画不同的横坐标时间点*/
+        /*绘制x轴上的y轴方向分割*/
+        var len = 0;
+        /*通过type判断，是一日分时还是多日分时，以及判断是不是有盘前数据，根据判断结果画不同的横坐标时间点*/
         var timeStrLen = oc_time_arr.length;
+        /*每个下标刻度之间的宽度*/
         var itemDistance;
+        /*是否为一天分时*/
         var isR = false;
-        if(this.options.type.toLowerCase() != 'r'){
-            itemDistance = (k_width - padding_left - padding_right)/(timeStrLen) ;
-        }else{
-            itemDistance = (k_width - padding_left - padding_right)/(timeStrLen-1) ;
+        /*是否包含盘前数据*/
+        var isCR = this.options.isCR || false;
+        /*盘前数据占据的宽度*/
+        var crSpace = 0;
+        if (this.options.type.toLowerCase() != 'r') {
+            itemDistance = (k_width - padding_left - padding_right) / (timeStrLen);
+        } else {
+            if (isCR) {
+                //盘前数据在坐标上的宽度
+                crSpace = (k_width - padding_left - padding_right) / ((timeStrLen - 2) * 4 + 1);
+                itemDistance = crSpace * 4;
+            } else {
+                itemDistance = (k_width - padding_left - padding_right) / (timeStrLen - 1);
+            }
             isR = true;
         }
         /*绘制x轴上的时间点*/
-        for(var i = 0; i < timeStrLen; i++){
-            //时间转换，如果为日期，装换为xx月xx日， 否则为原样
-            var itemTime = (isR ? oc_time_arr[i] : (new Date(oc_time_arr[i]).getMonth()+1) +"月"+
-                             new Date(oc_time_arr[i]).getDate()+"日");
-            if(i == 0){
-                isR ? ctx.fillText(itemTime, padding_left, y_date) : 0;
-            }else if(i == timeStrLen-1 && isR){
-                ctx.fillText(itemTime, padding_left + itemDistance*i -  ctx.measureText(itemTime).width, y_date);
-            }else{
-                ctx.fillText(itemTime, padding_left + itemDistance*i -  ctx.measureText(itemTime).width/2, y_date);
+        if (!isCR) {
+            len = 2 * timeStrLen;
+            for (var i = 0; i < timeStrLen; i++) {
+                //时间转换，如果为日期，装换为xx月xx日， 否则为原样
+                var itemTime = (isR ? oc_time_arr[i] : (new Date(oc_time_arr[i]).getMonth() + 1) + "月" +
+                    new Date(oc_time_arr[i]).getDate() + "日");
+                if (i == 0) {
+                    isR ? ctx.fillText(itemTime, padding_left, y_date) : 0;
+                } else if (i == timeStrLen - 1 && isR) {
+                    ctx.fillText(itemTime, padding_left + itemDistance * i - ctx.measureText(itemTime).width, y_date);
+                } else {
+                    ctx.fillText(itemTime, padding_left + itemDistance * i - ctx.measureText(itemTime).width / 2, y_date);
+                }
+            }
+        } else {debugger;
+            len = 2 * (timeStrLen-1) + 1;
+            for (var i = 0; i < timeStrLen; i++) {
+                var itemTime = oc_time_arr[i];
+                if (i == 0) {
+                    ctx.fillText(itemTime, padding_left, y_date);
+                } else if (i == 1) {
+                    ctx.fillText(itemTime, padding_left + crSpace, y_date);
+                } else if (i == timeStrLen - 1) {
+                    ctx.fillText(itemTime, padding_left + crSpace + itemDistance * (i - 1) - ctx.measureText(itemTime).width, y_date);
+                } else {
+                    ctx.fillText(itemTime, padding_left + crSpace + itemDistance * (i - 1) - ctx.measureText(itemTime).width / 2, y_date);
+                }
             }
         }
-        // ctx.moveTo(0,k_height + 10);
-        /*绘制x轴上的y轴方向分割*/
-        var len = oc_time_arr.length * 2;
+
 
         var v_height = ctx.canvas.height / 4;
 
@@ -156,15 +185,26 @@ var DrawXY = (function() {
         var y_v_top = y_v_bottom - v_height;
         var itemWidth = (k_width - padding_left - padding_right) / len;
         for (var i = 0; i <= len; i++) {
-            (function(i) {
-                if (i != 0 && i != len) {
-                    draw_dash(ctx, padding_left + i * itemWidth, y_min, padding_left + i * itemWidth, 0, 5);
-                    draw_dash(ctx, padding_left + i * itemWidth, y_v_bottom, padding_left + i * itemWidth, y_v_top, 5);
-                } else {
-                    ctx.moveTo(Math.floor(padding_left + i * itemWidth), y_min);
-                    ctx.lineTo(Math.floor(padding_left + i * itemWidth), 0);
+
+            if (i != 0 && i != len) {
+                var x;
+                //如果是盘前
+                if (isCR) {
+                    if (i == 1) {
+                        x = crSpace + padding_left;
+                    } else {
+                        x = padding_left + (i - 1) * itemDistance/2 + crSpace;
+                    }
+                }else{
+                    x = padding_left + i * itemWidth;
                 }
-            })(i);
+                draw_dash(ctx, x, y_min, x, 0, 5);
+                draw_dash(ctx, x, y_v_bottom, x, y_v_top, 5);
+            } else {
+                ctx.moveTo(Math.floor(padding_left + i * itemWidth), y_min);
+                ctx.lineTo(Math.floor(padding_left + i * itemWidth), 0);
+            }
+
         }
 
         ctx.stroke();
@@ -176,7 +216,7 @@ var DrawXY = (function() {
         var result = [];
         for (var i = 0; i < sepe_num; i++) {
             result.push({
-                num: (y_min*1.0 + i * ratio),
+                num: (y_min * 1.0 + i * ratio),
                 x: 0,
                 y: k_height - (i / (sepe_num - 1)) * k_height
             });
