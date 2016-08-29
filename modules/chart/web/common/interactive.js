@@ -156,7 +156,6 @@ var Interactive = (function() {
             y_left = document.createElement("div");
             y_left.setAttribute("id", "time_y_left");
             y_left.className = "time-tips-coordinate";
-            y_left.style.left =padding_left + "px";
             /*y轴上右边的提示*/
             y_right = document.createElement("div");
             y_right.setAttribute("id", "time_y_right");
@@ -166,7 +165,6 @@ var Interactive = (function() {
             x_bottom = document.createElement("div");
             x_bottom.setAttribute("id", "time_x_bottom");
             x_bottom.className = "time-tips-coordinate";
-            x_bottom.style.top = c_1_height + offsetTop + "px";
             /*x轴顶部的时间提示*/
             x_top = document.createElement("div");
             x_top.setAttribute("id", "time_x_top");
@@ -198,12 +196,15 @@ var Interactive = (function() {
             //跟随鼠标变化需要更改的纵坐标上的的提示*/
             y_left.style.top = cross_w_y + "px";
             y_left.innerHTML = time_data[index].price;
-            y_left.style.left = padding_left - y_left.clientWidth + "px";
+            y_left.style.left = padding_left - y_left.clientWidth + 'px';
+            y_left.style.display = 'block';
             y_right.style.top = cross_w_y + "px";
+            y_right.style.display = 'block';
             y_right.innerHTML = time_data[index].percent;
             
             //跟随鼠标变化需要更改的横坐标上的的提示*/
             x_bottom.style.left = cross_w_x + "px";
+            x_bottom.style.display = 'block';
             x_bottom.innerHTML = time_data[index].time;
             if(cross_w_x < padding_left + x_bottom.clientWidth/2){
                 x_bottom.style.left = padding_left + "px";
@@ -212,6 +213,7 @@ var Interactive = (function() {
             }else{
                 x_bottom.style.left = cross_w_x - x_bottom.clientWidth/2 + "px";
             }
+            x_bottom.style.top = c_1_height + offsetTop - x_bottom.clientHeight + "px";
             
             x_top.innerHTML = time_data[index];
         }

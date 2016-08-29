@@ -257,6 +257,7 @@
 }
 
 .time-tips-coordinate{
+	display: none;
 	position: absolute;
 	padding: 0px 3px;
 	background-color: #aaa;
@@ -264,6 +265,7 @@
 	z-index: 1000;
 }
 .time-tips-top{
+	display: none;
 	position: absolute;
 	top: 0px;
 }

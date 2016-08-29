@@ -177,7 +177,7 @@ var ChartTime = (function() {
             // 保留的小数位
             this.options.pricedigit = data.pricedigit;
             // 获取单位绘制区域
-            var rect_unit = common.get_rect.apply(this, [this.options.context.canvas, this.options.data.data.length]);
+            var rect_unit = common.get_rect.apply(this, [this.options.context.canvas, this.options.data.total]);
             this.options.rect_unit = rect_unit;
 
             // 绘制坐标轴

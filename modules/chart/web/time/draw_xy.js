@@ -133,6 +133,7 @@ var DrawXY = (function() {
                 ctx.fillText(oc_time_arr[i], padding_left + itemDistance*i -  ctx.measureText(oc_time_arr[i]).width/2, y_date);
             }
         }
+        // ctx.moveTo(0,k_height + 10);
         /*绘制x轴上的y轴方向分割*/
         var len = oc_time_arr.length * 2;
 
@@ -143,7 +144,7 @@ var DrawXY = (function() {
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
         var y_v_top = y_v_bottom - v_height;
         var itemWidth = (k_width - padding_left - padding_right) / len;
-        for (i = 0; i <= len; i++) {
+        for (var i = 0; i <= len; i++) {
             (function(i) {
                 if (i != 0 && i != len) {
                     draw_dash(ctx, padding_left + i * itemWidth, y_min, padding_left + i * itemWidth, 0, 5);

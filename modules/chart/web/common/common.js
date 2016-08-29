@@ -76,7 +76,7 @@ var common = {
         // var dpr = this.options.dpr;
 
         if (type == "TL") {
-            return (canvas.width - padding_left - padding_right) / num * x + padding_left;
+            return (canvas.width - padding_left - padding_right) / total * x + padding_left;
         } else {
             return (canvas.width - padding_left - padding_right) / num * x + padding_left - (rect_w / 2);
         }
