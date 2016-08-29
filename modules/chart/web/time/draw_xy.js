@@ -121,10 +121,18 @@ var DrawXY = (function() {
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = k_height + ctx.canvas.height / 8 / 2;
-        ctx.fillText(oc_time_arr[0], padding_left, y_date);
-        ctx.fillText(oc_time_arr[1], (k_width - padding_left - padding_right) / 2 + padding_left - ctx.measureText(oc_time_arr[1]).width / 2, y_date);
-        ctx.fillText(oc_time_arr[2], k_width - padding_right - ctx.measureText(oc_time_arr[2]).width, y_date);
-        // ctx.moveTo(0,k_height + 10);
+        var timeStrLen = oc_time_arr.length;
+        var itemDistance = (k_width - padding_left - padding_right)/(timeStrLen-1) ;
+        /*绘制x轴上的时间点*/
+        for(var i = 0; i < timeStrLen; i++){
+            if(i == 0){
+                ctx.fillText(oc_time_arr[i], padding_left, y_date);
+            }else if(i == timeStrLen-1){
+                ctx.fillText(oc_time_arr[i], padding_left + itemDistance*i -  ctx.measureText(oc_time_arr[i]).width, y_date);
+            }else{
+                ctx.fillText(oc_time_arr[i], padding_left + itemDistance*i -  ctx.measureText(oc_time_arr[i]).width/2, y_date);
+            }
+        }
         /*绘制x轴上的y轴方向分割*/
         var len = oc_time_arr.length * 2;
 
@@ -135,7 +143,7 @@ var DrawXY = (function() {
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
         var y_v_top = y_v_bottom - v_height;
         var itemWidth = (k_width - padding_left - padding_right) / len;
-        for (var i = 0; i <= len; i++) {
+        for (i = 0; i <= len; i++) {
             (function(i) {
                 if (i != 0 && i != len) {
                     draw_dash(ctx, padding_left + i * itemWidth, y_min, padding_left + i * itemWidth, 0, 5);
