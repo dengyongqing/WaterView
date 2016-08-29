@@ -33,7 +33,7 @@ function getData(options, callback){
 	var callbackStr = "fsData"+(new Date()).getTime().toString().substring(0, 10);
 	var urlData = {
 		id: options.code,
-        TYPE: 'R',
+        TYPE: options.type || 'R' ,
         js: callbackStr+'((x))',
         'rtntype': 5,
         isCR:false

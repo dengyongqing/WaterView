@@ -121,16 +121,27 @@ var DrawXY = (function() {
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = k_height + ctx.canvas.height / 8 / 2;
+        /*通过type判断，是一日分时还是多日分时，根据判断结果画不同的横坐标时间点*/
         var timeStrLen = oc_time_arr.length;
-        var itemDistance = (k_width - padding_left - padding_right)/(timeStrLen-1) ;
+        var itemDistance;
+        var isR = false;
+        if(this.options.type.toLowerCase() != 'r'){
+            itemDistance = (k_width - padding_left - padding_right)/(timeStrLen) ;
+        }else{
+            itemDistance = (k_width - padding_left - padding_right)/(timeStrLen-1) ;
+            isR = true;
+        }
         /*绘制x轴上的时间点*/
         for(var i = 0; i < timeStrLen; i++){
+            //时间转换，如果为日期，装换为xx月xx日， 否则为原样
+            var itemTime = (isR ? oc_time_arr[i] : (new Date(oc_time_arr[i]).getMonth()+1) +"月"+
+                             new Date(oc_time_arr[i]).getDate()+"日");
             if(i == 0){
-                ctx.fillText(oc_time_arr[i], padding_left, y_date);
-            }else if(i == timeStrLen-1){
-                ctx.fillText(oc_time_arr[i], padding_left + itemDistance*i -  ctx.measureText(oc_time_arr[i]).width, y_date);
+                isR ? ctx.fillText(itemTime, padding_left, y_date) : 0;
+            }else if(i == timeStrLen-1 && isR){
+                ctx.fillText(itemTime, padding_left + itemDistance*i -  ctx.measureText(itemTime).width, y_date);
             }else{
-                ctx.fillText(oc_time_arr[i], padding_left + itemDistance*i -  ctx.measureText(oc_time_arr[i]).width/2, y_date);
+                ctx.fillText(itemTime, padding_left + itemDistance*i -  ctx.measureText(itemTime).width/2, y_date);
             }
         }
         // ctx.moveTo(0,k_height + 10);
@@ -172,6 +183,9 @@ var DrawXY = (function() {
         }
         return result;
     }
+
+
+
     return DrawXY;
 })();
 

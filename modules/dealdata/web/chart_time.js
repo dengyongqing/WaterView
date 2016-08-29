@@ -21,24 +21,26 @@ function dealData(json) {
     result.code = json.code;
     result.timeStrs = [];
     result.data = [];
-    result.total = json.info.total;
+    result.total = json.info.total%241 == 0 ? json.info.total : Math.floor(json.info.total/241+1)*241;
     //横坐标的时间列表
+    var timeStrs = [];
     var ticks = (json.info.ticks).split('|');
     if (ticks.length === 7) {
         //早上开始时间
         var AM_start = ticks[3];
-        result.timeStrs.push(toFormDateTime(AM_start));
+        timeStrs.push(toFormDateTime(AM_start));
         var AM_middle = Math.floor((ticks[3] * 1.0 + ticks[4] * 1.0) / 2);
-        result.timeStrs.push(toFormDateTime(AM_middle));
+        timeStrs.push(toFormDateTime(AM_middle));
         var AM_end = ticks[4];
         var PM_start = ticks[5];
-        result.timeStrs.push(toFormDateTime(AM_end) + "/" + toFormDateTime(PM_start));
+        timeStrs.push(toFormDateTime(AM_end) + "/" + toFormDateTime(PM_start));
         var PM_middle = Math.floor((ticks[5] * 1.0 + ticks[6] * 1) / 2);
-        result.timeStrs.push(toFormDateTime(PM_middle));
+        timeStrs.push(toFormDateTime(PM_middle));
         var PM_end = ticks[6];
-        result.timeStrs.push(toFormDateTime(PM_end));
+        timeStrs.push(toFormDateTime(PM_end));
     }
 
+    var dateStrs = [];
     //计算每个数据点
     for (var i = 0, item; item = json.data[i]; i++) {
         var point = {};
@@ -56,9 +58,15 @@ function dealData(json) {
         point.price = dataItem[1];
         point.avg_cost = dataItem[3];
         point.volume = dataItem[2]*1.0;
-
+        result.high = Math.max(result.high, point.price);
+        result.low = Math.min(result.low, point.price);
+        if(point.dateTime != dateStrs[dateStrs.length-1]){
+            dateStrs.push(point.dateTime);
+        }
         result.data.push(point);
     }
+
+    result.timeStrs = result.total <= 241 ? timeStrs : dateStrs;
 
     //坐标的最大最小值
     result.max = coordinate(result.high, result.low, result.yc).max;

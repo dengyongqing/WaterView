@@ -40,7 +40,7 @@ var ChartTime = (function() {
     // 初始化
     ChartTime.prototype.init = function() {
 
-        this.options.type = "TL";
+        this.options.chartType = "TL";
         var canvas = document.createElement("canvas");
 
         this.container.style.position = "relative";
@@ -103,7 +103,8 @@ var ChartTime = (function() {
         inter.showLoading();
         var _this = this;
         var param = {
-            code : this.options.code
+            code : this.options.code,
+            type : this.options.type
         };
         try {
 

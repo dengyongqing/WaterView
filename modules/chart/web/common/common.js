@@ -67,7 +67,7 @@ var common = {
     // 图表x轴坐标计算
     get_x: function(x) {
         var canvas = this.options.context.canvas;
-        var type = this.options.type;
+        var type = this.options.chartType;
         var rect_w = this.options.rect_unit.rect_w;
         var num = (this.options.currentData && this.options.currentData.data.length) || this.options.data.data.length;
         var total = (this.options.currentData && this.options.currentData.total) || this.options.data.total;
