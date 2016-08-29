@@ -21,7 +21,7 @@ function dealData(json, isCR, type) {
     result.code = json.code;
     result.timeStrs = [];
     result.data = [];
-    result.total = json.info.total%241 == 0 ? json.info.total : Math.floor(json.info.total/241+1)*241;
+    result.total = json.info.total%242 == 0 ? json.info.total : Math.floor(json.info.total/242+1)*242;
     var timeStrs = [];
     if(isCR){
         result.total = result.total*1 + 15;

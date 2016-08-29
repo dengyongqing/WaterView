@@ -160,7 +160,7 @@ var DrawXY = (function() {
                     ctx.fillText(itemTime, padding_left + itemDistance * i - ctx.measureText(itemTime).width / 2, y_date);
                 }
             }
-        } else {debugger;
+        } else {
             len = 2 * (timeStrLen-1) + 1;
             for (var i = 0; i < timeStrLen; i++) {
                 var itemTime = oc_time_arr[i];
@@ -192,6 +192,8 @@ var DrawXY = (function() {
                 if (isCR) {
                     if (i == 1) {
                         x = crSpace + padding_left;
+                        ctx.fillStyle = "#efefef";
+                        ctx.fillRect(padding_left, 0, crSpace, y_min);
                     } else {
                         x = padding_left + (i - 1) * itemDistance/2 + crSpace;
                     }

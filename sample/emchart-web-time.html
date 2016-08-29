@@ -10,6 +10,22 @@
 		    margin: 0;
 		    padding: 0;
 		}
+		 .tab-list{
+			position: absolute;
+			top: 150px;
+			left: 65px;
+			z-index: 100;
+		} 
+		.tab-item{
+			float: left;
+			display: inline-block;
+			border: solid 1px #4267A0;
+			padding: 2px 5px;
+		}
+		.choose{
+			background-color: #4267A0;
+			color: white;
+		}
 	</style>
 	
 </head>
@@ -32,7 +48,17 @@
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
 				</div>
 				<div class="emchart">
+					<ul class="tab-list" id="tab_list">
+						<li class="tab-item" id="before">盘前</li>
+						<li class="tab-item choose" id="one">一天</li>
+						<li class="tab-item" id="two">二天</li>
+						<li class="tab-item" id="three">三天</li>
+						<li class="tab-item" id="four">四天</li>
+						<li class="tab-item" id="five">五天</li>
+					</ul>
+
 					<div id="emchart-0" class="em-tab" >
+						
 					</div>
 					<div id="emchart-1" class="em-tab">
 					</div>
@@ -61,7 +87,54 @@
 		        "type":"r"
 	        });
 	        k0.draw();
+
+	        var list = document.getElementsByTagName("li");
+	        var tabUrl = document.getElementById("tab_list");
+	        tabUrl.onclick = function(e){
+
+	        	for(var i = 0; i < list.length; i++){
+	        		list[i].className = "tab-item";
+	        	}
+	        	var target = e.target || e.srcElement;
+	        	target.className = "tab-item choose";
+	        	var params = {
+	        		dpr: 1,
+					code: "3000592",
+		        	container : "emchart-0",
+			        "width" : 800,
+			        "height" : 500
+	        	};
+	        	switch(target.getAttribute("id")){
+	        		case "before":
+	        			params.isCR = true;
+	        			params.type = "r";
+	        			break;
+	        		case "one":
+	        			params.type = "r";
+	        			break;
+	        		case "two":
+	        			params.type = "t2";
+	        			break;
+	        		case "three":
+	        			params.type = "t3";
+	        			break;
+	        		case "four":
+	        			params.type = "t4";
+	        			break;
+	        		case "five":
+	        			params.type = "t5";
+	        			break;
+	        	}
+	        	document.getElementById('emchart-0').innerHTML = "";
+
+	        	k0 = new EmchartsWebTime(params);
+
+	        	k0.draw();
+	        };
+
 		}
+
+
 
 	</script>
 	
