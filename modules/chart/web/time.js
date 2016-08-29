@@ -104,7 +104,8 @@ var ChartTime = (function() {
         var _this = this;
         var param = {
             code : this.options.code,
-            type : this.options.type
+            type : this.options.type,
+            isCR : this.options.isCR
         };
         try {
 
