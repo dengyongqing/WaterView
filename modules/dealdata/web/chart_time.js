@@ -8,7 +8,7 @@ var fix = require('common').fixed;
  * @param  {[type]} json [description]
  * @return {[type]}      [description]
  */
-function dealData(json) {
+function dealData(json, isCR, type) {
     var yc = json.info.yc;
     var result = {};
     result.v_max = 0;
@@ -22,8 +22,13 @@ function dealData(json) {
     result.timeStrs = [];
     result.data = [];
     result.total = json.info.total%241 == 0 ? json.info.total : Math.floor(json.info.total/241+1)*241;
-    //横坐标的时间列表
     var timeStrs = [];
+    if(isCR){
+        result.total = result.total*1 + 15;
+        timeStrs.push("09:15");
+    }
+    //横坐标的时间列表
+    
     var ticks = (json.info.ticks).split('|');
     if (ticks.length === 7) {
         //早上开始时间
@@ -66,7 +71,12 @@ function dealData(json) {
         result.data.push(point);
     }
 
-    result.timeStrs = result.total <= 241 ? timeStrs : dateStrs;
+    //判断不同的请求种类，返回不同的时间数组
+    if(type == 'r'){
+        result.timeStrs = timeStrs;
+    }else{
+        result.timeStrs = dateStrs;
+    }
 
     //坐标的最大最小值
     result.max = coordinate(result.high, result.low, result.yc).max;
