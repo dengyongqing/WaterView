@@ -94,7 +94,12 @@
 	        	for(var i = 0; i < list.length; i++){
 	        		list[i].className = "tab-item";
 	        	}
-	        	var target = window.event.srcElement || e.target;
+	        	var target;
+	        	if(!window.event){
+	        		target = e.target;
+	        	}else{
+	        		target = window.event.srcElement;
+	        	}
 	        	target.className = "tab-item choose";
 	        	var params = {
 	        		dpr: 1,
