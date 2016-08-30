@@ -197,9 +197,10 @@ var ChartK = (function() {
                 var flag = dataCallback.apply(_this,[data]);
                 if(flag){
                     // K线图均线数据标识
-                    inter.markMA(_this.options.canvas);
+                    // inter.markMA(_this.options.canvas);
                     // 成交量均线数据标识
                     inter.markVMA(_this.options.canvas);
+
                     // 缩放
                     inter.scale(_this.options.canvas);
                     // 绑定事件
@@ -718,19 +719,29 @@ var ChartK = (function() {
         this.options.drawXY.drawXYK();
         this.drawK();
 
+        var inter = this.options.interactive;
+
         var params = {};
         params = getParamsObj.call(this);
         params.extend = "ma|rsi";
         this.options.up_t = "junxian";
         this.options.down_t = "rsi";
 
-        if(this.options.ma && this.options.rsi){
+        if(this.options.junxian && this.options.rsi){
             temp_ma.apply(_this,[]);
             temp_rsi.apply(_this,[]);
         } else {
              GetTeacData(params, function(data) {
-                _this.options.ma = {};
-                _this.options.ma = data;
+
+                _this.options.junxian = {};
+                /*5日均线数据*/
+                _this.options.junxian.ma5 = data.five_average;
+                /*10日均线数据*/
+                _this.options.junxian.ma10 = data.ten_average;
+                /*20日均线数据*/
+                _this.options.junxian.ma20 = data.twenty_average;
+                /*30日均线数据*/
+                _this.options.junxian.ma30 = data.thirty_average;
 
                 _this.options.rsi = {};
                 _this.options.rsi.rsi6 = data.rsi6;
@@ -739,7 +750,11 @@ var ChartK = (function() {
 
                 temp_ma.apply(_this,[]);
                 temp_rsi.apply(_this,[]);
+
+                inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "");
+                inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, "");
             });
+
         }
 
         function temp_rsi(){
@@ -754,19 +769,19 @@ var ChartK = (function() {
         function temp_ma(){
             var _this = this;
             var ctx = _this.options.context;
-            var data = _this.options.ma;
+            var data = _this.options.junxian;
             var start = _this.options.start;
             var end = _this.options.end;
             // 图表交互
             var inter = _this.options.interactive;
             /*5日均线数据*/
-            var five_average = data.five_average.slice(start, end);
+            var five_average = data.ma5.slice(start, end);
             /*10日均线数据*/
-            var ten_average = data.ten_average.slice(start, end);
+            var ten_average = data.ma10.slice(start, end);
             /*20日均线数据*/
-            var twenty_average = data.twenty_average.slice(start, end);
+            var twenty_average = data.ma20.slice(start, end);
             /*30日均线数据*/
-            var thirty_average = data.thirty_average.slice(start, end);
+            var thirty_average = data.ma30.slice(start, end);
 
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
@@ -779,10 +794,11 @@ var ChartK = (function() {
             // inter.default_volume = data.data[data.data.length - 1];
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
-            _this.options.five_average = getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
-            _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
-            _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
-            _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+
+            getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
+            getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
+            getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
+            getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
         }
         
 
@@ -840,13 +856,21 @@ var ChartK = (function() {
         params = getParamsObj.call(this);
         params.extend = "ma";
 
-        if(this.options.ma){
-            data = _this.options.ma;
+        if(this.options.junxian){
+            data = _this.options.junxian;
             temp_ma.apply(_this,[]);
         } else {
              GetTeacData(params, function(data) {
-                _this.options.ma = {};
-                _this.options.ma = data;
+                _this.options.junxian = {};
+                /*5日均线数据*/
+                _this.options.junxian.ma5 = data.five_average;
+                /*10日均线数据*/
+                _this.options.junxian.ma10 = data.ten_average;
+                /*20日均线数据*/
+                _this.options.junxian.ma20 = data.twenty_average;
+                /*30日均线数据*/
+                _this.options.junxian.ma30 = data.thirty_average;
+
                 temp_ma.apply(_this,[]);
             });
         }
@@ -854,18 +878,18 @@ var ChartK = (function() {
         function temp_ma(){
             var _this = this;
             var ctx = _this.options.context;
-            var data = _this.options.ma;
+            var data = _this.options.junxian;
 
             // 图表交互
             var inter = _this.options.interactive;
             /*5日均线数据*/
-            var five_average = data.five_average.slice(start, end);
+            var five_average = data.ma5.slice(start, end);
             /*10日均线数据*/
-            var ten_average = data.ten_average.slice(start, end);
+            var ten_average = data.ma10.slice(start, end);
             /*20日均线数据*/
-            var twenty_average = data.twenty_average.slice(start, end);
+            var twenty_average = data.ma20.slice(start, end);
             /*30日均线数据*/
-            var thirty_average = data.thirty_average.slice(start, end);
+            var thirty_average = data.ma30.slice(start, end);
 
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
@@ -878,10 +902,11 @@ var ChartK = (function() {
             // inter.default_volume = data.data[data.data.length - 1];
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
-            _this.options.five_average = getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
-            _this.options.ten_average = getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
-            _this.options.twenty_average = getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
-            _this.options.thirty_average = getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+
+            getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
+            getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
+            getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
+            getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
         }
         
 
@@ -1446,14 +1471,15 @@ var ChartK = (function() {
             temp_bbi.apply(_this,[]);
         } else {
             GetTeacData(params, function(data) {
-                _this.options.bbi = data;
+                _this.options.bbi = {};
+                _this.options.bbi.bbi = data.bbi;
                 temp_bbi.apply(_this,[]);
             });
         }
 
         function temp_bbi(){
 
-            var data = this.options.bbi;
+            var data = _this.options.bbi;
 
             var max = _this.options.currentData.max;
             var min = _this.options.currentData.min;
@@ -1704,7 +1730,7 @@ var ChartK = (function() {
                 }
             });
 
-            common.addEvent.call(_this, canvas, "mouseleave",function(event){
+            common.addEvent.call(_this, _this.container, "mouseleave",function(event){
                 inter.hide();
                 try {
                     event.preventDefault();
@@ -1776,11 +1802,11 @@ var ChartK = (function() {
 
         var k_data = this.options.currentData.data;
 
-        var five_average = this.options.five_average;
-        var ten_average = this.options.ten_average;
-        var twenty_average = this.options.twenty_average;
-        var thirty_average = this.options.thirty_average;
-      
+        var five_average = this.options.junxian.ma5;
+        var ten_average = this.options.junxian.ma10;
+        var twenty_average = this.options.junxian.ma20;
+        var thirty_average = this.options.junxian.ma30;
+
         var v_ma_5 = this.options.v_ma_5;
         var v_ma_10 = this.options.v_ma_10;
 
@@ -1804,24 +1830,29 @@ var ChartK = (function() {
         // var c_y = (c_pos.y).toFixed(0);
 
         // 当前K线在数组中的下标
-        var index = Math.floor((c_x - this.options.padding_left)/rect_w);
 
-        if(k_data[index]){
-            // 显示行情数据
-            inter.showTip(canvas,w_x,k_data[index]);
+        var index = Math.floor((c_x - this.options.padding.left)/rect_w);
+        try {
+            if(k_data[index]){
+                // 显示行情数据
+                inter.showTip(canvas,w_x,k_data[index]);
+                
+                // 显示十字指示线的
+                var cross = common.canvasToWindow.apply(this,[canvas,k_data[index].cross_x,k_data[index].cross_y]);
+                var cross_w_x = cross.x;
+                var cross_w_y = cross.y;
+                inter.cross(canvas,cross_w_x,cross_w_y);
+            }
+
+            if(five_average[index]){
+                 // 标识均线数据
+                 // inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
+                 inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index);
+                 inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
+                 inter.markT(canvas, this.options.down_t, this.options[this.options.down_t], this.options.start, this.options.end, index);
+            }
+        } catch(e){
             
-            // 显示十字指示线的
-            var cross = common.canvasToWindow.apply(this,[canvas,k_data[index].cross_x,k_data[index].cross_y]);
-            var cross_w_x = cross.x;
-            var cross_w_y = cross.y;
-            inter.cross(canvas,cross_w_x,cross_w_y);
-        }
-
-        if(five_average[index]){
-             // 标识均线数据
-             inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
-             inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
-             inter.markT(canvas, this.options.down_t, this.options[this.options.down_t], this.options.start, this.options.end, index);
         }
 
     }

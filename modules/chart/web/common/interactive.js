@@ -238,140 +238,240 @@ var Interactive = (function() {
         }
     };
 
-    Interactive.prototype.markMA = function(canvas, obj_5, obj_10, obj_20, obj_30) {
-        // 绘制移动平均线标识
-        // var c_box = canvas.getBoundingClientRect();
-        // var dpr = this.options.dpr;
-        if (!this.options.mark_ma) {
-            this.options.mark_ma = {};
-            var div_mark = document.createElement("div");
-            div_mark.className = "mark-ma";
-            div_mark.style.left = this.options.padding.left + "px";
-            div_mark.style.top = "0px";
-            this.options.mark_ma.mark_ma = div_mark;
+    //         /*创建文档碎片*/
+    //         var frag = document.createDocumentFragment();
 
+    //         /*5日均线*/
+    //         var ma_5_data = document.createElement('span');
+    //         ma_5_data.className = "span-m5";
+    //         ma_5_data.style.position = "absolute";
+    //         ma_5_data.style.left = 0;
+    //         if (obj_5) {
+    //             ma_5_data.innerText = "MA5: " + obj_5.value;
+    //         } else {
+    //             if (this.default_m5) {
+    //                 ma_5_data.innerText = "MA5: " + this.default_m5.value;
+    //             } else {
+    //                 ma_5_data.innerText = "MA5: -";
+    //             }
+    //         }
+    //         this.options.mark_ma.ma_5_data = ma_5_data;
+
+    //         /*10日均线*/
+    //         var ma_10_data = document.createElement('span');
+    //         ma_10_data.id = "ma_10_data";
+    //         ma_10_data.className = "span-m10";
+    //         ma_10_data.style.position = "absolute";
+    //         ma_10_data.style.left = this.options.padding.left + this.options.drawWidth * 1 / 3 - 50 + "px";
+    //         if (obj_10) {
+    //             ma_10_data.innerText = "MA10: " + obj_10.value;
+    //         } else {
+    //             if (this.default_m10) {
+    //                 ma_10_data.innerText = "MA10: " + this.default_m10.value;
+    //             } else {
+    //                 ma_10_data.innerText = "MA10: -";
+    //             }
+    //         }
+    //         this.options.mark_ma.ma_10_data = ma_10_data;
+
+    //         /*20日均线*/
+    //         var ma_20_data = document.createElement('span');
+    //         ma_20_data.id = "ma_20_data";
+    //         ma_20_data.className = "span-m20";
+    //         ma_20_data.style.position = "absolute";
+    //         ma_20_data.style.left = this.options.padding.left + this.options.drawWidth * 2 / 3 - 50 + "px";
+    //         if (obj_20) {
+    //             ma_20_data.innerText = "MA20: " + obj_20.value;
+    //         } else {
+    //             if (this.default_m20) {
+    //                 ma_20_data.innerText = "MA20: " + this.default_m20.value;
+    //             } else {
+    //                 ma_20_data.innerText = "MA20: -";
+    //             }
+    //         }
+    //         this.options.mark_ma.ma_20_data = ma_20_data;
+
+    //         /*30日均线*/
+    //         var ma_30_data = document.createElement('span');
+    //         ma_30_data.id = "ma_30_data";
+    //         ma_30_data.className = "span-m30";
+    //         ma_30_data.style.position = "absolute";
+    //         // ma_30_data.style.left = this.options.padding.left + this.options.drawWidth * 3/4 + "px";
+    //         ma_30_data.style.left = this.options.padding.left + this.options.drawWidth - 120 + "px";
+    //         if (obj_30) {
+    //             ma_30_data.innerText = "MA30: " + obj_30.value;
+    //         } else {
+    //             if (this.default_m30) {
+    //                 ma_30_data.innerText = "MA30: " + this.default_m30.value;
+    //             } else {
+    //                 ma_30_data.innerText = "MA30: -";
+    //             }
+    //         }
+    //         this.options.mark_ma.ma_30_data = ma_30_data;
+
+    //         frag.appendChild(ma_5_data);
+    //         frag.appendChild(ma_10_data);
+    //         frag.appendChild(ma_20_data);
+    //         frag.appendChild(ma_30_data);
+    //         div_mark.appendChild(frag);
+
+    //         document.getElementById(this.options.container).appendChild(div_mark);
+    //         // div_tip.style.left = w_pos.x - 300 + "px";
+    //     } else {
+
+    //         var div_mark = this.options.mark_ma.mark_ma;
+    //         if (obj_5) {
+    //             this.options.mark_ma.ma_5_data.innerText = "MA5: " + obj_5.value;
+    //         } else {
+    //             if (this.default_m5) {
+    //                 this.options.mark_ma.ma_5_data.innerText = "MA5: " + this.default_m5.value;
+    //             } else {
+    //                 this.options.mark_ma.ma_5_data.innerText = "MA5: -";
+    //             }
+    //         }
+
+    //         if (obj_10) {
+    //             this.options.mark_ma.ma_10_data.innerText = "MA10: " + obj_10.value;
+    //         } else {
+    //             if (this.default_m10) {
+    //                 this.options.mark_ma.ma_10_data.innerText = "MA10: " + this.default_m10.value;
+    //             } else {
+    //                 this.options.mark_ma.ma_10_data.innerText = "MA10: -";
+    //             }
+    //         }
+
+    //         if (obj_20) {
+    //             this.options.mark_ma.ma_20_data.innerText = "MA20: " + obj_20.value;
+    //         } else {
+    //             if (this.default_m20) {
+    //                 this.options.mark_ma.ma_20_data.innerText = "MA20: " + this.default_m20.value;
+    //             } else {
+    //                 this.options.mark_ma.ma_20_data.innerText = "MA20: -";
+    //             }
+    //         }
+    //         if (obj_30) {
+    //             this.options.mark_ma.ma_30_data.innerText = "MA30: " + obj_30.value;
+    //         } else {
+    //             if (this.default_m30) {
+    //                 this.options.mark_ma.ma_30_data.innerText = "MA30: " + this.default_m30.value;
+    //             } else {
+    //                 this.options.mark_ma.ma_30_data.innerText = "MA30: -";
+    //             }
+    //         }
+
+    //     }
+
+    // }
+
+
+    Interactive.prototype.markMA = function(canvas, type, datas, start, end, index) {
+
+        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
+        if (!this.options.markMAContainer) {
+            //创建并添加最下方一系列技术指标的外部包含div
+            this.options.markMAContainer = document.createElement("div");
+            var markMAContainer = this.options.markMAContainer;
+            markMAContainer.setAttribute("id", "markMAContainer");
+            // debugger;
+            markMAContainer.style.position = "absolute";
+            markMAContainer.style.top = "5px";
+            markMAContainer.style.left = this.options.padding.left + "px";
+            
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
-
-            /*5日均线*/
-            var ma_5_data = document.createElement('span');
-            ma_5_data.className = "span-m5";
-            ma_5_data.style.position = "absolute";
-            ma_5_data.style.left = 0;
-            if (obj_5) {
-                ma_5_data.innerText = "MA5: " + obj_5.value;
-            } else {
-                if (this.default_m5) {
-                    ma_5_data.innerText = "MA5: " + this.default_m5.value;
-                } else {
-                    ma_5_data.innerText = "MA5: -";
+            var co = 0;
+            this.options.markUPTType = type;
+            for (var item in datas) {
+                var temp = datas[item][datas[item].length - 1];
+                var span = document.createElement('span');
+                span.innerHTML = item.toUpperCase() + ": " + temp.value;
+                span.style.width = "100px";
+                span.style.color = colors[co];
+                co++;
+                span.style.marginRight = "30px";
+                span.setAttribute("id", item + "_mark");
+                frag.appendChild(span);
                 }
-            }
-            this.options.mark_ma.ma_5_data = ma_5_data;
 
-            /*10日均线*/
-            var ma_10_data = document.createElement('span');
-            ma_10_data.id = "ma_10_data";
-            ma_10_data.className = "span-m10";
-            ma_10_data.style.position = "absolute";
-            ma_10_data.style.left = this.options.padding.left + this.options.drawWidth * 1 / 3 - 50 + "px";
-            if (obj_10) {
-                ma_10_data.innerText = "MA10: " + obj_10.value;
+            markMAContainer.appendChild(frag);
+            this.options[type] = {};
+            this.options[type].defaultMaHtml = markMAContainer.innerHTML;
+            document.getElementById(this.options.container).appendChild(markMAContainer);
             } else {
-                if (this.default_m10) {
-                    ma_10_data.innerText = "MA10: " + this.default_m10.value;
-                } else {
-                    ma_10_data.innerText = "MA10: -";
+
+            var markMAContainer = this.options.markMAContainer;
+
+            //判断是不是第一次，是否需要创建元素
+            if (this.options.markUPTType != type) {
+                //作为是否切换技术指标的依据
+                this.options.markUPTType = type;
+                //清空markTContainer里面的所有span
+                var spans = markMAContainer.getElementsByTagName("span");
+                var len = spans.length;
+
+                // for (var i = 0; i < len; i++) {
+                //     markMAContainer.removeChild(spans[0]);
+                // }
+
+                markMAContainer.innerHTML = "";
+                // debugger;
+                var dataObj = [];
+
+                for (var item in datas) {
+                    dataObj.push({ value: datas[item].slice(start,end), name: item });
                 }
-            }
-            this.options.mark_ma.ma_10_data = ma_10_data;
+                /*创建文档碎片*/
+                var m_frag = document.createDocumentFragment();
+                //添加元素
 
-            /*20日均线*/
-            var ma_20_data = document.createElement('span');
-            ma_20_data.id = "ma_20_data";
-            ma_20_data.className = "span-m20";
-            ma_20_data.style.position = "absolute";
-            ma_20_data.style.left = this.options.padding.left + this.options.drawWidth * 2 / 3 - 50 + "px";
-            if (obj_20) {
-                ma_20_data.innerText = "MA20: " + obj_20.value;
+                for (var i = 0; i < dataObj.length; i++) {
+                    var span = document.createElement('span');
+                    // if(dataObj[i].value[index].value){
+                    //     var text = dataObj[i].value[index].value;
+                    // }else{
+                    //     var text = "-"
+                    // }
+                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                    span.style.width = "100px";
+                    span.style.color = colors[i];
+                    span.style.marginRight = "30px";
+                    span.setAttribute("id", dataObj[i].name + "_mark");
+                    m_frag.appendChild(span);
+            }
+                /*添加到包含元素上*/
+                markMAContainer.appendChild(m_frag);
             } else {
-                if (this.default_m20) {
-                    ma_20_data.innerText = "MA20: " + this.default_m20.value;
-                } else {
-                    ma_20_data.innerText = "MA20: -";
+
+                var dataObj = [];
+                for (var item in datas) {
+                    dataObj.push({ value: datas[item].slice(start,end), name: item });
                 }
-            }
-            this.options.mark_ma.ma_20_data = ma_20_data;
-
-            /*30日均线*/
-            var ma_30_data = document.createElement('span');
-            ma_30_data.id = "ma_30_data";
-            ma_30_data.className = "span-m30";
-            ma_30_data.style.position = "absolute";
-            // ma_30_data.style.left = this.options.padding.left + this.options.drawWidth * 3/4 + "px";
-            ma_30_data.style.left = this.options.padding.left + this.options.drawWidth - 120 + "px";
-            if (obj_30) {
-                ma_30_data.innerText = "MA30: " + obj_30.value;
+                //更改内容
+                for (var i = 0; i < dataObj.length; i++) {
+                    var span = document.getElementById(dataObj[i].name + "_mark");
+                    try {
+                        span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                    } catch (e) {
+                        // markMAContainer.removeChild(span);
+                        if(dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined){
+                            span.innerText = dataObj[i].name.toUpperCase() + ": -";
             } else {
-                if (this.default_m30) {
-                    ma_30_data.innerText = "MA30: " + this.default_m30.value;
-                } else {
-                    ma_30_data.innerText = "MA30: -";
+                            var span = document.createElement('span');
+                            span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                            span.style.width = "100px";
+                            span.style.color = colors[i];
+                            span.style.marginRight = "30px";
+                            span.setAttribute("id", dataObj[i].name + "_mark");
+                            markMAContainer.appendChild(span);
                 }
-            }
-            this.options.mark_ma.ma_30_data = ma_30_data;
 
-            frag.appendChild(ma_5_data);
-            frag.appendChild(ma_10_data);
-            frag.appendChild(ma_20_data);
-            frag.appendChild(ma_30_data);
-            div_mark.appendChild(frag);
-
-            document.getElementById(this.options.container).appendChild(div_mark);
-            // div_tip.style.left = w_pos.x - 300 + "px";
-        } else {
-
-            var div_mark = this.options.mark_ma.mark_ma;
-            if (obj_5) {
-                this.options.mark_ma.ma_5_data.innerText = "MA5: " + obj_5.value;
-            } else {
-                if (this.default_m5) {
-                    this.options.mark_ma.ma_5_data.innerText = "MA5: " + this.default_m5.value;
-                } else {
-                    this.options.mark_ma.ma_5_data.innerText = "MA5: -";
-                }
-            }
-
-            if (obj_10) {
-                this.options.mark_ma.ma_10_data.innerText = "MA10: " + obj_10.value;
-            } else {
-                if (this.default_m10) {
-                    this.options.mark_ma.ma_10_data.innerText = "MA10: " + this.default_m10.value;
-                } else {
-                    this.options.mark_ma.ma_10_data.innerText = "MA10: -";
                 }
             }
 
-            if (obj_20) {
-                this.options.mark_ma.ma_20_data.innerText = "MA20: " + obj_20.value;
-            } else {
-                if (this.default_m20) {
-                    this.options.mark_ma.ma_20_data.innerText = "MA20: " + this.default_m20.value;
-                } else {
-                    this.options.mark_ma.ma_20_data.innerText = "MA20: -";
-                }
-            }
-            if (obj_30) {
-                this.options.mark_ma.ma_30_data.innerText = "MA30: " + obj_30.value;
-            } else {
-                if (this.default_m30) {
-                    this.options.mark_ma.ma_30_data.innerText = "MA30: " + this.default_m30.value;
-                } else {
-                    this.options.mark_ma.ma_30_data.innerText = "MA30: -";
                 }
             }
 
-        }
+
 
     }
 
@@ -488,6 +588,7 @@ var Interactive = (function() {
     }
 
     Interactive.prototype.markT = function(canvas, type, datas, start, end, index) {
+        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
         if (!this.options.markTContainer) {
             //创建并添加最下方一系列技术指标的外部包含div
             this.options.markTContainer = document.createElement("div");
@@ -496,12 +597,32 @@ var Interactive = (function() {
             // debugger;
             markTContainer.style.position = "absolute";
             markTContainer.style.top = this.options.c3_y_top + 5 + "px";
-            markTContainer.style.left = this.options.padding.left + "px";
+            markTContainer.style.left = this.options.padding.left + 10 + "px";
+
+            /*创建文档碎片*/
+            var frag = document.createDocumentFragment();
+            var co = 0;
+            this.options.markTType = type;
+            for (var item in datas) {
+                var temp = datas[item][datas[item].length - 1];
+                var span = document.createElement('span');
+                span.innerHTML = item.toUpperCase() + ": " + temp.value;
+                span.style.width = "100px";
+                span.style.color = colors[co];
+                co++;
+                span.style.marginRight = "30px";
+                span.setAttribute("id", item + "_mark");
+                frag.appendChild(span);
+            }
+
+            markTContainer.appendChild(frag);
+            this.options[type] = {};
+            this.options[type].defaultTHtml = markTContainer.innerHTML;
+
             document.getElementById(this.options.container).appendChild(markTContainer);
         } else {
             var markTContainer = this.options.markTContainer;
-        }
-        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
+
         //判断是不是第一次，是否需要创建元素
         if (this.options.markTType != type) {
             //作为是否切换技术指标的依据
@@ -522,7 +643,7 @@ var Interactive = (function() {
             //添加元素
             for (var i = 0; i < dataObj.length; i++) {
                 var span = document.createElement('span');
-                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
+                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
                 span.style.width = "100px";
                 span.style.color = colors[i];
                 span.style.marginRight = "20px";
@@ -559,6 +680,9 @@ var Interactive = (function() {
             }
 
         }
+        }
+
+        
 
     }
 
@@ -615,7 +739,7 @@ var Interactive = (function() {
             var date_data = document.createElement('div');
             date_data.className = "web-tip-first-line";
             this.options.tip.date_data = date_data;
-            date_data.innerText = "2016-08-09";
+            date_data.innerText = obj.date_time;
 
 
             //组建一行数据
@@ -681,6 +805,7 @@ var Interactive = (function() {
             tip_obj.percent.innerText = obj.percent + '%';
             tip_obj.count.innerText = common.format_unit(volume);
             tip_obj.priceChange.innerText = obj.priceChange;
+            tip_obj.date_data.innerHTML = obj.date_time;
             // tip_obj.time.innerText = obj.date_time.replace(/-/g, "/");
 
         }
@@ -794,6 +919,7 @@ var Interactive = (function() {
 
     // 隐藏交互效果
     Interactive.prototype.hide = function() {
+
         if (this.options.cross) {
             var x_line = this.options.cross.x_line;
             if (x_line) {
@@ -810,42 +936,51 @@ var Interactive = (function() {
             
         }
 
-        if (this.options.mark_ma) {
-            var ma_5_data = this.options.mark_ma.ma_5_data;
-            if (ma_5_data) {
-                if (this.default_m5) {
-                    ma_5_data.innerText = "MA5: " + this.default_m5.value;
-                } else {
-                    ma_5_data.innerText = "MA5: -";
+        if(this.options.markMAContainer){
+            this.options.markMAContainer.innerHTML = this.options[this.options.markUPTType].defaultMaHtml;
                 }
-            }
-            var ma_10_data = this.options.mark_ma.ma_10_data;
-            if (ma_10_data) {
-                if (this.default_m10) {
-                    ma_10_data.innerText = "MA10: " + this.default_m10.value;
-                } else {
-                    ma_10_data.innerText = "MA10: -";
-                }
-            }
-            var ma_20_data = this.options.mark_ma.ma_20_data;
-            if (ma_20_data) {
-                if (this.default_m20) {
-                    ma_20_data.innerText = "MA20: " + this.default_m20.value;
-                } else {
-                    ma_20_data.innerText = "MA20: -";
-                }
-            }
 
-            var ma_30_data = this.options.mark_ma.ma_30_data;
-            if (ma_30_data) {
-                if (this.default_m20) {
-                    ma_30_data.innerText = "MA30: " + this.default_m30.value;
-                } else {
-                    ma_30_data.innerText = "MA30: -";
+        if(this.options.markTContainer){
+            this.options.markTContainer.innerHTML = this.options[this.options.markTType].defaultTHtml;
                 }
-            }
 
-        }
+
+        // if (this.options.mark_ma) {
+        //     var ma_5_data = this.options.mark_ma.ma_5_data;
+        //     if (ma_5_data) {
+        //         if (this.default_m5) {
+        //             ma_5_data.innerText = "MA5: " + this.default_m5.value;
+        //         } else {
+        //             ma_5_data.innerText = "MA5: -";
+        //         }
+        //     }
+        //     var ma_10_data = this.options.mark_ma.ma_10_data;
+        //     if (ma_10_data) {
+        //         if (this.default_m10) {
+        //             ma_10_data.innerText = "MA10: " + this.default_m10.value;
+        //         } else {
+        //             ma_10_data.innerText = "MA10: -";
+        //         }
+        //     }
+        //     var ma_20_data = this.options.mark_ma.ma_20_data;
+        //     if (ma_20_data) {
+        //         if (this.default_m20) {
+        //             ma_20_data.innerText = "MA20: " + this.default_m20.value;
+        //         } else {
+        //             ma_20_data.innerText = "MA20: -";
+        //         }
+        //     }
+
+        //     var ma_30_data = this.options.mark_ma.ma_30_data;
+        //     if (ma_30_data) {
+        //         if (this.default_m20) {
+        //             ma_30_data.innerText = "MA30: " + this.default_m30.value;
+        //         } else {
+        //             ma_30_data.innerText = "MA30: -";
+        //         }
+        //     }
+
+        // }
 
         if (this.options.mark_v_ma) {
 
