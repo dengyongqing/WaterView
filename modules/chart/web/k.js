@@ -181,7 +181,7 @@ var ChartK = (function() {
     ChartK.prototype.draw = function(callback) {
         var _this = this;
         // 删除canvas画布
-        // _this.clear();
+        _this.clear();
         // 初始化
         _this.init();
 
@@ -244,8 +244,13 @@ var ChartK = (function() {
     }
     // 删除canvas画布
     ChartK.prototype.clear = function(cb) {
-        var ctx = this.options.context;
-        ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
+        try{
+            var ctx = this.options.context;
+            ctx.clearRect(0,0,this.options.padding.left + this.options.drawWidth,this.options.c4_y_top);
+        }catch(e){
+            this.container.innerHTML = "";
+        }
+
     }
 
     // 获取上榜日标识dom
@@ -728,35 +733,29 @@ var ChartK = (function() {
         this.options.up_t = "junxian";
         this.options.down_t = "rsi";
 
-        if(this.options.junxian && this.options.rsi){
+        GetTeacData(params, function(data) {
+
+            _this.options.junxian = {};
+            /*5日均线数据*/
+            _this.options.junxian.ma5 = data.five_average;
+            /*10日均线数据*/
+            _this.options.junxian.ma10 = data.ten_average;
+            /*20日均线数据*/
+            _this.options.junxian.ma20 = data.twenty_average;
+            /*30日均线数据*/
+            _this.options.junxian.ma30 = data.thirty_average;
+
+            _this.options.rsi = {};
+            _this.options.rsi.rsi6 = data.rsi6;
+            _this.options.rsi.rsi12 = data.rsi12;
+            _this.options.rsi.rsi24 = data.rsi24;
+
             temp_ma.apply(_this,[]);
             temp_rsi.apply(_this,[]);
-        } else {
-             GetTeacData(params, function(data) {
 
-                _this.options.junxian = {};
-                /*5日均线数据*/
-                _this.options.junxian.ma5 = data.five_average;
-                /*10日均线数据*/
-                _this.options.junxian.ma10 = data.ten_average;
-                /*20日均线数据*/
-                _this.options.junxian.ma20 = data.twenty_average;
-                /*30日均线数据*/
-                _this.options.junxian.ma30 = data.thirty_average;
-
-                _this.options.rsi = {};
-                _this.options.rsi.rsi6 = data.rsi6;
-                _this.options.rsi.rsi12 = data.rsi12;
-                _this.options.rsi.rsi24 = data.rsi24;
-
-                temp_ma.apply(_this,[]);
-                temp_rsi.apply(_this,[]);
-
-                inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "");
-                inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, "");
-            });
-
-        }
+            inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "");
+            inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, "");
+        });
 
         function temp_rsi(){
             var rsi6 = this.options.rsi.rsi6;
@@ -1526,7 +1525,9 @@ var ChartK = (function() {
 
     // 复权
     ChartK.prototype.beforeBackRight = function(flag){
-        if(flag){
+        if(flag == "" || flag == undefined){
+            this.options.authorityType = "";
+        }else if(flag){
             this.options.authorityType = "fa";
         }else{
             this.options.authorityType = "ba";
@@ -1609,8 +1610,6 @@ var ChartK = (function() {
         
         var data_arr_length = data_arr.length;
 
-
-
         if(data_arr_length >= 1){
             if(data_arr_length > 60){
                 this.options.start = data_arr_length - 60;
@@ -1658,7 +1657,6 @@ var ChartK = (function() {
             this.drawK();
             // 绘制均线
             this.options.up_t = "junxian";
-            
             // 绘制均线和rsi指标
             init_ma_rsi.apply(this,[]);
             

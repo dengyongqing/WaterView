@@ -11,6 +11,12 @@
 		    padding: 0;
 		}
 
+
+		.header .sepe{
+			height:50px;
+			/*background-color: #d1e1f9;*/
+		}
+
 		.tab-list{
 			position: absolute;
 			top: 150px;
@@ -50,6 +56,7 @@
 			font-size: 14px;
 			cursor: pointer;
 		}
+
 	</style>
 	
 </head>
@@ -58,15 +65,15 @@
 		<div class="main">
 			<div class="header">
 				<div class="tool-bar">
-					
-				
+					<div class="">
+						<div class="search" style="height:50px;line-height:50px;">
+							<input type="text" id="stock-code" class=""  style="margin-left:30px;padding-left:5px;width:200px;height:20px;" value="请输入股票代码加市场号" onfocus="if(this.value == '请输入股票代码加市场号')  this.value = '';" onblur="if(this.value == '') this.value = '请输入股票代码加市场号';" autocomplete="off">
+							<input type="button" id="search-btn" style="margin-left:10px;width:50px;height:25px;" value="查询">
+						</div>
+						
+					</div>
 				</div>
 				
-			</div>
-
-
-
-			<div class="content">
 				<div class="tabs">
 					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">web的K线图</div>
 					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
@@ -76,6 +83,15 @@
 					
 
 				</div>
+
+				
+				
+			</div>
+
+
+
+			<div class="content">
+				
 
 				<ul class="tab-list" id="tab_list">
 					<li class="tab-item" id="before">盘前</li>
@@ -117,10 +133,10 @@
 	<script src="../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript" defer>
-
+		var code = "3000592";
 		window.onload = function(){
 			var k0 = new EmchartsWebK({
-				code: "3000592",
+				code: code,
 				type: "K",
 	        	container : "emchart-0",
 		        "width" : 800,
@@ -139,7 +155,7 @@
 	        	target.className = "tab-item choose";
 	        	var params = {
 	        		dpr: 1,
-					code: "3000592",
+					code: code,
 		        	container : "emchart-0",
 			        "width" : 800,
 			        "height" : 500
@@ -175,8 +191,7 @@
 	        };
 
 	        addEvent(document.getElementById("scale-plus"),"click",function(){
-	        		// k0.scalePlus();
-	        		k0.beforeBackRight(false);
+	        		k0.scalePlus();
 	        });
 
 	        addEvent(document.getElementById("scale-minus"),"click",function(){
@@ -185,9 +200,30 @@
 
 	        addEvent(document.getElementById("beforeBackRight"),"change",function(){
 	        	var v = document.getElementById("beforeBackRight").value;
-	        	alert(v);
+	
+	        	if(v == "before"){
+	        		k0.beforeBackRight(true);
+	        	}else if(v == "back"){
 	        		k0.beforeBackRight(false);
+	        	}else{
+	        		k0.beforeBackRight(false);
+	        	}
+	        		
 	        });
+
+	        addEvent(document.getElementById("search-btn"),"click",function(){
+	        	var temp = document.getElementById("stock-code").value;
+	        	if(temp == "请输入股票代码加市场号" || temp == ""){
+					alert("请输入股票代码加市场号");
+					return;
+				}else{
+					code = temp;
+				}
+	        	k0.options.code = code;
+	        	k0.draw();
+	        });
+
+	        
 
 		}
 
