@@ -9,6 +9,7 @@ var DrawXY = require('chart/web/time/draw_xy');
 var theme = require('theme/default');
 // 获取分时图数据
 var GetDataTime = require('getdata/web/chart_time');
+var getChangePointData = require('getdata/web/getPositionChangeData');
 // 工具
 var common = require('chart/web/common/common');
 var draw_dash = require('chart/web/common/draw_dash_line');
@@ -190,6 +191,8 @@ var ChartTime = (function() {
             draw_avg.call(this);
             //绘制交易量
             draw_v.call(this);
+            //绘制盘口动态
+            draw_positionChange.call(this);
             // 隐藏loading效果
             inter.hideLoading();
             inter.showTipsTime(0, 0, data.data, data.data.length - 1);
@@ -201,6 +204,7 @@ var ChartTime = (function() {
             // inter.showNoData();
             // 隐藏loading效果
             inter.hideLoading();
+            console.log(e);
         }
 
         // 加水印
@@ -443,23 +447,98 @@ var ChartTime = (function() {
             }
 
         }
-        // 获取最大成交量
-        /*function getVMax(data) {
-            if (data.data[0]) {
-                var max = data.data[0].volume;
-            } else {
-                var max = 0;
-            }
-
-            for (var i = 0, item = data.data; i < data.data.length; i++) {
-                if (max < item[i].volume) {
-                    max = item[i].volume;
-                }
-            }
-            return max
-        }*/
     }
 
+    //绘制盘口异动的流程逻辑函数
+    function draw_positionChange() {
+        // debugger;
+        //所有盘口移动的状态对应的图标
+
+        var _that = this;
+        var ctx = _that.options.context;
+        getChangePointData(this.options.code, function(error, data) {
+            if (error) {} else {
+                if (data.state === false) {
+                    return; }
+                //分时数据
+                var timeData_arr = _that.options.data.data;
+                var timeIndex = 0;
+                //两个并行的循环，找到绘制盘口异动的点
+                for (var i = data.length - 1; i >= 0; i--) {
+                    var item = data[i].split(",");
+                    //异动的相关信息
+                    var changeTime = item[1];
+                    var changeName = item[2];
+                    var changeType = item[3];
+                    var changeInfo = item[4];
+                    var isProfit = item[5];
+                    var changeImg = "../modules/images/" + typeToImgMap(changeType);
+                    for (; timeIndex < timeData_arr.length; timeIndex++) {
+                        //如果检测到该时间点上有盘口异动，就绘制盘口异动图标
+                        if (changeTime == _that.options.data.data[timeIndex].time) {
+                            drawIcon(ctx, common.get_x.call(_that, timeIndex + 1), changeImg)//绘制盘口异动
+                            console.log(common.get_x.call(_that, timeIndex + 1));
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        //绘制盘口动态的图标
+        function drawIcon(ctx, x, imgUrl) {
+            var canvas = ctx.canvas;
+            var img = new Image();
+            var width = 10;
+            var height =  15;
+            img.width = 0;
+            img.height = 0;
+
+            img.onload = function() {
+                setTimeout(function() {
+                    ctx.drawImage(img, x, 100, width, height);
+                }, 0);
+
+            }
+
+            img.src = imgUrl;
+        }
+
+    }
+
+
+    //一个类型图片的映射
+    function typeToImgMap(type) {
+        var img;
+        switch (type) {
+            case "火箭发射": img = "icom_08.gif"; break;
+            case "快速下跌": img = "icom_11.gif"; break;
+            case "封涨停板": img = "icom_41.gif"; break;
+            case "封跌停板": img = "icom_43.gif"; break;
+            case "机构买单": img = "icom_45.gif"; break;
+            case "机构卖单": img = "icom_47.gif"; break;
+            case "快速反弹": img = "icom_14.gif"; break;
+            case "高台跳水": img = "icom_16.gif"; break;
+            case "大笔买入": img = "icom_19.gif"; break;
+            case "大笔卖出": img = "icom_21.gif"; break;
+            case "有大买盘": img = "icom_23.gif"; break;
+            case "有大卖盘": img = "icom_25.gif"; break;
+            case "向上缺口": img = "icom_58.gif"; break;
+            case "向下缺口": img = "icom_55.gif"; break;
+            case "竟价上涨": img = "icom_27.gif"; break;
+            case "竞价下跌": img = "icom_29.gif"; break;
+            case "高开5日线": img = "icom_03.gif"; break;
+            case "低开5日线": img = "icom_05.gif"; break;
+            case "60日新高": img = "icom_32.gif"; break;
+            case "60日新低": img = "icom_34.gif"; break;
+            case "打开跌停板": img = "icom_50.gif"; break;
+            case "打开涨停板": img = "icom_52.gif"; break;
+            case "大幅上涨": img = "icom_36.gif"; break;
+            case "大幅下跌": img = "icom_38.gif"; break;
+        }
+
+        return img;
+    }
 
     return ChartTime;
 })();
