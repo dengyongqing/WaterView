@@ -455,29 +455,33 @@ var ChartTime = (function() {
         //所有盘口移动的状态对应的图标
 
         var _that = this;
-        var ctx = _that.options.context;
+        var changeIconHeight = _that.options.canvas_offset_top+_that.options.c_1_height - 40;
         getChangePointData(this.options.code, function(error, data) {
             if (error) {} else {
-                if (data.state === false) {
+                if (data[0].state === "false") {
                     return; }
                 //分时数据
                 var timeData_arr = _that.options.data.data;
-                var timeIndex = 0;
+                var timeIndex = Math.floor(timeData_arr.length/242-1)*242;
                 //两个并行的循环，找到绘制盘口异动的点
                 for (var i = data.length - 1; i >= 0; i--) {
                     var item = data[i].split(",");
                     //异动的相关信息
+                    var positionChangeItem = {
+                        changeTime : item[1],
+                        changeName : item[2],
+                        changeType : item[3],
+                        changeInfo : item[4],
+                        isProfit : item[5]
+                    };
+
                     var changeTime = item[1];
-                    var changeName = item[2];
-                    var changeType = item[3];
-                    var changeInfo = item[4];
-                    var isProfit = item[5];
-                    var changeImg = "../modules/images/" + typeToImgMap(changeType);
+                    var changeImg = "../modules/images/" + typeToImgMap(item[3]);
+                    
                     for (; timeIndex < timeData_arr.length; timeIndex++) {
                         //如果检测到该时间点上有盘口异动，就绘制盘口异动图标
                         if (changeTime == _that.options.data.data[timeIndex].time) {
-                            drawIcon(ctx, common.get_x.call(_that, timeIndex + 1), changeImg)//绘制盘口异动
-                            console.log(common.get_x.call(_that, timeIndex + 1));
+                            drawIcon(_that.container, common.get_x.call(_that, timeIndex + 1), changeIconHeight, changeImg, positionChangeItem)//绘制盘口异动
                             break;
                         }
                     }
@@ -485,23 +489,19 @@ var ChartTime = (function() {
             }
         });
 
-        //绘制盘口动态的图标
-        function drawIcon(ctx, x, imgUrl) {
-            var canvas = ctx.canvas;
-            var img = new Image();
-            var width = 10;
-            var height =  15;
-            img.width = 0;
-            img.height = 0;
+        //绘制盘口动态的图标,并且添加交互
+        function drawIcon(container, x, y, imgUrl, info) {
+            
+            var img = document.createElement("img");
+            img.setAttribute("src", imgUrl);
+            img.style.position = "absolute";
+            img.style.top = "100px";
+            container.appendChild(img);
+            img.style.left = x  + "px";
+            img.style.top = y  + "px";
+            img.title = info.changeName+":"+info.changeType+":"+info.changeInfo;
 
-            img.onload = function() {
-                setTimeout(function() {
-                    ctx.drawImage(img, x, 100, width, height);
-                }, 0);
-
-            }
-
-            img.src = imgUrl;
+            common.addEvent(img, 'mouseover', function(e){console.log("hellow")});
         }
 
     }
