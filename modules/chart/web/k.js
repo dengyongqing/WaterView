@@ -103,6 +103,7 @@ var ChartK = (function() {
         // 设备像素比
         var dpr = this.options.dpr = 1;
         // 容器中添加画布
+        this.container.innerHTML = "";
         this.container.appendChild(canvas);
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
@@ -202,7 +203,7 @@ var ChartK = (function() {
                     inter.markVMA(_this.options.canvas);
 
                     // 缩放
-                    inter.scale(_this.options.canvas);
+                    // inter.scale(_this.options.canvas);
                     // 绑定事件
                     bindEvent.call(_this,_this.options.context);
                 }
@@ -1530,6 +1531,7 @@ var ChartK = (function() {
         }else{
             this.options.authorityType = "ba";
         }
+        this.clear();
         this.draw();
     }
 
@@ -1749,50 +1751,6 @@ var ChartK = (function() {
             });
         // }
         
-        // 放大按钮
-        var scale_plus = inter.options.scale.plus;
-        // 缩小按钮
-        var scale_minus = inter.options.scale.minus;
-
-        // 点击放大
-        common.addEvent.call(_this, scale_plus, "click",function(event){
-            var scale_count = _this.options.scale_count;
-            if(_this.options.clickable){
-                // 缩放按钮点击无效
-                _this.options.clickable = true;
-                scale_minus.style.opacity = "1";
-                _this.options.scale_count = true;
-
-                // 清除上榜日标识
-                if(_this.options.interactive.options.pointsContainer){
-                    _this.options.interactive.options.pointsContainer.innerHTML = "";
-                }
-                // 清空画布
-                ctx.clearRect(0,-_this.options.margin.top,canvas.width,canvas.height);
-                scaleClick.apply(_this);
-            }
-            
-        });
-
-        // 点击缩小
-        common.addEvent.call(_this, scale_minus, "click",function(event){
-            var scale_count = _this.options.scale_count;
-            if(_this.options.clickable){
-                // 缩放按钮点击无效
-                _this.options.clickable = true;
-                scale_plus.style.opacity = "1";
-                _this.options.scale_count = false;
-
-                // 清除上榜日标识
-                if(_this.options.interactive.options.pointsContainer){
-                    _this.options.interactive.options.pointsContainer.innerHTML = "";
-                }
-                // 清空画布
-                ctx.clearRect(0,-_this.options.margin.top,canvas.width,canvas.height);
-                scaleClick.apply(_this);
-            }
-            
-        });
 
     }
     // 图表交互

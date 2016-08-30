@@ -15,17 +15,23 @@
 			top: 150px;
 			left: 65px;
 			z-index: 100;
+			border: solid 1px #4267A0;
+			border-right: 0;
 		} 
 		.tab-item{
 			float: left;
 			display: inline-block;
-			border: solid 1px #4267A0;
+			border-right: solid 1px #4267A0;
 			padding: 2px 5px;
+			cursor: pointer;
 		}
 		.choose{
 			background-color: #4267A0;
 			color: white;
 		}
+
+		
+		
 	</style>
 	
 </head>
@@ -47,8 +53,8 @@
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
 				</div>
-				<div class="emchart">
-					<ul class="tab-list" id="tab_list">
+
+				<ul class="tab-list" id="tab_list">
 						<li class="tab-item" id="before">盘前</li>
 						<li class="tab-item choose" id="one">一天</li>
 						<li class="tab-item" id="two">二天</li>
@@ -56,6 +62,10 @@
 						<li class="tab-item" id="four">四天</li>
 						<li class="tab-item" id="five">五天</li>
 					</ul>
+				
+
+				<div class="emchart">
+					
 
 					<div id="emchart-0" class="em-tab" >
 						

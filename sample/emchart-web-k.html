@@ -10,6 +10,46 @@
 		    margin: 0;
 		    padding: 0;
 		}
+
+		.tab-list{
+			position: absolute;
+			top: 150px;
+			left: 65px;
+			z-index: 100;
+			border: solid 1px #4267A0;
+			border-right: 0;
+		} 
+		.tab-item{
+			float: left;
+			display: inline-block;
+			border-right: solid 1px #4267A0;
+			padding: 2px 5px;
+			cursor: pointer;
+		}
+		.choose{
+			background-color: #4267A0;
+			color: white;
+		}
+
+		.scale{
+			position: absolute;
+			left: 500px;
+			top:150px;
+			z-index: 101;
+		}
+		
+		.scale-plus,.scale-minus{
+			background-color: #4267A0;
+			display: inline-block;
+			margin-right: 10px;
+			height: 20px;
+			line-height: 20px;
+			width: 60px;
+			text-align: center;
+			color:#fff;
+			font-size: 14px;
+			cursor: pointer;
+		}
 	</style>
 	
 </head>
@@ -24,14 +64,41 @@
 				
 			</div>
 
+
+
 			<div class="content">
 				<div class="tabs">
 					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">web的K线图</div>
 					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
+
+					
+
 				</div>
-				<div class="emchart">
+
+				<ul class="tab-list" id="tab_list">
+					<li class="tab-item" id="before">盘前</li>
+					<li class="tab-item choose" id="one">日K</li>
+					<li class="tab-item" id="two">周K</li>
+					<li class="tab-item" id="three">月K</li>
+					<li class="tab-item" id="m5k">5分钟</li>
+					<li class="tab-item" id="m15k">15分钟</li>
+					<li class="tab-item" id="m30k">30分钟</li>
+					<li class="tab-item" id="m60k">60分钟</li>
+				</ul>
+
+				<div class="scale">
+					<div class="scale-minus" id="scale-minus">拉长K线</div>
+					<div class="scale-plus" id="scale-plus">缩短K线</div>
+					<select id="beforeBackRight">
+						<option value="">不复权</option>
+						<option value="before">前复权</option>
+						<option value="back">后复权</option>
+					</select>
+				</div>
+
+				<div class="emchart" style="padding-top:40px;">
 					<div id="emchart-0" class="em-tab" >
 					</div>
 					<div id="emchart-1" class="em-tab">
@@ -60,7 +127,85 @@
 		        "height" : 500
 	        });
 	        k0.draw();
+
+	        var list = document.getElementsByTagName("li");
+	        var tabUrl = document.getElementById("tab_list");
+	        tabUrl.onclick = function(e){
+
+	        	for(var i = 0; i < list.length; i++){
+	        		list[i].className = "tab-item";
+	        	}
+	        	var target = e.target || e.srcElement;
+	        	target.className = "tab-item choose";
+	        	var params = {
+	        		dpr: 1,
+					code: "3000592",
+		        	container : "emchart-0",
+			        "width" : 800,
+			        "height" : 500
+	        	};
+	        	switch(target.getAttribute("id")){
+	        		case "one":
+	        			params.type = "k";
+	        			break;
+	        		case "two":
+	        			params.type = "wk";
+	        			break;
+	        		case "three":
+	        			params.type = "mk";
+	        			break;
+	        		case "m5k":
+	        			params.type = "m5k";
+	        			break;
+	        		case "m15k":
+	        			params.type = "m15k";
+	        			break;
+	        		case "m30k":
+	        			params.type = "m30k";
+	        			break;
+        			case "m60k":
+	        			params.type = "m60k";
+	        			break;
+	        	}
+	        	document.getElementById('emchart-0').innerHTML = "";
+
+	        	k0 = new EmchartsWebK(params);
+
+	        	k0.draw();
+	        };
+
+	        addEvent(document.getElementById("scale-plus"),"click",function(){
+	        		// k0.scalePlus();
+	        		k0.beforeBackRight(false);
+	        });
+
+	        addEvent(document.getElementById("scale-minus"),"click",function(){
+	        		k0.scaleMinus();
+	        });
+
+	        addEvent(document.getElementById("beforeBackRight"),"change",function(){
+	        	var v = document.getElementById("beforeBackRight").value;
+	        	alert(v);
+	        		k0.beforeBackRight(false);
+	        });
+
 		}
+
+
+		/**
+     * 兼容性的事件添加
+     * @param {[type]}   obj  对哪个元素添加
+     * @param {[type]}   type 事件类型
+     * @param {Function} fn   事件触发的处理函数
+     */
+    function addEvent(obj, type, fn) {
+        if (obj.attachEvent) {
+            obj['e' + type + fn] = fn;
+            obj[type + fn] = function() { obj['e' + type + fn](window.event); }
+            obj.attachEvent('on' + type, obj[type + fn]);
+        } else
+            obj.addEventListener(type, fn, false);
+    }
 
 	</script>
 	
