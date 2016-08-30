@@ -101,11 +101,15 @@
 	        var list = document.getElementsByTagName("li");
 	        var tabUrl = document.getElementById("tab_list");
 	        tabUrl.onclick = function(e){
-
 	        	for(var i = 0; i < list.length; i++){
 	        		list[i].className = "tab-item";
 	        	}
-	        	var target = e.target || e.srcElement;
+	        	var target;
+	        	if(!window.event){
+	        		target = e.target;
+	        	}else{
+	        		target = window.event.srcElement;
+	        	}
 	        	target.className = "tab-item choose";
 	        	var params = {
 	        		dpr: 1,
