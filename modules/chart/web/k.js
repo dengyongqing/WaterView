@@ -124,7 +124,7 @@ var ChartK = (function() {
         canvas.style.border = "0";
 
         // 前后复权，默认不复权
-        this.options.authorityType = "";
+        this.options.authorityType = this.options.authorityType == undefined ? "" : this.options.authorityType;
         
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
@@ -192,7 +192,6 @@ var ChartK = (function() {
 
         var type = _this.options.type;
         try{
-            
             GetDataK(getParamsObj.call(_this),function(data){
 
                 var flag = dataCallback.apply(_this,[data]);
@@ -1525,6 +1524,7 @@ var ChartK = (function() {
 
     // 复权
     ChartK.prototype.beforeBackRight = function(flag){
+
         if(flag == "" || flag == undefined){
             this.options.authorityType = "";
         }else if(flag){
