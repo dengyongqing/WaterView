@@ -39,7 +39,6 @@ var slideBar = function() {
             var ctx = cvs.getContext('2d');
         }
         container.appendChild(cvs);
-        ctx.strokeStyle = "#E9E9E9";
 
         cvs.width = width;
         cvs.height = height;
@@ -48,6 +47,7 @@ var slideBar = function() {
         cvs.className = "slideBarCVS";
 
         //绘制背景图
+        ctx.strokeStyle = "#59A7FF";
         ctx.beginPath();
         for (i = 0; i < len; i++) {
             if (i == 0) {
@@ -61,7 +61,7 @@ var slideBar = function() {
         ctx.lineTo(getX(len, i, cvs.width), getY(max, min, 0, cvs.height));
         ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, 0, cvs.height));
         ctx.lineTo(getX(len, 0, cvs.width), getY(max, min, arr[0].value, cvs.height));
-        ctx.fillStyle = "#E9E9E9";
+        ctx.fillStyle = "#E4EFFF";
         ctx.fill();
 
         //写上年标记
@@ -96,10 +96,10 @@ var slideBar = function() {
         leftDrag.style.position = "absolute";
         leftDrag.style.height = height / 2 + "px";
         leftDrag.style.width = "7px";
-        leftDrag.style.border = "solid 1px #aaa";
+        leftDrag.style.border = "solid 1px #999";
         leftDrag.style.top = height / 4 + "px";
         leftDrag.style.left = "-4px";
-        leftDrag.style.color = "#aaa";
+        leftDrag.style.color = "#999";
         leftDrag.className = "leftDrag";
         leftDrag.innerHTML = "|";
 
@@ -108,10 +108,10 @@ var slideBar = function() {
         rightDrag.style.position = "absolute";
         rightDrag.style.height = height / 2 + "px";
         rightDrag.style.width = "7px";
-        rightDrag.style.border = "solid 1px #aaa";
+        rightDrag.style.border = "solid 1px #999";
         rightDrag.style.top = height / 4 + "px";
         rightDrag.style.right = "-4px";
-        rightDrag.style.color = "#aaa";
+        rightDrag.style.color = "#999";
         rightDrag.className = "rightDrag";
         rightDrag.innerHTML = "|";
 

@@ -340,7 +340,7 @@
 }
 .rightDrag:hover{cursor: e-resize;}
 .containerBar{
-	background-color: #3385FF;
+	background-color: #e0e0e0;
 	opacity: 0.5;
 	filter: alpha(opacity=50);
 	border:solid 1px #35709C;
