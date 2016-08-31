@@ -50,8 +50,11 @@ function getData(options, callback){
         js: callbackStr + '((x))',
         'rtntype': 5,
         'extend' : options.extend || "MA",
-        isCR :false
-	};
+        isCR:false
+	};debugger;
+	if(options.authorityType !== ""){
+		urlData.authorityType = options.authorityType;
+	}
 	jsonp(url, urlData, callbackStr, function(json){
 		var result = dealData(json, urlData.extend);
 		callback(result);
