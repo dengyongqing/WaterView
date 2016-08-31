@@ -30,7 +30,10 @@
 			color: white;
 		}
 
-		
+		.main{
+			width:800px;
+			margin-left: 50px;
+		}
 		
 	</style>
 	
@@ -40,7 +43,13 @@
 		<div class="main">
 			<div class="header">
 				<div class="tool-bar">
-					
+					<div class="">
+						<div class="search" style="height:50px;line-height:50px;">
+							<input type="text" id="stock-code" class=""  style="margin-left:30px;padding-left:5px;width:200px;height:20px;" value="请输入股票代码加市场号" onfocus="if(this.value == '请输入股票代码加市场号')  this.value = '';" onblur="if(this.value == '') this.value = '请输入股票代码加市场号';" autocomplete="off">
+							<input type="button" id="search-btn" style="margin-left:10px;width:50px;height:25px;" value="查询">
+						</div>
+						
+					</div>
 				
 				</div>
 				
@@ -86,11 +95,11 @@
 	<script src="../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
-		
+		var code = "3000592";
 		window.onload = function(){
 			var k0 = new EmchartsWebTime({
 				dpr: 1,
-				code: "3000592",
+				code: code,
 	        	container : "emchart-0",
 		        "width" : 800,
 		        "height" : 500,
@@ -113,7 +122,7 @@
 	        	target.className = "tab-item choose";
 	        	var params = {
 	        		dpr: 1,
-					code: "3000592",
+					code: code,
 		        	container : "emchart-0",
 			        "width" : 800,
 			        "height" : 500
@@ -146,9 +155,35 @@
 	        	k0.draw();
 	        };
 
+	        addEvent(document.getElementById("search-btn"),"click",function(){
+	        	var temp = document.getElementById("stock-code").value;
+	        	if(temp == "请输入股票代码加市场号" || temp == ""){
+					alert("请输入股票代码加市场号");
+					return;
+				}else{
+					code = temp;
+				}
+	        	k0.options.code = code;
+	        	k0.draw();
+	        });
+
 		}
 
 
+			/**
+     * 兼容性的事件添加
+     * @param {[type]}   obj  对哪个元素添加
+     * @param {[type]}   type 事件类型
+     * @param {Function} fn   事件触发的处理函数
+     */
+    function addEvent(obj, type, fn) {
+        if (obj.attachEvent) {
+            obj['e' + type + fn] = fn;
+            obj[type + fn] = function() { obj['e' + type + fn](window.event); }
+            obj.attachEvent('on' + type, obj[type + fn]);
+        } else
+            obj.addEventListener(type, fn, false);
+    }
 
 	</script>
 	

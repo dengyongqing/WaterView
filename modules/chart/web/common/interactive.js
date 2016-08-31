@@ -683,7 +683,7 @@ var Interactive = (function() {
                     this.options[type].defaultTHtml = markTContainer.innerHTML;
                     markTContainer.innerHTML = "";
                 }
-                
+
             //添加元素
             for (var i = 0; i < dataObj.length; i++) {
                 var span = document.createElement('span');
