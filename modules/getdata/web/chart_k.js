@@ -51,7 +51,7 @@ function getData(options, callback){
         'rtntype': 5,
         'extend' : options.extend || "MA",
         isCR:false
-	};debugger;
+	};/*debugger;*/
 	if(options.authorityType !== ""){
 		urlData.authorityType = options.authorityType;
 	}

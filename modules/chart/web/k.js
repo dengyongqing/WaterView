@@ -1525,7 +1525,7 @@ var ChartK = (function() {
     // 复权
     ChartK.prototype.beforeBackRight = function(flag){
 
-        if(flag == "" || flag == undefined){
+        if(flag === "" || flag === undefined){
             this.options.authorityType = "";
         }else if(flag){
             this.options.authorityType = "fa";
