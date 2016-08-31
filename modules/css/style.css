@@ -95,6 +95,7 @@
     background: -o-linear-gradient(bottom, #4d74ae, #2e5186); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(bottom, #4d74ae, #2e5186); /* Firefox 3.6 - 15 */
     background: linear-gradient(to bottom, #4d74ae, #2e5186); /* 标准的语法 */
+	background:#2e5186;
 	height:70px;
 }
 .header .sepe{
@@ -220,7 +221,7 @@
 	box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
 	background-color: #fff;
 	color: #666;
-	min-width: 108px;
+	width: 120px;
 	font-size: 12px;
 	font-weight: lighter;
 	font-family: 'arial';
@@ -234,6 +235,9 @@
 	text-align: left;
 	height:20px;
 	line-height: 20px;
+
+	*height:15px;
+	*line-height: 15px;
 }
 
 .web-tip-line-right{
@@ -242,6 +246,9 @@
 	text-align: right;
 	height:20px;
 	line-height: 20px;
+	
+	*height:15px;
+	*line-height: 15px;
 }
 
 .web-tip-first-line{
@@ -254,6 +261,7 @@
 
 .web-tip-line-container{
 	padding:8px;
+	*margin-bottom: 8px;
 }
 
 .time-tips-coordinate{
