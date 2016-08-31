@@ -4,8 +4,8 @@ var ChartTime = require('chart/mobile/chart_time');
 var ChartK = require('chart/mobile/chart_k');
 /*绘制折线图*/
 var ChartLine = require('chart/mobile/chart_line');
-/*绘制利率折线图*/
-var ChartLineRate = require('chart/web/line-rate');
+/*绘制折线图*/
+var ChartLineRate = require('chart/web/line');
 /*绘制季度柱状图*/
 var ChartBarQuarter = require('chart/web/bar-quarter');
 /*绘制季度折线图*/

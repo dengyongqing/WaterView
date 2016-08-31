@@ -374,6 +374,9 @@ var Interactive = (function() {
             markMAContainer.setAttribute("id", "markMAContainer");
             // debugger;
             markMAContainer.style.position = "absolute";
+            markMAContainer.style.fontFamily = "Microsoft Yahei";
+            markMAContainer.style.fontWeight = "lighter";
+            markMAContainer.style.fontSize = "14px";
             markMAContainer.style.top = "5px";
             markMAContainer.style.left = this.options.padding.left + "px";
             
@@ -402,7 +405,7 @@ var Interactive = (function() {
             var markMAContainer = this.options.markMAContainer;
 
             //判断是不是第一次，是否需要创建元素
-            if (this.options.markUPTType != type) {
+            if (!this.options[type]) {
                 //作为是否切换技术指标的依据
                 this.options.markUPTType = type;
                 //清空markTContainer里面的所有span
@@ -617,6 +620,9 @@ var Interactive = (function() {
             markTContainer.setAttribute("id", "markTContainer");
             // debugger;
             markTContainer.style.position = "absolute";
+            markMAContainer.style.fontFamily = "Microsoft Yahei";
+            markMAContainer.style.fontWeight = "lighter";
+            markMAContainer.style.fontSize = "14px";
             markTContainer.style.top = this.options.c3_y_top + 5 + "px";
             markTContainer.style.left = this.options.padding.left + 10 + "px";
 
@@ -715,6 +721,7 @@ var Interactive = (function() {
 	                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index];
 	                    span.style.width = "100px";
 	                    span.style.color = colors[i];
+
 	                    span.style.marginRight = "20px";
 	                    span.setAttribute("id", dataObj[i].name + "_mark");
 	                    markTContainer.appendChild(span);
@@ -1032,7 +1039,7 @@ var Interactive = (function() {
             var v_volume = this.options.mark_v_ma.v_volume;
             if (v_volume) {
                 if (this.default_volume) {
-                    this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + this.default_volume.volume;
+                    this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + common.format_unit(this.default_volume.volume, 2);
                 } else {
                     this.options.mark_v_ma.v_volume.innerText = "VOLUME: -";
                 }
@@ -1043,7 +1050,7 @@ var Interactive = (function() {
             var v_ma_5 = this.options.mark_v_ma.v_ma_5;
             if (v_ma_5) {
                 if (this.default_vm5) {
-                    this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + this.default_vm5.value;
+                    this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + common.format_unit(this.default_vm5.value, 2);
                 } else {
                     this.options.mark_v_ma.v_ma_5.innerText = "MA5: -";
                 }
@@ -1053,7 +1060,7 @@ var Interactive = (function() {
             var v_ma_10 = this.options.mark_v_ma.v_ma_10;
             if (v_ma_10) {
                 if (this.default_vm10) {
-                    this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + this.default_vm10.value;
+                    this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + common.format_unit(this.default_vm10.value, 2);
                 } else {
                     this.options.mark_v_ma.v_ma_10.innerText = "MA10: -";
                 }

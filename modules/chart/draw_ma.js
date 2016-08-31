@@ -36,6 +36,7 @@ var DrawMA = (function(){
     	var ma_data = [];
     	ctx.beginPath();
 		ctx.strokeStyle = color;
+		var flag = false;
 		for(var i = 0;i < data_arr.length; i++){
 			var item = data_arr[i];
 			if(item && item.value){
@@ -46,8 +47,15 @@ var DrawMA = (function(){
 
 				 if(i == 0 || y > (this.options.c_1_height - ctx.canvas.height/8/2)  || y < 0){
 				 	ctx.moveTo(x,y);
+				 	flag = true;
 				 }else{
-				 	ctx.lineTo(x,y);
+				 	if(flag){
+				 		ctx.moveTo(x,y);
+				 		flag = false;
+				 	}else{
+				 		ctx.lineTo(x,y);
+				 	}
+				 	
 				 }
 			}
 			 
