@@ -326,13 +326,12 @@ var ChartK = (function() {
         kt_title.innerHTML = "主图指标";
         frag.appendChild(kt_title);
         //
-        var appendLine = function(name,id, frag, isDefault){
+        var appendLine = function(name, frag, isDefault){
             var container = document.createElement("div");
             container.className = "kt-line";
             var radioWrap = document.createElement('div');
             radioWrap.className = "kt-radio-wrap";
             var radio = document.createElement("div");
-            radio.setAttribute("id",id);
             radio.className = isDefault ?   "kt-radio kt-radio-choose"  : "kt-radio";
             radioWrap.appendChild(radio);
 
@@ -345,38 +344,27 @@ var ChartK = (function() {
             common.addEvent(container, "click", function(e){
                 var targetElement;
                 var currentTarget = e.srcElement || e.target;
-
-                switch(currentTarget.className){
-                    case "kt-line":
-                        targetElement = currentTarget.children[0].children[0];
-                        break;
-                    case "kt-radio-wrap":
-                        targetElement = currentTarget.children[0];
-                        break;
-                    case "kt-radio":
-                        targetElement = currentTarget;
-                        break;
-                    case "kt-name":
-                        targetElement = currentTarget.parentNode.children[0].children[0];
-                        break;
+                targetElement = container.children[0].children[0];
+                var lines = container.parentNode;
+                // console.log(lines);
+                for(var i = 1; i < lines.children.length; i++){
+                    lines.children[i].children[0].children[0].className = "kt-radio";
                 }
-                var preEle = document.getElementById(_this.options.up_t);
-                preEle.className = "kt-radio";
                 targetElement.className = "kt-radio kt-radio-choose";
-
-                if(targetElement.id == "junxian"){
+                var lineName = container.children[1].innerHTML;
+                if(lineName == "均线"){
                     _this.options.up_t = "junxian";
                     _this.drawMA(_this.options.start, _this.options.end);
-                }else if(targetElement.id == "expma"){
+                }else if(lineName == "EXPMA"){
                     _this.options.up_t = "expma";
                     _this.drawEXPMA(_this.options.start, _this.options.end);
-                }else if(targetElement.id == "sar"){
+                }else if(lineName == "SAR"){
                     _this.options.up_t = "sar";
                     _this.drawSAR(_this.options.start, _this.options.end);
-                }else if(targetElement.id == "boll"){
+                }else if(lineName == "BOLL"){
                     _this.options.up_t = "boll";
                     _this.drawBOLL(_this.options.start, _this.options.end);
-                }else if(targetElement.id == "bbi"){
+                }else if(lineName == "BBI"){
                     _this.options.up_t = "bbi";
                     _this.drawBBI(_this.options.start, _this.options.end);
                 }
@@ -386,11 +374,11 @@ var ChartK = (function() {
             frag.appendChild(container);
         };
         //添加各种kt指标进pad
-        appendLine("均线", "junxian", frag, true);
-        appendLine("EXPMA", "expma", frag);
-        appendLine("SAR", "sar", frag);
-        appendLine("BOLL", "boll", frag);
-        appendLine("BBI", "bbi", frag);
+        appendLine("均线", frag, true);
+        appendLine("EXPMA", frag, false);
+        appendLine("SAR", frag, false);
+        appendLine("BOLL", frag, false);
+        appendLine("BBI", frag, false);
 
         pad.appendChild(frag);
         this.container.appendChild(pad);
