@@ -242,135 +242,57 @@ var Interactive = (function() {
     Interactive.prototype.markMA = function(canvas, type, datas, start, end, index) {
 
         var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
-        if (!this.options.markMAContainer) {
+        var dataObj = [];
+        var i = 0;
+        for (var item in datas) {
+            dataObj.push({ value: datas[item].slice(start, end), name: item });
+        }
+        if (!this.options.markMAContainer || type != this.options.markUPTType) {
+            this.options.markUPTType = type;
             //创建并添加最下方一系列技术指标的外部包含div
-            this.options.markMAContainer = document.createElement("div");
+            if(!this.options.markMAContainer)
+                this.options.markMAContainer = document.createElement("div");
             var markMAContainer = this.options.markMAContainer;
-            markMAContainer.setAttribute("id", "markMAContainer");
-            // debugger;
-            markMAContainer.style.position = "absolute";
-            markMAContainer.style.fontFamily = "Microsoft Yahei";
-            markMAContainer.style.fontWeight = "lighter";
-            markMAContainer.style.fontSize = "14px";
-            markMAContainer.style.top = "5px";
-            markMAContainer.style.left = this.options.padding.left + "px";
-            
+            markMAContainer.innerHTML = "";
+            markMAContainer.className = "markTContainer";
+            markMAContainer.style.top = 5 + "px";
+            markMAContainer.style.left = this.options.padding.left + 10 + "px";
+
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
-            var co = 0;
-            this.options.markUPTType = type;
-            for (var item in datas) {
-                var temp = datas[item][datas[item].length - 1];
+            for(i = 0; i < dataObj.length; i++){
                 var span = document.createElement('span');
-                span.innerHTML = item.toUpperCase() + ": " + temp.value;
-                span.style.width = "100px";
-                span.style.color = colors[co];
-                co++;
-                span.style.marginRight = "30px";
-                span.setAttribute("id", item + "_mark");
+                var temp = dataObj[i].value.length-1;
+                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + (dataObj[i].value)[temp].value;
+                span.style.color = colors[i];
                 frag.appendChild(span);
-                }
-
-                markMAContainer.appendChild(frag);
-                this.options[type] = {};
-                this.options[type].defaultMaHtml = markMAContainer.innerHTML;
-                document.getElementById(this.options.container).appendChild(markMAContainer);
-            } else {
-
-            var markMAContainer = this.options.markMAContainer;
-
-            //判断是不是第一次，是否需要创建元素
-            if (!this.options[type]) {
-                //作为是否切换技术指标的依据
-                this.options.markUPTType = type;
-                //清空markTContainer里面的所有span
-                var spans = markMAContainer.getElementsByTagName("span");
-                var len = spans.length;
-
-                // for (var i = 0; i < len; i++) {
-                //     markMAContainer.removeChild(spans[0]);
-                // }
-
-                markMAContainer.innerHTML = "";
-                // debugger;
-                var dataObj = [];
-
-                for (var item in datas) {
-                    dataObj.push({ value: datas[item].slice(start,end), name: item });
-                }
-                /*创建文档碎片*/
-                var m_frag = document.createDocumentFragment();
-                var frag = document.createDocumentFragment();
-                //添加元素
-                var co = 0;
-                if(!this.options[type] || !this.options[type].defaultMaHtml){
-                    for (var item in datas) {
-                        var temp = datas[item][datas[item].length - 1];
-                        var span = document.createElement('span');
-                        span.innerHTML = item.toUpperCase() + ": " + temp.value;
-                        span.style.width = "100px";
-                        span.style.color = colors[co];
-                        co++;
-                        span.style.marginRight = "30px";
-                        span.setAttribute("id", item + "_mark");
-                        frag.appendChild(span);
-                    }
-
-                    markMAContainer.appendChild(frag);
-
-                    this.options[type] = {};
-                    this.options[type].defaultMaHtml = markMAContainer.innerHTML;
-                    markMAContainer.innerHTML = "";
-                }
-
-                for (var i = 0; i < dataObj.length; i++) {
-                    var span = document.createElement('span');
-                    // if(dataObj[i].value[index].value){
-                    //     var text = dataObj[i].value[index].value;
-                    // }else{
-                    //     var text = "-"
-                    // }
-                    span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                    span.style.width = "100px";
-                    span.style.color = colors[i];
-                    span.style.marginRight = "30px";
-                    span.setAttribute("id", dataObj[i].name + "_mark");
-                    m_frag.appendChild(span);
             }
-                /*添加到包含元素上*/
-                markMAContainer.appendChild(m_frag);
-            } else {
+            markMAContainer.appendChild(frag);
+            this.options[type] = {};
+            this.options[type].defaultMaHtml = markMAContainer.innerHTML;
 
-                var dataObj = [];
-                for (var item in datas) {
-                    dataObj.push({ value: datas[item].slice(start,end), name: item });
-                }
+            document.getElementById(this.options.container).appendChild(markMAContainer);
+        } else {
+                var markMAContainer = this.options.markMAContainer;
+                var spans = markMAContainer.children;
                 //更改内容
                 for (var i = 0; i < dataObj.length; i++) {
-                    var span = document.getElementById(dataObj[i].name + "_mark");
+                    var span = spans[i];
                     try {
                         span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
                     } catch (e) {
-                        // markMAContainer.removeChild(span);
-                        if(dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined){
+                        if (dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined) {
                             span.innerText = dataObj[i].name.toUpperCase() + ": -";
-            } else {
+                        } else {
                             var span = document.createElement('span');
                             span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                            span.style.width = "100px";
                             span.style.color = colors[i];
-                            span.style.marginRight = "30px";
-                            span.setAttribute("id", dataObj[i].name + "_mark");
                             markMAContainer.appendChild(span);
+                        }
+
+                    }
                 }
-
-                }
-            }
-
-                }
-            }
-
-
+        }
 
     }
 

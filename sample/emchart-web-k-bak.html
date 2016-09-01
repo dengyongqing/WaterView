@@ -109,7 +109,6 @@
 				
 
 				<ul class="tab-list" id="tab_list">
-					<li class="tab-item" id="before">盘前</li>
 					<li class="tab-item choose" id="one">日K</li>
 					<li class="tab-item" id="two">周K</li>
 					<li class="tab-item" id="three">月K</li>
@@ -165,8 +164,7 @@
 		        "width" : 800,
 		        "height" : 500
 	        });
-
-			current.draw();
+	        k0.draw();
 
 	        var list = document.getElementsByTagName("li");
 	        var tabUrl = document.getElementById("tab_list");
@@ -189,83 +187,54 @@
 			        "width" : 800,
 			        "height" : 500
 	        	};
-
 	        	switch(target.getAttribute("id")){
 	        		case "one":
 	        			params.type = "k";
-	        			params.container = "emchart-0";
-	        			current = k0 = tab(k0,params);
+	        			current = k0 = new EmchartsWebK(params);
 	        			break;
 	        		case "two":
 	        			params.type = "wk";
-	        			params.container = "emchart-1";
-	        			current = k1 = tab(k1,params);
 	        			break;
 	        		case "three":
 	        			params.type = "mk";
-	        			params.container = "emchart-2";
-	        			current = k2 = tab(k2,params);
 	        			break;
 	        		case "m5k":
 	        			params.type = "m5k";
-	        			params.container = "emchart-3";
-	        			current = k3 = tab(k3,params);
 	        			break;
 	        		case "m15k":
 	        			params.type = "m15k";
-	        			params.container = "emchart-4";
-	        			current = k4 = tab(k4,params);
 	        			break;
 	        		case "m30k":
 	        			params.type = "m30k";
-	        			params.container = "emchart-5";
-	        			current = k5 = tab(k5,params);
 	        			break;
         			case "m60k":
 	        			params.type = "m60k";
-	        			params.container = "emchart-6";
-	        			current = k6 = tab(k6,params);
 	        			break;
 	        	}
+	        	document.getElementById('emchart-0').innerHTML = "";
 
-	        	function tab(k,params){
+	        	k0 = new EmchartsWebK(params);
 
-	        		var ems = document.querySelectorAll(".emchart .em-tab");
-	        		[].forEach.call(ems, function(em) {
-							em.style.display = "none";
-						});
-	        		document.getElementById(params.container).style.display = "block";
-	        		if(!k){
-	        			current = k = new EmchartsWebK(params)
-	        			current.draw();
-	        		}else{
-	        			current = k;
-	        		}
-	        		return k;
-	        	}
-	        	// document.getElementById('emchart-0').innerHTML = "";
-
-	        	// k0 = new EmchartsWebK(params);
-
+	        	k0.draw();
 	        };
 
 	        addEvent(document.getElementById("scale-plus"),"click",function(){
-	        		current.scalePlus();
+	        		k0.scalePlus();
 	        });
 
 	        addEvent(document.getElementById("scale-minus"),"click",function(){
-	        		current.scaleMinus();
+	        		k0.scaleMinus();
 	        });
 
 	        addEvent(document.getElementById("beforeBackRight"),"change",function(){
 	        	var v = document.getElementById("beforeBackRight").value;
 	
 	        	if(v == "before"){
-	        		current.beforeBackRight(true);
+	        		k0.beforeBackRight(true);
 	        	}else if(v == "back"){
-	        		current.beforeBackRight(false);
+	        		k0.beforeBackRight(false);
 	        	}else{
-	        		current.beforeBackRight();
+	        		k0.beforeBackRight();
 	        	}
 	        		
 	        });

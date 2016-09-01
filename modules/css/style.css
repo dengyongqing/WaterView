@@ -85,6 +85,8 @@
 .markTContainer span{
 	width: 150px;
 	display: inline-block;
+	*display: inline;
+	*zoom:1;
 }
 
 .scale-div{

@@ -164,7 +164,8 @@
 		        "width" : 800,
 		        "height" : 500
 	        });
-	        k0.draw();
+
+			current.draw();
 
 	        var list = document.getElementsByTagName("li");
 	        var tabUrl = document.getElementById("tab_list");
@@ -187,54 +188,83 @@
 			        "width" : 800,
 			        "height" : 500
 	        	};
+
 	        	switch(target.getAttribute("id")){
 	        		case "one":
 	        			params.type = "k";
-	        			current = k0 = new EmchartsWebK(params);
+	        			params.container = "emchart-0";
+	        			current = k0 = tab(k0,params);
 	        			break;
 	        		case "two":
 	        			params.type = "wk";
+	        			params.container = "emchart-1";
+	        			current = k1 = tab(k1,params);
 	        			break;
 	        		case "three":
 	        			params.type = "mk";
+	        			params.container = "emchart-2";
+	        			current = k2 = tab(k2,params);
 	        			break;
 	        		case "m5k":
 	        			params.type = "m5k";
+	        			params.container = "emchart-3";
+	        			current = k3 = tab(k3,params);
 	        			break;
 	        		case "m15k":
 	        			params.type = "m15k";
+	        			params.container = "emchart-4";
+	        			current = k4 = tab(k4,params);
 	        			break;
 	        		case "m30k":
 	        			params.type = "m30k";
+	        			params.container = "emchart-5";
+	        			current = k5 = tab(k5,params);
 	        			break;
         			case "m60k":
 	        			params.type = "m60k";
+	        			params.container = "emchart-6";
+	        			current = k6 = tab(k6,params);
 	        			break;
 	        	}
-	        	document.getElementById('emchart-0').innerHTML = "";
 
-	        	k0 = new EmchartsWebK(params);
+	        	function tab(k,params){
 
-	        	k0.draw();
+	        		var ems = document.querySelectorAll(".emchart .em-tab");
+	        		[].forEach.call(ems, function(em) {
+							em.style.display = "none";
+						});
+	        		document.getElementById(params.container).style.display = "block";
+	        		if(!k){
+	        			current = k = new EmchartsWebK(params)
+	        			current.draw();
+	        		}else{
+	        			current = k;
+	        		}
+	        		return k;
+	        	}
+	        	// document.getElementById('emchart-0').innerHTML = "";
+
+	        	// k0 = new EmchartsWebK(params);
+
 	        };
 
 	        addEvent(document.getElementById("scale-plus"),"click",function(){
-	        		k0.scalePlus();
+	        		current.scalePlus();
 	        });
 
 	        addEvent(document.getElementById("scale-minus"),"click",function(){
-	        		k0.scaleMinus();
+	        		current.scaleMinus();
 	        });
 
 	        addEvent(document.getElementById("beforeBackRight"),"change",function(){
 	        	var v = document.getElementById("beforeBackRight").value;
 	
 	        	if(v == "before"){
-	        		k0.beforeBackRight(true);
+	        		current.beforeBackRight(true);
 	        	}else if(v == "back"){
-	        		k0.beforeBackRight(false);
+	        		current.beforeBackRight(false);
 	        	}else{
-	        		k0.beforeBackRight();
+	        		current.beforeBackRight();
 	        	}
 	        		
 	        });
