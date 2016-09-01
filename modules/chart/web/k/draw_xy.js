@@ -61,7 +61,27 @@ var DrawXY = (function(){
             }
         }
         ctx.stroke();
+
         ctx.beginPath();
+        /*画布宽度*/
+        var k_width = this.options.drawWidth;
+        /*K线图的高度*/
+        var c_t_height = this.options.c_t_height;
+        var unit_w = (k_width) / (this.options.x_sepe_num);
+        for(var i = 0;i <= this.options.x_sepe_num;i++){
+            var x1 = this.options.padding.left + i * unit_w;
+            var y1 = this.options.c3_y_top;
+            var x2 = this.options.padding.left + i * unit_w;
+            var y2 = this.options.c3_y_top + c_t_height;
+
+            if(!(i == 0 || i == this.options.x_sepe_num)){
+                DrawDashLine(ctx, x1, y1, x2, y2, 5);
+            }
+            
+        }
+        ctx.stroke();
+        ctx.beginPath();
+
         // 恢复画笔状态
         ctx.restore();
 
@@ -106,7 +126,27 @@ var DrawXY = (function(){
         ctx.fillText(common.format_unit(data.v_max/1 * 1/3,2),  0, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
         ctx.fillText(0,  this.options.padding.left - 20, this.options.c2_y_top + 10 + this.options.v_base_height * 3/3);
         ctx.stroke();
+
         ctx.beginPath();
+        /*画布宽度*/
+        var k_width = this.options.drawWidth;
+        /*K线图的高度*/
+        var c_v_height = this.options.c_v_height;
+        var unit_w = (k_width) / (this.options.x_sepe_num);
+        for(var i = 0;i <= this.options.x_sepe_num;i++){
+            var x1 = this.options.padding.left + i * unit_w;
+            var y1 = this.options.c2_y_top;
+            var x2 = this.options.padding.left + i * unit_w;
+            var y2 = this.options.c2_y_top + c_v_height;
+
+            if(!(i == 0 || i == this.options.x_sepe_num)){
+                DrawDashLine(ctx, x1, y1, x2, y2, 5);
+            }
+            
+        }
+        ctx.stroke();
+        ctx.beginPath();
+
         // 恢复画笔状态
         ctx.restore();
     }

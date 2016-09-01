@@ -74,6 +74,19 @@
 .mark-ma .span-m30{
 	color:#fe59fe;
 }
+
+/* 技术指标的样式 */
+.markTContainer{
+	position: absolute;
+	font-family: 'Microsoft Yahei';
+	font-weight: lighter;
+	font-size: 14px;
+}
+.markTContainer span{
+	width: 150px;
+	display: inline-block;
+}
+
 .scale-div{
 	position:absolute;z-index:99;border:0px;width:90px;height:45px;
 	opacity:0.7;
