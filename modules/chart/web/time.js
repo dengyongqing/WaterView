@@ -462,7 +462,7 @@ var ChartTime = (function() {
                     return; }
                 //分时数据
                 var timeData_arr = _that.options.data.data;
-                var timeIndex = Math.floor(timeData_arr.length/242-1)*242;
+                var timeIndex = (Math.floor(timeData_arr.length/242-1) > 0 ? Math.floor(timeData_arr.length/242-1) : 0) *242;
                 //两个并行的循环，找到绘制盘口异动的点
                 for (var i = data.length - 1; i >= 0; i--) {
                     var item = data[i].split(",");

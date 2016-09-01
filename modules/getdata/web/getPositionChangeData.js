@@ -29,21 +29,6 @@ function getData(code, callback){
         callback(error, json);
     });
 
-    /*var url = "http://nuyd.eastmoney.com/EM_UBG_PositionChangesInterface/api/js?style=top&num=5&ac=normal&check=itntcd&js=[(x)]&cb=var%20dataChange=&id=6018111";
-    var scri = document.createElement("script");
-
-    scri.setAttribute("src", url);
-
-    var htmlE = document.getElementsByTagName('html')[0];
-
-    htmlE.appendChild(scri);
-
-    scri.onload = function(){
-        callback(false, dataChange);
-
-    }*/
-//http://nuyd.eastmoney.com/EM_UBG_PositionChangesInterface/api/js?id=6018111&style=top&js=changeData1472543155((x))&num=5&ac=normal&check=itntcd&cb=changeData1472543155&changeData1472543155=changeData1472543155
-
 }
 
 module.exports = getData;
