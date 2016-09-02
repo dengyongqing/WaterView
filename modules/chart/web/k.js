@@ -458,7 +458,7 @@ var ChartK = (function() {
         right_panel_comfirmeBtn.innerHTML = "确认修改";
         right_panel_comfirmeBtn.className = "right-panel-btn";
         right_panel.appendChild(right_panel_comfirmeBtn);
-        common.addEvent(right_panel_comfirmeBtn. "click", function(){
+        common.addEvent(right_panel_comfirmeBtn, "click", function(){
             
         });
 
@@ -466,7 +466,7 @@ var ChartK = (function() {
         right_panel_cancleBtn.innerHTML = "取消修改";
         right_panel_cancleBtn.className = "right-panel-btn";
         right_panel.appendChild(right_panel_cancleBtn);
-        common.addEvent(right_panel_cancleBtn. "click", function(){
+        common.addEvent(right_panel_cancleBtn, "click", function(){
             
         });
 
@@ -481,6 +481,40 @@ var ChartK = (function() {
 
         preference.appendChild(preference_shade);
         preference.appendChild(set_container);
+
+        var pick_html = '<div class="colorPadTriangle"></div>'+
+                        '<table class="colorTable"><tr><td style="background-color: #FE0000;"></td>'+
+                        '<td style="background-color: #FDA748;"></td>'+
+            '<td style="background-color: #A7DA19;"></td>'+
+            '<td style="background-color: #57A9FF;"></td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="background-color: #FF5AFF;"></td>'+
+            '<td style="background-color: #F73323;"></td>'+
+            '<td style="background-color: #1CA41C;"></td>'+
+            '<td style="background-color: #047DFF;"></td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="background-color: #FC93B2;"></td>'+
+            '<td style="background-color: #B80000;"></td>'+
+            '<td style="background-color: #007E3F;"></td>'+
+            '<td style="background-color: #0766C4;"></td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="background-color: #9A2574;"></td>'+
+            '<td style="background-color: #984300;"></td>'+
+            '<td style="background-color: #984300;"></td>'+
+            '<td style="background-color: #305895;"></td>'+
+        '</tr></table>';
+
+
+
+        var pick_html_div = document.createElement("div");
+        pick_html_div.className = "colorPad";
+        pick_html_div.innerHTML = pick_html;
+
+        preference.appendChild(pick_html_div);
+
 
         preference.style.display = "none";
 
@@ -509,6 +543,10 @@ var ChartK = (function() {
             }
         });
 
+        common.addEvent(pick_html_div,"click",function(e){
+            debugger;
+        });
+
         function addItem(type){
             var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;";
             var ma_item = document.createElement("div");
@@ -523,6 +561,12 @@ var ChartK = (function() {
             ma_item.appendChild(span_color);
 
             return ma_item;
+        }
+
+        function pickColor(type){
+
+            debugger;
+            alert();
         }
     }
 
