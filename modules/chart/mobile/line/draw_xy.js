@@ -55,7 +55,7 @@
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
             ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
-            ctx.fillText(common.format_unit(item.num/1,2), this.options.padding_left, item.y +10);
+            ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
             ctx.stroke();
         }
 

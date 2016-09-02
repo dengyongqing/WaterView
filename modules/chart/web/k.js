@@ -214,14 +214,7 @@ var ChartK = (function() {
 
         drawT.apply(this,[]);
         drawKT.apply(this);
-        // this.drawRSI();
-        // this.drawKDJ();
-        // this.drawWR();
-        // this.drawDMI();
-        // this.drawBIAS();
-        // this.drawOBV();
-        // this.drawCCI();
-        // this.drawROC();
+        drawPreference.apply(this);
 
     };
     // 重绘
@@ -384,6 +377,75 @@ var ChartK = (function() {
         pad.style.top = this.options.c1_y_top + "px";
         pad.style.left = this.options.canvas.width - this.options.padding.right + "px";
         
+    }
+
+    function drawPreference(){
+        var preference = document.createElement("div");
+        preference.className = "preference-container";
+        preference.style.top = this.options.c2_y_top + "px";
+        preference.style.left = this.options.padding.left + "px";
+        preference.style.width = this.options.drawWidth + "px";
+        preference.style.height = this.options.canvas.height - this.options.c2_y_top + this.options.unit_height + "px";
+        
+        var preference_shade = document.createElement("div");
+        preference_shade.className = "preference-shade";
+       
+
+        var handle = document.createElement("div");
+        handle.className = "preference-handle";
+        handle.innerHTML = "偏好<br/>设置";
+        handle.style.top = this.options.c2_y_top + "px";
+        handle.style.left = this.options.padding.left + this.options.drawWidth - 2 + "px";
+        
+        var set_container = document.createElement("div");
+        set_container.className = "set-container";
+        set_container.style.top = "30px";
+        set_container.style.left = "100px";
+
+        var tab = document.createElement("div");
+        tab.className = "set-tab";
+        var ma_tab = document.createElement("div");
+        ma_tab.className = "ma-tab current";
+        ma_tab.innerHTML = "均线设置";
+        var right_tab = document.createElement("div");
+        right_tab.className = "right-tab";
+        right_tab.innerHTML = "默认复权";
+
+        var ma_panel = document.createElement("div");
+        ma_panel.className = "ma-panel";
+        ma_panel.innerHTML = "均线";
+        var right_panel = document.createElement("div");
+        right_panel.className = "right-panel";
+        right_panel.innerHTML = "复权";
+        right_panel.style.display = "none";
+
+        tab.appendChild(ma_tab);
+        tab.appendChild(right_tab);
+        set_container.appendChild(tab);
+        set_container.appendChild(ma_panel);
+        set_container.appendChild(right_panel);
+
+        preference.appendChild(preference_shade);
+        preference.appendChild(set_container);
+
+        preference.style.display = "none";
+
+        this.container.appendChild(handle);
+        this.container.appendChild(preference);
+
+        common.addEvent(handle,"click",function(e){
+            preference.style.display = "block";
+        });
+
+        common.addEvent(ma_tab,"click",function(e){
+            ma_panel.style.display = "block";
+            right_panel.style.display = "none";
+        });
+
+        common.addEvent(right_tab,"click",function(e){
+            ma_panel.style.display = "none";
+            right_panel.style.display = "block";
+        });
     }
 
     // 绘制技术指标

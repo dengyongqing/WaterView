@@ -78,6 +78,7 @@ var ChartLine = (function() {
         this.options.k_v_away = canvas.height / (9 * 2);
         // 缩放默认值
         this.options.scale_count = 0;
+        this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
         if(this.options.showflag){
             this.options.c_1_height = canvas.height * (5/9);
@@ -116,6 +117,7 @@ var ChartLine = (function() {
         var series = this.options.series;
         this.options.data = {};
         var maxAndMin = getMaxMark(series);
+
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
         this.options.padding_left = this.options.context.measureText("-1000万").width + 20;
@@ -153,41 +155,14 @@ var ChartLine = (function() {
             count = count.concat(data[i].data);
         }
         max = count[0];
+        min = count[0];
 
         for(var i =1;i<count.length;i++) {
             max = Math.max(max,count[i]);
             min = Math.min(min,count[i]);
         }
-        var step = Math.ceil((max * 1.1) / 5);
-        if(step <= 10){
-            step = Math.ceil(step);
-        }else if(step > 10 && step < 100){
-            if(step % 10 > 0){
-                step = Math.ceil(step/10) * 10;
-            }
-        }
 
-        else{
-            var num = step.toString().length;
-            var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
-            var middle_step = base_step + Math.pow(10,(num - 1))/2;
-            var next_step = base_step + Math.pow(10,(num - 1));
-
-            if(step == base_step){
-                step = base_step;
-            }else if(step > base_step && step <= middle_step){
-                step = middle_step;
-            }else if(step > middle_step && step <= next_step){
-                step = next_step;
-            }
-        }
-
-        // else{
-        //     var num = step.toString().length;
-        //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
-        //     step = base_step;
-        // }
-        max = step * 5;
+        max = max/1 * 1.1;
         return {
             max:max,
             min:min
