@@ -2,7 +2,6 @@
 .show-tip {
     position: absolute;
     top: 0px;
-    background-color: red;
     z-index: 999;
     border: 0;
     padding: 10px;

@@ -98,24 +98,24 @@ var common = {
 
         if(flag){
             if (value < 10000) {
-                return value * -1;
+                return (value/1).toFixed(num) * -1;
             } else if (value >= 10000 && value < 100000000) {
                 return (value / 10000).toFixed(num) * -1 + "万";
             } else if (value >= 100000000) {
                 return (value / 100000000).toFixed(num) * -1 + "亿";
             } else {
-                return value * -1;
+                return (value/1).toFixed(num) * -1;
             }
 
         }else{
             if (value < 10000) {
-                return value;
+                return (value/1).toFixed(num);
             } else if (value >= 10000 && value < 100000000) {
                 return (value / 10000).toFixed(num) + "万";
             } else if (value >= 100000000) {
                 return (value / 100000000).toFixed(num) + "亿";
             } else {
-                return value;
+                return (value/1).toFixed(num);
             }
         }
     },

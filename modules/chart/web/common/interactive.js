@@ -42,7 +42,6 @@ var Interactive = (function() {
 
     // 鼠标十字标识线
     Interactive.prototype.cross = function(canvas, w_x, w_y) {
-        var c_box = canvas.getBoundingClientRect();
         var dpr = this.options.dpr;
 
         if (!this.options.cross) {
@@ -97,9 +96,6 @@ var Interactive = (function() {
 
     // 鼠标十字标识线(webTime)
     Interactive.prototype.crossTime = function(canvas, w_x, w_y) {
-        var c_box = canvas.getBoundingClientRect();
-        var dpr = this.options.dpr;
-        var padding_left = this.options.padding.left;
         var offsetTop = this.options.canvas_offset_top;
         var canvasHeight = this.options.canvas.height;
         var containerId = this.options.container;
@@ -371,8 +367,6 @@ var Interactive = (function() {
             document.getElementById(this.options.container).appendChild(v_div_mark);
             // div_tip.style.left = w_pos.x - 300 + "px";
         } else {
-            var mark_v_ma = this.options.mark_v_ma.mark_v_ma;
-
             if (volume) {
                 this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + common.format_unit(volume, 2);
             } else {
@@ -499,8 +493,6 @@ var Interactive = (function() {
 
     // Tip显示行情数据
     Interactive.prototype.showTip = function(canvas, x, obj) {
-        // var c_box = canvas.getBoundingClientRect();
-        var type = this.options.type;
         if (!this.options.tip) {
             this.options.tip = {};
             // 创建外部包裹元素

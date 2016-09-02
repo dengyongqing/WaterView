@@ -73,9 +73,6 @@ function dealData(json, num) {
         intoArr.call(result, "twenty_average", mas[2], rect.data_time);
         intoArr.call(result, "thirty_average", mas[3], rect.data_time);
 
-        //进行最大最小值计算
-        // max = getMax([max, rect.lowest, rect.highest*1.0]);
-        // min = getMin([min, rect.lowest, rect.highest*1.0]);
         max = Math.max(max,rect.highest);
         min = Math.min(min,rect.lowest);
         maxVolume = maxVolume > rect.volume*1.0 ? maxVolume : rect.volume*1.0;
@@ -114,22 +111,6 @@ function intoArr(name, value, date) {
     }
 }
 
-//数组冒泡得到最大值
-function getMax(arr) {
-    var max = 0;
-    for (var i = 0; i < arr.length; i++) {
-        max = max > arr[i] * 1.0 ? max : arr[i] * 1.0;
-    }
-    return max;
-}
-//数组冒泡得到最小值
-function getMin(arr) {
-    var min = 100000;
-    for (var i = 0; i < arr.length; i++) {
-        min = min < arr[i] * 1.0 ? min : arr[i] * 1.0;
-    }
-    return min;
-}
 
 
 module.exports = dealData;

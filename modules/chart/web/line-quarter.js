@@ -196,7 +196,7 @@ var ChartBarQuarter = (function() {
         var paddingLeft = this.options.padding_left,
             yearUnit = this.options.yearUnit,
             quarterUnit = this.options.quarterUnit,
-            canvas = this.options.canvas,
+            canvas = this.options.canvas;
 
         // 求得鼠标所指的位置属于哪一年的哪一个季度
         var numYear = Math.floor((canvasX - paddingLeft) / yearUnit.rect_w);
