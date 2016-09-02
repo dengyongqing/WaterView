@@ -23,8 +23,6 @@ var DrawXY = (function() {
     DrawXY.prototype.draw = function() {
         var data = this.options.data;
         var ctx = this.options.context;
-        var type = this.options.type;
-        // var dpr = this.options.dpr;
 
         /*Y轴上的最大值*/
         var y_max = data.max;
@@ -115,7 +113,6 @@ var DrawXY = (function() {
         var padding_left = this.options.padding.left;
         var padding_right = this.options.padding.right;
         var y_min = this.options.c_1_height;
-        var y_max = this.options.c_1_height + ctx.canvas.height;
         ctx.beginPath();
         ctx.fillStyle = '#999';
         /*画布宽度*/
@@ -179,7 +176,6 @@ var DrawXY = (function() {
 
         var v_height = ctx.canvas.height / 4;
 
-        var v_base_height = v_height * 0.9;
 
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
         var y_v_top = y_v_bottom - v_height;
