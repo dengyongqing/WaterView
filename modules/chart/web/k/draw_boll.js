@@ -6,7 +6,6 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
     this.clearK();
     this.options.drawXY.drawXYK();
     this.drawK();
-    var c_t_height = this.options.c_t_height;
 
     var bollup_length = bollup.length;
     var bollmb_length = bollmb.length;

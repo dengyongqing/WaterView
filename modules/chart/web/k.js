@@ -59,8 +59,6 @@ var slideBar = require('chart/web/k/slideBar');
 var extend = require('tools/extend2');
 // 水印
 var watermark = require('chart/watermark');
-/*绘制网格虚线*/
-var DrawDashLine = require('chart/web/common/draw_dash_line');
 
 var ChartK = (function() {
 
@@ -975,10 +973,10 @@ var ChartK = (function() {
 
             params.ctx = ctx;
             var x = params.x = common.get_x.call(this,i + 1);
-            var y_open = params.y_open = common.get_y.call(this,item.open);
+            params.y_open = common.get_y.call(this,item.open);
             var y_close = params.y_close = common.get_y.call(this,item.close);
-            var y_highest = params.y_highest = common.get_y.call(this,item.highest);
-            var y_lowest = params.y_lowest = common.get_y.call(this,item.lowest);
+            params.y_highest = common.get_y.call(this,item.highest);
+            params.y_lowest = common.get_y.call(this,item.lowest);
 
             item.cross_x = x;
             item.cross_y = y_close;
@@ -987,10 +985,9 @@ var ChartK = (function() {
             if(pointObj[item.data_time]){
                 inter.markPoint(x,item.data_time,this.options.context.canvas,this.options.scale_count);
             }
-            // 获取单位绘制区域
-            var rect_unit = this.options.rect_unit;
+            
             // K线柱体的宽度
-            var bar_w = params.bar_w = rect_unit.bar_w;
+            params.bar_w = bar_w;
 
             DrawK.apply(this,[params]);
 
@@ -1224,8 +1221,8 @@ var ChartK = (function() {
         }else{
             GetTeacData(params,function(data){
                 _this.options.obv = {};
-                var obv = _this.options.obv.obv = data.obv;
-                var maobv = _this.options.obv.maobv = data.maobv;
+                _this.options.obv.obv = data.obv;
+                _this.options.obv.maobv = data.maobv;
                 temp_obv.apply(_this,[]);
             });
         }
@@ -1338,7 +1335,6 @@ var ChartK = (function() {
             var expma12 = this.options.expma.expma12.slice(start, end);
             var expma50 = this.options.expma.expma50.slice(start, end);
             var expma_arr = expma12.concat(expma50);
-            var expma_arr_length = expma_arr.length;
 
             var max = _this.options.currentData.max;
             var min = _this.options.currentData.min;
@@ -1422,7 +1418,6 @@ var ChartK = (function() {
          
         function temp_sar(start, end){
             var sar_arr = this.options.sar.sar.slice(start, end);
-            var sar_arr_length = sar_arr.length;
            
             var max = _this.options.currentData.max;
             var min = _this.options.currentData.min;

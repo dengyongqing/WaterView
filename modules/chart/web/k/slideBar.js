@@ -1,4 +1,3 @@
-var getTData = require('getdata/web/chart_k');
 var common = require('chart/web/common/common');
 /*一个测试*/
 var slideBar = function() {
@@ -167,12 +166,10 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
     //containerBar的位置以及宽度
     var ContainerB_left = toNumber(containerBar.style.left);
     var ContainerB_width = toNumber(containerBar.style.width);
-    var ContainerB_height = toNumber(containerBar.style.height);
     //左边拖拽条的位置以及宽度
     var LeftD_width = toNumber(leftDrag.style.width);
     var LeftD_left = ContainerB_left - LeftD_width;
     //右边拖拽条的位置以及宽度
-    var RightD_width = toNumber(rightDrag.style.width);
     var RightD_left = ContainerB_left + ContainerB_width;
     var body = document.getElementsByTagName("html")[0];
     var len = dataArr.length;

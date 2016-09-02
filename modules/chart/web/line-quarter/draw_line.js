@@ -7,15 +7,8 @@
  * }
  * this.options:{
  *     data:    行情数据
- *     type:    "TL"(分时图),"DK"(日K线图),"WK"(周K线图),"MK"(月K线图)
  *     canvas:  画布对象
  *     ctx:     画布上下文
- *     canvas_offset_top:   画布中坐标轴向下偏移量
- *     padding_left:    画布左侧边距
- *     k_v_away:    行情图表（分时图或K线图）和成交量图表的间距
- *     scale_count:     缩放默认值
- *     c_1_height:  行情图表（分时图或K线图）的高度
- *     rect_unit:   分时图或K线图单位绘制区域
  * }
  *
  */
@@ -24,8 +17,6 @@
 var extend = require('tools/extend');
 /*主题*/
 var theme = require('theme/default');
-/*工具*/
-var common = require('common');
 var DrawQuarterLine = (function(){
     function DrawQuarterLine(options){
         // 设置默认参数
@@ -43,8 +34,6 @@ var DrawQuarterLine = (function(){
         ctx.lineWidth = 1 * this.options.dpr;
         // 折线数据
         var series = this.options.series;
-        // 横坐标数据
-        var xaxis = this.options.xaxis;
         ctx.beginPath();
         // 画笔颜色
         ctx.strokeStyle = this.options.line.color == undefined ? "#333" : this.options.line.color;
@@ -78,8 +67,6 @@ var DrawQuarterLine = (function(){
         // 保存画笔状态
         ctx.save();
 
-        // 横坐标数据
-        var xaxis = this.options.xaxis;
         // 节点（折线连接点半径）
         var pointRadius = this.options.point.pointradius;
         // 填充颜色
@@ -111,13 +98,10 @@ var DrawQuarterLine = (function(){
     }
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {
-        var canvas = this.options.context.canvas;
         var yearUnit = this.options.yearUnit;
         var quarterUnit = this.options.quarterUnit;
-        var total = this.options.series.length;
         var padding_left = this.options.padding_left;
         var year_sepe = this.options.yearUnit.rect_w - this.options.yearUnit.bar_w;
-        var quarter_sepe = this.options.quarterUnit.rect_w - this.options.quarterUnit.bar_w;
         // var dpr = this.options.dpr;
         return yearUnit.rect_w * year_num + padding_left + quarterUnit.rect_w * quarter_num + year_sepe;
     }

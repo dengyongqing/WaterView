@@ -205,10 +205,6 @@ var ChartLine = (function() {
         var offSetTop = this.options.canvas_offset_top / dpr;
         var yHeight = this.options.c_1_height / dpr;
         var radius = this.options.pointRadius;
-        //用于减少div移动的setTimeout
-        var timeId;
-
-
 
         tips.className = "web-tips";
         middleLine.className = "web-middleLine";

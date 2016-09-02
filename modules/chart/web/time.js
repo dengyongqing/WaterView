@@ -216,14 +216,11 @@ var ChartTime = (function() {
     // 绑定事件
     function bindEvent(ctx) {
         var _this = this;
-        var timer_s, timer_m;
         var canvas = ctx.canvas;
         var inter = this.options.interactive;
 
         var delayed = false;
-        var delaytouch = this.options.delaytouch = true;;
 
-        // if(!delaytouch){
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
             dealEvent.apply(_this, [inter, event]);
             try {
@@ -250,8 +247,6 @@ var ChartTime = (function() {
                 event.returnValue = false;
             }
         });
-
-        // }
 
     }
     // 处理交互事件

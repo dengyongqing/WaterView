@@ -6,7 +6,6 @@ function drawEXPMA(ctx,expma12,expma50){
     this.clearK();
     this.options.drawXY.drawXYK();
     this.drawK();
-    var c_t_height = this.options.c_t_height;
 
     var expma12_length = expma12.length;
     var expma50_length = expma50.length;
@@ -19,9 +18,6 @@ function drawEXPMA(ctx,expma12,expma50){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,expma12[i].value);
-
-        // var y = (c_t_height - (expma12[i].value - min)/base *  c_t_height) + this.options.c3_y_top
-        // var x = this.options.padding.left + (i + 1) * unit_w - unit_w/2;
 
         if(i == 0 || y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);

@@ -7,7 +7,6 @@ function drawSAR(ctx,sar,k_data_arr){
     this.options.drawXY.drawXYK();
     this.drawK();
 
-    var c_t_height = this.options.c_t_height;
     var sar_length = sar.length;
 
     var unit_w = this.options.drawWidth/sar_length;
@@ -34,13 +33,6 @@ function drawSAR(ctx,sar,k_data_arr){
             ctx.fill();
             ctx.stroke();
         }
-
-        
-        // if(i == 0){
-        //     ctx.moveTo(x,y);
-        // }else{
-        //     ctx.lineTo(x,y);
-        // }
 
     }
     ctx.beginPath();

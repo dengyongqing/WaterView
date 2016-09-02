@@ -9,7 +9,6 @@
  *     data:    行情数据
  *     canvas:  画布对象
  *     ctx:     画布上下文
-
  * }
  *
  */
@@ -198,7 +197,6 @@ var ChartBarQuarter = (function() {
             yearUnit = this.options.yearUnit,
             quarterUnit = this.options.quarterUnit,
             canvas = this.options.canvas,
-            num = this.options.series.length;
 
         // 求得鼠标所指的位置属于哪一年的哪一个季度
         var numYear = Math.floor((canvasX - paddingLeft) / yearUnit.rect_w);

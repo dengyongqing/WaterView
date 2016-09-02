@@ -31,7 +31,6 @@ var DrawXY = (function(){
     DrawXY.prototype.drawXYT = function(){
 
         var ctx = this.options.context;
-        var canvas = this.options.canvas;
 
         // 保存画笔状态
         ctx.save();
@@ -91,7 +90,6 @@ var DrawXY = (function(){
     DrawXY.prototype.drawXYV = function(){
 
         var ctx = this.options.context;
-        var canvas = this.options.canvas;
         var data = this.options.currentData || this.options.data;
 
         // 保存画笔状态
@@ -118,7 +116,6 @@ var DrawXY = (function(){
             }
         }
 
-        var v_max = common.format_unit(data.v_max/1);
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
         ctx.fillText(common.format_unit(data.v_max/1,2),  0, this.options.c2_y_top + 10);
@@ -154,9 +151,7 @@ var DrawXY = (function(){
     //绘制K线图坐标轴
     DrawXY.prototype.drawXYK = function(){
         var ctx = this.options.context;
-        var canvas = this.options.canvas;
         var data = this.options.currentData || this.options.data;
-        var type = this.options.type;
 
         /*Y轴上的最大值*/
         var y_max = data.max;
@@ -202,8 +197,6 @@ var DrawXY = (function(){
    
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height){
-        // var dpr = this.options.dpr;
-        var padding_left = this.options.padding_left;
         ctx.beginPath();
         
         /*画布宽度*/
