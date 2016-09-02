@@ -47,10 +47,6 @@ function dealData(json,  extendType) {
     }
     return result;
 }
-
-function testData(data) {
-    return data === "-" ? null : data;
-}
 //创建一个数组，并且push值
 function intoArr(name, value, date) {
     if (value === "-") {
@@ -65,7 +61,6 @@ function intoArr(name, value, date) {
 //计算前n天的平均成交量
 function avgDays(datas, i, n) {
     var result = 0;
-    var len = datas.length;
     if(i < n){
         return "-";
     }else{

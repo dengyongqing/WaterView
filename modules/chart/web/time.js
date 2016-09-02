@@ -201,8 +201,6 @@ var ChartTime = (function() {
         var canvas = ctx.canvas;
         var inter = this.options.interactive;
 
-        var delayed = false;
-
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
             dealEvent.apply(_this, [inter, event]);
             try {
@@ -281,9 +279,7 @@ var ChartTime = (function() {
             ctx.beginPath();
             ctx.strokeStyle = "#639EEA";
 
-            var arrs = [];
             for (var i = 0, item; item = data_arr[i]; i++) {
-                var point = {};
                 var x = common.get_x.call(this, i + 1);
                 var y = common.get_y.call(this, item.price);
                 ctx.lineTo(x, y);
