@@ -419,16 +419,16 @@ var ChartK = (function() {
         notice.className = "pre-notice";
         notice.innerHTML = "将天数设为0或留空可以隐藏改MA均线";
 
-        var ma5 = addItem(5);
-        var ma10 = addItem(10);
-        var ma20 = addItem(20);
-        var ma30 = addItem(30);
+        var ma5_item = addItem(5);
+        var ma10_item = addItem(10);
+        var ma20_item = addItem(20);
+        var ma30_item = addItem(30);
 
         ma_panel.appendChild(notice);
-        ma_panel.appendChild(ma5);
-        ma_panel.appendChild(ma10);
-        ma_panel.appendChild(ma20);
-        ma_panel.appendChild(ma30);
+        ma_panel.appendChild(ma5_item.item);
+        ma_panel.appendChild(ma10_item.item);
+        ma_panel.appendChild(ma20_item.item);
+        ma_panel.appendChild(ma30_item.item);
 
         var right_panel = document.createElement("div");
         right_panel.className = "right-panel";
@@ -483,10 +483,46 @@ var ChartK = (function() {
         preference.appendChild(preference_shade);
         preference.appendChild(set_container);
 
+        var pick_html = '<div class="colorPadTriangle"></div>'+
+                        '<table class="colorTable"><tr><td style="background-color: #FE0000;"></td>'+
+                        '<td style="background-color: #FDA748;"></td>'+
+            '<td style="background-color: #A7DA19;"></td>'+
+            '<td style="background-color: #57A9FF;"></td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="background-color: #FF5AFF;"></td>'+
+            '<td style="background-color: #F73323;"></td>'+
+            '<td style="background-color: #1CA41C;"></td>'+
+            '<td style="background-color: #047DFF;"></td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="background-color: #FC93B2;"></td>'+
+            '<td style="background-color: #B80000;"></td>'+
+            '<td style="background-color: #007E3F;"></td>'+
+            '<td style="background-color: #0766C4;"></td>'+
+        '</tr>'+
+        '<tr>'+
+            '<td style="background-color: #9A2574;"></td>'+
+            '<td style="background-color: #984300;"></td>'+
+            '<td style="background-color: #984300;"></td>'+
+            '<td style="background-color: #305895;"></td>'+
+        '</tr></table>';
+
+
+
+        var pick_html_div = document.createElement("div");
+        pick_html_div.className = "colorPad";
+        pick_html_div.innerHTML = pick_html;
+
+        preference.appendChild(pick_html_div);
+
+
         preference.style.display = "none";
 
         this.container.appendChild(handle);
         this.container.appendChild(preference);
+
+        _this.options.pickColor = {};
 
         common.addEvent(handle,"click",function(e){
             preference.style.display = "block";
@@ -510,21 +546,67 @@ var ChartK = (function() {
             }
         });
 
+        common.addEvent(ma5_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma5_item.pick;
+            _this.options.pickColor.mark = "ma5";
+            pick_html_div.style.display = "block";
+        });
+
+        common.addEvent(ma10_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma10_item.pick;
+            _this.options.pickColor.mark = "ma10";
+             pick_html_div.style.display = "block";
+        });
+
+        common.addEvent(ma20_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma20_item.pick;
+            _this.options.pickColor.mark = "ma20";
+             pick_html_div.style.display = "block";
+        });
+       
+        common.addEvent(ma30_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma30_item.pick;
+            _this.options.pickColor.mark = "ma30";
+             pick_html_div.style.display = "block";
+        });
+        common.addEvent(pick_html_div,"click",function(e){
+            var target = e.srcElement || e.target;
+            var color = target.style.backgroundColor;
+            // alert(DataTime.MaxValue);
+            if(color){
+                var cookie = setCookie(_this.options.pickColor.mark+"_default_color", color, 5*365*24*60*60, "/");
+                _this.options.pickColor.ma.style.backgroundColor = color;
+            }
+            pick_html_div.style.display = "none";
+        });
+
         function addItem(type){
-            var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;";
+            if(type == 5){
+                var text = type + "日移动平均线&nbsp;&nbsp; 设置颜色&nbsp;";
+            }else{
+                var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;";
+            }
             var ma_item = document.createElement("div");
             ma_item.className = "ma-item";
             var item_span = document.createElement("span");
             item_span.className = "item-span";
             item_span.innerHTML = text;
+
             var span_color = document.createElement("span");
             span_color.className = "span-setting setting-span-ma" + type;
-
+            var default_color = getCookie("ma"+type+"_default_color");
+            if(default_color){
+                span_color.style.backgroundColor = default_color;
+            }
             ma_item.appendChild(item_span);
             ma_item.appendChild(span_color);
 
-            return ma_item;
+            return {
+                item:ma_item,
+                pick:span_color
+            };
         }
+
     }
 
     // 绘制技术指标
