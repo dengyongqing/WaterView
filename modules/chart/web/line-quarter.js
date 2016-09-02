@@ -244,7 +244,6 @@ var ChartBarQuarter = (function() {
         var padding_left = this.options.padding_left;
         var offSetTop = this.options.canvas_offset_top;
         var yHeight = this.options.c_1_height;
-        var timeId;
 
         tips.className =  "web-tips";
         middleLine.className = "web-middleLine";

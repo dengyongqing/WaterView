@@ -360,3 +360,57 @@
 	border:solid 1px #35709C;
 }
 .containerBar:hover{cursor: move;}
+
+.preference-container{
+	position: absolute;
+	z-index: 101;
+}
+.preference-shade{
+	background-color: #333;
+	opacity: 0.5;
+	width:100%;
+	height: 100%;
+}
+.preference-handle{
+	position:absolute;
+	z-index: 101;
+	background-color: #fff;
+	border: 1px solid #333;
+	border-left: 0;
+	width:40px;
+	height: 50px;
+	line-height: 25px;
+	padding:5px;
+	padding-left: 7px;
+}
+.set-tab{
+	border-bottom:1px solid #4267A0;
+	height:30px;
+}
+.ma-tab{
+	float:left;
+	width:50%;
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+}
+.set-tab .current{
+	background-color: #4267A0;
+	color:#fff;
+}
+.right-tab{
+	float:left;
+	width:50%;
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+}
+
+.set-container{
+	position: absolute;
+	z-index: 103;
+	background-color: #fff;
+	margin-left: 100px;
+	width:300px;
+	height:200px;
+}

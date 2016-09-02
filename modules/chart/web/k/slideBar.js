@@ -181,9 +181,6 @@ var dragEvent = function(callback, dataArr, container, containerBar, leftDrag, r
     var clickedBar = false;
     //是否点击了点击区
     var inArea = false;
-    //连击
-    var clickContinue = false;
-    var timer;
 
     var offset = 0;
     var pageOffset = getOffset(container);
