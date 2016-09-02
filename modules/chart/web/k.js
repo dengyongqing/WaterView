@@ -380,6 +380,7 @@ var ChartK = (function() {
     }
 
     function drawPreference(){
+        var _this = this;
         var preference = document.createElement("div");
         preference.className = "preference-container";
         preference.style.top = this.options.c2_y_top + "px";
@@ -413,7 +414,21 @@ var ChartK = (function() {
 
         var ma_panel = document.createElement("div");
         ma_panel.className = "ma-panel";
-        ma_panel.innerHTML = "均线";
+
+        var notice = document.createElement("div");
+        notice.className = "pre-notice";
+        notice.innerHTML = "将天数设为0或留空可以隐藏改MA均线";
+
+        var ma5 = addItem(5);
+        var ma10 = addItem(10);
+        var ma20 = addItem(20);
+        var ma30 = addItem(30);
+        ma_panel.appendChild(notice);
+        ma_panel.appendChild(ma5);
+        ma_panel.appendChild(ma10);
+        ma_panel.appendChild(ma20);
+        ma_panel.appendChild(ma30);
+
         var right_panel = document.createElement("div");
         right_panel.className = "right-panel";
 
@@ -478,7 +493,9 @@ var ChartK = (function() {
 
         common.addEvent(ma_tab,"click",function(e){
             ma_panel.style.display = "block";
-            ma_tab.className = ma_tab.className + " current";
+            if(ma_tab.className.indexOf("current") < 0){
+                ma_tab.className = ma_tab.className + " current";
+            }
             right_panel.style.display = "none";
             right_tab.className = right_tab.className.replace(" current","");
         });
@@ -487,8 +504,26 @@ var ChartK = (function() {
             ma_panel.style.display = "none";
             ma_tab.className = ma_tab.className.replace(" current","");
             right_panel.style.display = "block";
-            right_tab.className = right_tab.className + " current";
+            if(right_tab.className.indexOf("current") < 0){
+                right_tab.className = right_tab.className + " current";
+            }
         });
+
+        function addItem(type){
+            var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;";
+            var ma_item = document.createElement("div");
+            ma_item.className = "ma-item";
+            var item_span = document.createElement("span");
+            item_span.className = "item-span";
+            item_span.innerHTML = text;
+            var span_color = document.createElement("span");
+            span_color.className = "span-setting setting-span-ma" + type;
+
+            ma_item.appendChild(item_span);
+            ma_item.appendChild(span_color);
+
+            return ma_item;
+        }
     }
 
     // 绘制技术指标
