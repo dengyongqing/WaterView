@@ -439,12 +439,16 @@ var ChartK = (function() {
 
         common.addEvent(ma_tab,"click",function(e){
             ma_panel.style.display = "block";
+            ma_tab.className = ma_tab.className + " current";
             right_panel.style.display = "none";
+            right_tab.className = right_tab.className.replace(" current","");
         });
 
         common.addEvent(right_tab,"click",function(e){
             ma_panel.style.display = "none";
+            ma_tab.className = ma_tab.className.replace(" current","");
             right_panel.style.display = "block";
+            right_tab.className = right_tab.className + " current";
         });
     }
 
