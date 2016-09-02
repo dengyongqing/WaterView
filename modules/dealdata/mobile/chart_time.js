@@ -19,8 +19,6 @@ var dealData = function(json, yc) {
     var v_max = 0;
     var max = 0;
     var min = 0;
-    var total_cost = 0;//成交总额
-    var total_num = 0;//成交总量
 
     for (var i = 0; i < arryData.length; i++) {
         var items = arryData[i].split(",");
