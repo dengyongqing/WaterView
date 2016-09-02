@@ -341,7 +341,6 @@ var ChartK = (function() {
     // 绑定事件
     function bindEvent(ctx){
         var _this = this;
-        var timer_s,timer_m,timer_e;
         var canvas = ctx.canvas;
         var inter = _this.options.interactive;
         //缩放按钮是否可点击

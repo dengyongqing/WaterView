@@ -147,32 +147,6 @@ var ChartBarQuarter = (function() {
         };
     }
 
-    // 将鼠标坐标转换为Canvas坐标
-    function windowToCanvas(canvas, x, y) {
-        // var box = canvas.getBoundingClientRect();
-        return {
-            // x:(x-box.left)*(canvas.width/box.width),
-            // y:(y-box.top)*(canvas.height/box.height)
-
-            x: x * this.options.dpr,
-            y: y * this.options.dpr
-        };
-    }
-
-    // 将Canvas坐标转换为鼠标坐标
-    function canvasToWindow(canvas, x, y) {
-        var box = canvas.getBoundingClientRect();
-        // 相对于窗口
-        // return {
-        //     x:(x *(box.width/canvas.width)+box.left),
-        //     y:(y *(box.height/canvas.height)+box.top + this.options.canvas_offset_top/this.options.dpr)
-        // };
-        return {
-            x: x / this.options.dpr,
-            // x:x * (box.width/canvas.width),
-            y: (y + this.options.canvas_offset_top) * (box.height / canvas.height)
-        };
-    }
 
     // 图表y轴坐标计算
     function get_y(y) {
@@ -185,10 +159,8 @@ var ChartBarQuarter = (function() {
 
     // 图表x轴坐标计算
     function get_x(year_num, quarter_num) {
-        var canvas = this.options.context.canvas;
         var yearUnit = this.options.yearUnit;
         var quarterUnit = this.options.quarterUnit;
-        var total = this.options.series.length;
         var padding_left = this.options.padding_left;
         var year_sepe = this.options.yearUnit.rect_w - this.options.yearUnit.bar_w;
         var quarter_sepe = this.options.quarterUnit.rect_w - this.options.quarterUnit.bar_w;
@@ -207,7 +179,6 @@ var ChartBarQuarter = (function() {
             yearUnit = this.options.yearUnit,
             quarterUnit = this.options.quarterUnit,
             canvas = this.options.canvas,
-            num = this.options.series.length,
             series = this.options.series;
 
         // 求得鼠标所指的位置属于哪一年的哪一个季度
@@ -254,7 +225,6 @@ var ChartBarQuarter = (function() {
         var padding_left = this.options.padding_left;
         var offSetTop = this.options.canvas_offset_top;
         var yHeight = this.options.c_1_height;
-        var timeId;
 
         // tips.setAttribute("class", "web-tips");
         tips.className = "web-tips";

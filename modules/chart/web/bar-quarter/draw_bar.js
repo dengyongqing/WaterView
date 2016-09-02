@@ -24,8 +24,6 @@
 var extend = require('tools/extend2');
 /*主题*/
 var theme = require('theme/default');
-/*工具*/
-var common = require('common');
 var DrawBar = (function(){
     function DrawBar(options){
         // 设置默认参数
@@ -80,14 +78,11 @@ var DrawBar = (function(){
     }
     // 图表x轴坐标计算
     function get_x(year_num,quarter_num) {
-        var canvas = this.options.context.canvas;
         var yearUnit = this.options.yearUnit;
         var quarterUnit = this.options.quarterUnit;
-        var total = this.options.series.length;
         var padding_left = this.options.padding_left;
         var year_sepe = this.options.yearUnit.rect_w - this.options.yearUnit.bar_w;
         var quarter_sepe = this.options.quarterUnit.rect_w - this.options.quarterUnit.bar_w;
-        // var dpr = this.options.dpr;
         return yearUnit.rect_w * year_num + padding_left + quarterUnit.rect_w * quarter_num + year_sepe/2 + quarter_sepe/2;
     }
 
