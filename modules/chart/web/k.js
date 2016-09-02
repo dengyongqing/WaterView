@@ -450,7 +450,6 @@ var ChartK = (function() {
             ma_panel.style.display = "none";
             ma_tab.className = ma_tab.className.replace(" current","");
             right_panel.style.display = "block";
-            right_tab.className = right_tab.className + " current";
             if(right_tab.className.indexOf("current") < 0){
                 right_tab.className = right_tab.className + " current";
             }
