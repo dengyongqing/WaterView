@@ -240,7 +240,6 @@
 	font-weight: lighter;
 	font-family: 'arial';
 
-	/*white-space: nowrap;*/
 }
 
 .web-tip-line-left{
@@ -487,3 +486,21 @@
 .item-span{
 	
 }
+
+.right-panel{
+	text-align: center;
+}
+.right-panel-form{
+	text-align: left;
+	width: 150px;
+	margin: 10px auto;
+	line-height: 1.8;
+}
+.right-panel-btn{
+	border: none;
+	padding: 5px 15px;
+	margin: 10px 20px;
+	background-color: #4267A0;
+	color: white;
+}
+

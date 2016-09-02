@@ -423,6 +423,7 @@ var ChartK = (function() {
         var ma10 = addItem(10);
         var ma20 = addItem(20);
         var ma30 = addItem(30);
+
         ma_panel.appendChild(notice);
         ma_panel.appendChild(ma5);
         ma_panel.appendChild(ma10);
@@ -431,7 +432,46 @@ var ChartK = (function() {
 
         var right_panel = document.createElement("div");
         right_panel.className = "right-panel";
-        right_panel.innerHTML = "复权";
+
+        var right_panel_strings = ["默认不复权", "默认使用前复权", "默认使用后复权"];
+        var right_panel_frag = document.createDocumentFragment();
+        for(var i = 0; i < right_panel_strings.length; i++){
+            var radio = document.createElement("input");
+            radio.setAttribute("type", "radio");
+            radio.setAttribute("name", "rehabilitation");
+            radio.setAttribute("value", i);
+            if(i == 0)
+                radio.setAttribute("checked", true);
+            var span = document.createElement("span");
+            span.style.marginLeft = "10px";
+            span.innerHTML = right_panel_strings[i];
+            var br = document.createElement('br');
+            right_panel_frag.appendChild(radio);
+            right_panel_frag.appendChild(span);
+            right_panel_frag.appendChild(br);
+        }
+        var right_panel_form = document.createElement("form");
+        right_panel_form.className = "right-panel-form";
+        right_panel_form.appendChild(right_panel_frag);
+        right_panel.appendChild(right_panel_form);
+
+        var right_panel_comfirmeBtn = document.createElement("button");
+        right_panel_comfirmeBtn.innerHTML = "确认修改";
+        right_panel_comfirmeBtn.className = "right-panel-btn";
+        right_panel.appendChild(right_panel_comfirmeBtn);
+        common.addEvent(right_panel_comfirmeBtn, "click", function(){
+            
+        });
+
+        var right_panel_cancleBtn = document.createElement("button");
+        right_panel_cancleBtn.innerHTML = "取消修改";
+        right_panel_cancleBtn.className = "right-panel-btn";
+        right_panel.appendChild(right_panel_cancleBtn);
+        common.addEvent(right_panel_cancleBtn, "click", function(){
+            
+        });
+
+
         right_panel.style.display = "none";
 
         tab.appendChild(ma_tab);
@@ -1926,6 +1966,56 @@ var ChartK = (function() {
         } 
         return result; 
     }
+
+
+
+
+    // utility function called by getCookie()
+function getCookieVal(offset) {
+    var endstr = document.cookie.indexOf(";", offset);
+    if (endstr == -1) {
+        endstr = document.cookie.length;
+    }
+    return unescape(document.cookie.substring(offset, endstr));
+}
+ 
+// primary function to retrieve cookie by name
+function getCookie(name) {
+    var arg = name + "=";
+    var alen = arg.length;
+    var clen = document.cookie.length;
+    var i = 0;
+    while (i < clen) {
+        var j = i + alen;
+        if (document.cookie.substring(i, j) == arg) {
+            return getCookieVal(j);
+        }
+        i = document.cookie.indexOf(" ", i) + 1;
+        if (i == 0) break;
+    }
+    return null;
+}
+ 
+// store cookie value with optional details as needed
+function setCookie(name, value, expires, path, domain, secure) {
+    document.cookie = name + "=" + escape(value) +
+    ((expires) ? "; expires=" + expires : "") +
+    ((path) ? "; path=" + path : "") +
+    ((domain) ? "; domain=" + domain : "") +
+    ((secure) ? "; secure" : "");
+}
+ 
+// remove the cookie by setting ancient expiration date
+function deleteCookie(name, path, domain) {
+    if (getCookie(name)) {
+        document.cookie = name + "=" +
+      ((path) ? "; path=" + path : "") +
+      ((domain) ? "; domain=" + domain : "") +
+      "; expires=Thu, 01-Jan-1970 00:00:01 GMT";
+ 
+    }
+}
+
 
     return ChartK;
 })();
