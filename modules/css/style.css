@@ -419,6 +419,7 @@
 	line-height: 25px;
 	padding:5px;
 	padding-left: 7px;
+	cursor: pointer;
 }
 .set-tab{
 	border-bottom:1px solid #4267A0;
