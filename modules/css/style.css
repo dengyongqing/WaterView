@@ -61,16 +61,16 @@
 	display:inline-block;padding-right:10px;font-size:14px;text-align:left;color:#ffba42;
 }
 
-.mark-ma .span-m5{
+.span-m5{
 	color:#f4cb15;
 }
-.mark-ma .span-m10{
+.span-m10{
 	color:#ff5b10;
 }
-.mark-ma .span-m20{
+.span-m20{
 	color:#488ee6;
 }
-.mark-ma .span-m30{
+.span-m30{
 	color:#fe59fe;
 }
 
@@ -450,4 +450,39 @@
 	margin-left: 100px;
 	width:300px;
 	height:200px;
+}
+
+.pre-notice{
+	height:20px;
+	line-height: 20px;
+	text-align: center;
+	margin: 5px 0px;
+}
+.ma-item{
+	height: 30px;
+	line-height: 30px;
+	padding-left: 10px;
+}
+.setting-span-ma5{
+	background-color:#f4cb15;
+}
+.setting-span-ma10{
+	background-color:#ff5b10;
+}
+.setting-span-ma20{
+	background-color:#488ee6;
+}
+.setting-span-ma30{
+	background-color:#fe59fe;
+}
+
+.span-setting{
+	display: inline-block;
+	*display: inline;
+	*zoom:1;
+	height: 15px;
+	width:15px;
+}
+.item-span{
+	
 }
