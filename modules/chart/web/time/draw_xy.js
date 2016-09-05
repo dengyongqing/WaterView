@@ -83,7 +83,7 @@ var DrawXY = (function() {
                 ctx.fillText("0.00", 0, item.y);
             } else {
                 var num = (item.num * 1.0).toFixed(this.options.pricedigit);
-                ctx.fillText(num, 0, item.y);
+                ctx.fillText(num, padding_left - ctx.measureText(num).width-5, item.y);
             }
             ctx.stroke();
             // 绘制纵坐标涨跌幅
@@ -104,7 +104,7 @@ var DrawXY = (function() {
             var percent = "0.00%";
         }
         /*绘制纵坐标刻度百分比*/
-        ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y);
+        ctx.fillText(percent, k_width - ctx.measureText(percent).width + 5, obj.y);
         ctx.stroke();
     }
     /*绘制横坐标刻度值*/
