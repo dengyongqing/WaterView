@@ -142,7 +142,7 @@ var Interactive = (function() {
         var offsetTop = this.options.canvas_offset_top;
         var c_1_height = this.options.c_1_height;
         var containerId = this.options.container;
-        var map = ['周一', '周二', '周三', '周四','周五', '周六', '周日'];
+        var map = ['周日','周一', '周二', '周三', '周四','周五', '周六' ];
         var itemData;
         if(index < 0){
             itemData = time_data[0];
@@ -155,7 +155,7 @@ var Interactive = (function() {
                                 map[(new Date(itemData.dateTime)).getDay()]+" 最新价:"+itemData.price+
                                 " 成交量:"+ common.format_unit(itemData.volume.toFixed(0), 2)+"(手) 成交额:"+ 
                                 common.format_unit(itemData.volume*itemData.price*100, 2) + " 均价:"+ itemData.avg_cost;
-
+                                
         // debugger;
         if(!this.options.webTimeTips){
             var y_left, y_right, x_bottom, x_top;
