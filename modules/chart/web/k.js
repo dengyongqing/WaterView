@@ -552,6 +552,7 @@ var ChartK = (function() {
             var target = e.srcElement || e.target;
             var y = target.offsetY || target.offsetTop;
             var x = target.offsetX || target.offsetLeft;
+            alert(x+" : "+y);
             pick_html_div.style.left = x + 30 + "px";
             pick_html_div.style.top = y - 5 + "px";
             pick_html_div.style.display = "block";
@@ -563,6 +564,7 @@ var ChartK = (function() {
              var target = e.target || e.srcElement;
             var y = target.offsetTop ;
             var x = target.offsetLeft;
+            alert(x+" : "+y);
             pick_html_div.style.left = x + 30 + "px";
             pick_html_div.style.top = y - 5 + "px";
             pick_html_div.style.display = "block";
@@ -574,6 +576,7 @@ var ChartK = (function() {
             var target = e.target || e.srcElement;
             var y = target.offsetTop ;
             var x = target.offsetLeft;
+            alert(x+" : "+y);
             pick_html_div.style.left = x + 30 + "px";
             pick_html_div.style.top = y - 5 + "px";
             pick_html_div.style.display = "block";
@@ -585,6 +588,7 @@ var ChartK = (function() {
             var target = e.target || e.srcElement;
             var y = target.offsetTop ;
             var x = target.offsetLeft;
+            alert(x+" : "+y);
             pick_html_div.style.left = x + 30 + "px";
             pick_html_div.style.top = y - 5 + "px";
             pick_html_div.style.display = "block";
