@@ -419,15 +419,16 @@ var ChartK = (function() {
         notice.className = "pre-notice";
         notice.innerHTML = "将天数设为0或留空可以隐藏改MA均线";
 
-        var ma5 = addItem(5);
-        var ma10 = addItem(10);
-        var ma20 = addItem(20);
-        var ma30 = addItem(30);
+        var ma5_item = addItem(5);
+        var ma10_item = addItem(10);
+        var ma20_item = addItem(20);
+        var ma30_item = addItem(30);
+
         ma_panel.appendChild(notice);
-        ma_panel.appendChild(ma5);
-        ma_panel.appendChild(ma10);
-        ma_panel.appendChild(ma20);
-        ma_panel.appendChild(ma30);
+        ma_panel.appendChild(ma5_item.item);
+        ma_panel.appendChild(ma10_item.item);
+        ma_panel.appendChild(ma20_item.item);
+        ma_panel.appendChild(ma30_item.item);
 
         var right_panel = document.createElement("div");
         right_panel.className = "right-panel";
@@ -521,6 +522,8 @@ var ChartK = (function() {
         this.container.appendChild(handle);
         this.container.appendChild(preference);
 
+        _this.options.pickColor = {};
+
         common.addEvent(handle,"click",function(e){
             preference.style.display = "block";
         });
@@ -543,31 +546,67 @@ var ChartK = (function() {
             }
         });
 
+        common.addEvent(ma5_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma5_item.pick;
+            _this.options.pickColor.mark = "ma5";
+            pick_html_div.style.display = "block";
+        });
+
+        common.addEvent(ma10_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma10_item.pick;
+            _this.options.pickColor.mark = "ma10";
+             pick_html_div.style.display = "block";
+        });
+
+        common.addEvent(ma20_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma20_item.pick;
+            _this.options.pickColor.mark = "ma20";
+             pick_html_div.style.display = "block";
+        });
+       
+        common.addEvent(ma30_item.pick,"click",function(e){
+            _this.options.pickColor.ma = ma30_item.pick;
+            _this.options.pickColor.mark = "ma30";
+             pick_html_div.style.display = "block";
+        });
         common.addEvent(pick_html_div,"click",function(e){
-            debugger;
+            var target = e.srcElement || e.target;
+            var color = target.style.backgroundColor;
+            // alert(DataTime.MaxValue);
+            if(color){
+                var cookie = setCookie(_this.options.pickColor.mark+"_default_color", color, 5*365*24*60*60, "/");
+                _this.options.pickColor.ma.style.backgroundColor = color;
+            }
+            pick_html_div.style.display = "none";
         });
 
         function addItem(type){
-            var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;";
+            if(type == 5){
+                var text = type + "日移动平均线&nbsp;&nbsp; 设置颜色&nbsp;";
+            }else{
+                var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;";
+            }
             var ma_item = document.createElement("div");
             ma_item.className = "ma-item";
             var item_span = document.createElement("span");
             item_span.className = "item-span";
             item_span.innerHTML = text;
+
             var span_color = document.createElement("span");
             span_color.className = "span-setting setting-span-ma" + type;
-
+            var default_color = getCookie("ma"+type+"_default_color");
+            if(default_color){
+                span_color.style.backgroundColor = default_color;
+            }
             ma_item.appendChild(item_span);
             ma_item.appendChild(span_color);
 
-            return ma_item;
+            return {
+                item:ma_item,
+                pick:span_color
+            };
         }
 
-        function pickColor(type){
-
-            debugger;
-            alert();
-        }
     }
 
     // 绘制技术指标
@@ -2009,6 +2048,56 @@ var ChartK = (function() {
         } 
         return result; 
     }
+
+
+
+
+    // utility function called by getCookie()
+function getCookieVal(offset) {
+    var endstr = document.cookie.indexOf(";", offset);
+    if (endstr == -1) {
+        endstr = document.cookie.length;
+    }
+    return unescape(document.cookie.substring(offset, endstr));
+}
+ 
+// primary function to retrieve cookie by name
+function getCookie(name) {
+    var arg = name + "=";
+    var alen = arg.length;
+    var clen = document.cookie.length;
+    var i = 0;
+    while (i < clen) {
+        var j = i + alen;
+        if (document.cookie.substring(i, j) == arg) {
+            return getCookieVal(j);
+        }
+        i = document.cookie.indexOf(" ", i) + 1;
+        if (i == 0) break;
+    }
+    return null;
+}
+ 
+// store cookie value with optional details as needed
+function setCookie(name, value, expires, path, domain, secure) {
+    document.cookie = name + "=" + escape(value) +
+    ((expires) ? "; expires=" + expires : "") +
+    ((path) ? "; path=" + path : "") +
+    ((domain) ? "; domain=" + domain : "") +
+    ((secure) ? "; secure" : "");
+}
+ 
+// remove the cookie by setting ancient expiration date
+function deleteCookie(name, path, domain) {
+    if (getCookie(name)) {
+        document.cookie = name + "=" +
+      ((path) ? "; path=" + path : "") +
+      ((domain) ? "; domain=" + domain : "") +
+      "; expires=Thu, 01-Jan-1970 00:00:01 GMT";
+ 
+    }
+}
+
 
     return ChartK;
 })();

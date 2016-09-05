@@ -418,6 +418,7 @@
 	line-height: 25px;
 	padding:5px;
 	padding-left: 7px;
+	cursor: pointer;
 }
 .set-tab{
 	border-bottom:1px solid #4267A0;
@@ -509,7 +510,7 @@
             background-color: #FE0000;
         }
         .colorPad{
-            display: block;
+            display: none;
             position: absolute;
             top: 120px;
             left: 120px;
