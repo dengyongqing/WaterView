@@ -61,16 +61,16 @@
 	display:inline-block;padding-right:10px;font-size:14px;text-align:left;color:#ffba42;
 }
 
-.span-m5{
+.mark-ma .span-m5{
 	color:#f4cb15;
 }
-.span-m10{
+.mark-ma .span-m10{
 	color:#ff5b10;
 }
-.span-m20{
+.mark-ma .span-m20{
 	color:#488ee6;
 }
-.span-m30{
+.mark-ma .span-m30{
 	color:#fe59fe;
 }
 
@@ -411,7 +411,7 @@
 	position:absolute;
 	z-index: 101;
 	background-color: #fff;
-	border: 1px solid #333;
+	border: 1px solid rgba(230,230,230, 1);
 	border-left: 0;
 	width:40px;
 	height: 50px;
@@ -419,6 +419,7 @@
 	padding:5px;
 	padding-left: 7px;
 	cursor: pointer;
+	
 }
 .set-tab{
 	border-bottom:1px solid #4267A0;
@@ -430,6 +431,7 @@
 	height:30px;
 	line-height: 30px;
 	text-align: center;
+	cursor: pointer;
 }
 .set-tab .current{
 	background-color: #4267A0;
@@ -441,6 +443,7 @@
 	height:30px;
 	line-height: 30px;
 	text-align: center;
+	cursor: pointer;
 }
 
 .set-container{

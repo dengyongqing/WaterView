@@ -125,10 +125,11 @@ var ChartK = (function() {
         this.options.color = {};
         this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
         this.options.color.fillStyle = '#333';
-        this.options.color.m5Color = "#f4cb15";
-        this.options.color.m10Color = "#ff5b10";
-        this.options.color.m20Color = "#488ee6";
-        this.options.color.m30Color = "#fe59fe";
+        this.options.color.m5Color = getCookie("ma5_default_color") == null ? "#f4cb15" : getCookie("ma5_default_color");
+        this.options.color.m10Color = getCookie("ma10_default_color") == null ? "#ff5b10" : getCookie("ma10_default_color");
+        this.options.color.m20Color = getCookie("ma20_default_color") == null ? "#488ee6" : getCookie("ma20_default_color");
+        this.options.color.m30Color = getCookie("ma30_default_color") == null ? "#fe59fe" : getCookie("ma30_default_color");
+        this.options.maColor = [this.options.color.m5Color,this.options.color.m10Color,this.options.color.m20Color,this.options.color.m30Color];
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
@@ -435,12 +436,13 @@ var ChartK = (function() {
 
         var right_panel_strings = ["默认不复权", "默认使用前复权", "默认使用后复权"];
         var right_panel_frag = document.createDocumentFragment();
+        var right_default_value = getCookie("right_default_value") == null ? 0 : getCookie("right_default_value");
         for(var i = 0; i < right_panel_strings.length; i++){
             var radio = document.createElement("input");
             radio.setAttribute("type", "radio");
             radio.setAttribute("name", "rehabilitation");
             radio.setAttribute("value", i);
-            if(i == 0)
+            if(i == right_default_value)
                 radio.setAttribute("checked", true);
             var span = document.createElement("span");
             span.style.marginLeft = "10px";
@@ -460,7 +462,26 @@ var ChartK = (function() {
         right_panel_comfirmeBtn.className = "right-panel-btn";
         right_panel.appendChild(right_panel_comfirmeBtn);
         common.addEvent(right_panel_comfirmeBtn, "click", function(){
-            
+            var arr=document.getElementsByName("rehabilitation")
+            for (var i=0;i<arr.length;i++){ //遍历Radio 
+                if(arr[i].checked){ 
+                    var chk_value=arr[i].value; 
+                    if(chk_value == 0){
+                        _this.beforeBackRight();
+                    }else if(chk_value == 1){
+                        _this.beforeBackRight(true);
+                    }
+                    else if(chk_value == 2){
+                        _this.beforeBackRight(false);
+                    }
+                } 
+            } 
+
+            setCookie("right_default_value", chk_value, 5*365*24*60*60, "/");
+            handle.innerHTML = "偏好<br/>设置";
+            preference.style.display = "none";
+            handle_flag = true;
+   
         });
 
         var right_panel_cancleBtn = document.createElement("button");
@@ -468,7 +489,9 @@ var ChartK = (function() {
         right_panel_cancleBtn.className = "right-panel-btn";
         right_panel.appendChild(right_panel_cancleBtn);
         common.addEvent(right_panel_cancleBtn, "click", function(){
-            
+            handle.innerHTML = "偏好<br/>设置";
+            preference.style.display = "none";
+            handle_flag = true;
         });
 
 
@@ -524,8 +547,17 @@ var ChartK = (function() {
 
         _this.options.pickColor = {};
 
+        var handle_flag = true;
         common.addEvent(handle,"click",function(e){
-            preference.style.display = "block";
+            if(handle_flag){
+                preference.style.display = "block";
+                handle.innerHTML = "关闭<br/>设置";
+                handle_flag = false;
+            }else{
+                handle.innerHTML = "偏好<br/>设置";
+                preference.style.display = "none";
+                handle_flag = true;
+            }
         });
 
         common.addEvent(ma_tab,"click",function(e){
@@ -589,6 +621,7 @@ var ChartK = (function() {
             pick_html_div.style.top = y - 5 + "px";
             pick_html_div.style.display = "block";
         });
+
         common.addEvent(pick_html_div,"click",function(e){
             var target = e.srcElement || e.target;
             var color = target.style.backgroundColor;
@@ -598,13 +631,31 @@ var ChartK = (function() {
                 _this.options.pickColor.ma.style.backgroundColor = color;
             }
             pick_html_div.style.display = "none";
+
+            if(_this.options.pickColor.mark == "ma5"){
+                _this.options.color.m5Color = color;
+                _this.options.maColor[0] = color;
+            }else if(_this.options.pickColor.mark == "ma10"){
+                _this.options.color.m10Color = color;
+                _this.options.maColor[1] = color;
+            }else if(_this.options.pickColor.mark == "ma20"){
+                _this.options.color.m20Color = color;
+                _this.options.maColor[2] = color;
+            }else if(_this.options.pickColor.mark == "ma30"){
+                _this.options.color.m30Color = color;
+                _this.options.maColor[3] = color;
+            }
+            _this.drawMA(_this.options.start, _this.options.end);
+            _this.options.interactive.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
+
+            // this.options.color.m5Color
         });
 
         function addItem(type){
             if(type == 5){
-                var text = type + "日移动平均线&nbsp;&nbsp; 设置颜色&nbsp;";
+                var text = type + "日移动平均线&nbsp;&nbsp; 设置颜色&nbsp;&nbsp;";
             }else{
-                var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;";
+                var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;&nbsp;";
             }
             var ma_item = document.createElement("div");
             ma_item.className = "ma-item";
@@ -880,8 +931,8 @@ var ChartK = (function() {
         var c2_y_top = this.options.c2_y_top;
 
 
-        this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5, this.options.color.m20Color]);
-        this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10, this.options.color.m5Color]);
+        this.options.v_ma_5 = getMAData.apply(this,[ctx,v_ma_5, "#488ee6"]);
+        this.options.v_ma_10 = getMAData.apply(this,[ctx,v_ma_10, "#f4cb15"]);
         
         inter.default_volume = data.data[data.data.length - 1];
         inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
@@ -974,7 +1025,7 @@ var ChartK = (function() {
             temp_ma.apply(_this,[]);
             temp_rsi.apply(_this,[]);
 
-            inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "");
+            inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
             inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, "");
         });
 
@@ -2036,7 +2087,7 @@ var ChartK = (function() {
             if(five_average[index]){
                  // 标识均线数据
                  // inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
-                 inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index);
+                 inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.maColor);
                  inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
                  inter.markT(canvas, this.options.down_t, this.options[this.options.down_t], this.options.start, this.options.end, index);
             }

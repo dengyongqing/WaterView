@@ -7,19 +7,8 @@
  * }
  * this.options:{
  *     data:    行情数据
- *     type:    "TL"(分时图),"DK"(日K线图),"WK"(周K线图),"MK"(月K线图)
  *     canvas:  画布对象
  *     ctx:     画布上下文
- *     canvas_offset_top:   画布中坐标轴向下偏移量
- *     padding_left:    画布左侧边距
- *     k_v_away:    行情图表（分时图或K线图）和成交量图表的间距
- *     scale_count:     缩放默认值
- *     c_1_height:  行情图表（分时图或K线图）的高度
- *     rect_unit:   分时图或K线图单位绘制区域
- *
- * 	   cross: 	十字指示线dom对象
- * 	   mark_ma: 	均线标识dom对象
- * 	   scale: 	缩放dom对象
  * }
  *
  */
@@ -230,9 +219,15 @@ var Interactive = (function() {
     };
 
 
-    Interactive.prototype.markMA = function(canvas, type, datas, start, end, index) {
+    Interactive.prototype.markMA = function(canvas, type, datas, start, end, index, color_arr) {
 
-        var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
+        // var colors = ["#6e9fe9", "#ffba42", "#fe59fe", "#ff7e58"];
+        var colors = color_arr;
+
+        // colors.push(color_obj.m5Color);
+        // colors.push(color_obj.m10Color);
+        // colors.push(color_obj.m20Color);
+        // colors.push(color_obj.m30Color);
         var dataObj = [];
         var i = 0;
         for (var item in datas) {
@@ -266,23 +261,37 @@ var Interactive = (function() {
         } else {
                 var markMAContainer = this.options.markMAContainer;
                 var spans = markMAContainer.children;
-                //更改内容
-                for (var i = 0; i < dataObj.length; i++) {
-                    var span = spans[i];
-                    try {
-                        span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                    } catch (e) {
-                        if (dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined) {
-                            span.innerText = dataObj[i].name.toUpperCase() + ": -";
-                        } else {
-                            var span = document.createElement('span');
-                            span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
-                            span.style.color = colors[i];
-                            markMAContainer.appendChild(span);
-                        }
 
+                if(!index && type == "junxian"){
+                    markMAContainer.innerHTML = this.options[this.options.markUPTType].defaultMaHtml; 
+                    for (var i = 0; i < dataObj.length; i++) {
+                        var span = spans[i];
+                        span.style.color = colors[i];
+                    }
+                    this.options[type].defaultMaHtml = markMAContainer.innerHTML;
+                }else{
+                    //更改内容
+                    for (var i = 0; i < dataObj.length; i++) {
+                        var span = spans[i];
+                        try {
+                            span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                        } catch (e) {
+                            if(!index){
+                                
+
+                            }else if (dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined) {
+                                span.innerText = dataObj[i].name.toUpperCase() + ": -";
+                            } else {
+                                var span = document.createElement('span');
+                                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                                span.style.color = colors[i];
+                                markMAContainer.appendChild(span);
+                            }
+
+                        }
                     }
                 }
+                
         }
 
     }
