@@ -15,7 +15,7 @@ module.exports = {
 	{
 		loaders: [
 			{test: /\.css$/,loader: 'style!css'},
-			{test: /\.(jpg|png)$/, loader: "url?limit=81920"}
+			{test: /\.(jpg|gif|png)$/, loader: "url?limit=20000"}
 		]
 	},
 	devtool: 'source-map',

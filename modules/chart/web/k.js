@@ -134,7 +134,7 @@ var ChartK = (function() {
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
         this.options.padding.right = 100;
-        this.options.padding.top = 0;
+        this.options.padding.top = 0
         this.options.padding.bottom = 0;
         this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
 
@@ -1282,7 +1282,6 @@ var ChartK = (function() {
             
             // K线柱体的宽度
             params.bar_w = bar_w;
-
             DrawK.apply(this,[params]);
 
         }
@@ -2017,7 +2016,23 @@ var ChartK = (function() {
                     event.returnValue = false;
                 }
             });
-        // }
+
+            common.addEvent.call(_this, canvas, "mousewheel",function(event){
+                event.wheelDelta > 0 ? _this.scalePlus() : _this.scaleMinus();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
+            }); 
+            common.addEvent.call(_this, canvas, "DOMMouseScroll",function(event){
+                event.detail > 0 ? _this.scalePlus() : _this.scaleMinus();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
+            }); 
         
 
     }
@@ -2064,9 +2079,8 @@ var ChartK = (function() {
                 inter.showTip(canvas,w_x,k_data[index]);
                 
                 // 显示十字指示线的
-                var cross = common.canvasToWindow.apply(this,[canvas,k_data[index].cross_x,k_data[index].cross_y]);
-                var cross_w_x = cross.x;
-                var cross_w_y = cross.y;
+                var cross_w_x = k_data[index].cross_x;
+                var cross_w_y = k_data[index].cross_y;
                 inter.cross(canvas,cross_w_x,cross_w_y);
             }
 
