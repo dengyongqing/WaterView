@@ -1965,7 +1965,23 @@ var ChartK = (function() {
                     event.returnValue = false;
                 }
             });
-        // }
+
+            common.addEvent.call(_this, canvas, "mousewheel",function(event){
+                event.wheelDelta > 0 ? _this.scalePlus() : _this.scaleMinus();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
+            }); 
+            common.addEvent.call(_this, canvas, "DOMMouseScroll",function(event){
+                event.detail > 0 ? _this.scalePlus() : _this.scaleMinus();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
+            }); 
         
 
     }
