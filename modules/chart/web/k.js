@@ -514,7 +514,7 @@ var ChartK = (function() {
         pick_html_div.className = "colorPad";
         pick_html_div.innerHTML = pick_html;
 
-        preference.appendChild(pick_html_div);
+        ma_panel.appendChild(pick_html_div);
 
 
         preference.style.display = "none";
@@ -549,25 +549,45 @@ var ChartK = (function() {
         common.addEvent(ma5_item.pick,"click",function(e){
             _this.options.pickColor.ma = ma5_item.pick;
             _this.options.pickColor.mark = "ma5";
+            var target = e.srcElement || e.target;
+            var y = target.offsetY || target.offsetTop;
+            var x = target.offsetX || target.offsetLeft;
+            pick_html_div.style.left = x + 30 + "px";
+            pick_html_div.style.top = y - 5 + "px";
             pick_html_div.style.display = "block";
         });
 
         common.addEvent(ma10_item.pick,"click",function(e){
             _this.options.pickColor.ma = ma10_item.pick;
             _this.options.pickColor.mark = "ma10";
-             pick_html_div.style.display = "block";
+             var target = e.target || e.srcElement;
+            var y = target.offsetTop ;
+            var x = target.offsetLeft;
+            pick_html_div.style.left = x + 30 + "px";
+            pick_html_div.style.top = y - 5 + "px";
+            pick_html_div.style.display = "block";
         });
 
         common.addEvent(ma20_item.pick,"click",function(e){
             _this.options.pickColor.ma = ma20_item.pick;
             _this.options.pickColor.mark = "ma20";
-             pick_html_div.style.display = "block";
+            var target = e.target || e.srcElement;
+            var y = target.offsetTop ;
+            var x = target.offsetLeft;
+            pick_html_div.style.left = x + 30 + "px";
+            pick_html_div.style.top = y - 5 + "px";
+            pick_html_div.style.display = "block";
         });
        
         common.addEvent(ma30_item.pick,"click",function(e){
             _this.options.pickColor.ma = ma30_item.pick;
             _this.options.pickColor.mark = "ma30";
-             pick_html_div.style.display = "block";
+            var target = e.target || e.srcElement;
+            var y = target.offsetTop ;
+            var x = target.offsetLeft;
+            pick_html_div.style.left = x + 30 + "px";
+            pick_html_div.style.top = y - 5 + "px";
+            pick_html_div.style.display = "block";
         });
         common.addEvent(pick_html_div,"click",function(e){
             var target = e.srcElement || e.target;
