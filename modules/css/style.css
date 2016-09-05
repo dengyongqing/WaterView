@@ -225,6 +225,12 @@
 
 
 /*web版图表样式*/
+.canvas-container{
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
 .web-show-tip {
 	position: absolute;
 	top: 0px;

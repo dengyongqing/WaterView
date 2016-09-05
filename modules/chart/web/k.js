@@ -70,6 +70,7 @@ var ChartK = (function() {
 
         // 图表容器
         this.container = document.getElementById(options.container);
+        this.container.className = "canvas-container";
         // 图表加载完成事件
         this.options.onChartLoaded = options.onChartLoaded == undefined ? function(op){
 
@@ -2017,7 +2018,7 @@ var ChartK = (function() {
                 }
             });
 
-            common.addEvent.call(_this, canvas, "mousewheel",function(event){
+            common.addEvent.call(_this, _this.container, "mousewheel",function(event){
                 event.wheelDelta > 0 ? _this.scalePlus() : _this.scaleMinus();
                 try {
                     event.preventDefault();
@@ -2025,7 +2026,7 @@ var ChartK = (function() {
                     event.returnValue = false;
                 }
             }); 
-            common.addEvent.call(_this, canvas, "DOMMouseScroll",function(event){
+            common.addEvent.call(_this, _this.container, "DOMMouseScroll",function(event){
                 event.detail > 0 ? _this.scalePlus() : _this.scaleMinus();
                 try {
                     event.preventDefault();
