@@ -172,7 +172,8 @@ var ChartTime = (function() {
             //绘制交易量
             draw_v.call(this);
             //绘制盘口动态
-            draw_positionChange.call(this);
+            if(this.options.type === "r")
+                draw_positionChange.call(this);
             // 隐藏loading效果
             inter.hideLoading();
             inter.showTipsTime(0, 0, data.data, data.data.length - 1);
@@ -244,7 +245,6 @@ var ChartTime = (function() {
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this, [canvas, w_x, w_y]);
         var c_x = (c_pos.x * 1.0).toFixed(0);
-        // var c_y = (c_pos.y).toFixed(0);
 
         // 当前点在数组中的下标
         var index = Math.floor((c_x - this.options.padding.left) / rect_w);
@@ -370,9 +370,9 @@ var ChartTime = (function() {
             ctx.lineWidth = 1;
             //写字
             ctx.fillStyle = "#666";
-            for (var i = 0; i < 3; i++) {
-                ctx.fillText(common.format_unit(Math.floor(v_max / 3 * (3 - i))), 10, y_v_top + v_height / 3 * i + 10);
-                if (i != 0) {
+            for (var i = 0; i <= 3; i++) {
+                ctx.fillText(common.format_unit(Math.floor(v_max / 3 * (3 - i))), 10, y_v_top + (v_height / 3) * i);
+                if (i != 0 && i!= 3) {
                     draw_dash(ctx, padding_left, y_v_top + v_height / 3 * i, ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);
                 }
             }
@@ -466,11 +466,13 @@ var ChartTime = (function() {
         function drawIcon(container, x, y, imgUrl, info, currentPrice, isUp, persent) {
 
             var img = document.createElement("img");
+            img.onload = function() {
+                img.style.left = x - img.clientWidth/2 + "px";
+            }
             img.setAttribute("src", imgUrl);
             img.style.position = "absolute";
             img.style.top = "100px";
             container.appendChild(img);
-            img.style.left = x + "px";
             img.style.top = y + "px";
 
             var timeChangePositionPad = document.createElement("div");
