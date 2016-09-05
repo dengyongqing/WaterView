@@ -96,6 +96,10 @@ var common = {
             flag = true;
         }
 
+        if((value/1).toFixed(num) == (value/1).toFixed(0)){
+            num = 0;
+        }
+
         if(flag){
             if (value < 10000) {
                 return (value/1).toFixed(num) * -1;

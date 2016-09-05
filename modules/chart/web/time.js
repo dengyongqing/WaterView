@@ -19,6 +19,7 @@ var extend = require('tools/extend2');
 var Interactive = require('chart/web/common/interactive');
 // 水印
 var watermark = require('chart/watermark');
+var typeToImgMap = require('chart/web/time/typeToImg');
 
 var ChartTime = (function() {
 
@@ -172,7 +173,8 @@ var ChartTime = (function() {
             //绘制交易量
             draw_v.call(this);
             //绘制盘口动态
-            draw_positionChange.call(this);
+            if(this.options.type === "r")
+                draw_positionChange.call(this);
             // 隐藏loading效果
             inter.hideLoading();
             inter.showTipsTime(0, 0, data.data, data.data.length - 1);
@@ -244,7 +246,6 @@ var ChartTime = (function() {
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this, [canvas, w_x, w_y]);
         var c_x = (c_pos.x * 1.0).toFixed(0);
-        // var c_y = (c_pos.y).toFixed(0);
 
         // 当前点在数组中的下标
         var index = Math.floor((c_x - this.options.padding.left) / rect_w);
@@ -370,9 +371,9 @@ var ChartTime = (function() {
             ctx.lineWidth = 1;
             //写字
             ctx.fillStyle = "#666";
-            for (var i = 0; i < 3; i++) {
-                ctx.fillText(common.format_unit(Math.floor(v_max / 3 * (3 - i))), 10, y_v_top + v_height / 3 * i + 10);
-                if (i != 0) {
+            for (var i = 0; i <= 3; i++) {
+                ctx.fillText(common.format_unit(Math.floor(v_max / 3 * (3 - i))), 10, y_v_top + (v_height / 3) * i);
+                if (i != 0 && i!= 3) {
                     draw_dash(ctx, padding_left, y_v_top + v_height / 3 * i, ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);
                 }
             }
@@ -445,7 +446,7 @@ var ChartTime = (function() {
                     };
 
                     var changeTime = item[1];
-                    var changeImg = "../modules/images/" + typeToImgMap(item[3]);
+                    var changeImg = typeToImgMap(item[3]);
 
                     for (; timeIndex < timeData_arr.length; timeIndex++) {
                         //如果检测到该时间点上有盘口异动，就绘制盘口异动图标
@@ -466,11 +467,13 @@ var ChartTime = (function() {
         function drawIcon(container, x, y, imgUrl, info, currentPrice, isUp, persent) {
 
             var img = document.createElement("img");
+            img.onload = function() {
+                img.style.left = x - img.clientWidth/2 + "px";
+            }
             img.setAttribute("src", imgUrl);
             img.style.position = "absolute";
             img.style.top = "100px";
             container.appendChild(img);
-            img.style.left = x + "px";
             img.style.top = y + "px";
 
             var timeChangePositionPad = document.createElement("div");
@@ -502,87 +505,6 @@ var ChartTime = (function() {
 
     }
 
-
-    //一个类型图片的映射
-    function typeToImgMap(type) {
-        var img;
-        switch (type) {
-            case "火箭发射":
-                img = "icom_08.gif";
-                break;
-            case "快速下跌":
-                img = "icom_11.gif";
-                break;
-            case "封涨停板":
-                img = "icom_41.gif";
-                break;
-            case "封跌停板":
-                img = "icom_43.gif";
-                break;
-            case "机构买单":
-                img = "icom_45.gif";
-                break;
-            case "机构卖单":
-                img = "icom_47.gif";
-                break;
-            case "快速反弹":
-                img = "icom_14.gif";
-                break;
-            case "高台跳水":
-                img = "icom_16.gif";
-                break;
-            case "大笔买入":
-                img = "icom_19.gif";
-                break;
-            case "大笔卖出":
-                img = "icom_21.gif";
-                break;
-            case "有大买盘":
-                img = "icom_23.gif";
-                break;
-            case "有大卖盘":
-                img = "icom_25.gif";
-                break;
-            case "向上缺口":
-                img = "icom_58.gif";
-                break;
-            case "向下缺口":
-                img = "icom_55.gif";
-                break;
-            case "竟价上涨":
-                img = "icom_27.gif";
-                break;
-            case "竞价下跌":
-                img = "icom_29.gif";
-                break;
-            case "高开5日线":
-                img = "icom_03.gif";
-                break;
-            case "低开5日线":
-                img = "icom_05.gif";
-                break;
-            case "60日新高":
-                img = "icom_32.gif";
-                break;
-            case "60日新低":
-                img = "icom_34.gif";
-                break;
-            case "打开跌停板":
-                img = "icom_50.gif";
-                break;
-            case "打开涨停板":
-                img = "icom_52.gif";
-                break;
-            case "大幅上涨":
-                img = "icom_36.gif";
-                break;
-            case "大幅下跌":
-                img = "icom_38.png";
-                break;
-        }
-
-        return img;
-    }
 
     return ChartTime;
 })();

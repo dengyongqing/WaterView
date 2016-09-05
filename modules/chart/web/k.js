@@ -130,11 +130,12 @@ var ChartK = (function() {
         this.options.color.m20Color = getCookie("ma20_default_color") == null ? "#488ee6" : getCookie("ma20_default_color");
         this.options.color.m30Color = getCookie("ma30_default_color") == null ? "#fe59fe" : getCookie("ma30_default_color");
         this.options.maColor = [this.options.color.m5Color,this.options.color.m10Color,this.options.color.m20Color,this.options.color.m30Color];
+        this.options.TColor = ["#f4cb15","#ff5b10","#488ee6","#fe59fe"];
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
         this.options.padding.right = 100;
-        this.options.padding.top = 0;
+        this.options.padding.top = 0
         this.options.padding.bottom = 0;
         this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
 
@@ -469,10 +470,10 @@ var ChartK = (function() {
                     if(chk_value == 0){
                         _this.beforeBackRight();
                     }else if(chk_value == 1){
-                        _this.beforeBackRight(true);
+                        _this.beforeBackRight(1);
                     }
                     else if(chk_value == 2){
-                        _this.beforeBackRight(false);
+                        _this.beforeBackRight(2);
                     }
                 } 
             } 
@@ -1282,7 +1283,6 @@ var ChartK = (function() {
             
             // K线柱体的宽度
             params.bar_w = bar_w;
-
             DrawK.apply(this,[params]);
 
         }
@@ -1795,11 +1795,11 @@ var ChartK = (function() {
     // 复权
     ChartK.prototype.beforeBackRight = function(flag){
 
-        if(flag === "" || flag === undefined){
+        if(!flag){
             this.options.authorityType = "";
-        }else if(flag){
+        }else if(flag == 1){
             this.options.authorityType = "fa";
-        }else{
+        }else if(flag == 2){
             this.options.authorityType = "ba";
         }
         this.clear();
@@ -2017,7 +2017,23 @@ var ChartK = (function() {
                     event.returnValue = false;
                 }
             });
-        // }
+
+            common.addEvent.call(_this, canvas, "mousewheel",function(event){
+                event.wheelDelta > 0 ? _this.scalePlus() : _this.scaleMinus();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
+            }); 
+            common.addEvent.call(_this, canvas, "DOMMouseScroll",function(event){
+                event.detail > 0 ? _this.scalePlus() : _this.scaleMinus();
+                try {
+                    event.preventDefault();
+                } catch (e) {
+                    event.returnValue = false;
+                }
+            }); 
         
 
     }
@@ -2064,16 +2080,19 @@ var ChartK = (function() {
                 inter.showTip(canvas,w_x,k_data[index]);
                 
                 // 显示十字指示线的
-                var cross = common.canvasToWindow.apply(this,[canvas,k_data[index].cross_x,k_data[index].cross_y]);
-                var cross_w_x = cross.x;
-                var cross_w_y = cross.y;
+                var cross_w_x = k_data[index].cross_x;
+                var cross_w_y = k_data[index].cross_y;
                 inter.cross(canvas,cross_w_x,cross_w_y);
             }
 
             if(five_average[index]){
                  // 标识均线数据
                  // inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
-                 inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.maColor);
+                 if(this.options.up_t == "junxian"){
+                    inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.maColor);
+                 }else{
+                    inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.TColor);
+                 }
                  inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
                  inter.markT(canvas, this.options.down_t, this.options[this.options.down_t], this.options.start, this.options.end, index);
             }
