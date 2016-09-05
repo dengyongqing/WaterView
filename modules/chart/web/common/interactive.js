@@ -68,14 +68,9 @@ var Interactive = (function() {
             this.options.cross.point = point;
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
-            // if(this.options.type == "TL"){
-            if (this.options.crossline) {
-                frag.appendChild(x_line);
-                frag.appendChild(y_line);
-                frag.appendChild(point);
-            } else {
-                frag.appendChild(y_line);
-            }
+            frag.appendChild(x_line);
+            frag.appendChild(y_line);
+
             document.getElementById(this.options.container).appendChild(frag);
         }
         var y_line = this.options.cross.y_line;
@@ -84,7 +79,7 @@ var Interactive = (function() {
         }
         var x_line = this.options.cross.x_line;
         if (x_line) {
-            x_line.style.top = w_y + "px";
+            x_line.style.top = w_y + this.options.margin.top + "px";
         }
         var point = this.options.cross.point;
         if (point) {
@@ -155,7 +150,7 @@ var Interactive = (function() {
                                 map[(new Date(itemData.dateTime)).getDay()]+" 最新价:"+itemData.price+
                                 " 成交量:"+ common.format_unit(itemData.volume.toFixed(0), 2)+"(手) 成交额:"+ 
                                 common.format_unit(itemData.volume*itemData.price*100, 2) + " 均价:"+ itemData.avg_cost;
-                                
+
         // debugger;
         if(!this.options.webTimeTips){
             var y_left, y_right, x_bottom, x_top;
