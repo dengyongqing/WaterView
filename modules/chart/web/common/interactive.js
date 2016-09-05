@@ -83,6 +83,8 @@ var Interactive = (function() {
         var offsetTop = this.options.canvas_offset_top;
         var canvasHeight = this.options.canvas.height;
         var containerId = this.options.container;
+        var padding_left = this.options.padding.left;
+        var padding_right = this.options.padding.right;
 
         if (!this.options.cross) {
             this.options.cross = {};
@@ -96,7 +98,8 @@ var Interactive = (function() {
             /*X轴标识线*/
             var x_line = document.createElement("div");
             x_line.className = "cross-x";
-            x_line.style.width = canvas.width + "px";
+            x_line.style.width = canvas.width - padding_left - padding_right + "px";
+            x_line.style.left = padding_left + "px";
             this.options.cross.x_line = x_line;
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();

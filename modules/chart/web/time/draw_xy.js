@@ -83,7 +83,7 @@ var DrawXY = (function() {
                 ctx.fillText("0.00", 0, item.y);
             } else {
                 var num = (item.num * 1.0).toFixed(this.options.pricedigit);
-                ctx.fillText(num, 0, item.y);
+                ctx.fillText(num, padding_left - ctx.measureText(num).width-5, item.y);
             }
             ctx.stroke();
             // 绘制纵坐标涨跌幅
@@ -104,7 +104,7 @@ var DrawXY = (function() {
             var percent = "0.00%";
         }
         /*绘制纵坐标刻度百分比*/
-        ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y);
+        ctx.fillText(percent, k_width - ctx.measureText(percent).width + 5, obj.y);
         ctx.stroke();
     }
     /*绘制横坐标刻度值*/
@@ -174,11 +174,11 @@ var DrawXY = (function() {
         }
 
 
-        var v_height = ctx.canvas.height / 4;
+        var v_height = this.options.c_v_height;
 
 
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
-        var y_v_top = y_v_bottom - v_height;
+        var y_v_top = this.options.c2_y_top;
         var itemWidth = (k_width - padding_left - padding_right) / len;
         for (var i = 0; i <= len; i++) {
 
@@ -197,7 +197,7 @@ var DrawXY = (function() {
                     x = padding_left + i * itemWidth;
                 }
                 draw_dash(ctx, x, y_min, x, 0, 5);
-                draw_dash(ctx, x, y_v_bottom, x, y_v_top, 5);
+                draw_dash(ctx, x, y_v_bottom, x, y_v_top - 10, 5);
             } else {
                 ctx.moveTo(Math.floor(padding_left + i * itemWidth), y_min);
                 ctx.lineTo(Math.floor(padding_left + i * itemWidth), 0);
