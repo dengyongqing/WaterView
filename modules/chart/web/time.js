@@ -357,12 +357,11 @@ var ChartTime = (function() {
             var v_max = (data.v_max).toFixed(0);
             var unit_height = this.options.unit_height;
 
-            var v_height = unit_height*3;
-
+            var v_height = 3*unit_height;
             var v_base_height = v_height;
-            var y_v_top = that.options.c2_y_top;
             var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
-            /*获取单位矩形对象*/
+
+            var y_v_top = that.options.c2_y_top;            /*获取单位矩形对象*/
             var rect_unit = this.options.rect_unit;
 
             var bar_w = rect_unit.bar_w;
@@ -378,6 +377,7 @@ var ChartTime = (function() {
             ctx.lineWidth = 1;
             //写字
             ctx.fillStyle = "#666";
+            ctx.strokeStyle = 'rgba(230,230,230, 1)';
             for (var i = 0; i <= 3; i++) {
                 var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)), 0);
                 ctx.fillText(text, padding_left - ctx.measureText(text).width-5, y_v_top + (v_height / 3) * i);
