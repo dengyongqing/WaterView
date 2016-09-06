@@ -2074,7 +2074,7 @@ var ChartK = (function() {
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this,[canvas,w_x,w_y]);
         var c_x = (c_pos.x).toFixed(0);
-        // var c_y = (c_pos.y).toFixed(0);
+        var c_y = (c_pos.y).toFixed(0);
 
         // 当前K线在数组中的下标
 
@@ -2092,7 +2092,7 @@ var ChartK = (function() {
                 var cross_w_y_highest = k_data[index].cross_y_highest;
                 var cross_w_y_lowest = k_data[index].cross_y_lowest;
          
-                inter.cross(canvas,cross_w_x,cross_w_y,c_x,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
+                inter.cross(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
             }
 
             if(five_average[index]){
