@@ -131,6 +131,7 @@ var ChartK = (function() {
         this.options.color.m20Color = getCookie("ma20_default_color") == null ? "#488ee6" : getCookie("ma20_default_color");
         this.options.color.m30Color = getCookie("ma30_default_color") == null ? "#fe59fe" : getCookie("ma30_default_color");
         this.options.maColor = [this.options.color.m5Color,this.options.color.m10Color,this.options.color.m20Color,this.options.color.m30Color];
+        this.options.TColor = ["#f4cb15","#ff5b10","#488ee6","#fe59fe"];
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("1000").width + 10;
@@ -470,10 +471,10 @@ var ChartK = (function() {
                     if(chk_value == 0){
                         _this.beforeBackRight();
                     }else if(chk_value == 1){
-                        _this.beforeBackRight(true);
+                        _this.beforeBackRight(1);
                     }
                     else if(chk_value == 2){
-                        _this.beforeBackRight(false);
+                        _this.beforeBackRight(2);
                     }
                 } 
             } 
@@ -1795,11 +1796,11 @@ var ChartK = (function() {
     // 复权
     ChartK.prototype.beforeBackRight = function(flag){
 
-        if(flag === "" || flag === undefined){
+        if(!flag){
             this.options.authorityType = "";
-        }else if(flag){
+        }else if(flag == 1){
             this.options.authorityType = "fa";
-        }else{
+        }else if(flag == 2){
             this.options.authorityType = "ba";
         }
         this.clear();
@@ -2088,7 +2089,11 @@ var ChartK = (function() {
             if(five_average[index]){
                  // 标识均线数据
                  // inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
-                 inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.maColor);
+                 if(this.options.up_t == "junxian"){
+                    inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.maColor);
+                 }else{
+                    inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.TColor);
+                 }
                  inter.markVMA(canvas,k_data[index].volume,v_ma_5[index],v_ma_10[index]);
                  inter.markT(canvas, this.options.down_t, this.options[this.options.down_t], this.options.start, this.options.end, index);
             }
