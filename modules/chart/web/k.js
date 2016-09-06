@@ -102,6 +102,9 @@ var ChartK = (function() {
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
+        this.options.up_color = "#ff0000";
+        this.options.down_color = "#17b03e";
+
         // 画布向下偏移的距离
         // this.options.canvas_offset_top = canvas.height / 8;
         // 画布内容向坐偏移的距离
@@ -887,7 +890,7 @@ var ChartK = (function() {
         var bar_w = rect_unit.bar_w;
         /*K线柱体的颜色*/
         var up_color = this.options.up_color;
-        var down_color =this.options.down_color;
+        var down_color = this.options.down_color;
 
         //标识最大成交量
         // markVMax.apply(this,[ctx,v_max,c2_y_top]);
@@ -1757,7 +1760,8 @@ var ChartK = (function() {
 
             var max = _this.options.currentData.max;
             var min = _this.options.currentData.min;
-            for(var i = 0,item;item = bbi_arr[i];i++){
+
+            for(var i = 0,item;item = data[i];i++){
                 max = Math.max(max,item.value);
                 min = Math.min(min,item.value);
             }
@@ -2091,7 +2095,7 @@ var ChartK = (function() {
          
                 inter.cross(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
                 // 显示行情数据
-                inter.showTip(canvas,w_x,k_data[index],c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
+                inter.showTip(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest,k_data[index]);
             }
 
             if(five_average[index]){
