@@ -36,16 +36,16 @@ function getData(options, callback) {
         TYPE: options.type || 'R',
         js: callbackStr + '((x))',
         'rtntype': 5,
-        isCR: options.isCR || false
+        isCR: options.isCR
     };
 
     jsonp(url, urlData, callbackStr, function(json) {
-
-
+        /*区分美股港股*/
+        var code = options.code;
         var error;
         if (json) { 
         	error = false;
-            var result = dealData(json, urlData.isCR, options.type); 
+            var result = dealData(json, urlData.isCR, options.type, code); 
         } else { 
         	error = true; 
         }

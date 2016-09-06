@@ -92,7 +92,7 @@ var ChartTime = (function() {
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("10000").width + 20;
-        this.options.padding.right = ctx.measureText("10000").width;
+        this.options.padding.right = ctx.measureText("1000000").width;
         this.options.padding.top = 0;
         this.options.padding.bottom = 0;
     };
@@ -111,7 +111,7 @@ var ChartTime = (function() {
         var param = {
             code: this.options.code,
             type: this.options.type,
-            isCR: this.options.isCR
+            isCR: !!this.options.isCR
         };
         try {
 
@@ -183,7 +183,7 @@ var ChartTime = (function() {
                 draw_positionChange.call(this);
             // 隐藏loading效果
             inter.hideLoading();
-            inter.showTipsTime(0, 0, data.data, data.data.length - 1);
+            inter.showTipsTime(0, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
             // 图表加载完成时间
             this.onChartLoaded(this);
 
