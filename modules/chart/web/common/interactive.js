@@ -45,7 +45,7 @@ var Interactive = (function() {
             /*X轴标识线*/
             var x_line = document.createElement("div");
             x_line.className = "cross-x";
-            x_line.style.width = canvas.width / dpr + "px";
+            x_line.style.width = this.options.drawWidth + "px";
             this.options.cross.x_line = x_line;
             /*X轴和Y轴标示线相交点*/
             var point = document.createElement("div");
@@ -63,12 +63,40 @@ var Interactive = (function() {
             document.getElementById(this.options.container).appendChild(frag);
         }
         var y_line = this.options.cross.y_line;
+        var x_line_y = 0;
+
+        if(c_y >= w_y_lowest){
+            x_line_y = w_y_lowest;
+        }else if(c_y <= w_y_highest){
+            x_line_y = w_y_highest;
+        }else{
+            if(w_y_open < w_y){
+                if(c_y >= w_y && c_y <= w_y_lowest){
+                     x_line_y = w_y;
+                }else if(c_y >= w_y_open && c_y < w_y){
+                    x_line_y = w_y_open;
+                }else if(c_y >= w_y_highest && c_y < w_y_open){
+                    x_line_y = w_y_highest;
+                }
+
+            }else{
+                if(c_y >= w_y_open && c_y <= w_y_lowest){
+                     x_line_y = w_y_open;
+                }else if(c_y >= w_y && c_y < w_y_open){
+                    x_line_y = w_y;
+                }else if(c_y >= w_y_highest && c_y < w_y){
+                    x_line_y = w_y_highest;
+                }
+            }
+        }
+
         if (y_line) {
             y_line.style.left = w_x + "px";
         }
         var x_line = this.options.cross.x_line;
         if (x_line) {
-            x_line.style.top = w_y + this.options.margin.top + "px";
+            x_line.style.top = x_line_y + this.options.margin.top + "px";
+            x_line.style.left = this.options.padding.left + "px";
         }
         var point = this.options.cross.point;
         if (point) {
