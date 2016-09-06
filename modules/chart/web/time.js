@@ -119,7 +119,6 @@ var ChartTime = (function() {
             isCR: !!this.options.isCR
         };
         try {
-
             GetDataTime(param,
                 function(error, data) {
                     if (error) {
@@ -208,6 +207,7 @@ var ChartTime = (function() {
         var _this = this;
         var canvas = ctx.canvas;
         var inter = this.options.interactive;
+        var container = this.container;
 
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
             dealEvent.apply(_this, [inter, event]);
@@ -218,7 +218,7 @@ var ChartTime = (function() {
             }
         });
 
-        common.addEvent.call(_this, canvas, "mouseleave", function(event) {
+        common.addEvent.call(_this, container, "mouseleave", function(event) {
             inter.hide();
             try {
                 event.preventDefault();
@@ -227,7 +227,7 @@ var ChartTime = (function() {
             }
         });
 
-        common.addEvent.call(_this, canvas, "mouseenter", function(event) {
+        common.addEvent.call(_this, container, "mouseenter", function(event) {
             dealEvent.apply(_this, [inter, event]);
             try {
                 event.preventDefault();

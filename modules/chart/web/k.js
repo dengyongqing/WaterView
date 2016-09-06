@@ -1742,22 +1742,22 @@ var ChartK = (function() {
         params = getParamsObj.call(this);
         params.extend = this.options.up_t = "bbi";
         if (this.options.bbi) {
-            temp_bbi.apply(_this,[]);
+            temp_bbi.apply(_this,[_this.options.start, _this.options.end]);
         } else {
             GetTeacData(params, function(data) {
                 _this.options.bbi = {};
                 _this.options.bbi.bbi = data.bbi;
-                temp_bbi.apply(_this,[]);
+                temp_bbi.apply(_this,[_this.options.start, _this.options.end]);
             });
         }
 
-        function temp_bbi(){
+        function temp_bbi(start, end){
 
-            var data = _this.options.bbi;
+            var bbi_arr = this.options.bbi.bbi.slice(start, end);
 
             var max = _this.options.currentData.max;
             var min = _this.options.currentData.min;
-            for(var i = 0,item;item = bbi[i];i++){
+            for(var i = 0,item;item = bbi_arr[i];i++){
                 max = Math.max(max,item.value);
                 min = Math.min(min,item.value);
             }
@@ -1765,7 +1765,6 @@ var ChartK = (function() {
             this.options.currentData.min = min;
             this.options.drawXY.options.currentData = this.options.currentData;
 
-            var bbi_arr = data.bbi.slice(_this.options.start, _this.options.end);
             DrawBBI.apply(_this, [_this.options.context,  bbi_arr]);
         }
 
@@ -2073,16 +2072,14 @@ var ChartK = (function() {
 
         // 鼠标在画布中的坐标
         var c_pos = common.windowToCanvas.apply(this,[canvas,w_x,w_y]);
-        var c_x = (c_pos.x).toFixed(0);
-        var c_y = (c_pos.y).toFixed(0);
+        var c_x = (c_pos.x);
+        var c_y = (c_pos.y) - this.options.margin.top;
 
         // 当前K线在数组中的下标
 
         var index = Math.floor((c_x - this.options.padding.left)/rect_w);
         try {
             if(k_data[index]){
-                // 显示行情数据
-                inter.showTip(canvas,w_x,k_data[index]);
                 
                 // 显示十字指示线的
                 var cross_w_x = k_data[index].cross_x;
@@ -2093,6 +2090,8 @@ var ChartK = (function() {
                 var cross_w_y_lowest = k_data[index].cross_y_lowest;
          
                 inter.cross(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
+                // 显示行情数据
+                inter.showTip(canvas,w_x,k_data[index],c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
             }
 
             if(five_average[index]){
