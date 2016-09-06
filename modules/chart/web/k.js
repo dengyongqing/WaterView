@@ -1277,6 +1277,9 @@ var ChartK = (function() {
 
             item.cross_x = x;
             item.cross_y = y_close;
+            item.cross_y_open = params.y_open;
+            item.cross_y_lowest = params.y_lowest;
+            item.cross_y_highest = params.y_highest;
 
             //标识上榜日
             if(pointObj[item.data_time]){

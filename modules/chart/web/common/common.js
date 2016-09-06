@@ -99,34 +99,43 @@ var common = {
             value = Math.abs(value);
             flag = true;
         }
-
-        if((value/1).toFixed(num) == (value/1).toFixed(0)){
-            num = 0;
-        }
+        
+        var temp_value = 0;
+        var unit = "";
 
         if(flag){
             if (value < 10000) {
-                return (value/1).toFixed(num) * -1;
+                temp_value = (value/1);
             } else if (value >= 10000 && value < 100000000) {
-                return (value / 10000).toFixed(num) * -1 + "万";
+                temp_value = (value / 10000);
+                unit = "万";
             } else if (value >= 100000000) {
-                return (value / 100000000).toFixed(num) * -1 + "亿";
+                temp_value = (value / 100000000);
+                unit = "亿";
             } else {
-                return (value/1).toFixed(num) * -1;
+                temp_value = (value/1);
             }
+            temp_value = temp_value * (-1);
 
         }else{
             if (value < 10000) {
-                return (value/1).toFixed(num);
+                temp_value = (value/1);
             } else if (value >= 10000 && value < 100000000) {
-                return (value / 10000).toFixed(num) + "万";
+                temp_value = (value / 10000);
+                unit = "万";
             } else if (value >= 100000000) {
-                return (value / 100000000).toFixed(num) + "亿";
+                temp_value = (value / 100000000);
+                unit = "亿";
             } else {
-                return (value/1).toFixed(num);
+                temp_value = (value/1);
             }
         }
+
+        if((temp_value/1).toFixed(num)/1 == (temp_value/1).toFixed(0)/1){
+            num = 0;
+        }
         
+        return (temp_value/1).toFixed(num) + unit;
     },
     /**
      * 兼容性的事件添加
