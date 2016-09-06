@@ -30,7 +30,7 @@ var Interactive = (function() {
     }
 
     // 鼠标十字标识线
-    Interactive.prototype.cross = function(canvas, w_x, w_y,c_x,w_y_open,w_y_highest,w_y_lowest) {
+    Interactive.prototype.cross = function(canvas, w_x, w_y,c_y,w_y_open,w_y_highest,w_y_lowest) {
         var dpr = this.options.dpr;
 
         if (!this.options.cross) {

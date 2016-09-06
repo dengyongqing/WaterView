@@ -1757,7 +1757,7 @@ var ChartK = (function() {
 
             var max = _this.options.currentData.max;
             var min = _this.options.currentData.min;
-            for(var i = 0,item;item = bbi[i];i++){
+            for(var i = 0,item;item = data[i];i++){
                 max = Math.max(max,item.value);
                 min = Math.min(min,item.value);
             }
