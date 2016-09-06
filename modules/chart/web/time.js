@@ -108,6 +108,11 @@ var ChartTime = (function() {
         // 显示loading效果
         inter.showLoading();
         var _this = this;
+        /*根据股票编码指示盘前*/
+        var codeTypeNumber = this.options.code.charAt(this.options.code.length-1);
+        if(codeTypeNumber == 7 || codeTypeNumber == 5){
+            this.options.isCR = false;
+        }
         var param = {
             code: this.options.code,
             type: this.options.type,
@@ -379,7 +384,7 @@ var ChartTime = (function() {
             ctx.fillStyle = "#666";
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             for (var i = 0; i <= 3; i++) {
-                var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)), 0);
+                var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)));
                 ctx.fillText(text, padding_left - ctx.measureText(text).width-5, y_v_top + (v_height / 3) * i);
                 if (i != 0 && i!= 3) {
                     draw_dash(ctx, padding_left, y_v_top + v_height / 3 * i, ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);

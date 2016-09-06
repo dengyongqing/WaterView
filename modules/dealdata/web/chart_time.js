@@ -100,7 +100,7 @@ function dealData(json, isCR, type, code) {
 }
 
 var toFormDateTime = function(ticks) {
-    return fix(Math.floor(ticks / 3600), 2) + ":" + fix(Math.floor((ticks / 60) % 60), 2);
+    return fix(Math.floor(ticks / 3600), 2)%24 + ":" + fix(Math.floor((ticks / 60) % 60), 2);
 }
 
 module.exports = dealData;
