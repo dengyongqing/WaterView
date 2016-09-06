@@ -120,7 +120,7 @@ var DrawXY = (function() {
         ctx.fillStyle = '#999';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
-        var y_date = k_height + ctx.canvas.height / 8 / 2;
+        var y_date = 8.5 * this.options.unit_height ;
         /*绘制x轴上的y轴方向分割*/
         var len = 0;
         /*通过type判断，是一日分时还是多日分时，以及判断是不是有盘前数据，根据判断结果画不同的横坐标时间点*/

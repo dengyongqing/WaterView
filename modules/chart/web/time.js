@@ -357,13 +357,11 @@ var ChartTime = (function() {
             var v_max = (data.v_max).toFixed(0);
             var unit_height = this.options.unit_height;
 
-
             var v_height = unit_height*3;
 
-
-            var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
-
+            var v_base_height = v_height;
             var y_v_top = that.options.c2_y_top;
+            var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
             /*获取单位矩形对象*/
             var rect_unit = this.options.rect_unit;
 
@@ -395,7 +393,7 @@ var ChartTime = (function() {
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var volume = item.volume;
                 var is_up = item.up;
-                var bar_height = volume / v_max * v_base_height;
+                var bar_height = volume / v_max * v_base_height*0.95;
                 var x = common.get_x.call(this, i + 1);
                 var y = y_v_bottom - bar_height;
 
