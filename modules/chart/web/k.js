@@ -2092,7 +2092,7 @@ var ChartK = (function() {
          
                 inter.cross(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
                 // 显示行情数据
-                inter.showTip(canvas,w_x,k_data[index],c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
+                inter.showTip(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest,k_data[index]);
             }
 
             if(five_average[index]){

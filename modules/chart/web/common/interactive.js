@@ -528,7 +528,7 @@ var Interactive = (function() {
     }
 
     // Tip显示行情数据
-    Interactive.prototype.showTip = function(canvas, x, obj) {
+    Interactive.prototype.showTip = function(canvas, w_x, w_y, c_y, w_y_open, w_y_highest, w_y_lowest, obj) {
         if (!this.options.tip) {
             this.options.tip = {};
             // 创建外部包裹元素
@@ -546,7 +546,6 @@ var Interactive = (function() {
             date_data.className = "web-tip-first-line";
             this.options.tip.date_data = date_data;
             date_data.innerText = obj.date_time;
-
 
             //组建一行数据
             var tipsLine = function(type, name) {
@@ -588,9 +587,6 @@ var Interactive = (function() {
             frag.appendChild(tipsLine.call(this, "percent", "涨跌幅"));
             frag.appendChild(tipsLine.call(this, "priceChange", "涨跌额"));
             frag.appendChild(tipsLine.call(this, "count", "成交量"));
-            // frag.appendChild(tipsLine.call(this, "count", "成交金额"));
-            // frag.appendChild(tipsLine.call(this, "count", "振幅"));
-            // frag.appendChild(tipsLine.call(this, "count", "换手率"));
             div_tip.appendChild(frag);
             document.getElementById(this.options.container).appendChild(div_tip);
             this.options.tip.div_tip_width = div_tip.clientWidth;
@@ -604,6 +600,31 @@ var Interactive = (function() {
             var div_tip = this.options.tip.tip;
             var volume = obj.volume;
 
+            /*判断哪个数据段加粗*/
+            if (c_y >= w_y_lowest) {
+                x_line_y = w_y_lowest;
+            } else if (c_y <= w_y_highest) {
+                x_line_y = w_y_highest;
+            } else {
+                if (w_y_open < w_y) {
+                    if (c_y >= w_y && c_y <= w_y_lowest) {
+                        x_line_y = w_y;
+                    } else if (c_y >= w_y_open && c_y < w_y) {
+                        x_line_y = w_y_open;
+                    } else if (c_y >= w_y_highest && c_y < w_y_open) {
+                        x_line_y = w_y_highest;
+                    }
+                } else {
+                    if (c_y >= w_y_open && c_y <= w_y_lowest) {
+                        x_line_y = w_y_open;
+                    } else if (c_y >= w_y && c_y < w_y_open) {
+                        x_line_y = w_y;
+                    } else if (c_y >= w_y_highest && c_y < w_y) {
+                        x_line_y = w_y_highest;
+                    }
+                }
+            }
+            
             tip_obj.close.innerText = obj.close;
             tip_obj.open.innerText = obj.open;
             tip_obj.height.innerText = obj.highest;
@@ -612,26 +633,35 @@ var Interactive = (function() {
             tip_obj.count.innerText = common.format_unit(volume);
             tip_obj.priceChange.innerText = obj.priceChange;
             tip_obj.date_data.innerHTML = obj.date_time;
-            // tip_obj.time.innerText = obj.date_time.replace(/-/g, "/");
+            /*复原一次*/
+            tip_obj.low.parentNode.style.fontWeight = "100";
+            tip_obj.height.parentNode.style.fontWeight = "100";
+            tip_obj.close.parentNode.style.fontWeight = "100";
+            tip_obj.open.parentNode.style.fontWeight = "100";
 
+            if (x_line_y == w_y_lowest) {
+                tip_obj.low.parentNode.style.fontWeight = "700";
+            }
+            if (x_line_y == w_y_highest) {
+                tip_obj.height.parentNode.style.fontWeight = "700";
+            }
+            if (x_line_y == w_y) {
+                tip_obj.close.parentNode.style.fontWeight = "700";
+            }
+            if (x_line_y == w_y_open) {
+                tip_obj.open.parentNode.style.fontWeight = "700";
+            }
         }
 
 
 
-        if (x <= (canvas.width / this.options.dpr / 2)) {
+        if (w_x <= (canvas.width / this.options.dpr / 2)) {
             div_tip.style.left = (canvas.width - this.options.padding.right) / this.options.dpr - this.options.tip.div_tip_width - 3 + "px";
-        } else if (x >= (canvas.width / this.options.dpr / 2)) {
+        } else if (w_x >= (canvas.width / this.options.dpr / 2)) {
             div_tip.style.left = this.options.padding.left / this.options.dpr + "px";
         } else {}
-
-        // if(x <= (div_tip.clientWidth/2 + this.options.padding_left/this.options.dpr)){
-        //     div_tip.style.left = this.options.padding_left/this.options.dpr + "px";
-        // }else if(x >= (canvas.width/this.options.dpr - div_tip.clientWidth/2)){
-        //     div_tip.style.left = canvas.width/this.options.dpr - div_tip.clientWidth + "px";
-        // }else{
-        //     div_tip.style.left = x - div_tip.clientWidth/2 + "px";
-        // }
     }
+
 
     // 标记上榜日
     Interactive.prototype.markPoint = function(x, date, canvas, scale_count) {
