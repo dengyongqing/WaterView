@@ -2092,7 +2092,7 @@ var ChartK = (function() {
                 var cross_w_y_highest = k_data[index].cross_y_highest;
                 var cross_w_y_lowest = k_data[index].cross_y_lowest;
          
-                inter.cross(canvas,cross_w_x,cross_w_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
+                inter.cross(canvas,cross_w_x,cross_w_y,c_x,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
             }
 
             if(five_average[index]){
