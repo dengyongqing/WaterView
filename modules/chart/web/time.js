@@ -355,12 +355,13 @@ var ChartTime = (function() {
             var data_arr = data.data;
             /*最大成交量*/
             var v_max = (data.v_max).toFixed(0);
+            var unit_height = this.options.unit_height;
 
-            var v_height = ctx.canvas.height / 4;
+            var v_height = unit_height*3;
 
-            var v_base_height = v_height * 0.9;
+            var v_base_height = v_height;
             var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
-            var y_v_top = y_v_bottom - v_height;
+            var y_v_top = that.options.c2_y_top;
             /*获取单位矩形对象*/
             var rect_unit = this.options.rect_unit;
 
@@ -387,7 +388,7 @@ var ChartTime = (function() {
             ctx.fill();
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             ctx.lineWidth = 1;
-            ctx.rect(this.options.padding.left + 0.5, y_v_top - 0.5, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
+            ctx.rect(this.options.padding.left - 0.5, y_v_top - 0.5, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
             ctx.stroke();
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var volume = item.volume;
