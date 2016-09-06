@@ -51,7 +51,7 @@ var ChartBarQuarter = (function() {
         var canvas = document.createElement("canvas");
         
         // 去除画布上粘贴效果
-        //this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        //this.container.style = "-moz-user-select:none;-webkit-lauser-select:none;";
         // this.container.setAttribute("unselectable", "on");
         this.container.style.position = "relative";
         // 画布
