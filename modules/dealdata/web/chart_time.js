@@ -8,7 +8,7 @@ var fix = require('common').fixed;
  * @param  {[type]} json [description]
  * @return {[type]}      [description]
  */
-function dealData(json, isCR, type) {
+function dealData(json, isCR, type, code) {
     var yc = json.info.yc;
     var result = {};
     result.v_max = 0;
@@ -16,14 +16,21 @@ function dealData(json, isCR, type) {
     result.yc = json.info.yc;
     result.pricedigit = (json.info.pricedigit).split('.')[1].length;
     result.currentPrice = json.info.c;
-    result.high = json.info.h;
-    result.low = json.info.l;
+    result.high = json.info.h === "-" ? json.info.yc : json.info.h;
+    result.low = json.info.l === "-" ? json.info.yc : json.info.l;
     result.code = json.code;
     result.timeStrs = [];
     result.data = [];
-    result.total = json.info.total%242 == 0 ? json.info.total : Math.floor(json.info.total/242+1)*242;
+    var group = 242;
+    if(code.charAt(code.length-1) == 7){
+        group = 392;
+    }
+    if(code.charAt(code.length-1) == 5){
+        group = 352;
+    }
+    result.total = json.info.total%group == 0 ? json.info.total : Math.floor(json.info.total/group+1)*group;
     var timeStrs = [];
-    if(isCR){
+    if(isCR && group == 242){
         result.total = result.total*1 + 15;
         timeStrs.push("09:15");
     }
@@ -43,6 +50,11 @@ function dealData(json, isCR, type) {
         timeStrs.push(toFormDateTime(PM_middle));
         var PM_end = ticks[6];
         timeStrs.push(toFormDateTime(PM_end));
+    }else if(ticks.length === 5){
+        var start = ticks[3];
+        timeStrs.push(toFormDateTime(start));
+        var end = ticks[4];
+        timeStrs.push(toFormDateTime(end));
     }
 
     var dateStrs = [];
@@ -61,7 +73,7 @@ function dealData(json, isCR, type) {
         point.time = dataItem[0].split(" ")[1];
         point.dateTime = dataItem[0].split(" ")[0];
         point.price = dataItem[1];
-        point.avg_cost = dataItem[3];
+        point.avg_cost = (dataItem[3]*1.0).toFixed(2);
         point.volume = dataItem[2]*1.0;
         result.high = Math.max(result.high, point.price);
         result.low = Math.min(result.low, point.price);

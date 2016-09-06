@@ -70,7 +70,7 @@ var ChartK = (function() {
 
         // 图表容器
         this.container = document.getElementById(options.container);
-        this.container.className = "canvas-container";
+        this.container.className = "container";
         // 图表加载完成事件
         this.options.onChartLoaded = options.onChartLoaded == undefined ? function(op){
 

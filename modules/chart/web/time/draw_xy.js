@@ -100,11 +100,14 @@ var DrawXY = (function() {
         /*纵坐标刻度涨跌幅*/
         if (y_middle) {
             var percent = ((obj.num - y_middle) / y_middle * 100).toFixed(2) + "%";
+            if(obj.num - y_middle > 0){
+                percent = "+" + percent;
+            }
         } else {
             var percent = "0.00%";
         }
         /*绘制纵坐标刻度百分比*/
-        ctx.fillText(percent, k_width - ctx.measureText(percent).width + 5, obj.y);
+        ctx.fillText(percent, k_width - ctx.measureText(percent).width - 5, obj.y);
         ctx.stroke();
     }
     /*绘制横坐标刻度值*/

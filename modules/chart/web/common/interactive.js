@@ -145,6 +145,7 @@ var Interactive = (function() {
 
         // debugger;
         if(!this.options.webTimeTips){
+            this.options.time_data = time_data;
             var y_left, y_right, x_bottom, x_top;
             var frag = document.createDocumentFragment();
             /*y轴上左边的提示*/
@@ -763,7 +764,7 @@ var Interactive = (function() {
             }
 
         }
-
+        
         if(this.options.webTimeTips){
             var time_y_left = this.options.webTimeTips.time_y_left;
             if(time_y_left){
@@ -776,6 +777,16 @@ var Interactive = (function() {
             var time_x_bottom = this.options.webTimeTips.time_x_bottom;
             if(time_x_bottom){
                 time_x_bottom.style.display = 'none';
+            }
+            var time_x_top = this.options.webTimeTips.time_x_top;
+            if (time_x_top) {/*debugger;*/
+                var itemData = this.options.time_data[this.options.time_data.length-1];
+                var map = ['周日','周一', '周二', '周三', '周四','周五', '周六' ];
+                time_x_top.innerHTML = itemData.dateTime.substring(5) + " " + itemData.time + " " +
+                    map[(new Date(itemData.dateTime)).getDay()] + " 最新价:" + itemData.price +
+                    " 成交量:" + common.format_unit(itemData.volume.toFixed(0), 2) + "(手) 成交额:" +
+                    common.format_unit(itemData.volume * itemData.price * 100, 2) + " 均价:" + itemData.avg_cost;
+
             }
         }
 
