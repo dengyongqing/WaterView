@@ -64,14 +64,20 @@ var ChartTime = (function() {
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
+
+        this.options.y_sepe_num = 13;
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / 8;
+        this.options.canvas_offset_top = canvas.height / this.options.y_sepe_num;
         // 行情图表（分时图或K线图）和成交量图表的间距
-        this.options.k_v_away = canvas.height / 8;
+        this.options.k_v_away = canvas.height / this.options.y_sepe_num;
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
-        this.options.c_k_height = this.options.c_1_height = canvas.height * 0.5;
+        this.options.c_k_height = this.options.c_1_height = canvas.height * 8/this.options.y_sepe_num;
+        this.options.c_v_height = canvas.height * 3/this.options.y_sepe_num;
+        this.options.unit_height =  canvas.height * 1/this.options.y_sepe_num;
+        this.options.c1_y_top = canvas.height * 1 / this.options.y_sepe_num;
+        this.options.c2_y_top = canvas.height * 9 / this.options.y_sepe_num;
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";

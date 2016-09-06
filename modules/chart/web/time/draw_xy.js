@@ -177,11 +177,11 @@ var DrawXY = (function() {
         }
 
 
-        var v_height = ctx.canvas.height / 4;
+        var v_height = this.options.c_v_height;
 
 
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
-        var y_v_top = y_v_bottom - v_height;
+        var y_v_top = this.options.c2_y_top;
         var itemWidth = (k_width - padding_left - padding_right) / len;
         for (var i = 0; i <= len; i++) {
 
@@ -200,7 +200,7 @@ var DrawXY = (function() {
                     x = padding_left + i * itemWidth;
                 }
                 draw_dash(ctx, x, y_min, x, 0, 5);
-                draw_dash(ctx, x, y_v_bottom, x, y_v_top, 5);
+                draw_dash(ctx, x, y_v_bottom, x, y_v_top - 10, 5);
             } else {
                 ctx.moveTo(Math.floor(padding_left + i * itemWidth), y_min);
                 ctx.lineTo(Math.floor(padding_left + i * itemWidth), 0);
