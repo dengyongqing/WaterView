@@ -587,8 +587,8 @@ var Interactive = (function() {
             frag.appendChild(date_data);
             //添加各项数据
             frag.appendChild(tipsLine.call(this, "open", "开盘"));
-            frag.appendChild(tipsLine.call(this, "height", "最高"));
-            frag.appendChild(tipsLine.call(this, "low", "最低"));
+            frag.appendChild(tipsLine.call(this, "highest", "最高"));
+            frag.appendChild(tipsLine.call(this, "lowest", "最低"));
             frag.appendChild(tipsLine.call(this, "close", "收盘"));
             frag.appendChild(tipsLine.call(this, "percent", "涨跌幅"));
             frag.appendChild(tipsLine.call(this, "priceChange", "涨跌额"));
@@ -631,25 +631,44 @@ var Interactive = (function() {
                 }
             }
 
-            tip_obj.close.innerText = obj.close;
-            tip_obj.open.innerText = obj.open;
-            tip_obj.height.innerText = obj.highest;
-            tip_obj.low.innerText = obj.lowest;
-            tip_obj.percent.innerText = obj.percent + '%';
-            tip_obj.count.innerText = common.format_unit(volume);
-            tip_obj.priceChange.innerText = obj.priceChange;
+            var tipLineNames = ["close","open","highest","lowest"];
+
+            for(var i = 0; i < tipLineNames.length; i++){
+                tip_obj[tipLineNames[i]].innerText = obj[tipLineNames[i]];
+                if(obj[tipLineNames[i]] > obj.yc){
+                    tip_obj[tipLineNames[i]].style.color = this.options.up_color;
+                }
+                if(obj[tipLineNames[i]] < obj.yc){
+                    tip_obj[tipLineNames[i]].style.color = this.options.down_color;
+                }
+            }
+
+            var mark, color;
+            if(obj.close - obj.yc > 0){
+                mark = "+"; color = this.options.up_color;
+            }else{
+                mark = "-"; color = this.options.down_color;
+            }
+
+            tip_obj.percent.innerText = mark + obj.percent + '%';
+            tip_obj.percent.style.color = color;
+            tip_obj.priceChange.innerText = mark + "" + obj.priceChange;
+            tip_obj.priceChange.style.color = color;
+
+            tip_obj.count.innerText = common.format_unit(obj.volume);
             tip_obj.date_data.innerHTML = obj.date_time;
+
             /*复原一次*/
-            tip_obj.low.parentNode.style.fontWeight = "100";
-            tip_obj.height.parentNode.style.fontWeight = "100";
+            tip_obj.lowest.parentNode.style.fontWeight = "100";
+            tip_obj.highest.parentNode.style.fontWeight = "100";
             tip_obj.close.parentNode.style.fontWeight = "100";
             tip_obj.open.parentNode.style.fontWeight = "100";
 
             if (x_line_y == w_y_lowest) {
-                tip_obj.low.parentNode.style.fontWeight = "700";
+                tip_obj.lowest.parentNode.style.fontWeight = "700";
             }
             if (x_line_y == w_y_highest) {
-                tip_obj.height.parentNode.style.fontWeight = "700";
+                tip_obj.highest.parentNode.style.fontWeight = "700";
             }
             if (x_line_y == w_y) {
                 tip_obj.close.parentNode.style.fontWeight = "700";
