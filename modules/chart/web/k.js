@@ -102,6 +102,9 @@ var ChartK = (function() {
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
+        this.options.up_color = "#ff0000";
+        this.options.down_color = "#17b03e";
+
         // 画布向下偏移的距离
         // this.options.canvas_offset_top = canvas.height / 8;
         // 画布内容向坐偏移的距离
@@ -887,7 +890,7 @@ var ChartK = (function() {
         var bar_w = rect_unit.bar_w;
         /*K线柱体的颜色*/
         var up_color = this.options.up_color;
-        var down_color =this.options.down_color;
+        var down_color = this.options.down_color;
 
         //标识最大成交量
         // markVMax.apply(this,[ctx,v_max,c2_y_top]);
