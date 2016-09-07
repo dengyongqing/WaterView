@@ -208,14 +208,20 @@ var Interactive = (function() {
             document.getElementById(containerId).appendChild(frag);
 
             //跟随鼠标变化需要更改的纵坐标上的的提示*/
-            y_left.style.top = cross_w_y + "px";
+            y_left.style.display = "block";
             y_left.innerHTML = itemData.price;
+            y_left.style.left = padding_left - y_left.clientWidth + 'px';
+            y_left.style.top = cross_w_y + "px";
+            y_left.style.display = "none";
             y_right.style.top = cross_w_y + "px";
             y_right.innerHTML = itemData.percent;
             
             //跟随鼠标变化需要更改的横坐标上的的提示*/
+            x_bottom.style.display = "block";
             x_bottom.innerHTML = itemData.time;
-            x_bottom.style.left = cross_w_x - x_bottom.clientWidth/2 + "px";
+            x_bottom.style.left = cross_w_x  + "px";
+            x_bottom.style.top = c_1_height + offsetTop - x_bottom.clientHeight + "px";
+            x_bottom.style.display = "none";
             x_top.innerHTML = topText;
             x_top.style.display = 'block';
         }else{
@@ -624,7 +630,7 @@ var Interactive = (function() {
                     }
                 }
             }
-            
+
             tip_obj.close.innerText = obj.close;
             tip_obj.open.innerText = obj.open;
             tip_obj.height.innerText = obj.highest;

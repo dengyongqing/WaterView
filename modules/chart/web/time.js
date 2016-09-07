@@ -187,7 +187,7 @@ var ChartTime = (function() {
                 draw_positionChange.call(this);
             // 隐藏loading效果
             inter.hideLoading();
-            inter.showTipsTime(0, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
+            inter.showTipsTime(this.options.padding.left, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
             // 图表加载完成时间
             this.onChartLoaded(this);
 
