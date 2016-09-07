@@ -459,7 +459,7 @@
 	background-color: #fff;
 	margin-left: 100px;
 	width:300px;
-	height:200px;
+	height:220px;
 }
 
 .pre-notice{
@@ -469,9 +469,9 @@
 	margin: 5px 0px;
 }
 .ma-item{
-	height: 30px;
+	height: 27px;
 	line-height: 30px;
-	padding-left: 10px;
+	padding-left: 20px;
 }
 .setting-span-ma5{
 	background-color:#f4cb15;
@@ -502,14 +502,14 @@
 }
 .right-panel-form{
 	text-align: left;
-	width: 150px;
-	margin: 10px auto;
+	width: 160px;
+	margin: 20px auto;
 	line-height: 1.8;
 }
 .right-panel-btn{
 	border: none;
 	padding: 5px 15px;
-	margin: 10px 20px;
+	margin: 10px 30px;
 	background-color: #4267A0;
 	color: white;
 }
