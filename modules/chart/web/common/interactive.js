@@ -166,10 +166,19 @@ var Interactive = (function() {
         }else{
             itemData = time_data[index];
         }
+        // 成交额
+        var volumeCount = common.format_unit(itemData.volume*itemData.price*100, 2);
+        if(volumeCount.charAt(volumeCount.length-1) == "万"){
+            volumeCount = parseFloat(volumeCount) + "(万元)";
+        }else if(volumeCount.charAt(volumeCount.length-1) == "亿"){
+            volumeCount = parseFloat(volumeCount) + "(亿元)";
+        }else{
+            volumeCount = parseFloat(volumeCount) + "(元)";
+        }
         var topText = itemData.dateTime.substring(5)+" "+ itemData.time + " "+
                                 map[(new Date(itemData.dateTime)).getDay()]+" 最新价:"+itemData.price+
                                 " 成交量:"+ common.format_unit(itemData.volume.toFixed(0), 2)+"(手) 成交额:"+ 
-                                common.format_unit(itemData.volume*itemData.price*100, 2) + " 均价:"+ itemData.avg_cost;
+                                volumeCount + " 均价:"+ itemData.avg_cost;
 
         // debugger;
         if(!this.options.webTimeTips){
