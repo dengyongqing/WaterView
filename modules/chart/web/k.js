@@ -60,6 +60,8 @@ var extend = require('tools/extend2');
 // 水印
 var watermark = require('chart/watermark');
 
+var dynamicMA = require('chart/web/k/dynamicMA');
+
 var ChartK = (function() {
 
     function ChartK(options) {
@@ -1060,7 +1062,7 @@ var ChartK = (function() {
             var twenty_average = data.ma20.slice(start, end);
             /*30日均线数据*/
             var thirty_average = data.ma30.slice(start, end);
-
+            dynamicMA.call(_this, 20);
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
 
