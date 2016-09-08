@@ -42,10 +42,11 @@ function setPreference(){
     notice.className = "pre-notice";
     notice.innerHTML = "将天数设为0或留空可以隐藏改MA均线";
 
-    var ma5_item = addItem(5);
-    var ma10_item = addItem(10);
-    var ma20_item = addItem(20);
-    var ma30_item = addItem(30);
+    item_count = 1;
+    var ma5_item = addItem(EMcookie.getCookie("ma5_default_num") == null ? 5 : EMcookie.getCookie("ma5_default_num"));
+    var ma10_item = addItem(EMcookie.getCookie("ma10_default_num") == null ? 10 : EMcookie.getCookie("ma10_default_num"));
+    var ma20_item = addItem(EMcookie.getCookie("ma20_default_num") == null ? 20 : EMcookie.getCookie("ma20_default_num"));
+    var ma30_item = addItem(EMcookie.getCookie("ma30_default_num") == null ? 30 : EMcookie.getCookie("ma30_default_num"));
 
     ma_panel.appendChild(notice);
     ma_panel.appendChild(ma5_item.item);
@@ -107,15 +108,23 @@ function setPreference(){
 
         _this.options.color.m5Color = ma5_item.pick.style.backgroundColor;
         _this.options.maColor[0] = ma5_item.pick.style.backgroundColor;
+        EMcookie.setCookie("ma5_default_color", ma5_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma5_default_num", ma5_item.input.getAttribute("value"), 5*365*24*60*60, "/");
 
         _this.options.color.m10Color = ma10_item.pick.style.backgroundColor;
         _this.options.maColor[1] = ma10_item.pick.style.backgroundColor;
+        EMcookie.setCookie("ma10_default_color", ma10_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma10_default_num", ma10_item.input.getAttribute("value"), 5*365*24*60*60, "/");
 
         _this.options.color.m20Color = ma20_item.pick.style.backgroundColor;
         _this.options.maColor[2] = ma20_item.pick.style.backgroundColor;
+        EMcookie.setCookie("ma20_default_color", ma20_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma20_default_num", ma20_item.input.getAttribute("value"), 5*365*24*60*60, "/");
 
         _this.options.color.m30Color = ma30_item.pick.style.backgroundColor;
         _this.options.maColor[3] = ma30_item.pick.style.backgroundColor;
+        EMcookie.setCookie("ma30_default_color", ma30_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma30_default_num", ma30_item.input.getAttribute("value"), 5*365*24*60*60, "/");
 
         _this.drawMA(_this.options.start, _this.options.end);
         _this.options.interactive.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
@@ -267,7 +276,7 @@ function setPreference(){
         var color = target.style.backgroundColor;
         // alert(DataTime.MaxValue);
         if(color){
-            EMcookie.setCookie(_this.options.pickColor.mark+"_default_color", color, 5*365*24*60*60, "/");
+            
             _this.options.pickColor.ma.style.backgroundColor = color;
         }
         pick_html_div.style.display = "none";
@@ -276,11 +285,16 @@ function setPreference(){
     });
 
     function addItem(type){
+        var item_input = document.createElement("input");
+        item_input.setAttribute("value",type);
+        item_input.className = "ma-item-input";
+        
         if(type == 5){
-            var text = type + "日移动平均线&nbsp;&nbsp; 设置颜色&nbsp;&nbsp;";
+            var text = "第"+item_count+"条"+ item_input.outerHTML + "日移动平均线&nbsp;设置颜色&nbsp;";
         }else{
-            var text = type + "日移动平均线&nbsp;&nbsp;设置颜色&nbsp;&nbsp;";
+            var text = "第"+item_count+"条"+ item_input.outerHTML + "日移动平均线&nbsp;设置颜色&nbsp;";
         }
+        item_count++;
         var ma_item = document.createElement("div");
         ma_item.className = "ma-item";
         var item_span = document.createElement("span");
@@ -298,7 +312,8 @@ function setPreference(){
 
         return {
             item:ma_item,
-            pick:span_color
+            pick:span_color,
+            input:item_input
         };
     }
 

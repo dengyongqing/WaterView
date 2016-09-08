@@ -713,7 +713,13 @@ var ChartK = (function() {
 
         var params = {};
         params = getParamsObj.call(this);
-        params.extend = "ma|rsi";
+        
+        var m1 = EMcookie.getCookie("ma5_default_num") == null ? 5 : EMcookie.getCookie("ma5_default_num");
+        var m2 = EMcookie.getCookie("ma10_default_num") == null ? 10 : EMcookie.getCookie("ma10_default_num");
+        var m3 = EMcookie.getCookie("ma20_default_num") == null ? 20 : EMcookie.getCookie("ma20_default_num");
+        var m4 = EMcookie.getCookie("ma30_default_num") == null ? 30 : EMcookie.getCookie("ma30_default_num");
+
+        params.extend = "cma"+","+m1+","+m2+","+m3+","+m4+"|rsi";
         this.options.up_t = "junxian";
         this.options.down_t = "rsi";
 
