@@ -28,7 +28,7 @@ function dealData(json,  extendStr) {
 
         for (var j = 0; j < Tname.length; j++) {
             var item = itemBase[j+1].split(",");
-            switch (Tname[j].toLowerCase()) {
+            switch (Tname[j].toLowerCase().split(",")[0]) {
                 //K线的技术指标
                 case "bbi":
                     intoArr.call(result, "bbi", item[0], date);
@@ -44,7 +44,7 @@ function dealData(json,  extendStr) {
                     intoArr.call(result, "bollup", item[1], date);
                     intoArr.call(result, "bolldn", item[2], date);
                     break;
-                case "ma":
+                case "cma":
                     intoArr.call(result, "five_average", item[0], date);
                     intoArr.call(result, "ten_average", item[1], date);
                     intoArr.call(result, "twenty_average", item[2], date);
