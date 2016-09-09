@@ -12,7 +12,6 @@ function dealData(json, isCR, type, code) {
     var yc = json.info.yc;
     var result = {};
     result.v_max = 0;
-
     result.yc = json.info.yc;
     result.pricedigit = (json.info.pricedigit).split('.')[1].length;
     result.currentPrice = json.info.c;
@@ -57,10 +56,16 @@ function dealData(json, isCR, type, code) {
 
     }else if(ticks.length === 5){
         var start = ticks[3]/60;
-        timeStrs.push(toFormDateTime(start));
         var end = ticks[4]/60;
-        timeStrs.push(toFormDateTime(end));
         var totalTicks = end - start;
+        var beforeQuater = start + totalTicks/4;
+        var middle = (start+end)/2;
+        var afterQuater = start + totalTicks*3/4;
+        timeStrs.push(toFormDateTime(start));
+        timeStrs.push(toFormDateTime(beforeQuater));
+        timeStrs.push(toFormDateTime(middle));
+        timeStrs.push(toFormDateTime(afterQuater));
+        timeStrs.push(toFormDateTime(end));
     }
 
     var group = totalTicks+2;
@@ -84,9 +89,9 @@ function dealData(json, isCR, type, code) {
         point.dateTime = dataItem[0].split(" ")[0];
         point.price = dataItem[1];
         point.avg_cost = (dataItem[3]*1.0).toFixed(2);
-        point.volume = dataItem[2]*1.0;
-        result.high = Math.max(result.high, point.price);
-        result.low = Math.min(result.low, point.price);
+        point.volume = dataItem[2]*1.0; 
+        result.high = Math.max(result.high, point.price, point.avg_cost);
+        result.low = Math.min(result.low, point.price,  point.avg_cost);
         if(point.dateTime != dateStrs[dateStrs.length-1]){
             dateStrs.push(point.dateTime);
         }

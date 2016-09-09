@@ -19,6 +19,7 @@ var extend = require('tools/extend2');
 var common = require('chart/web/common/common');
 // 主题
 var theme = require('theme/default');
+var changeUnit = require('chart/web/time/changeUnit');
 
 var Interactive = (function() {
 
@@ -154,6 +155,7 @@ var Interactive = (function() {
         var offsetTop = this.options.canvas_offset_top;
         var c_1_height = this.options.c_1_height;
         var containerId = this.options.container;
+        var code = this.options.code;
         var map = ['周日','周一', '周二', '周三', '周四','周五', '周六' ];
         var itemData;
         if(index < 0){
@@ -164,20 +166,20 @@ var Interactive = (function() {
             itemData = time_data[index];
         }
         // 成交额
-        var volumeCount = common.format_unit(itemData.volume*itemData.price*100, 2);
-        if(volumeCount.charAt(volumeCount.length-1) == "万"){
-            volumeCount = parseFloat(volumeCount) + "(万元)";
-        }else if(volumeCount.charAt(volumeCount.length-1) == "亿"){
-            volumeCount = parseFloat(volumeCount) + "(亿元)";
+        var volumeCount, volumeNum;
+        if(code.charAt(code.length-1) != 7 && code.charAt(code.length-1) != 5){
+            volumeNum = changeUnit(itemData.volume, "手");
+            volumeCount = changeUnit(itemData.volume*itemData.price*100, "元");
         }else{
-            volumeCount = parseFloat(volumeCount) + "(元)";
+            volumeNum = changeUnit(itemData.volume, "股");
+            volumeCount = changeUnit(itemData.volume*itemData.price, "元");
         }
+
         var topText = itemData.dateTime.substring(5)+" "+ itemData.time + " "+
                                 map[(new Date(itemData.dateTime)).getDay()]+" 最新价:"+itemData.price+
-                                " 成交量:"+ common.format_unit(itemData.volume.toFixed(0), 2)+"(手) 成交额:"+ 
+                                " 成交量:"+ volumeNum+" 成交额:"+ 
                                 volumeCount + " 均价:"+ itemData.avg_cost;
 
-        // debugger;
         if(!this.options.webTimeTips){
             this.options.time_data = time_data;
             var y_left, y_right, x_bottom, x_top;
@@ -220,7 +222,7 @@ var Interactive = (function() {
             y_left.style.top = cross_w_y + "px";
             y_left.style.display = "none";
             y_right.style.top = cross_w_y + "px";
-            y_right.innerHTML = itemData.percent;
+            y_right.innerHTML = (itemData.up ? "+" : "-") + itemData.percent+"%";
             
             //跟随鼠标变化需要更改的横坐标上的的提示*/
             x_bottom.style.display = "block";
@@ -242,7 +244,7 @@ var Interactive = (function() {
             y_left.style.display = 'block';
             y_right.style.top = cross_w_y + "px";
             y_right.style.display = 'block';
-            y_right.innerHTML = itemData.percent;
+            y_right.innerHTML = (itemData.up ? "+" : "-") + itemData.percent+"%";
             
             //跟随鼠标变化需要更改的横坐标上的的提示*/
             x_bottom.style.left = cross_w_x + "px";
@@ -868,16 +870,21 @@ var Interactive = (function() {
                 time_x_bottom.style.display = 'none';
             }
             var time_x_top = this.options.webTimeTips.time_x_top;
-            if (time_x_top) {/*debugger;*/
-                var itemData = this.options.time_data[this.options.time_data.length-1];
-                var map = ['周日','周一', '周二', '周三', '周四','周五', '周六' ];
-                time_x_top.innerHTML = itemData.dateTime.substring(5) + " " + itemData.time + " " +
-                    map[(new Date(itemData.dateTime)).getDay()] + " 最新价:" + itemData.price +
-                    " 成交量:" + common.format_unit(itemData.volume.toFixed(0), 2) + "(手) 成交额:" +
-                    common.format_unit(itemData.volume * itemData.price * 100, 2) + " 均价:" + itemData.avg_cost;
-
+            var volumeCount, volumeNum;
+            if (code.charAt(code.length - 1) != 7 && code.charAt(code.length - 1) != 5) {
+                volumeNum = changeUnit(itemData.volume, "手");
+                volumeCount = changeUnit(itemData.volume * itemData.price * 100, "元");
+            } else {
+                volumeNum = changeUnit(itemData.volume, "股");
+                volumeCount = changeUnit(itemData.volume * itemData.price, "元");
             }
-        }
+
+            var topText = itemData.dateTime.substring(5) + " " + itemData.time + " " +
+                map[(new Date(itemData.dateTime)).getDay()] + " 最新价:" + itemData.price +
+                " 成交量:" + volumeNum + " 成交额:" +
+                volumeCount + " 均价:" + itemData.avg_cost;
+            }
+
 
     }
 
