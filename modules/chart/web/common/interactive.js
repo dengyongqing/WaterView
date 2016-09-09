@@ -320,7 +320,7 @@ var Interactive = (function() {
                     for (var i = 0; i < dataObj.length; i++) {
                         var span = spans[i];
                         try {
-                            span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                            span.innerHTML = dataObj[i].name.toUpperCase() + ": " + (dataObj[i].value[index].value == null ? "-" : dataObj[i].value[index].value);
                         } catch (e) {
                             if(!index){
                                 
@@ -491,7 +491,7 @@ var Interactive = (function() {
                 for (var i = 0; i < dataObj.length; i++) {
                     var span = spans[i];
                     try {
-                        span.innerHTML = dataObj[i].name.toUpperCase() + ": " + dataObj[i].value[index].value;
+                        span.innerHTML = dataObj[i].name.toUpperCase() + ": " + (dataObj[i].value[index].value == null ? "-" : dataObj[i].value[index].value);
                     } catch (e) {
                         if (dataObj[i].value[index].value == null || dataObj[i].value[index].value == undefined) {
                             span.innerText = dataObj[i].name.toUpperCase() + ": -";
