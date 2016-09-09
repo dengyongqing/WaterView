@@ -12,7 +12,6 @@ function dealData(json, isCR, type, code) {
     var yc = json.info.yc;
     var result = {};
     result.v_max = 0;
-
     result.yc = json.info.yc;
     result.pricedigit = (json.info.pricedigit).split('.')[1].length;
     result.currentPrice = json.info.c;
@@ -21,14 +20,8 @@ function dealData(json, isCR, type, code) {
     result.code = json.code;
     result.timeStrs = [];
     result.data = [];
-    var group = 242;
-    if(code.charAt(code.length-1) == 7){
-        group = 392;
-    }
-    if(code.charAt(code.length-1) == 5){
-        group = 352;
-    }
-    result.total = json.info.total%group == 0 ? json.info.total : Math.floor(json.info.total/group+1)*group;
+    
+    
     var timeStrs = [];
     if(isCR && group == 242){
         result.total = result.total*1 + 15;
@@ -39,23 +32,45 @@ function dealData(json, isCR, type, code) {
     var ticks = (json.info.ticks).split('|');
     if (ticks.length === 7) {
         //早上开始时间
-        var AM_start = ticks[3];
-        timeStrs.push(toFormDateTime(AM_start));
-        var AM_middle = Math.floor((ticks[3] * 1.0 + ticks[4] * 1.0) / 2);
-        timeStrs.push(toFormDateTime(AM_middle));
-        var AM_end = ticks[4];
-        var PM_start = ticks[5];
-        timeStrs.push(toFormDateTime(AM_end) + "/" + toFormDateTime(PM_start));
-        var PM_middle = Math.floor((ticks[5] * 1.0 + ticks[6] * 1) / 2);
-        timeStrs.push(toFormDateTime(PM_middle));
-        var PM_end = ticks[6];
-        timeStrs.push(toFormDateTime(PM_end));
+        var AM_start = ticks[3]/60;
+        var AM_end = ticks[4]/60;
+        var PM_start = ticks[5]/60;
+        var PM_end = ticks[6]/60;
+
+        var AMnum = AM_end - AM_start;
+        var PMnum = PM_end - PM_start;
+        var totalTicks = AMnum + PMnum;
+        // debugger;
+        for(var i = 0; i < 5; i++){
+            var currentTimeTick = AM_start + totalTicks/4*i;
+            if(currentTimeTick > AM_end){
+                currentTimeTick = PM_start + (totalTicks/4*i - AMnum);
+            }
+
+            if(currentTimeTick == AM_end){
+                timeStrs.push(toFormDateTime(AM_end) + "/" + toFormDateTime(PM_start));
+            }else{
+                timeStrs.push(toFormDateTime(currentTimeTick));
+            }
+        }
+
     }else if(ticks.length === 5){
-        var start = ticks[3];
+        var start = ticks[3]/60;
+        var end = ticks[4]/60;
+        var totalTicks = end - start;
+        var beforeQuater = start + totalTicks/4;
+        var middle = (start+end)/2;
+        var afterQuater = start + totalTicks*3/4;
         timeStrs.push(toFormDateTime(start));
-        var end = ticks[4];
+        timeStrs.push(toFormDateTime(beforeQuater));
+        timeStrs.push(toFormDateTime(middle));
+        timeStrs.push(toFormDateTime(afterQuater));
         timeStrs.push(toFormDateTime(end));
     }
+
+    var group = totalTicks+2;
+    //此处返回的为总共应该有多少数据
+    result.total = json.info.total%group == 0 ? json.info.total : Math.floor(json.info.total/group+1)*group;
 
     var dateStrs = [];
     //计算每个数据点
@@ -74,9 +89,9 @@ function dealData(json, isCR, type, code) {
         point.dateTime = dataItem[0].split(" ")[0];
         point.price = dataItem[1];
         point.avg_cost = (dataItem[3]*1.0).toFixed(2);
-        point.volume = dataItem[2]*1.0;
-        result.high = Math.max(result.high, point.price);
-        result.low = Math.min(result.low, point.price);
+        point.volume = dataItem[2]*1.0; 
+        result.high = Math.max(result.high, point.price, point.avg_cost);
+        result.low = Math.min(result.low, point.price,  point.avg_cost);
         if(point.dateTime != dateStrs[dateStrs.length-1]){
             dateStrs.push(point.dateTime);
         }
@@ -100,7 +115,7 @@ function dealData(json, isCR, type, code) {
 }
 
 var toFormDateTime = function(ticks) {
-    return fix(Math.floor(ticks / 3600), 2)%24 + ":" + fix(Math.floor((ticks / 60) % 60), 2);
+    return fix(Math.floor(ticks / 60)%24, 2) + ":" + fix(Math.floor((ticks ) % 60), 2);
 }
 
 module.exports = dealData;

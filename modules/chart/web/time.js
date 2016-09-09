@@ -227,7 +227,7 @@ var ChartTime = (function() {
             }
         });
 
-        common.addEvent.call(_this, container, "mouseenter", function(event) {
+        common.addEvent.call(_this, canvas, "mouseenter", function(event) {
             dealEvent.apply(_this, [inter, event]);
             try {
                 event.preventDefault();
