@@ -409,8 +409,7 @@
 .preference-shade{
 	background-color: #333;
 	opacity: 0.5;
-	opacity: 0.5;
-	filter: alpha(opacity=50%);
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
 	width:100%;
 	height: 100%;
 }
@@ -418,7 +417,7 @@
 	position:absolute;
 	z-index: 101;
 	background-color: #fff;
-	border: 1px solid rgba(230,230,230, 1);
+	border: 1px solid #e6e6e6;
 	border-left: 0;
 	width:40px;
 	height: 50px;
@@ -471,7 +470,7 @@
 .ma-item{
 	height: 27px;
 	line-height: 30px;
-	padding-left: 20px;
+	padding-left: 15px;
 }
 .setting-span-ma5{
 	background-color:#f4cb15;
@@ -548,4 +547,9 @@
 }
 .ma-panel{
 	position: relative;
+}
+.ma-item-input{
+	width:20px;
+	height: 15px;
+	line-height: 15px;
 }

@@ -125,7 +125,7 @@ var ChartK = (function() {
         canvas.style.border = "0";
 
         // 前后复权，默认不复权
-        this.options.authorityType = this.options.authorityType == undefined ? "" : this.options.authorityType;
+        this.options.authorityType = this.options.authorityType == undefined ? "fa" : this.options.authorityType;
         
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
@@ -136,10 +136,10 @@ var ChartK = (function() {
         this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
         this.options.color.fillStyle = '#333';
 
-        this.options.color.m5Color = EMcookie.getCookie("ma5_default_color") == null ? "#f4cb15" : EMcookie.getCookie("ma5_default_color");
-        this.options.color.m10Color = EMcookie.getCookie("ma10_default_color") == null ? "#ff5b10" : EMcookie.getCookie("ma10_default_color");
-        this.options.color.m20Color = EMcookie.getCookie("ma20_default_color") == null ? "#488ee6" : EMcookie.getCookie("ma20_default_color");
-        this.options.color.m30Color = EMcookie.getCookie("ma30_default_color") == null ? "#fe59fe" : EMcookie.getCookie("ma30_default_color");
+        this.options.color.m5Color = EMcookie.getCookie("ma1_default_color") == null ? "#f4cb15" : EMcookie.getCookie("ma1_default_color");
+        this.options.color.m10Color = EMcookie.getCookie("ma2_default_color") == null ? "#ff5b10" : EMcookie.getCookie("ma2_default_color");
+        this.options.color.m20Color = EMcookie.getCookie("ma3_default_color") == null ? "#488ee6" : EMcookie.getCookie("ma3_default_color");
+        this.options.color.m30Color = EMcookie.getCookie("ma4_default_color") == null ? "#fe59fe" : EMcookie.getCookie("ma4_default_color");
         this.options.maColor = [this.options.color.m5Color,this.options.color.m10Color,this.options.color.m20Color,this.options.color.m30Color];
         this.options.TColor = ["#f4cb15","#ff5b10","#488ee6","#fe59fe"];
 
@@ -225,7 +225,7 @@ var ChartK = (function() {
         }
         
 
-        drawT.apply(this,[]);
+        drawT.apply(this);
         drawKT.apply(this);
         setPreference.apply(this);
 
@@ -434,7 +434,7 @@ var ChartK = (function() {
         var wr = document.createElement("div");
         wr.setAttribute("id","wr");
         wr.className = "tech-index-item";
-        wr.innerText = "WR";
+        wr.innerText = "W%R";
         wr.style.width = this.options.drawWidth / 9 + "px";
         wr.style.height = this.options.unit_height + "px";
         wr.style.lineHeight = this.options.unit_height + "px";
@@ -713,7 +713,13 @@ var ChartK = (function() {
 
         var params = {};
         params = getParamsObj.call(this);
-        params.extend = "ma|rsi";
+        
+        var m1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+        var m2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+        var m3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+        var m4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+
+        params.extend = "cma"+","+m1+","+m2+","+m3+","+m4+"|rsi";
         this.options.up_t = "junxian";
         this.options.down_t = "rsi";
 
@@ -766,7 +772,7 @@ var ChartK = (function() {
             var twenty_average = data.ma20.slice(start, end);
             /*30日均线数据*/
             var thirty_average = data.ma30.slice(start, end);
-            dynamicMA.call(_this, 20);
+
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
 
@@ -1649,8 +1655,6 @@ var ChartK = (function() {
             drawV.apply(this,[this.options]);
             // 绘制成交量均线
             this.drawVMA();
-            // 绘制技术指标
-            drawT.apply(this,[this.options]);
 
             // 上榜日标识点
             if(this.options.interactive.options.pointsContainer){
@@ -1846,8 +1850,8 @@ var ChartK = (function() {
             }
         }
 
-        result.max = result.max * 1.05;
-        result.min = result.min * 0.95; 
+        result.max = result.max + (result.max - result.min) * 0.05;
+        result.min = result.min - (result.max - result.min) * 0.05; 
 
         return result;
     }

@@ -16,14 +16,23 @@ function drawSAR(ctx,sar,k_data_arr){
     for(var i = 0;i < sar_length;i++){
         ctx.beginPath();
         var is_up = k_data_arr[i].up;
-        if(is_up){
+
+        if(i == sar_length - 1){
+            if(sar[i].value > sar[i-1].value){
+                ctx.fillStyle = up_color;
+                ctx.strokeStyle = up_color;
+            }else{
+                ctx.fillStyle = down_color;
+                ctx.strokeStyle = down_color;
+            }
+        }else if(sar[i + 1].value > sar[i].value){
             ctx.fillStyle = up_color;
             ctx.strokeStyle = up_color;
         }else{
             ctx.fillStyle = down_color;
             ctx.strokeStyle = down_color;
         }
-        
+
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,sar[i].value);
 
