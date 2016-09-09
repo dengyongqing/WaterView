@@ -131,13 +131,10 @@ var Interactive = (function() {
             this.options.cross.x_line = x_line;
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
-            if (this.options.crossline) {
-                frag.appendChild(x_line);
-                frag.appendChild(y_line);
-            } else {
-                frag.appendChild(y_line);
-            }
+            frag.appendChild(y_line);
+            frag.appendChild(x_line);
             document.getElementById(containerId).appendChild(frag);
+            console.log("create");
         }
         var y_line = this.options.cross.y_line;
         if (this.options.cross.y_line) {
@@ -234,10 +231,10 @@ var Interactive = (function() {
             x_top.innerHTML = topText;
             x_top.style.display = 'block';
         }else{
-            var y_left = document.getElementById("time_y_left");
-            var y_right = document.getElementById("time_y_right");
-            var x_bottom = document.getElementById("time_x_bottom");
-            var x_top = document.getElementById("time_x_top");
+            var y_left = this.options.webTimeTips.time_y_left;
+            var y_right = this.options.webTimeTips.time_y_right;
+            var x_bottom = this.options.webTimeTips.time_x_bottom;
+            var x_top = this.options.webTimeTips.time_x_top;
             //跟随鼠标变化需要更改的纵坐标上的的提示*/
             y_left.style.top = cross_w_y + "px";
             y_left.innerHTML = itemData.price;
