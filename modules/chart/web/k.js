@@ -111,12 +111,6 @@ var ChartK = (function() {
         this.options.up_color = "#ff0000";
         this.options.down_color = "#17b03e";
 
-        // 画布向下偏移的距离
-        // this.options.canvas_offset_top = canvas.height / 8;
-        // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
-        // 行情图表（分时图或K线图）和成交量图表的间距
-        this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
         this.options.scale_count = this.options.scale_count == undefined ? false : this.options.scale_count;
         
@@ -144,7 +138,7 @@ var ChartK = (function() {
         this.options.TColor = ["#f4cb15","#ff5b10","#488ee6","#fe59fe"];
 
         this.options.padding = {};
-        this.options.padding.left = ctx.measureText("1000").width + 10;
+        this.options.padding.left = ctx.measureText("+1000万").width;
         this.options.padding.right = 100;
         this.options.padding.top = 0
         this.options.padding.bottom = 0;
