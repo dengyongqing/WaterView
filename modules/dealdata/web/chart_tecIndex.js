@@ -27,7 +27,7 @@ function dealData(json,  extendStr) {
         var Tname = extendStr.split('|');
 
         for (var j = 0; j < Tname.length; j++) {
-            var item = itemBase[j+1].split(",");debugger;
+            var item = itemBase[j+1].split(",");
             switch (Tname[j].toLowerCase().split(",")[0]) {
                 //K线的技术指标
                 case "bbi":
