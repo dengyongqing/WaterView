@@ -111,12 +111,6 @@ var ChartK = (function() {
         this.options.up_color = "#ff0000";
         this.options.down_color = "#17b03e";
 
-        // 画布向下偏移的距离
-        // this.options.canvas_offset_top = canvas.height / 8;
-        // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
-        // 行情图表（分时图或K线图）和成交量图表的间距
-        this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
         this.options.scale_count = this.options.scale_count == undefined ? false : this.options.scale_count;
         
@@ -144,7 +138,7 @@ var ChartK = (function() {
         this.options.TColor = ["#f4cb15","#ff5b10","#488ee6","#fe59fe"];
 
         this.options.padding = {};
-        this.options.padding.left = ctx.measureText("1000").width + 10;
+        this.options.padding.left = ctx.measureText("+1000万").width;
         this.options.padding.right = 100;
         this.options.padding.top = 0
         this.options.padding.bottom = 0;
@@ -785,10 +779,22 @@ var ChartK = (function() {
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
-            getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
-            getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
-            getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
-            getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+            if(this.options.color.m5Color){
+                getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
+            }
+
+            if(this.options.color.m10Color){
+                getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
+            }
+            
+            if(this.options.color.m20Color){
+                getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
+            }
+            
+            if(this.options.color.m30Color){
+                getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+            }
+            
         }
         
 
@@ -1079,7 +1085,7 @@ var ChartK = (function() {
 
     // 绘制MACD指标
     ChartK.prototype.drawMACD = function(start,end){
-
+        
         var _this = this;
         var params = {};
         params = getParamsObj.call(this);
