@@ -744,7 +744,7 @@ var ChartK = (function() {
             temp_rsi.apply(_this,[]);
 
             inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
-            inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, "");
+            inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, 59);
         });
 
         function temp_rsi(){

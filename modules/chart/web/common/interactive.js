@@ -295,7 +295,7 @@ var Interactive = (function() {
             for(i = 0; i < dataObj.length; i++){
                 var span = document.createElement('span');
                 var temp = dataObj[i].value.length-1;
-                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + (dataObj[i].value)[temp].value;
+                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + ((dataObj[i].value)[temp].value == null ? "-" : (dataObj[i].value)[temp].value);
                 span.style.color = colors[i];
                 frag.appendChild(span);
             }
@@ -475,7 +475,7 @@ var Interactive = (function() {
             for(i = 0; i < dataObj.length; i++){
                 var span = document.createElement('span');
                 var temp = dataObj[i].value.length-1;
-                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + (dataObj[i].value)[temp].value;
+                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + (dataObj[i].value[index].value == null ? "-" : dataObj[i].value[index].value);
                 span.style.color = colors[i];
                 frag.appendChild(span);
             }
