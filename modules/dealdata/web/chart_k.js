@@ -22,6 +22,12 @@ function dealData(json,  extendType) {
         //分割data中的字符串
         var items = datas[result.total - i - 1].split(/\[|\]/);
         var itemBase = datas[result.total - i - 1].split(/\[|\]/)[0].split(",");
+        var yc;
+        if(!datas[result.total - i - 2]){
+            yc = itemBase[1];
+        }else{
+            yc = datas[result.total - i - 2].split(/\[|\]/)[0].split(",")[2]*1.0;
+        }
 
         //得到每个时间点的数据
         var rect = {};
@@ -31,8 +37,10 @@ function dealData(json,  extendType) {
         rect.open = itemBase[1];
         rect.close = itemBase[2];
         rect.volume = itemBase[5];
-        rect.percent = (Math.abs(rect.close * 1.0 - rect.open * 1.0) / rect.open * 1.0).toFixed(2);
-        rect.priceChange = Math.abs(rect.close * 1.0 - rect.open * 1.0).toFixed(2);
+        var percent = Math.abs(rect.close * 1.0 - yc * 1.0) / yc * 1.0;
+        percent = percent > 0.1 ? 0.1 : percent;
+        rect.priceChange = (Math.round(yc*percent*100)/100).toFixed(2);
+        rect.percent = (percent*100).toFixed(2);
         rect.up = (rect.close * 1.0 - rect.open * 1.0) > 0 ? true : false;
         var volume_5 = avgDays(datas, result.total - i - 1, 5);
         var volume_10 = avgDays(datas, result.total - i - 1, 10);
