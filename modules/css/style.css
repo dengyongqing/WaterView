@@ -523,9 +523,9 @@
 .colorPadTriangle{
 	position: absolute;
 	top: 9px;
-	left: -10px;
-	width: 15px;
-	height: 10px;
+	left: -12px;
+	width: 16px;
+	height: 11px;
 	*display: none;
 	background-color: white;
 	overflow: hidden;
@@ -533,8 +533,8 @@
 }
 .colorPadTriangle .up{
 	position: absolute;
-	top: 3px;
-	left: 1px;
+	top: 2px;
+	left: 3px;
 	width: 12px;
 	height: 10px;
 	border-top: solid 1px #aaa;
@@ -548,8 +548,8 @@
 }
 .colorPadTriangle .down{
 	position: absolute;
-	top: 8px;
-	left: -3px;
+	top: 7px;
+	left: -1px;
 	width: 12px;
 	height: 10px;
 	border-top: solid 1px #aaa;
