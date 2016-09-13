@@ -293,7 +293,7 @@ function setPreference(){
 
     function addItem(num){
 
-        var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == null ? 5 : EMcookie.getCookie("ma" + num + "_default_num");
+        var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == null ? num : EMcookie.getCookie("ma" + num + "_default_num");
         var ma_default_color = EMcookie.getCookie("ma" + num + "_default_color") == null ? this.options.maColor[num-1] : EMcookie.getCookie("ma" + num + "_default_color");
 
         var item_input = document.createElement("input");
