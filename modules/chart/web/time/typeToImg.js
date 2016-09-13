@@ -63,17 +63,17 @@ function typeToImgMap(type) {
         case "60日新低":
             img = require("images/icom_34.gif");
             break;
-        case "打开跌停板":
+        case "打开跌停":
             img = require("images/icom_50.gif");
             break;
-        case "打开涨停板":
+        case "打开涨停":
             img = require("images/icom_52.gif");
             break;
         case "大幅上涨":
             img = require("images/icom_36.gif");
             break;
         case "大幅下跌":
-            img = require("images/icom_38.png");
+            img = require("images/icom_38.gif");
             break;
     }
     return img;
