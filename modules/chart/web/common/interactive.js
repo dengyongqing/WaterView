@@ -135,7 +135,6 @@ var Interactive = (function() {
             frag.appendChild(y_line);
             frag.appendChild(x_line);
             document.getElementById(containerId).appendChild(frag);
-            console.log("create");
         }
         var y_line = this.options.cross.y_line;
         if (this.options.cross.y_line) {
@@ -165,6 +164,7 @@ var Interactive = (function() {
         }else{
             itemData = time_data[index];
         }
+        this.options.lastItemData = time_data[time_data.length-1];
         // 成交额
         var volumeCount, volumeNum;
         if(code.charAt(code.length-1) != 7 && code.charAt(code.length-1) != 5){
@@ -543,6 +543,7 @@ var Interactive = (function() {
 
     // Tip显示行情数据
     Interactive.prototype.showTip = function(canvas, w_x, w_y, c_y, w_y_open, w_y_highest, w_y_lowest, obj) {
+        // debugger;
         if (!this.options.tip) {
             this.options.tip = {};
             // 创建外部包裹元素
@@ -578,7 +579,6 @@ var Interactive = (function() {
 
                 return web_tip_line_container;
             }
-
             // 创建百分比
             var percent = document.createElement('span');
             this.options.tip.percent = percent;
@@ -650,7 +650,7 @@ var Interactive = (function() {
                     tip_obj[tipLineNames[i]].style.color = this.options.down_color;
                 }
             }
-
+            // debugger
             var mark, color;
             if(obj.close - obj.yc > 0){
                 mark = "+"; color = this.options.up_color;
@@ -869,6 +869,9 @@ var Interactive = (function() {
             if(time_x_bottom){
                 time_x_bottom.style.display = 'none';
             }
+            // debugger;
+            var itemData = this.options.lastItemData;
+            var map = ['周日','周一', '周二', '周三', '周四','周五', '周六' ];
             var time_x_top = this.options.webTimeTips.time_x_top;
             var volumeCount, volumeNum;
             if (code.charAt(code.length - 1) != 7 && code.charAt(code.length - 1) != 5) {
@@ -884,9 +887,9 @@ var Interactive = (function() {
                 " 成交量:" + volumeNum + " 成交额:" +
                 volumeCount + " 均价:" + itemData.avg_cost;
             }
+            time_x_top.innerHTML = topText;
 
-
-    }
+    };
 
     // 显示loading效果
     Interactive.prototype.showLoading = function() {
