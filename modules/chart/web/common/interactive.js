@@ -543,6 +543,7 @@ var Interactive = (function() {
 
     // Tip显示行情数据
     Interactive.prototype.showTip = function(canvas, w_x, w_y, c_y, w_y_open, w_y_highest, w_y_lowest, obj) {
+        // debugger;
         if (!this.options.tip) {
             this.options.tip = {};
             // 创建外部包裹元素
@@ -578,7 +579,6 @@ var Interactive = (function() {
 
                 return web_tip_line_container;
             }
-
             // 创建百分比
             var percent = document.createElement('span');
             this.options.tip.percent = percent;
@@ -650,7 +650,7 @@ var Interactive = (function() {
                     tip_obj[tipLineNames[i]].style.color = this.options.down_color;
                 }
             }
-
+            // debugger
             var mark, color;
             if(obj.close - obj.yc > 0){
                 mark = "+"; color = this.options.up_color;

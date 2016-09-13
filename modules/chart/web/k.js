@@ -1786,6 +1786,7 @@ var ChartK = (function() {
         // 当前K线在数组中的下标
 
         var index = Math.floor((c_x - this.options.padding.left)/rect_w);
+        if(index < 0){index = 0;}
         try {
             if(k_data[index]){
                 
@@ -1799,7 +1800,7 @@ var ChartK = (function() {
          
                 inter.cross(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest);
                 // 显示行情数据
-                var indexYC = (index-1) == 0 ? k_data[index].open : k_data[index-1].close; //计算昨收
+                var indexYC = index == 0 ? k_data[index].open : k_data[index-1].close; //计算昨收
                 k_data[index].yc = indexYC;
                 inter.showTip(canvas,cross_w_x,cross_w_y,c_y,cross_w_y_open,cross_w_y_highest,cross_w_y_lowest,k_data[index]);
             }
