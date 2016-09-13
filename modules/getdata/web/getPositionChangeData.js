@@ -12,7 +12,6 @@ function getData(code, callback){
         id: code,
         style:  "top",
         js:  callbackStr+'([(x)])',
-        num: 5,
         ac: "normal",
         check:"itntcd",
         cd : callbackStr
