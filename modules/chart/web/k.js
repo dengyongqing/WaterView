@@ -138,7 +138,7 @@ var ChartK = (function() {
         this.options.TColor = ["#f4cb15","#ff5b10","#488ee6","#fe59fe"];
 
         this.options.padding = {};
-        this.options.padding.left = ctx.measureText("+1000万").width;
+        this.options.padding.left = ctx.measureText("+100000万").width;
         this.options.padding.right = 100;
         this.options.padding.top = 0
         this.options.padding.bottom = 0;
@@ -720,14 +720,19 @@ var ChartK = (function() {
         GetTeacData(params, function(data) {
 
             _this.options.junxian = {};
+
+            var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
             /*5日均线数据*/
-            _this.options.junxian.ma5 = data.five_average;
+            _this.options.junxian["ma"+j1] = data.five_average;
             /*10日均线数据*/
-            _this.options.junxian.ma10 = data.ten_average;
+            _this.options.junxian["ma"+j2] = data.ten_average;
             /*20日均线数据*/
-            _this.options.junxian.ma20 = data.twenty_average;
+            _this.options.junxian["ma"+j3] = data.twenty_average;
             /*30日均线数据*/
-            _this.options.junxian.ma30 = data.thirty_average;
+            _this.options.junxian["ma"+j4] = data.thirty_average;
 
             _this.options.rsi = {};
             _this.options.rsi.rsi6 = data.rsi6;
@@ -758,14 +763,20 @@ var ChartK = (function() {
             var end = _this.options.end;
             // 图表交互
             var inter = _this.options.interactive;
+
+            var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+
             /*5日均线数据*/
-            var five_average = data.ma5.slice(start, end);
+            var five_average = data["ma"+j1].slice(start, end);
             /*10日均线数据*/
-            var ten_average = data.ma10.slice(start, end);
+            var ten_average = data["ma"+j2].slice(start, end);
             /*20日均线数据*/
-            var twenty_average = data.ma20.slice(start, end);
+            var twenty_average = data["ma"+j3].slice(start, end);
             /*30日均线数据*/
-            var thirty_average = data.ma30.slice(start, end);
+            var thirty_average = data["ma"+j4].slice(start, end);
 
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
@@ -858,14 +869,20 @@ var ChartK = (function() {
         } else {
              GetTeacData(params, function(data) {
                 _this.options.junxian = {};
+
+                var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+                var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+                var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+                var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+
                 /*5日均线数据*/
-                _this.options.junxian.ma5 = data.five_average;
+                _this.options.junxian["ma"+j1] = data.five_average;
                 /*10日均线数据*/
-                _this.options.junxian.ma10 = data.ten_average;
+                _this.options.junxian["ma"+j2] = data.ten_average;
                 /*20日均线数据*/
-                _this.options.junxian.ma20 = data.twenty_average;
+                _this.options.junxian["ma"+j3] = data.twenty_average;
                 /*30日均线数据*/
-                _this.options.junxian.ma30 = data.thirty_average;
+                _this.options.junxian["ma"+j4] = data.thirty_average;
 
                 temp_ma.apply(_this,[]);
             });
@@ -878,14 +895,20 @@ var ChartK = (function() {
 
             // 图表交互
             var inter = _this.options.interactive;
+
+            var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+
             /*5日均线数据*/
-            var five_average = data.ma5.slice(start, end);
+            var five_average = data["ma"+j1].slice(start, end);
             /*10日均线数据*/
-            var ten_average = data.ma10.slice(start, end);
+            var ten_average = data["ma"+j1].slice(start, end);
             /*20日均线数据*/
-            var twenty_average = data.ma20.slice(start, end);
+            var twenty_average = data["ma"+j1].slice(start, end);
             /*30日均线数据*/
-            var thirty_average = data.ma30.slice(start, end);
+            var thirty_average = data["ma"+j1].slice(start, end);
 
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
@@ -1768,10 +1791,15 @@ var ChartK = (function() {
 
         var k_data = this.options.currentData.data;
 
-        var five_average = this.options.junxian.ma5;
-        var ten_average = this.options.junxian.ma10;
-        var twenty_average = this.options.junxian.ma20;
-        var thirty_average = this.options.junxian.ma30;
+        var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+
+        var five_average = this.options.junxian["ma"+j1];
+        var ten_average = this.options.junxian["ma"+j2];
+        var twenty_average = this.options.junxian["ma"+j3];
+        var thirty_average = this.options.junxian["ma"+j4];
 
         var v_ma_5 = this.options.v_ma_5;
         var v_ma_10 = this.options.v_ma_10;
