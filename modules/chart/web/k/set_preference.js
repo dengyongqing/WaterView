@@ -65,17 +65,32 @@ function setPreference(){
 
     var right_panel_strings = ["默认不复权", "默认使用前复权", "默认使用后复权"];
     var right_panel_frag = document.createDocumentFragment();
-    var right_default_value = EMcookie.getCookie("right_default_value") == null ? 0 : EMcookie.getCookie("right_default_value");
+    var right_value = EMcookie.getCookie("beforeBackRight") == null ? "fa" : EMcookie.getCookie("beforeBackRight");
     for(var i = 0; i < right_panel_strings.length; i++){
         var radio = document.createElement("input");
         radio.setAttribute("type", "radio");
         radio.setAttribute("name", "rehabilitation");
-        radio.setAttribute("value", i);
-        if(i == right_default_value)
+
+        if(i == 0){
+            radio.setAttribute("value", "");
+        }else if(i == 1){
+            radio.setAttribute("value", "fa");
+        }else if(i == 2){
+            radio.setAttribute("value", "ba");
+        }
+
+        if(right_panel_strings[i].indexOf("不复权") > -1 && right_value == ""){
             radio.setAttribute("checked", true);
+        }else if(right_panel_strings[i].indexOf("前复权") > -1 && right_value == "fa"){
+            radio.setAttribute("checked", true);
+        }else if(right_panel_strings[i].indexOf("后复权") > -1 && right_value == "ba" ){
+            radio.setAttribute("checked", true);
+        }
+
         var label = document.createElement("label");
         label.style.marginLeft = "10px";
         label.innerHTML = radio.outerHTML + "&nbsp;" + right_panel_strings[i];
+
         // label.appendChild(radio.outerHTML + );
         var br = document.createElement('br');
         // right_panel_frag.appendChild(radio);
@@ -97,18 +112,17 @@ function setPreference(){
         for (var i=0;i<arr.length;i++){ //遍历Radio 
             if(arr[i].checked){ 
                 var chk_value=arr[i].value; 
-                if(chk_value == 0){
+                if(chk_value == ""){
                     _this.beforeBackRight();
-                }else if(chk_value == 1){
+                }else if(chk_value == "fa"){
                     _this.beforeBackRight(1);
-                }
-                else if(chk_value == 2){
+                }else if(chk_value == "ba"){
                     _this.beforeBackRight(2);
                 }
             } 
         } 
 
-        EMcookie.setCookie("right_default_value", chk_value, exp, "/");
+        EMcookie.setCookie("beforeBackRight", chk_value, exp, "/");
         handle.innerHTML = "偏好<br/>设置";
         preference.style.display = "none";
         handle_flag = true;
@@ -162,7 +176,7 @@ function setPreference(){
     preference.appendChild(preference_shade);
     preference.appendChild(set_container);
 
-    var pick_html = '<div class="colorPadTriangle"></div>'+
+    var pick_html = '<div class="colorPadTriangle"><div class="up"></div><div class="down"></div></div>'+
                     '<table class="colorTable"><tr><td style="background-color: #FE0000;"></td>'+
                     '<td style="background-color: #FDA748;"></td>'+
         '<td style="background-color: #A7DA19;"></td>'+

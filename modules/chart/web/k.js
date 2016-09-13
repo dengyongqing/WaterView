@@ -119,7 +119,8 @@ var ChartK = (function() {
         canvas.style.border = "0";
 
         // 前后复权，默认不复权
-        this.options.authorityType = this.options.authorityType == undefined ? "" : this.options.authorityType;
+        window.authorityType = EMcookie.getCookie("beforeBackRight");
+        window.authorityType = (window.authorityType == null || window.authorityType == undefined) ? "fa" : window.authorityType;
         
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
@@ -862,7 +863,6 @@ var ChartK = (function() {
         var params = {};
         params = getParamsObj.call(this);
         params.extend = "ma";
-
         if(this.options.junxian){
             data = _this.options.junxian;
             temp_ma.apply(_this,[]);
@@ -904,11 +904,11 @@ var ChartK = (function() {
             /*5日均线数据*/
             var five_average = data["ma"+j1].slice(start, end);
             /*10日均线数据*/
-            var ten_average = data["ma"+j1].slice(start, end);
+            var ten_average = data["ma"+j2].slice(start, end);
             /*20日均线数据*/
-            var twenty_average = data["ma"+j1].slice(start, end);
+            var twenty_average = data["ma"+j3].slice(start, end);
             /*30日均线数据*/
-            var thirty_average = data["ma"+j1].slice(start, end);
+            var thirty_average = data["ma"+j4].slice(start, end);
 
             // var v_ma_5 = data.v_ma_5;
             // var v_ma_10 = data.v_ma_10;
@@ -1544,12 +1544,19 @@ var ChartK = (function() {
     // 复权
     ChartK.prototype.beforeBackRight = function(flag){
 
+        var Days = 1000000;
+        var exp = new Date(); 
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);
+
         if(!flag){
-            this.options.authorityType = "";
+            window.authorityType = "";
+            EMcookie.setCookie("beforeBackRight", "", exp, "/");
         }else if(flag == 1){
-            this.options.authorityType = "fa";
+            window.authorityType = "fa";
+            EMcookie.setCookie("beforeBackRight", "fa", exp, "/");
         }else if(flag == 2){
-            this.options.authorityType = "ba";
+            window.authorityType = "ba";
+            EMcookie.setCookie("beforeBackRight", "ba", exp, "/");
         }
         this.clear();
         this.draw();
@@ -1613,7 +1620,7 @@ var ChartK = (function() {
         var obj = {};
         obj.code = this.options.code;
         obj.type = this.options.type;
-        obj.authorityType = this.options.authorityType;
+        obj.authorityType = window.authorityType;
         obj.extend = this.options.extend;
         return obj;
     }
@@ -1792,9 +1799,9 @@ var ChartK = (function() {
         var k_data = this.options.currentData.data;
 
         var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
-            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
-            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
-            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+        var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+        var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+        var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
 
         var five_average = this.options.junxian["ma"+j1];
         var ten_average = this.options.junxian["ma"+j2];

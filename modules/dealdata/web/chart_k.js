@@ -37,10 +37,8 @@ function dealData(json,  extendType) {
         rect.open = itemBase[1];
         rect.close = itemBase[2];
         rect.volume = itemBase[5];
-        var percent = Math.abs(rect.close * 1.0 - yc * 1.0) / yc * 1.0;
-        percent = percent > 0.1 ? 0.1 : percent;
-        rect.priceChange = (Math.round(yc*percent*100)/100).toFixed(2);
-        rect.percent = (percent*100).toFixed(2);
+        rect.priceChange = (Math.abs(rect.close - yc)).toFixed(2);
+        rect.percent = (rect.priceChange/yc*100).toFixed(2);
         rect.up = (rect.close * 1.0 - rect.open * 1.0) > 0 ? true : false;
         var volume_5 = avgDays(datas, result.total - i - 1, 5);
         var volume_10 = avgDays(datas, result.total - i - 1, 10);
