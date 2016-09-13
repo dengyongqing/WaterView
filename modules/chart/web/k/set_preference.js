@@ -235,8 +235,8 @@ function setPreference(){
         var target = e.srcElement || e.target;
         var y = target.offsetY || target.offsetTop;
         var x = target.offsetX || target.offsetLeft;
-        pick_html_div.style.left = x + 30 + "px";
-        pick_html_div.style.top = y - 5 + "px";
+        pick_html_div.style.left = x + 28 + "px";
+        pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
     });
 
@@ -246,8 +246,8 @@ function setPreference(){
          var target = e.target || e.srcElement;
         var y = target.offsetTop ;
         var x = target.offsetLeft;
-        pick_html_div.style.left = x + 30 + "px";
-        pick_html_div.style.top = y - 5 + "px";
+        pick_html_div.style.left = x + 28 + "px";
+        pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
     });
 
@@ -257,8 +257,8 @@ function setPreference(){
         var target = e.target || e.srcElement;
         var y = target.offsetTop ;
         var x = target.offsetLeft;
-        pick_html_div.style.left = x + 30 + "px";
-        pick_html_div.style.top = y - 5 + "px";
+        pick_html_div.style.left = x + 28 + "px";
+        pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
     });
    
@@ -268,8 +268,8 @@ function setPreference(){
         var target = e.target || e.srcElement;
         var y = target.offsetTop ;
         var x = target.offsetLeft;
-        pick_html_div.style.left = x + 30 + "px";
-        pick_html_div.style.top = y - 5 + "px";
+        pick_html_div.style.left = x + 28 + "px";
+        pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
     });
 
