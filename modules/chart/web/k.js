@@ -779,10 +779,22 @@ var ChartK = (function() {
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
-            getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
-            getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
-            getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
-            getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+            if(this.options.color.m5Color){
+                getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
+            }
+
+            if(this.options.color.m10Color){
+                getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
+            }
+            
+            if(this.options.color.m20Color){
+                getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
+            }
+            
+            if(this.options.color.m30Color){
+                getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+            }
+            
         }
         
 
@@ -1073,7 +1085,7 @@ var ChartK = (function() {
 
     // 绘制MACD指标
     ChartK.prototype.drawMACD = function(start,end){
-
+        
         var _this = this;
         var params = {};
         params = getParamsObj.call(this);

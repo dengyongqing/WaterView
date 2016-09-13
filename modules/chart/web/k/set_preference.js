@@ -4,6 +4,11 @@ var common = require('chart/web/common/common');
 var EMcookie = require('chart/web/common/cookie'); 
 function setPreference(){
     var _this = this;
+
+    var Days = 1000000;
+    var exp = new Date(); 
+    exp.setTime(exp.getTime() + Days*24*60*60*1000);
+
     var preference = document.createElement("div");
     preference.className = "preference-container";
     preference.style.top = this.options.c2_y_top + "px";
@@ -44,10 +49,10 @@ function setPreference(){
 
     item_count = 1;
 
-    var ma5_item = addItem(1);
-    var ma10_item = addItem(2);
-    var ma20_item = addItem(3);
-    var ma30_item = addItem(4);
+    var ma5_item = addItem.call(_this,1);
+    var ma10_item = addItem.call(_this,2);
+    var ma20_item = addItem.call(_this,3);
+    var ma30_item = addItem.call(_this,4);
 
     ma_panel.appendChild(notice);
     ma_panel.appendChild(ma5_item.item);
@@ -103,30 +108,30 @@ function setPreference(){
             } 
         } 
 
-        EMcookie.setCookie("right_default_value", chk_value, 5*365*24*60*60, "/");
+        EMcookie.setCookie("right_default_value", chk_value, exp, "/");
         handle.innerHTML = "偏好<br/>设置";
         preference.style.display = "none";
         handle_flag = true;
 
         _this.options.color.m5Color = ma5_item.pick.style.backgroundColor;
         _this.options.maColor[0] = ma5_item.pick.style.backgroundColor;
-        EMcookie.setCookie("ma1_default_color", ma5_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
-        EMcookie.setCookie("ma1_default_num", ma5_item.input.value, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma1_default_color", ma5_item.pick.style.backgroundColor, exp, "/");
+        EMcookie.setCookie("ma1_default_num", ma5_item.input.value, exp, "/");
 
         _this.options.color.m10Color = ma10_item.pick.style.backgroundColor;
         _this.options.maColor[1] = ma10_item.pick.style.backgroundColor;
-        EMcookie.setCookie("ma2_default_color", ma10_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
-        EMcookie.setCookie("ma2_default_num", ma10_item.input.value, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma2_default_color", ma10_item.pick.style.backgroundColor, exp, "/");
+        EMcookie.setCookie("ma2_default_num", ma10_item.input.value, exp, "/");
 
         _this.options.color.m20Color = ma20_item.pick.style.backgroundColor;
         _this.options.maColor[2] = ma20_item.pick.style.backgroundColor;
-        EMcookie.setCookie("ma3_default_color", ma20_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
-        EMcookie.setCookie("ma3_default_num", ma20_item.input.value, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma3_default_color", ma20_item.pick.style.backgroundColor, exp, "/");
+        EMcookie.setCookie("ma3_default_num", ma20_item.input.value, exp, "/");
 
         _this.options.color.m30Color = ma30_item.pick.style.backgroundColor;
         _this.options.maColor[3] = ma30_item.pick.style.backgroundColor;
-        EMcookie.setCookie("ma4_default_color", ma30_item.pick.style.backgroundColor, 5*365*24*60*60, "/");
-        EMcookie.setCookie("ma4_default_num", ma30_item.input.value, 5*365*24*60*60, "/");
+        EMcookie.setCookie("ma4_default_color", ma30_item.pick.style.backgroundColor, exp, "/");
+        EMcookie.setCookie("ma4_default_num", ma30_item.input.value, exp, "/");
 
         _this.drawMA(_this.options.start, _this.options.end);
         _this.options.interactive.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
@@ -288,8 +293,8 @@ function setPreference(){
 
     function addItem(num){
 
-        var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == "" ? 5 : EMcookie.getCookie("ma" + num + "_default_num");
-        var ma_default_color = EMcookie.getCookie("ma" + num + "_default_color");
+        var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == null ? 5 : EMcookie.getCookie("ma" + num + "_default_num");
+        var ma_default_color = EMcookie.getCookie("ma" + num + "_default_color") == null ? this.options.maColor[num-1] : EMcookie.getCookie("ma" + num + "_default_color");
 
         var item_input = document.createElement("input");
         item_input.setAttribute("type","text");
@@ -331,7 +336,7 @@ function setPreference(){
         common.addEvent(item_input,"mouseleave",function(e){
             var target = e.target || e.srcElement;
             var input_value = target.value;
-;
+
             if(isNaN(input_value) || input_value < 0){
                 if(num == 1){
                     target.value = 5;

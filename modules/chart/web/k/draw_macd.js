@@ -28,6 +28,9 @@ function drawMACD(ctx,dea,diff,macd){
     var diff_length = diff.length;
     var macd_length = macd.length;
 
+    console.log(dea_length);
+    console.log(macd_length);
+
     var unit_w = this.options.drawWidth/dea_length;
     ctx.beginPath();
     ctx.strokeStyle = "#f4cb15";
