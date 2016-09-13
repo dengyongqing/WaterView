@@ -92,7 +92,7 @@ function dealData(json, isCR, type, code) {
         point.time = dataItem[0].split(" ")[1];
         point.dateTime = dataItem[0].split(" ")[0];
         point.price = dataItem[1];
-        point.avg_cost = (dataItem[3] * 1.0).toFixed(2);
+        point.avg_cost = (dataItem[3] * 1.0).toFixed(result.pricedigit);
         point.volume = dataItem[2] * 1.0;
         result.high = Math.max(result.high, point.price, point.avg_cost);
         result.low = Math.min(result.low, point.price, point.avg_cost);

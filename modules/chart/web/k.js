@@ -119,7 +119,7 @@ var ChartK = (function() {
         canvas.style.border = "0";
 
         // 前后复权，默认不复权
-        this.options.authorityType = this.options.authorityType == undefined ? "fa" : this.options.authorityType;
+        this.options.authorityType = this.options.authorityType == undefined ? "" : this.options.authorityType;
         
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
