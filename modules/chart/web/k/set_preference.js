@@ -162,7 +162,7 @@ function setPreference(){
     preference.appendChild(preference_shade);
     preference.appendChild(set_container);
 
-    var pick_html = '<div class="colorPadTriangle"></div>'+
+    var pick_html = '<div class="colorPadTriangle"><div class="up"></div><div class="down"></div></div>'+
                     '<table class="colorTable"><tr><td style="background-color: #FE0000;"></td>'+
                     '<td style="background-color: #FDA748;"></td>'+
         '<td style="background-color: #A7DA19;"></td>'+
