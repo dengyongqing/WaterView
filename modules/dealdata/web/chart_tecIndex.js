@@ -71,8 +71,8 @@ function dealData(json,  extendStr) {
                     intoArr.call(result, "wr6", item[1], date);
                     break;
                 case "dmi":
-                    intoArr.call(result, "mdi", item[0], date);
-                    intoArr.call(result, "pdi", item[1], date);
+                    intoArr.call(result, "pdi", item[0], date);
+                    intoArr.call(result, "mdi", item[1], date);
                     intoArr.call(result, "adx", item[2], date);
                     intoArr.call(result, "adxr", item[3], date);
                     break;
