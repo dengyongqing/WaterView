@@ -118,9 +118,9 @@ var DrawXY = (function(){
 
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
-        ctx.fillText(common.format_unit(data.v_max/1,0), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1,0)).width, this.options.c2_y_top + 10);
-        ctx.fillText(common.format_unit(data.v_max/1 * 2/3,0), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 2/3,0)).width, this.options.c2_y_top + 10 + this.options.v_base_height * 1/3);
-        ctx.fillText(common.format_unit(data.v_max/1 * 1/3,0),  this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 1/3,0)).width, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
+        ctx.fillText(common.format_unit(data.v_max/1,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1,2)).width, this.options.c2_y_top + 10);
+        ctx.fillText(common.format_unit(data.v_max/1 * 2/3,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 2/3,2)).width, this.options.c2_y_top + 10 + this.options.v_base_height * 1/3);
+        ctx.fillText(common.format_unit(data.v_max/1 * 1/3,2),  this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 1/3,2)).width, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
         ctx.fillText(0, this.options.padding.left - 5 - ctx.measureText("0").width, this.options.c2_y_top + 10 + this.options.v_base_height * 3/3);
         ctx.stroke();
 

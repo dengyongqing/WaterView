@@ -293,7 +293,18 @@ function setPreference(){
 
     function addItem(num){
 
-        var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == null ? num : EMcookie.getCookie("ma" + num + "_default_num");
+        var default_num;
+        if(num == 1){
+            default_num = 5;
+        }else if(num == 2){
+            default_num = 10;
+        }else if(num == 3){
+            default_num = 20;
+        }else if(num == 4){
+            default_num = 30;
+        }
+
+        var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == null ? default_num : EMcookie.getCookie("ma" + num + "_default_num");
         var ma_default_color = EMcookie.getCookie("ma" + num + "_default_color") == null ? this.options.maColor[num-1] : EMcookie.getCookie("ma" + num + "_default_color");
 
         var item_input = document.createElement("input");
