@@ -6,6 +6,7 @@
 /*绘制虚线*/
 var draw_dash = require('chart/web/common/draw_dash_line');
 var extend = require('tools/extend2');
+var common = require('chart/web/common/common');
 /*主题*/
 var theme = require('theme/default');
 
@@ -121,10 +122,10 @@ var DrawXY = (function() {
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = 8.5 * this.options.unit_height ;
-        /*绘制x轴上的y轴方向分割*/
-        var len = 0;
         /*通过type判断，是一日分时还是多日分时，以及判断是不是有盘前数据，根据判断结果画不同的横坐标时间点*/
         var timeStrLen = oc_time_arr.length;
+        /*绘制x轴上的y轴方向分割*/
+        var len = timeStrLen*2;
         /*每个下标刻度之间的宽度*/
         var itemDistance;
         /*是否为一天分时*/
@@ -145,41 +146,22 @@ var DrawXY = (function() {
             }
             isR = true;
         }
+
         /*绘制x轴上的时间点*/
-        if (!isCR) {
-            len = 2 * timeStrLen;
-            for (var i = 0; i < timeStrLen; i++) {
-                //时间转换，如果为日期，装换为xx月xx日， 否则为原样
-                var itemTime = (isR ? oc_time_arr[i] : (new Date(oc_time_arr[i]).getMonth() + 1) + "月" +
-                    new Date(oc_time_arr[i]).getDate() + "日");
-                if (i == 0) {
-                    isR ? ctx.fillText(itemTime, padding_left, y_date) : 0;
-                } else if (i == timeStrLen - 1 && isR) {
-                    ctx.fillText(itemTime, padding_left + itemDistance * i - ctx.measureText(itemTime).width, y_date);
-                } else {
-                    ctx.fillText(itemTime, padding_left + itemDistance * i - ctx.measureText(itemTime).width / 2, y_date);
-                }
-            }
-        } else {
-            len = 2 * (timeStrLen-1) + 1;
-            for (var i = 0; i < timeStrLen; i++) {
-                var itemTime = oc_time_arr[i];
-                if (i == 0) {
-                    ctx.fillText(itemTime, padding_left, y_date);
-                } else if (i == 1) {
-                    ctx.fillText(itemTime, padding_left + crSpace, y_date);
-                } else if (i == timeStrLen - 1) {
-                    ctx.fillText(itemTime, padding_left + crSpace + itemDistance * (i - 1) - ctx.measureText(itemTime).width, y_date);
-                } else {
-                    ctx.fillText(itemTime, padding_left + crSpace + itemDistance * (i - 1) - ctx.measureText(itemTime).width / 2, y_date);
-                }
+        for (var i = 0; i < timeStrLen; i++) {
+            var itemTime = oc_time_arr[i];
+            if(i === timeStrLen-1 && isR){
+                ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index)-ctx.measureText(itemTime.value).width, y_date);
+            }else if(i === 0 && isR){
+                ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index), y_date);
+            }else if(i === 1 && isCR && isR){
+                ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index), y_date);
+            }else{
+                ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index)-ctx.measureText(itemTime.value).width/2, y_date);
             }
         }
 
-
         var v_height = this.options.c_v_height;
-
-
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
         var y_v_top = this.options.c2_y_top;
         var itemWidth = (k_width - padding_left - padding_right) / len;
