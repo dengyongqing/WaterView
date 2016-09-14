@@ -119,7 +119,10 @@ var ChartK = (function() {
         canvas.style.border = "0";
 
         // 前后复权，默认不复权
-        window.authorityType = EMcookie.getCookie("beforeBackRight");
+        if(!window.authorityType){
+             window.authorityType = EMcookie.getCookie("beforeBackRight");
+        }
+       
         window.authorityType = (window.authorityType == null || window.authorityType == undefined) ? "fa" : window.authorityType;
         
         // 画笔参数设置
@@ -922,10 +925,23 @@ var ChartK = (function() {
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
-            getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
-            getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
-            getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
-            getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+            if(j1 && j1 != 0){
+                getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
+            }
+
+            if(j2 && j2 != 0){
+                getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
+            }
+            
+            if(j3 && j3 != 0){
+                getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
+            }
+            
+            if(j4 && j4 != 0){
+                debugger;
+                getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
+            }
+
         }
         
 
@@ -1550,13 +1566,10 @@ var ChartK = (function() {
 
         if(!flag){
             window.authorityType = "";
-            EMcookie.setCookie("beforeBackRight", "", exp, "/");
         }else if(flag == 1){
             window.authorityType = "fa";
-            EMcookie.setCookie("beforeBackRight", "fa", exp, "/");
         }else if(flag == 2){
             window.authorityType = "ba";
-            EMcookie.setCookie("beforeBackRight", "ba", exp, "/");
         }
         this.clear();
         this.draw();

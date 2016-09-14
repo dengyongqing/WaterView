@@ -79,12 +79,18 @@ function setPreference(){
             radio.setAttribute("value", "ba");
         }
 
-        if(right_panel_strings[i].indexOf("不复权") > -1 && right_value == ""){
-            radio.setAttribute("checked", true);
-        }else if(right_panel_strings[i].indexOf("前复权") > -1 && right_value == "fa"){
-            radio.setAttribute("checked", true);
-        }else if(right_panel_strings[i].indexOf("后复权") > -1 && right_value == "ba" ){
-            radio.setAttribute("checked", true);
+        if(right_value == ""){
+            if(i == 0){
+                radio.setAttribute("checked", true);
+            }
+        }else if(right_value == "fa"){
+            if(i == 1){
+                radio.setAttribute("checked", true);
+            }
+        }else if(right_value == "ba" ){
+            if(i == 2){
+                radio.setAttribute("checked", true);
+            }
         }
 
         var label = document.createElement("label");
@@ -109,9 +115,11 @@ function setPreference(){
 
     common.addEvent(right_panel_comfirmeBtn, "click", function(){
         var arr=document.getElementsByName("rehabilitation")
+
         for (var i=0;i<arr.length;i++){ //遍历Radio 
-            if(arr[i].checked){ 
+            if(arr[i].checked == true){ 
                 var chk_value=arr[i].value; 
+                EMcookie.setCookie("beforeBackRight", chk_value, exp, "/");
                 if(chk_value == ""){
                     _this.beforeBackRight();
                 }else if(chk_value == "fa"){
@@ -121,8 +129,7 @@ function setPreference(){
                 }
             } 
         } 
-
-        EMcookie.setCookie("beforeBackRight", chk_value, exp, "/");
+       
         handle.innerHTML = "偏好<br/>设置";
         preference.style.display = "none";
         handle_flag = true;
@@ -131,6 +138,7 @@ function setPreference(){
         _this.options.maColor[0] = ma5_item.pick.style.backgroundColor;
         EMcookie.setCookie("ma1_default_color", ma5_item.pick.style.backgroundColor, exp, "/");
         EMcookie.setCookie("ma1_default_num", ma5_item.input.value, exp, "/");
+        debugger;
 
         _this.options.color.m10Color = ma10_item.pick.style.backgroundColor;
         _this.options.maColor[1] = ma10_item.pick.style.backgroundColor;
