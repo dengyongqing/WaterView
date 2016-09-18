@@ -47,7 +47,7 @@ function dealData(json, isCR, type, code) {
         }
         timeStrs.push({index: Math.floor(offset + totalTicks/2), value:toFormDateTime(AM_end) + "/" + toFormDateTime(PM_start)});
         if(AM_end === AM_start + totalTicks / 2){
-            timeStrs.push({index: Math.floor(offset + totalTicks*3/4), value:toFormDateTime(PM_start+totalTicks*3/4)});
+            timeStrs.push({index: Math.floor(offset + totalTicks*3/4), value:toFormDateTime(PM_start+totalTicks*1/4)});
         }
         timeStrs.push({index: offset + totalTicks, value:toFormDateTime(PM_end)});
 

@@ -244,8 +244,11 @@ var Interactive = (function() {
             y_left.style.display = 'block';
             y_right.style.top = cross_w_y + "px";
             y_right.style.display = 'block';
-            y_right.innerHTML = (itemData.up ? "+" : "-") + itemData.percent+"%";
-            
+            if(itemData.percent === "0.00"){
+                y_right.innerHTML =  itemData.percent+"%";
+            }else{
+                y_right.innerHTML = (itemData.up ? "+" : "-") + itemData.percent+"%";
+            }
             //跟随鼠标变化需要更改的横坐标上的的提示*/
             x_bottom.style.left = cross_w_x + "px";
             x_bottom.style.display = 'block';
@@ -293,6 +296,7 @@ var Interactive = (function() {
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
             for(i = 0; i < dataObj.length; i++){
+
                 var span = document.createElement('span');
                 var temp = dataObj[i].value.length-1;
                 span.innerHTML = dataObj[i].name.toUpperCase() + ": " + ((dataObj[i].value)[temp].value == null ? "-" : (dataObj[i].value)[temp].value);

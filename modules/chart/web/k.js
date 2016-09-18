@@ -711,13 +711,13 @@ var ChartK = (function() {
 
         var params = {};
         params = getParamsObj.call(this);
-        
-        var m1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
-        var m2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
-        var m3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
-        var m4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+      
+        var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+        var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+        var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+        var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
 
-        params.extend = "cma"+","+m1+","+m2+","+m3+","+m4+"|rsi";
+        params.extend = "cma"+","+j1+","+j2+","+j3+","+j4+"|rsi";
         this.options.up_t = "junxian";
         this.options.down_t = "rsi";
 
@@ -725,10 +725,6 @@ var ChartK = (function() {
 
             _this.options.junxian = {};
 
-            var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
-            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
-            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
-            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
             /*5日均线数据*/
             _this.options.junxian["ma"+j1] = data.five_average;
             /*10日均线数据*/
@@ -768,11 +764,6 @@ var ChartK = (function() {
             // 图表交互
             var inter = _this.options.interactive;
 
-            var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
-            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
-            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
-            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
-
             /*5日均线数据*/
             var five_average = data["ma"+j1].slice(start, end);
             /*10日均线数据*/
@@ -794,19 +785,19 @@ var ChartK = (function() {
             // inter.default_vm5 = v_ma_5[v_ma_5.length - 1];
             // inter.default_vm10 = v_ma_10[v_ma_10.length - 1];
 
-            if(this.options.color.m5Color){
+            if(j1 && j1 != 0){
                 getMAData.apply(_this, [ctx, five_average, this.options.color.m5Color]);
             }
 
-            if(this.options.color.m10Color){
+            if(j2 && j2 != 0){
                 getMAData.apply(_this, [ctx, ten_average, this.options.color.m10Color]);
             }
             
-            if(this.options.color.m20Color){
+            if(j3 && j3 != 0){
                 getMAData.apply(_this, [ctx, twenty_average, this.options.color.m20Color]);
             }
             
-            if(this.options.color.m30Color){
+            if(j4 && j4 != 0){
                 getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
             }
             
@@ -938,7 +929,6 @@ var ChartK = (function() {
             }
             
             if(j4 && j4 != 0){
-                debugger;
                 getMAData.apply(_this, [ctx, thirty_average, this.options.color.m30Color]);
             }
 

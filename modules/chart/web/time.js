@@ -144,7 +144,7 @@ var ChartTime = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-
+        watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
     };
 
     // 重绘
@@ -422,8 +422,9 @@ var ChartTime = (function() {
                         ctx.strokeStyle = down_color;
                     }
                 }
-
-                ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
+                if(bar_height !== 0){
+                    ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
+                }
                 ctx.stroke();
                 ctx.fill();
             }

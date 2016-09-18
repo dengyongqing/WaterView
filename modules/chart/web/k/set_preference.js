@@ -137,23 +137,30 @@ function setPreference(){
         _this.options.color.m5Color = ma5_item.pick.style.backgroundColor;
         _this.options.maColor[0] = ma5_item.pick.style.backgroundColor;
         EMcookie.setCookie("ma1_default_color", ma5_item.pick.style.backgroundColor, exp, "/");
-        EMcookie.setCookie("ma1_default_num", ma5_item.input.value, exp, "/");
-        debugger;
+        if(ma5_item.input.value){
+            EMcookie.setCookie("ma1_default_num", ma5_item.input.value, exp, "/");
+        }
 
         _this.options.color.m10Color = ma10_item.pick.style.backgroundColor;
         _this.options.maColor[1] = ma10_item.pick.style.backgroundColor;
         EMcookie.setCookie("ma2_default_color", ma10_item.pick.style.backgroundColor, exp, "/");
-        EMcookie.setCookie("ma2_default_num", ma10_item.input.value, exp, "/");
-
+        if(ma10_item.input.value){
+            EMcookie.setCookie("ma2_default_num", ma10_item.input.value, exp, "/");
+        }
+        
         _this.options.color.m20Color = ma20_item.pick.style.backgroundColor;
         _this.options.maColor[2] = ma20_item.pick.style.backgroundColor;
         EMcookie.setCookie("ma3_default_color", ma20_item.pick.style.backgroundColor, exp, "/");
-        EMcookie.setCookie("ma3_default_num", ma20_item.input.value, exp, "/");
+        if(ma20_item.input.value){
+            EMcookie.setCookie("ma3_default_num", ma20_item.input.value, exp, "/");
+        }
 
         _this.options.color.m30Color = ma30_item.pick.style.backgroundColor;
         _this.options.maColor[3] = ma30_item.pick.style.backgroundColor;
         EMcookie.setCookie("ma4_default_color", ma30_item.pick.style.backgroundColor, exp, "/");
-        EMcookie.setCookie("ma4_default_num", ma30_item.input.value, exp, "/");
+        if(ma30_item.input.value){
+            EMcookie.setCookie("ma4_default_num", ma30_item.input.value, exp, "/");
+        }
 
         _this.drawMA(_this.options.start, _this.options.end);
         _this.options.interactive.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
