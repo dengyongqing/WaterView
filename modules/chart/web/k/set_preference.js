@@ -236,6 +236,7 @@ function setPreference(){
     common.addEvent(handle,"click",function(e){
         if(handle_flag){
             preference.style.display = "block";
+            set_show();
             handle.innerHTML = "关闭<br/>设置";
             handle_flag = false;
         }else{
@@ -377,7 +378,9 @@ function setPreference(){
             var target = e.target || e.srcElement;
             var input_value = target.value;
 
-            if(isNaN(input_value) || input_value < 0){
+            if(!input_value){
+                target.value = 0;
+            }else if(isNaN(input_value) || input_value < 0){
                 if(num == 1){
                     target.value = 5;
                 }else if(num == 2){
@@ -396,6 +399,36 @@ function setPreference(){
             pick:span_color,
             input:item_input
         };
+    }
+
+    function set_show(){
+
+        var m1 = get_cookie_num_color(1);
+        var m2 = get_cookie_num_color(2);
+        var m3 = get_cookie_num_color(3);
+        var m4 = get_cookie_num_color(4);
+
+        ma5_item.input.value = m1.ma_default_value;
+        ma5_item.pick.style.backgroundColor = m1.ma_default_color;
+
+        ma10_item.input.value = m2.ma_default_value;
+        ma10_item.pick.style.backgroundColor = m2.ma_default_color;
+
+        ma20_item.input.value = m3.ma_default_value;
+        ma20_item.pick.style.backgroundColor = m3.ma_default_color;
+
+        ma30_item.input.value = m4.ma_default_value;
+        ma30_item.pick.style.backgroundColor = m4.ma_default_color;
+       
+    }
+
+    function get_cookie_num_color(num){
+        var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == null ? default_num : EMcookie.getCookie("ma" + num + "_default_num");
+        var ma_default_color = EMcookie.getCookie("ma" + num + "_default_color") == null ? this.options.maColor[num-1] : EMcookie.getCookie("ma" + num + "_default_color");
+        return {
+            "ma_default_value":ma_default_value,
+            "ma_default_color":ma_default_color
+        }
     }
 
 }
