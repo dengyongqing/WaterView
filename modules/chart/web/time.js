@@ -422,8 +422,9 @@ var ChartTime = (function() {
                         ctx.strokeStyle = down_color;
                     }
                 }
-
-                ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
+                if(bar_height !== 0){
+                    ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
+                }
                 ctx.stroke();
                 ctx.fill();
             }
