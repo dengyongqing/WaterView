@@ -144,7 +144,7 @@ var ChartTime = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-
+        watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
     };
 
     // 重绘
