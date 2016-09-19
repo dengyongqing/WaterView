@@ -16,7 +16,7 @@ var draw_dash = require('chart/web/common/draw_dash_line');
 // 拓展，合并，复制
 var extend = require('tools/extend2');
 // 交互效果
-var Interactive = require('chart/web/common/interactive');
+var Interactive = require('chart/web/time/interactive');
 // 水印
 var watermark = require('chart/watermark');
 var drawPositionChange = require('chart/web/time/drawPositionChange');
