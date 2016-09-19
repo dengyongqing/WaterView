@@ -86,7 +86,11 @@ var ChartTime = (function() {
         // 画布上部内间距
         ctx.translate("0", this.options.canvas_offset_top);
         // 画笔参数设置
-        ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
+        this.options.color = {};
+        this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
+        this.options.color.fillStyle = '#333';
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.font = "14px";
         ctx.lineWidth = 1 * this.options.dpr;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
 
@@ -523,7 +527,7 @@ var ChartTime = (function() {
 
             ctx.lineWidth = 1;
             //写字
-            ctx.fillStyle = "#666";
+            ctx.fillStyle = this.options.color.fillStyle;
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             for (var i = 0; i <= 3; i++) {
                 var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)));
