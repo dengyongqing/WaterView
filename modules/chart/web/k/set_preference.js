@@ -380,7 +380,7 @@ function setPreference(){
 
             if(!input_value){
                 target.value = 0;
-            }else if(isNaN(input_value) || input_value < 0){
+            }else if(isNaN(input_value)){
                 if(num == 1){
                     target.value = 5;
                 }else if(num == 2){
@@ -391,7 +391,14 @@ function setPreference(){
                     target.value = 30;
                 }
                 
+            }else if(input_value < 0){
+                target.value = Math.floor(Math.abs(input_value));
+            }else if(input_value > 1000){
+                target.value = 1000;
+            }else if(((input_value + '').indexOf('.') != -1) ? true : false){
+                target.value = Math.floor(input_value);
             }
+
         });
 
         return {
