@@ -267,9 +267,15 @@ function setPreference(){
     common.addEvent(ma5_item.pick,"click",function(e){
         _this.options.pickColor.ma = ma5_item.pick;
         _this.options.pickColor.mark = "ma5";
-        var target = e.srcElement || e.target;
-        var y = target.offsetY || target.offsetTop;
-        var x = target.offsetX || target.offsetLeft;
+        var target, x, y;
+        if(e.target){
+            target = e.target;
+            y = target.offsetTop;
+        }else{
+            target = e.srcElement;
+            y = target.parentNode.offsetTop + 12;
+        }
+        x = target.offsetLeft;
         pick_html_div.style.left = x + 28 + "px";
         pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
@@ -278,9 +284,15 @@ function setPreference(){
     common.addEvent(ma10_item.pick,"click",function(e){
         _this.options.pickColor.ma = ma10_item.pick;
         _this.options.pickColor.mark = "ma10";
-         var target = e.target || e.srcElement;
-        var y = target.offsetTop ;
-        var x = target.offsetLeft;
+        var target, x, y;
+        if(e.target){
+            target = e.target;
+            y = target.offsetTop;
+        }else{
+            target = e.srcElement;
+            y = target.parentNode.offsetTop + 12;
+        }
+        x = target.offsetLeft;
         pick_html_div.style.left = x + 28 + "px";
         pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
@@ -289,9 +301,15 @@ function setPreference(){
     common.addEvent(ma20_item.pick,"click",function(e){
         _this.options.pickColor.ma = ma20_item.pick;
         _this.options.pickColor.mark = "ma20";
-        var target = e.target || e.srcElement;
-        var y = target.offsetTop ;
-        var x = target.offsetLeft;
+        var target, x, y;
+        if(e.target){
+            target = e.target;
+            y = target.offsetTop;
+        }else{
+            target = e.srcElement;
+            y = target.parentNode.offsetTop + 12;
+        }
+        x = target.offsetLeft;
         pick_html_div.style.left = x + 28 + "px";
         pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
@@ -300,9 +318,15 @@ function setPreference(){
     common.addEvent(ma30_item.pick,"click",function(e){
         _this.options.pickColor.ma = ma30_item.pick;
         _this.options.pickColor.mark = "ma30";
-        var target = e.target || e.srcElement;
-        var y = target.offsetTop ;
-        var x = target.offsetLeft;
+        var target, x, y;
+        if(e.target){
+            target = e.target;
+            y = target.offsetTop;
+        }else{
+            target = e.srcElement;
+            y = target.parentNode.offsetTop + 12;
+        }
+        x = target.offsetLeft;
         pick_html_div.style.left = x + 28 + "px";
         pick_html_div.style.top = y - 7 + "px";
         pick_html_div.style.display = "block";
