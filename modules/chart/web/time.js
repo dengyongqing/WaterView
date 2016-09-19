@@ -284,14 +284,19 @@ var ChartTime = (function() {
         /*绘制分时线*/
         function drawStroke(ctx, data_arr) {
             ctx.beginPath();
-            ctx.strokeStyle = "#639EEA";
+            ctx.strokeStyle = "#59A7FF";
 
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var x = common.get_x.call(this, i + 1);
                 var y = common.get_y.call(this, item.price);
-                ctx.lineTo(x, y);
+                if(i === 0){
+                    ctx.moveTo(x, y);
+                }else{
+                    ctx.lineTo(x, y);
+                }
                 item.cross_x = x;
                 item.cross_y = y;
+                console.log("("+x+","+y+")");
             }
             ctx.stroke();
         }
