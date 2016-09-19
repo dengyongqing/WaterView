@@ -121,7 +121,7 @@ var DrawXY = (function() {
         ctx.fillStyle = '#999';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
-        var y_date = 8.5 * this.options.unit_height ;
+        var y_date = 8.5 * this.options.unit_height - 1 ;
         /*通过type判断，是一日分时还是多日分时，以及判断是不是有盘前数据，根据判断结果画不同的横坐标时间点*/
         var timeStrLen = oc_time_arr.length;
         /*绘制x轴上的y轴方向分割*/
@@ -146,7 +146,8 @@ var DrawXY = (function() {
             }
             isR = true;
         }
-
+        ctx.save();
+        ctx.fillStyle = "#555";
         /*绘制x轴上的时间点*/
         for (var i = 0; i < timeStrLen; i++) {
             var itemTime = oc_time_arr[i];
@@ -160,6 +161,7 @@ var DrawXY = (function() {
                 ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index)-ctx.measureText(itemTime.value).width/2, y_date);
             }
         }
+        ctx.restore();
 
         var v_height = this.options.c_v_height;
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
