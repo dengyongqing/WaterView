@@ -18,7 +18,7 @@ function getData(options, callback){
         isCR :false,
         check:"kte"
 	};
-	if(options.authorityType != ""){
+	if(options.authorityType != "" && options.authorityType != "undefined"){
 		urlData.authorityType = options.authorityType;
 	}
 	jsonp(url, urlData, callbackStr, function(json){

@@ -310,6 +310,8 @@ var ChartK = (function() {
         // 绘制成交量均线
         this.drawVMA();
         this.drawK();
+
+
     }
 
     //绘制k线图的各种指标
@@ -1604,6 +1606,7 @@ var ChartK = (function() {
         try{
             // slideBarCallback.apply(this,[start,end]);
             slideBar.apply(this,[slideBarCallback,start,end]);
+            
             inter.hideLoading();
         }catch(e){
             // 缩放按钮点击有效
@@ -1748,51 +1751,59 @@ var ChartK = (function() {
         var delayed = false;
         var delaytouch = this.options.delaytouch = true;
 
+        common.addEvent.call(_this, canvas, "touchmove",function(event){
+            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            // dealEvent.apply(_this,[inter,event]);
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        });
 
-        // if(!delaytouch){
-            common.addEvent.call(_this, canvas, "mousemove",function(event){
-                dealEvent.apply(_this,[inter,event]);
-                try {
-                    event.preventDefault();
-                } catch (e) {
-                    event.returnValue = false;
-                }
-            });
+        common.addEvent.call(_this, canvas, "mousemove",function(event){
+            dealEvent.apply(_this,[inter,event]);
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        });
 
-            common.addEvent.call(_this, _this.container, "mouseleave",function(event){
-                inter.hide();
-                try {
-                    event.preventDefault();
-                } catch (e) {
-                    event.returnValue = false;
-                }
-            });
+        common.addEvent.call(_this, _this.container, "mouseleave",function(event){
+            inter.hide();
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        });
 
-            common.addEvent.call(_this, canvas, "mouseenter",function(event){
-                inter.show();
-                try {
-                    event.preventDefault();
-                } catch (e) {
-                    event.returnValue = false;
-                }
-            });
+        common.addEvent.call(_this, canvas, "mouseenter",function(event){
+            inter.show();
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        });
 
-            common.addEvent.call(_this, _this.container, "mousewheel",function(event){
-                event.wheelDelta > 0 ? _this.scalePlus() : _this.scaleMinus();
-                try {
-                    event.preventDefault();
-                } catch (e) {
-                    event.returnValue = false;
-                }
-            }); 
-            common.addEvent.call(_this, _this.container, "DOMMouseScroll",function(event){
-                event.detail > 0 ? _this.scalePlus() : _this.scaleMinus();
-                try {
-                    event.preventDefault();
-                } catch (e) {
-                    event.returnValue = false;
-                }
-            }); 
+        common.addEvent.call(_this, _this.container, "mousewheel",function(event){
+            event.wheelDelta > 0 ? _this.scalePlus() : _this.scaleMinus();
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        }); 
+        common.addEvent.call(_this, _this.container, "DOMMouseScroll",function(event){
+            event.detail > 0 ? _this.scalePlus() : _this.scaleMinus();
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        }); 
         
 
     }

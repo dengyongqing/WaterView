@@ -86,7 +86,11 @@ var ChartTime = (function() {
         // 画布上部内间距
         ctx.translate("0", this.options.canvas_offset_top);
         // 画笔参数设置
-        ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
+        this.options.color = {};
+        this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
+        this.options.color.fillStyle = '#333';
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.font = "14px";
         ctx.lineWidth = 1 * this.options.dpr;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
 
@@ -144,8 +148,145 @@ var ChartTime = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-        watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
+        
     };
+
+        /*持续绘图*/
+    ChartTime.prototype.intervalDraw = function(){
+        var currentIndex = this.options.data.data.length-1;
+        var currentMinute = (new Date()).getMinutes();
+        var timer = this.options.intervalTimer;
+        var _this = this;
+        if(timer){
+            clearInterval(timer);
+        }
+        this.options.intervalTimer = setInterval(function(){
+            var dateNow = new Date();
+            var tempMinute = dateNow.getMinutes();
+            var flag = true;
+            if( dateNow.getHours() >= 15 && dateNow.getMinutes() >= 0){
+                clearInterval(_this.options.intervalTimer);
+                flag = false;
+            }
+            if(dateNow.getHours() <= 9 && dateNow.getMinutes() < 30 && _this.options.isCR === false){
+                clearInterval(_this.options.intervalTimer);
+                flag = false;
+            }
+            if(dateNow.getHours() <= 9 && dateNow.getMinutes() < 15 && _this.options.isCR === true){
+                clearInterval(_this.options.intervalTimer);
+                flag = false;
+            }
+            if(tempMinute !== currentMinute && flag){
+                console.log("绘制");
+                currentMinute = tempMinute;
+                drawContinuePoint.call(_this);
+            }
+        }, 500*60);
+
+        function drawContinuePoint() {
+            var _this = this;
+            var currentMax = _this.options.data.max;
+            var currentMin = _this.options.data.min;
+            var currentVMax = _this.options.data.v_max;
+            var param = {
+                code: _this.options.code,
+                type: _this.options.type,
+                isCR: _this.options.isCR
+            };
+            GetDataTime(param, function(error, data){
+                if(error){
+                    _this.options.interactive.showNoData();
+                }else{
+                    console.log(currentIndex);
+                    console.log(data.length-1);
+                    var max = data.max;
+                    var min = data.min;
+                    var v_max = data.v_max;
+                    // debugger;
+                    _this.options.data = data;
+                    if(max > currentMax || min < currentMin || v_max < currentVMax){
+                        allRePaint.call(_this, data);
+                    }else{
+                        addPoint.call(_this, data);
+                    }
+                    currentIndex = _this.options.data.data.length-1;
+                    // _this.options.interactive.showTipsTime(0, 0, data.data, data.data.length - 1);
+                }
+            });
+        }
+
+        function allRePaint(data){
+            this.clear();
+            dataCallback.apply(this, [data]);
+        }
+
+        function addPoint(data){
+            var ctx = this.options.context;
+
+            addAvgLine.call(this, ctx, data, currentIndex);
+            addPriceLine.call(this, ctx, data, currentIndex);
+            addVolume.call(this, ctx, data, currentIndex);
+        }
+
+        function addAvgLine(ctx, data, currentIndex){
+            var x1 = common.get_x.call(this, currentIndex);
+            var y1 = common.get_y.call(this, data.data[currentIndex].avg_cost);
+            var x2 = common.get_x.call(this, data.data.length-1);
+            var y2 = common.get_y.call(this, data.data[data.data.length-1].avg_cost);
+            ctx.save();
+            ctx.strokeStyle = "#F1CA15";
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2)
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function addPriceLine(ctx, data, currentIndex){
+            var y_min = common.get_y.call(this, this.options.data.min);
+            var x1 = common.get_x.call(this, currentIndex);
+            var y1 = common.get_y.call(this, data.data[currentIndex].price);
+            var x2 = common.get_x.call(this, data.data.length-1);
+            var y2 = common.get_y.call(this, data.data[data.data.length-1].price);
+            ctx.save();
+            ctx.strokeStyle = "#639EEA";
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2)
+            ctx.stroke();
+
+            var grad = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+            /* 指定几个颜色 */
+            grad.addColorStop(0, 'rgba(200,234,250,0.7)');
+            grad.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.beginPath();
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.lineTo(x2, y_min);
+            ctx.lineTo(x1, y_min);
+            ctx.lineTo(x1, y1)
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function addVolume(ctx, data, currentIndex){
+            var len = data.data.length;
+            var v_height = ctx.canvas.height / 4;
+            var v_base_height = v_height * 0.9;
+            var x = common.get_x.call(this, len-1);;
+            var bar_height = v_height*data.data[len-1].volume/data.v_max;
+            var y = v_base_height - bar_height;
+            var bar_w = this.options.rect_unit.bar_w;
+
+            ctx.save();
+            ctx.fillStyle = this.options.avg_cost_color;
+            ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
+            ctx.restore();
+        }
+
+    }
 
     // 重绘
     ChartTime.prototype.reDraw = function() {
@@ -185,12 +326,13 @@ var ChartTime = (function() {
             //绘制盘口动态
             if(this.options.type === "r")
                 draw_positionChange.call(this);
+            // this.intervalDraw();
             // 隐藏loading效果
             inter.hideLoading();
             inter.showTipsTime(this.options.padding.left, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
             // 图表加载完成时间
             this.onChartLoaded(this);
-
+            watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);
         } catch (e) {
             // 暂无数据
             // inter.showNoData();
@@ -208,6 +350,16 @@ var ChartTime = (function() {
         var canvas = ctx.canvas;
         var inter = this.options.interactive;
         var container = this.container;
+
+        common.addEvent.call(_this, canvas, "touchmove",function(event){
+            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            // dealEvent.apply(_this,[inter,event]);
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        });
 
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
             dealEvent.apply(_this, [inter, event]);
@@ -296,7 +448,6 @@ var ChartTime = (function() {
                 }
                 item.cross_x = x;
                 item.cross_y = y;
-                console.log("("+x+","+y+")");
             }
             ctx.stroke();
         }
@@ -386,7 +537,7 @@ var ChartTime = (function() {
 
             ctx.lineWidth = 1;
             //写字
-            ctx.fillStyle = "#666";
+            ctx.fillStyle = this.options.color.fillStyle;
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             for (var i = 0; i <= 3; i++) {
                 var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)));
