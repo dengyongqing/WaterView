@@ -324,8 +324,9 @@ var ChartTime = (function() {
             //绘制交易量
             draw_v.call(this);
             //绘制盘口动态
-            if(this.options.type === "r")
+            if(this.options.type === "r"){
                 draw_positionChange.call(this);
+            }
             // this.intervalDraw();
             // 隐藏loading效果
             inter.hideLoading();

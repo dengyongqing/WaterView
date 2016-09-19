@@ -6,8 +6,8 @@ function drawPositionChange(data) {
     var _that = this;
     //分时数据
     var timeData_arr = _that.options.data.data;
-    var timeIndex = 0;
-    for (var i = data.length - 1; i >= 0; i--) {
+    var timeIndex = timeData_arr.length-1;
+    for (var i = 0; i <= data.length-1; i++) {
         var item = data[i].split(",");
         //异动的相关信息
         var positionChangeItem = {
@@ -22,7 +22,7 @@ function drawPositionChange(data) {
         var changeImg = typeToImgMap(item[3]);
         var changeIconHeight = _that.options.canvas_offset_top + _that.options.c_1_height - 40;
 
-        for (; timeIndex < timeData_arr.length; timeIndex++) {
+        for (; timeIndex >= 0; timeIndex--) {
             //如果检测到该时间点上有盘口异动，就绘制盘口异动图标
             if (changeTime == _that.options.data.data[timeIndex].time) {
                 var currentPrice = _that.options.data.data[timeIndex].price;
