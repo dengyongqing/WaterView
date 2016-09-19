@@ -95,8 +95,7 @@ var ChartLine = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
-        // 加水印
-        watermark.apply(this,[ctx,190,20]);
+        
         // 容器中添加画布
         this.container.appendChild(canvas);
     };
@@ -109,6 +108,7 @@ var ChartLine = (function() {
         this.init();
         // 初始化交互
         this.options.interactive = new Interactive(this.options);
+        var ctx = this.options.context;
         // 显示loading效果
         // inter.showLoading();
         // var _this = this;
@@ -126,6 +126,9 @@ var ChartLine = (function() {
         new DrawXY(this.options);
         // 绘制分时折线图
         new DrawLine(this.options);
+
+        // 加水印
+        watermark.apply(this,[ctx,190,20]);
 
     };
     // 重绘

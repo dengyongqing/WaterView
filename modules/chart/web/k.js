@@ -173,9 +173,6 @@ var ChartK = (function() {
 
         // 移动坐标轴
         ctx.translate("0",this.options.margin.top);
-
-        // 加水印
-        watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
         
     };
 
@@ -226,7 +223,6 @@ var ChartK = (function() {
         drawT.apply(this);
         drawKT.apply(this);
         setPreference.apply(this);
-
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -742,6 +738,13 @@ var ChartK = (function() {
             temp_ma.apply(_this,[]);
             temp_rsi.apply(_this,[]);
 
+            if(_this.options.interactive.options.markMAContainer){
+                _this.options.interactive.options.markMAContainer.innerHTML = "";
+                _this.options.interactive.options.markMAContainer = null;
+            }else{
+                _this.options.interactive.options.markMAContainer = null;
+            }
+
             inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
             inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, 59);
         });
@@ -854,20 +857,20 @@ var ChartK = (function() {
         this.options.drawXY.drawXYK();
         this.drawK();
 
+        var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
+        var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
+        var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
+        var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
+
         var params = {};
         params = getParamsObj.call(this);
-        params.extend = "ma";
+        params.extend = "cma"+","+j1+","+j2+","+j3+","+j4;
         if(this.options.junxian){
             data = _this.options.junxian;
             temp_ma.apply(_this,[]);
         } else {
              GetTeacData(params, function(data) {
                 _this.options.junxian = {};
-
-                var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
-                var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
-                var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
-                var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
 
                 /*5日均线数据*/
                 _this.options.junxian["ma"+j1] = data.five_average;
@@ -889,11 +892,6 @@ var ChartK = (function() {
 
             // 图表交互
             var inter = _this.options.interactive;
-
-            var j1 = EMcookie.getCookie("ma1_default_num") == null ? 5 : EMcookie.getCookie("ma1_default_num");
-            var j2 = EMcookie.getCookie("ma2_default_num") == null ? 10 : EMcookie.getCookie("ma2_default_num");
-            var j3 = EMcookie.getCookie("ma3_default_num") == null ? 20 : EMcookie.getCookie("ma3_default_num");
-            var j4 = EMcookie.getCookie("ma4_default_num") == null ? 30 : EMcookie.getCookie("ma4_default_num");
 
             /*5日均线数据*/
             var five_average = data["ma"+j1].slice(start, end);
@@ -1561,6 +1559,7 @@ var ChartK = (function() {
         }else if(flag == 2){
             window.authorityType = "ba";
         }
+
         this.clear();
         this.draw();
     }
@@ -1706,6 +1705,9 @@ var ChartK = (function() {
             
             // 图表加载完成时间
             this.options.onChartLoaded(this);
+
+            // 加水印
+            watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);
 
         // }catch(e){
         //     // 缩放按钮点击有效
@@ -1858,6 +1860,7 @@ var ChartK = (function() {
             if(five_average[index]){
                  // 标识均线数据
                  // inter.markMA(canvas,five_average[index],ten_average[index],twenty_average[index],thirty_average[index]);
+
                  if(this.options.up_t == "junxian"){
                     inter.markMA(canvas, this.options.up_t, this.options[this.options.up_t], this.options.start, this.options.end, index, this.options.maColor);
                  }else{

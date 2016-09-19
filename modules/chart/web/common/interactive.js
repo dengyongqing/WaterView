@@ -124,6 +124,7 @@ var Interactive = (function() {
             dataObj.push({ value: datas[item].slice(start, end), name: item });
         }
         if (!this.options.markMAContainer || type != this.options.markUPTType) {
+
             this.options.markUPTType = type;
             //创建并添加最下方一系列技术指标的外部包含div
             if(!this.options.markMAContainer)
@@ -388,7 +389,7 @@ var Interactive = (function() {
 
     // Tip显示行情数据
     Interactive.prototype.showTip = function(canvas, w_x, w_y, c_y, w_y_open, w_y_highest, w_y_lowest, obj) {
-        // debugger;
+
         if (!this.options.tip) {
             this.options.tip = {};
             // 创建外部包裹元素
@@ -495,7 +496,7 @@ var Interactive = (function() {
                     tip_obj[tipLineNames[i]].style.color = this.options.down_color;
                 }
             }
-            // debugger
+
             var mark, color;
             if(obj.close - obj.yc > 0){
                 mark = "+"; color = this.options.up_color;
