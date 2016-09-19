@@ -148,7 +148,7 @@ var ChartTime = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-        watermark.apply(this,[this.options.context,90 + this.options.padding.right,20,82,20]);
+        
     };
 
         /*持续绘图*/
@@ -332,7 +332,7 @@ var ChartTime = (function() {
             inter.showTipsTime(this.options.padding.left, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
             // 图表加载完成时间
             this.onChartLoaded(this);
-
+            watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);
         } catch (e) {
             // 暂无数据
             // inter.showNoData();

@@ -91,17 +91,39 @@ function setPreference(){
             if(i == 2){
                 radio.setAttribute("checked", true);
             }
+        }else{
+            if(i == 0){
+                radio.setAttribute("checked", true);
+            }
         }
 
-        var label = document.createElement("label");
+        var label = document.createElement("div");
         label.style.marginLeft = "10px";
+        label.style.padding = "8px 0px";
+        label.style.height = "16px";
         label.innerHTML = radio.outerHTML + "&nbsp;" + right_panel_strings[i];
 
-        // label.appendChild(radio.outerHTML + );
-        var br = document.createElement('br');
-        // right_panel_frag.appendChild(radio);
         right_panel_frag.appendChild(label);
-        right_panel_frag.appendChild(br);
+        common.addEvent(label, "click", function(e){
+            var target = e.target || e.srcElement;
+            var inputEle, wrapEle;
+            if(target.tagName.toLowerCase() === "div"){
+                inputEle = target.children[0];
+                wrapEle = target.parentNode;
+            }else{
+                inputEle = target;
+                wrapEle = target.parentNode.parentNode;
+            }
+
+            // console.log(inputEle);
+
+            for(i = wrapEle.length-1; i >=0; i--){
+                wrapEle.children[i].children[0].setAttribute("checked", false);
+            }
+
+            inputEle.setAttribute("checked", true);
+            inputEle.click();
+        });
     }
     var right_panel_form = document.createElement("form");
     right_panel_form.className = "right-panel-form";
@@ -114,11 +136,11 @@ function setPreference(){
 
 
     common.addEvent(right_panel_comfirmeBtn, "click", function(){
-        var arr=document.getElementsByName("rehabilitation")
+        var arr = right_panel_form.children;
 
         for (var i=0;i<arr.length;i++){ //遍历Radio 
-            if(arr[i].checked == true){ 
-                var chk_value=arr[i].value; 
+            if(arr[i].children[0].checked == true){ 
+                var chk_value=arr[i].children[0].value; 
                 EMcookie.setCookie("beforeBackRight", chk_value, exp, "/");
                 if(chk_value == ""){
                     _this.beforeBackRight();
