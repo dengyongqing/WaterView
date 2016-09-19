@@ -110,7 +110,7 @@ function setPreference(){
 
     var right_panel_comfirmeBtn = document.createElement("button");
     right_panel_comfirmeBtn.innerHTML = "确认修改";
-    right_panel_comfirmeBtn.className = "right-panel-btn";
+    right_panel_comfirmeBtn.className = "confirm-btn";
 
 
     common.addEvent(right_panel_comfirmeBtn, "click", function(){
@@ -169,7 +169,7 @@ function setPreference(){
 
     var right_panel_cancleBtn = document.createElement("button");
     right_panel_cancleBtn.innerHTML = "取消修改";
-    right_panel_cancleBtn.className = "right-panel-btn";
+    right_panel_cancleBtn.className = "cancle-btn";
     
     common.addEvent(right_panel_cancleBtn, "click", function(){
         handle.innerHTML = "偏好<br/>设置";
@@ -236,7 +236,7 @@ function setPreference(){
     common.addEvent(handle,"click",function(e){
         if(handle_flag){
             preference.style.display = "block";
-            set_show();
+            set_show.call(_this);
             handle.innerHTML = "关闭<br/>设置";
             handle_flag = false;
         }else{
@@ -403,10 +403,10 @@ function setPreference(){
 
     function set_show(){
 
-        var m1 = get_cookie_num_color(1);
-        var m2 = get_cookie_num_color(2);
-        var m3 = get_cookie_num_color(3);
-        var m4 = get_cookie_num_color(4);
+        var m1 = get_cookie_num_color.call(this,1);
+        var m2 = get_cookie_num_color.call(this,2);
+        var m3 = get_cookie_num_color.call(this,3);
+        var m4 = get_cookie_num_color.call(this,4);
 
         ma5_item.input.value = m1.ma_default_value;
         ma5_item.pick.style.backgroundColor = m1.ma_default_color;
@@ -423,6 +423,18 @@ function setPreference(){
     }
 
     function get_cookie_num_color(num){
+
+        var default_num;
+        if(num == 1){
+            default_num = 5;
+        }else if(num == 2){
+            default_num = 10;
+        }else if(num == 3){
+            default_num = 20;
+        }else if(num == 4){
+            default_num = 30;
+        }
+
         var ma_default_value = EMcookie.getCookie("ma" + num + "_default_num") == null ? default_num : EMcookie.getCookie("ma" + num + "_default_num");
         var ma_default_color = EMcookie.getCookie("ma" + num + "_default_color") == null ? this.options.maColor[num-1] : EMcookie.getCookie("ma" + num + "_default_color");
         return {
