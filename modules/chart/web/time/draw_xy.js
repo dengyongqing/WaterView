@@ -118,7 +118,7 @@ var DrawXY = (function() {
         var padding_right = this.options.padding.right;
         var y_min = this.options.c_1_height;
         ctx.beginPath();
-        ctx.fillStyle = '#999';
+        ctx.fillStyle = this.options.color.fillStyle;
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var y_date = 8.5 * this.options.unit_height ;
@@ -146,7 +146,9 @@ var DrawXY = (function() {
             }
             isR = true;
         }
-
+        ctx.save();
+        ctx.fillStyle = this.options.color.fillStyle;
+        ctx.font="14px";
         /*绘制x轴上的时间点*/
         for (var i = 0; i < timeStrLen; i++) {
             var itemTime = oc_time_arr[i];
@@ -157,9 +159,10 @@ var DrawXY = (function() {
             }else if(i === 1 && isCR && isR){
                 ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index), y_date);
             }else{
-                ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index)-ctx.measureText(itemTime.value).width/2, y_date);
+                ctx.fillText(itemTime.value, common.get_x.call(this, itemTime.index)-ctx.measureText(itemTime.value).width/2+2, y_date);
             }
         }
+        ctx.restore();
 
         var v_height = this.options.c_v_height;
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;

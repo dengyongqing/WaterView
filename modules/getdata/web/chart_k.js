@@ -52,7 +52,7 @@ function getData(options, callback){
         'extend' : options.extend || "MA",
         isCR:false
 	};/*debugger;*/
-	if(options.authorityType !== ""){
+	if(options.authorityType !== "" && options.authorityType != "undefined"){
 		urlData.authorityType = options.authorityType;
 	}
 	jsonp(url, urlData, callbackStr, function(json){

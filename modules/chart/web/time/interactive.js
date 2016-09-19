@@ -100,8 +100,8 @@ var Interactive = (function() {
 
         var topText = itemData.dateTime.substring(5)+" "+ itemData.time + " "+
                                 map[(new Date(itemData.dateTime)).getDay()]+" 最新价:"+itemData.price+
-                                " 成交量:"+ volumeNum+" 成交额:"+ 
-                                volumeCount + " 均价:"+ itemData.avg_cost;
+                                " 成交量:"+ volumeNum+/*" 成交额:"+ 
+                                volumeCount +*/ " 均价:"+ itemData.avg_cost;
 
         if(!this.options.webTimeTips){
             this.options.time_data = time_data;
@@ -275,8 +275,8 @@ var Interactive = (function() {
 
             var topText = itemData.dateTime.substring(5) + " " + itemData.time + " " +
                 map[(new Date(itemData.dateTime)).getDay()] + " 最新价:" + itemData.price +
-                " 成交量:" + volumeNum + " 成交额:" +
-                volumeCount + " 均价:" + itemData.avg_cost;
+                " 成交量:" + volumeNum + /*" 成交额:" +
+                volumeCount +*/ " 均价:" + itemData.avg_cost;
             }
             time_x_top.innerHTML = topText;
 
