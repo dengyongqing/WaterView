@@ -130,7 +130,7 @@
 					</select>
 				</div>
 
-				<div class="emchart" style="padding-top:40px;">
+				<div id="emchart" class="emchart" style="padding-top:40px;">
 					<div id="emchart-0" class="em-tab" >
 					</div>
 					<div id="emchart-1" class="em-tab">
@@ -233,7 +233,7 @@
 
 	        	function tab(k,params){
 
-	        		var ems = document.querySelectorAll(".emchart .em-tab");
+	        		var ems = document.getElementById("emchart").children;
 	        		[].forEach.call(ems, function(em) {
 							em.style.display = "none";
 						});
