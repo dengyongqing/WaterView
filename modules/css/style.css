@@ -505,10 +505,34 @@
 	margin: 20px auto;
 	line-height: 1.8;
 }
-.right-panel-btn{
+/*.right-panel-btn{
 	border: none;
 	padding: 5px 15px;
-	margin: 10px 30px;
+	margin: 10px 27px;
+	background-color: #4267A0;
+	color: white;
+}
+*/
+
+.confirm-btn{
+	float:left;
+	border: none;
+	margin-left:30px;
+	margin-top:10px;
+	width:80px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #4267A0;
+	color: white;
+}
+.cancle-btn{
+	float:right;
+	border: none;
+	margin-right:30px;
+	margin-top:10px;
+	width:80px;
+	height: 30px;
+	line-height: 30px;
 	background-color: #4267A0;
 	color: white;
 }
