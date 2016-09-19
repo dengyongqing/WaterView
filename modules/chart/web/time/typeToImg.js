@@ -45,16 +45,16 @@ function typeToImgMap(type) {
         case "向下缺口":
             img = require("images/icom_55.gif");
             break;
-        case "竟价上涨":
+        case "竞价上涨":
             img = require("images/icom_27.gif");
             break;
         case "竞价下跌":
             img = require("images/icom_29.gif");
             break;
-        case "高开5日线":
+        case "高开5日":
             img = require("images/icom_03.gif");
             break;
-        case "低开5日线":
+        case "低开5日":
             img = require("images/icom_05.gif");
             break;
         case "60日新高":
