@@ -235,7 +235,7 @@ var DrawXY = (function(){
         }
 
         var XMark_length = XMark.length;
-        ctx.font="14px Arial,Helvetica,San-serif";
+        ctx.font="13px Arial,Helvetica,San-serif";
         
         for(var j = 0;j < XMark_length;j++){
             if(j == 0){
