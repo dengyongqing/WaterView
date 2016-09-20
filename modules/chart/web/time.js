@@ -46,6 +46,7 @@ var ChartTime = (function() {
         var canvas = document.createElement("canvas");
 
         this.container.style.position = "relative";
+        this.container.className = "canvas-container";
         // 画布
         try {
             var ctx = canvas.getContext('2d');
@@ -333,7 +334,7 @@ var ChartTime = (function() {
             if(this.options.type === "r"){
                 draw_positionChange.call(this);
             }
-            this.intervalDraw();
+            // this.intervalDraw();
             // 隐藏loading效果
             inter.hideLoading();
             inter.showTipsTime(this.options.padding.left, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
