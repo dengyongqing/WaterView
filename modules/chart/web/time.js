@@ -46,6 +46,7 @@ var ChartTime = (function() {
         var canvas = document.createElement("canvas");
 
         this.container.style.position = "relative";
+        this.container.className = "canvas-container";
         // 画布
         try {
             var ctx = canvas.getContext('2d');
