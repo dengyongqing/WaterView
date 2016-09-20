@@ -118,7 +118,7 @@ var DrawXY = (function(){
 
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
-        ctx.font="14px Arial,Helvetica,San-serif";
+        ctx.font="12px Arial,Helvetica,San-serif";
         ctx.textBaseline = "middle";
         ctx.fillText(common.format_unit(data.v_max/1,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1,2)).width, this.options.c2_y_top + 10);
         ctx.fillText(common.format_unit(data.v_max/1 * 2/3,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 2/3,2)).width, this.options.c2_y_top + 10 + this.options.v_base_height * 1/3);
@@ -174,7 +174,7 @@ var DrawXY = (function(){
         var sepe_num = line_list_array.length;
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
-        ctx.font="14px Arial,Helvetica,San-serif";
+        ctx.font="12px Arial,Helvetica,San-serif";
         ctx.textBaseline = "middle";
         for (var i = 0,item; item = line_list_array[i]; i++) {
             
@@ -235,7 +235,7 @@ var DrawXY = (function(){
         }
 
         var XMark_length = XMark.length;
-        ctx.font="13px Arial,Helvetica,San-serif";
+        ctx.font="12px Arial,Helvetica,San-serif";
         
         for(var j = 0;j < XMark_length;j++){
             if(j == 0){

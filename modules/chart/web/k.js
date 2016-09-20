@@ -129,12 +129,11 @@ var ChartK = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
-        ctx.fillStyle = '#333';
-        ctx.font="14px Arial,Helvetica,San-serif";
+        ctx.fillStyle = '#717171';
         ctx.textBaseline = "middle";
         this.options.color = {};
         this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
-        this.options.color.fillStyle = '#333';
+        this.options.color.fillStyle = '#717171';
 
         this.options.color.m5Color = EMcookie.getCookie("ma1_default_color") == null ? "#f4cb15" : EMcookie.getCookie("ma1_default_color");
         this.options.color.m10Color = EMcookie.getCookie("ma2_default_color") == null ? "#ff5b10" : EMcookie.getCookie("ma2_default_color");
