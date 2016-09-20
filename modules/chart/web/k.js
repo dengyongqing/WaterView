@@ -817,6 +817,7 @@ var ChartK = (function() {
             ctx.beginPath();
             ctx.strokeStyle = color;
             var flag = false;
+            var firstNode = true;
             for (var i = 0; i < data_arr.length; i++) {
                 var item = data_arr[i];
                 if (item && item.value) {
@@ -824,8 +825,9 @@ var ChartK = (function() {
                     var y = common.get_y.call(this, item.value);
                     //横坐标和均线数据
                     ma_data.push(item);
-                    if(i == 0){
+                    if(i == 0 || firstNode){
                        ctx.moveTo(x,y);
+                       firstNode = false;
                     }else if(y > this.options.c_k_height || y < 0){
                        ctx.moveTo(x,y);
                        flag = true;
@@ -873,7 +875,6 @@ var ChartK = (function() {
         } else {
              GetTeacData(params, function(data) {
                 _this.options.junxian = {};
-
                 /*5日均线数据*/
                 _this.options.junxian["ma"+j1] = data.five_average;
                 /*10日均线数据*/
@@ -943,6 +944,7 @@ var ChartK = (function() {
             ctx.beginPath();
             ctx.strokeStyle = color;
             var flag = false;
+            var firstNode = true;
             for (var i = 0; i < data_arr.length; i++) {
                 var item = data_arr[i];
                 if (item && item.value) {
@@ -950,8 +952,9 @@ var ChartK = (function() {
                     var y = common.get_y.call(this, item.value);
                     //横坐标和均线数据
                     ma_data.push(item);
-                    if(i == 0){
+                    if(i == 0 || firstNode){
                        ctx.moveTo(x,y);
+                       firstNode = false;
                     }else if(y > this.options.c_k_height || y < 0){
                        ctx.moveTo(x,y);
                        flag = true;
@@ -1910,7 +1913,7 @@ var ChartK = (function() {
         }
 
         result.max = result.max + (result.max - result.min) * 0.05;
-        result.min = result.min - (result.max - result.min) * 0.05; 
+        result.min = result.min - (result.max - result.min) * 0.05 < 0 ? 0 : result.min - (result.max - result.min) * 0.05; 
 
         return result;
     }
