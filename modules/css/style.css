@@ -93,10 +93,12 @@
 .scale-div .span-minus{
 	width: 30px;height: 30px;float: left;border-radius: 6px;
 	background: url(../images/minus.png) no-repeat center center #cccccc;
+	font-size: 14px;
 }
 .scale-div .span-plus{
 	width: 30px;height: 30px;float: right;border-radius: 6px;
 	background: url(../images/plus.png) no-repeat center center #cccccc;
+	font-size: 14px;
 }
 .scale-opacity{
 	opacity:0.3;
@@ -223,6 +225,10 @@
 
 
 /*web版图表样式*/
+body{
+	font-family: simsun;
+	font-size: 12px;
+}
 .canvas-container{
 	-webkit-user-select:none;
     -moz-user-select:none;
@@ -347,11 +353,11 @@
 
 .kt-title {
     margin-bottom: 5px;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .kt-line {
-    background-color: white; position: relative; margin: 14px 0px;
+    background-color: white; position: relative; margin: 7px 0px;
 }
 
 .kt-line:hover{
@@ -408,8 +414,8 @@
 }
 .preference-shade{
 	background-color: #333;
-	opacity: 0.5;
-	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+	opacity: 0.1;
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
 	width:100%;
 	height: 100%;
 }
@@ -419,13 +425,13 @@
 	background-color: #fff;
 	border: 1px solid #e6e6e6;
 	border-left: 0;
-	width:40px;
-	height: 50px;
-	line-height: 25px;
+	width:30px;
+	height: 40px;
+	line-height: 20px;
 	padding:5px;
-	padding-left: 7px;
+	text-align: center;
 	cursor: pointer;
-	
+	font-size: 12px;
 }
 .set-tab{
 	border-bottom:1px solid #4267A0;
@@ -438,6 +444,7 @@
 	line-height: 30px;
 	text-align: center;
 	cursor: pointer;
+	font-size: 14px;
 }
 .set-tab .current{
 	background-color: #4267A0;
@@ -450,6 +457,7 @@
 	line-height: 30px;
 	text-align: center;
 	cursor: pointer;
+	font-size: 14px;
 }
 
 .set-container{
@@ -466,11 +474,13 @@
 	line-height: 20px;
 	text-align: center;
 	margin: 5px 0px;
+	font-size: 14px;
 }
 .ma-item{
 	height: 27px;
 	line-height: 30px;
 	padding-left: 15px;
+	text-align: center;
 }
 .setting-span-ma5{
 	background-color:#f4cb15;
@@ -491,6 +501,9 @@
 	*zoom:1;
 	height: 15px;
 	width:15px;
+	margin-left: 10px;
+	vertical-align:middle;
+	cursor: pointer;
 }
 .item-span{
 	
@@ -517,24 +530,26 @@
 .confirm-btn{
 	float:left;
 	border: none;
-	margin-left:30px;
+	margin-left:45px;
 	margin-top:10px;
 	width:80px;
 	height: 30px;
 	line-height: 30px;
 	background-color: #4267A0;
 	color: white;
+	font-size: 14px;
 }
 .cancle-btn{
 	float:right;
 	border: none;
-	margin-right:30px;
+	margin-right:45px;
 	margin-top:10px;
 	width:80px;
 	height: 30px;
 	line-height: 30px;
 	background-color: #4267A0;
 	color: white;
+	font-size: 14px;
 }
 
 .colorPad{
@@ -599,7 +614,11 @@
 	position: relative;
 }
 .ma-item-input{
-	width:20px;
+	width:30px;
 	height: 15px;
 	line-height: 15px;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size: 12px;
+	vertical-align:middle;
 }

@@ -82,6 +82,22 @@ var ChartK = (function() {
         this.options.onChartLoaded = options.onChartLoaded == undefined ? function(op){
 
         }:options.onChartLoaded;
+
+
+        // 前后复权，默认不复权
+        if(!window.authorityType){
+             window.authorityType = EMcookie.getCookie("beforeBackRight");
+        }
+       
+        window.authorityType = (window.authorityType == null || window.authorityType == undefined) ? "fa" : window.authorityType;
+        if(window.authorityType == ""){
+            this.options.authorityType = "不复权";
+        }else if(window.authorityType == "fa"){
+            this.options.authorityType = "前复权";
+        }else if(window.authorityType == "ba"){
+            this.options.authorityType = "后复权";
+        }
+
     }
 
     /*初始化*/
@@ -118,13 +134,8 @@ var ChartK = (function() {
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
 
-        // 前后复权，默认不复权
-        if(!window.authorityType){
-             window.authorityType = EMcookie.getCookie("beforeBackRight");
-        }
-       
-        window.authorityType = (window.authorityType == null || window.authorityType == undefined) ? "fa" : window.authorityType;
         
+
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
@@ -1076,6 +1087,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
+            end = end + 1;
             DrawRSI.apply(this,[this.options.context,rsi6.slice(start,end),rsi12.slice(start,end),rsi24.slice(start,end)]);
         }
 
@@ -1110,6 +1122,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
+            end = end + 1;
             DrawKDJ.apply(this,[this.options.context,k.slice(start,end),d.slice(start,end),j.slice(start,end)]);
         }
         
@@ -1144,6 +1157,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
+            end = end + 1;
             DrawMACD.apply(_this,[_this.options.context,dea.slice(start,end),diff.slice(start,end),macd.slice(start,end)]);
         }
         
@@ -1176,6 +1190,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
+            end = end + 1;
             DrawWR.apply(_this,[_this.options.context,wr6.slice(start,end),wr10.slice(start,end)]);
 
         }
@@ -1215,7 +1230,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
-
+            end = end + 1;
             DrawDMI.apply(_this,[_this.options.context,pdi.slice(start,end),mdi.slice(start,end),adx.slice(start,end),adxr.slice(start,end)]);
 
         }
@@ -1253,7 +1268,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
-
+            end = end + 1;
             DrawBIAS.apply(this,[this.options.context,bias6.slice(start,end),bias12.slice(start,end),bias24.slice(start,end)]);
 
         }
@@ -1288,7 +1303,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
-
+            end = end + 1;
             DrawOBV.apply(this,[this.options.context,obv.slice(start,end),maobv.slice(start,end)]);
         }
 
@@ -1321,7 +1336,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
-
+            end = end + 1;
             DrawCCI.apply(this,[this.options.context,cci.slice(start,end)]);
         }
         
@@ -1356,7 +1371,7 @@ var ChartK = (function() {
                 start = this.options.start;
                 end = this.options.end;
             }
-
+            end = end + 1;
             DrawROC.apply(_this,[_this.options.context,roc.slice(start,end),rocma.slice(start,end)]);
         }        
     }

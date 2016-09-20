@@ -148,7 +148,8 @@ var DrawXY = (function() {
         }
         ctx.save();
         ctx.fillStyle = this.options.color.fillStyle;
-        ctx.font="14px";
+        ctx.font="14px Arial,Helvetica,San-serif";
+        ctx.textBaseline = "middle";
         /*绘制x轴上的时间点*/
         for (var i = 0; i < timeStrLen; i++) {
             var itemTime = oc_time_arr[i];

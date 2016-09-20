@@ -46,6 +46,7 @@ var ChartTime = (function() {
         var canvas = document.createElement("canvas");
 
         this.container.style.position = "relative";
+        this.container.className = "canvas-container";
         // 画布
         try {
             var ctx = canvas.getContext('2d');
@@ -153,7 +154,7 @@ var ChartTime = (function() {
 
         /*持续绘图*/
     ChartTime.prototype.intervalDraw = function(){
-        var currentIndex = this.options.data.data.length-1;
+        var currentIndex;
         var currentMinute = (new Date()).getMinutes();
         var timer = this.options.intervalTimer;
         var _this = this;
@@ -191,14 +192,17 @@ var ChartTime = (function() {
             var param = {
                 code: _this.options.code,
                 type: _this.options.type,
-                isCR: _this.options.isCR
+                isCR: !!_this.options.isCR
             };
             GetDataTime(param, function(error, data){
                 if(error){
                     _this.options.interactive.showNoData();
                 }else{
+                    currentIndex = data.data.length-2;
+                    console.log("pre: "+_this.options.data.data.length-1);
                     console.log(currentIndex);
-                    console.log(data.length-1);
+                    console.log(data.data.length-1);
+                    console.log(data);
                     var max = data.max;
                     var min = data.min;
                     var v_max = data.v_max;
@@ -210,6 +214,7 @@ var ChartTime = (function() {
                         addPoint.call(_this, data);
                     }
                     currentIndex = _this.options.data.data.length-1;
+                    console.log("in"+currentIndex);
                     // _this.options.interactive.showTipsTime(0, 0, data.data, data.data.length - 1);
                 }
             });
@@ -248,6 +253,8 @@ var ChartTime = (function() {
             var y1 = common.get_y.call(this, data.data[currentIndex].price);
             var x2 = common.get_x.call(this, data.data.length-1);
             var y2 = common.get_y.call(this, data.data[data.data.length-1].price);
+            console.log("("+x1+","+y1+")");
+            console.log("("+x2+","+y2+")");
             ctx.save();
             ctx.strokeStyle = "#639EEA";
             ctx.beginPath();
@@ -327,7 +334,7 @@ var ChartTime = (function() {
             if(this.options.type === "r"){
                 draw_positionChange.call(this);
             }
-            // this.intervalDraw();
+            this.intervalDraw();
             // 隐藏loading效果
             inter.hideLoading();
             inter.showTipsTime(this.options.padding.left, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
