@@ -88,7 +88,7 @@ var ChartTime = (function() {
         // 画笔参数设置
         this.options.color = {};
         this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
-        this.options.color.fillStyle = '#333';
+        this.options.color.fillStyle = '#777';
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.font = "14px";
         ctx.lineWidth = 1 * this.options.dpr;
