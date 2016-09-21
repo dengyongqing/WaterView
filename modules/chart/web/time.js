@@ -89,9 +89,9 @@ var ChartTime = (function() {
         // 画笔参数设置
         this.options.color = {};
         this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
-        this.options.color.fillStyle = '#777';
+        this.options.color.fillStyle = '#717171';
         ctx.fillStyle = this.options.color.fillStyle;
-        ctx.font = "14px";
+        ctx.font = "12px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
         ctx.strokeStyle = 'rgba(230,230,230, 1)';
 
@@ -334,7 +334,7 @@ var ChartTime = (function() {
             if(this.options.type === "r"){
                 draw_positionChange.call(this);
             }
-            this.intervalDraw();
+            // this.intervalDraw();
             // 隐藏loading效果
             inter.hideLoading();
             inter.showTipsTime(this.options.padding.left, common.get_y.call(this, data.data[0].price), data.data, data.data.length - 1);
