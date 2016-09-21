@@ -556,10 +556,9 @@ var ChartTime = (function() {
                 }
             }
             ctx.fill();
-            ctx.beginPath();
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             ctx.lineWidth = 1;
-            ctx.rect(this.options.padding.left - 0.5, y_v_top - 0.5, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
+            ctx.rect(this.options.padding.left - 0.5, Math.round(y_v_top), ctx.canvas.width - this.options.padding.left - this.options.padding.right, v_height);
             ctx.stroke();
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var volume = item.volume;
@@ -589,7 +588,7 @@ var ChartTime = (function() {
                     }
                 }
                 if(bar_height !== 0){
-                    ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
+                    ctx.rect(x - bar_w / 2, Math.round(y), bar_w, bar_height);
                 }
                 ctx.stroke();
                 ctx.fill();

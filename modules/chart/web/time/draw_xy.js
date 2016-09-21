@@ -195,8 +195,8 @@ var DrawXY = (function() {
                 draw_dash(ctx, x, y_v_bottom, x, y_v_top - 10, 5);
             } else {
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(Math.round(padding_left + i * itemWidth)+0.5, y_min);
-                ctx.lineTo(Math.round(padding_left + i * itemWidth)+0.5, 0);
+                ctx.moveTo(Math.round(padding_left + i * itemWidth)-0.5, y_min);
+                ctx.lineTo(Math.round(padding_left + i * itemWidth)-0.5, 0);
                 ctx.stroke();
             }
 
