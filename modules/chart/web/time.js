@@ -556,6 +556,7 @@ var ChartTime = (function() {
                 }
             }
             ctx.fill();
+            ctx.beginPath();
             ctx.strokeStyle = 'rgba(230,230,230, 1)';
             ctx.lineWidth = 1;
             ctx.rect(this.options.padding.left - 0.5, y_v_top - 0.5, ctx.canvas.width - this.options.padding.left - 2 - this.options.padding.right, v_height);
