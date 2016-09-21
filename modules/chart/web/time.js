@@ -360,6 +360,16 @@ var ChartTime = (function() {
         var inter = this.options.interactive;
         var container = this.container;
 
+        common.addEvent.call(_this, canvas, "touchmove",function(event){
+            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
+            // dealEvent.apply(_this,[inter,event]);
+            try {
+                event.preventDefault();
+            } catch (e) {
+                event.returnValue = false;
+            }
+        });
+
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
             dealEvent.apply(_this, [inter, event]);
             try {

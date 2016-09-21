@@ -68,7 +68,9 @@ var DrawXY = (function() {
                     ctx.strokeStyle = 'e1e1e1';
                     ctx.moveTo(padding_left, Math.round(item.y));
                     ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
+                    ctx.stroke();
                 }
+                ctx.beginPath();
                 ctx.fillStyle = '#FF0A16';
                 ctx.strokeStyle = '#eeeeee';
                 draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width - padding_right, Math.round(item.y), 5);
@@ -77,8 +79,10 @@ var DrawXY = (function() {
                 ctx.strokeStyle = '#cadef8';
                 ctx.moveTo(padding_left, Math.round(item.y));
                 ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
+                ctx.stroke();
             }
 
+            ctx.beginPath();
             // 绘制纵坐标刻度
             if (isNaN(item.num)) {
                 ctx.fillText("0.00", 0, item.y);

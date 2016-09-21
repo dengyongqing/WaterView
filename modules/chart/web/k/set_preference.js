@@ -101,6 +101,7 @@ function setPreference(){
         label.style.marginLeft = "10px";
         label.style.padding = "8px 0px";
         label.style.height = "16px";
+        label.style.cursor = "pointer";
         label.innerHTML = radio.outerHTML + "&nbsp;" + right_panel_strings[i];
 
         right_panel_frag.appendChild(label);
@@ -184,9 +185,8 @@ function setPreference(){
             EMcookie.setCookie("ma4_default_num", ma30_item.input.value, exp, "/");
         }
 
-        // _this.drawMA(_this.options.start, _this.options.end);
-        _this.draw();
-        _this.options.interactive.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
+        // _this.draw();
+        // _this.options.interactive.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
 
     });
 
@@ -395,14 +395,14 @@ function setPreference(){
             temp1_span.innerHTML = "第"+item_count+"条";
 
             var temp2_span = document.createElement("span");
-            temp2_span.innerHTML = "日移动平均线&nbsp;设置颜色&nbsp;";
+            temp2_span.innerHTML = "日移动平均线&nbsp;设置颜色";
             // var text = "第"+item_count+"条"+ item_input.outerHTML + "日移动平均线&nbsp;设置颜色&nbsp;";
         }else{
             var temp1_span = document.createElement("span");
             temp1_span.innerHTML = "第"+item_count+"条";
 
             var temp2_span = document.createElement("span");
-            temp2_span.innerHTML = "日移动平均线&nbsp;设置颜色&nbsp;";
+            temp2_span.innerHTML = "日移动平均线&nbsp;设置颜色";
         }
         item_count++;
         var ma_item = document.createElement("div");
