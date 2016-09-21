@@ -177,7 +177,7 @@ var ChartTime = (function() {
                 clearInterval(_this.options.intervalTimer);
                 flag = false;
             }
-            console.log("cur: "+currentIndex);
+            console.log("cur ");
             if(tempMinute !== currentMinute && flag){
                 console.log("绘制");
                 currentMinute = tempMinute;
@@ -200,7 +200,7 @@ var ChartTime = (function() {
                     _this.options.interactive.showNoData();
                 }else{
                     currentIndex = data.data.length-2;
-                    console.log("pre: "+ _this.options.data.data.length-1);
+                    console.log("pre: "+_this.options.data.data.length-1);
                     console.log("cur: "+currentIndex);
                     console.log(data.data.length-1);
                     console.log(data);
@@ -359,16 +359,6 @@ var ChartTime = (function() {
         var canvas = ctx.canvas;
         var inter = this.options.interactive;
         var container = this.container;
-
-        common.addEvent.call(_this, canvas, "touchmove",function(event){
-            dealEvent.apply(_this,[inter,event.changedTouches[0]]);
-            // dealEvent.apply(_this,[inter,event]);
-            try {
-                event.preventDefault();
-            } catch (e) {
-                event.returnValue = false;
-            }
-        });
 
         common.addEvent.call(_this, canvas, "mousemove", function(event) {
             dealEvent.apply(_this, [inter, event]);
@@ -552,7 +542,7 @@ var ChartTime = (function() {
                 var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)));
                 ctx.fillText(text, padding_left - ctx.measureText(text).width-5, y_v_top + (v_height / 3) * i);
                 if (i != 0 && i!= 3) {
-                    draw_dash(ctx, padding_left, y_v_top + v_height / 3 * i, ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);
+                    draw_dash(ctx, padding_left, Math.round(y_v_top + v_height / 3 * i), ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);
                 }
             }
             ctx.fill();
@@ -588,7 +578,7 @@ var ChartTime = (function() {
                     }
                 }
                 if(bar_height !== 0){
-                    ctx.rect(x - bar_w / 2, Math.round(y), bar_w, bar_height);
+                    ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
                 }
                 ctx.stroke();
                 ctx.fill();
