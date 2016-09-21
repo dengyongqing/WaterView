@@ -183,7 +183,7 @@ var ChartTime = (function() {
                 currentMinute = tempMinute;
                 drawContinuePoint.call(_this);
             }
-        }, 1000*20);
+        }, 1000*10);
 
         function drawContinuePoint() {
             var _this = this;
@@ -235,9 +235,9 @@ var ChartTime = (function() {
         }
 
         function addAvgLine(ctx, data, currentIndex){
-            var x1 = common.get_x.call(this, currentIndex);
+            var x1 = common.get_x.call(this, currentIndex+1);
             var y1 = common.get_y.call(this, data.data[currentIndex].avg_cost);
-            var x2 = common.get_x.call(this, data.data.length-1);
+            var x2 = common.get_x.call(this, data.data.length);
             var y2 = common.get_y.call(this, data.data[data.data.length-1].avg_cost);
             ctx.save();
             ctx.strokeStyle = "#F1CA15";
@@ -250,9 +250,9 @@ var ChartTime = (function() {
 
         function addPriceLine(ctx, data, currentIndex){
             var y_min = common.get_y.call(this, this.options.data.min);
-            var x1 = common.get_x.call(this, currentIndex);
+            var x1 = common.get_x.call(this, currentIndex+1);
             var y1 = common.get_y.call(this, data.data[currentIndex].price);
-            var x2 = common.get_x.call(this, data.data.length-1);
+            var x2 = common.get_x.call(this, data.data.length);
             var y2 = common.get_y.call(this, data.data[data.data.length-1].price);
             console.log("("+x1+","+y1+")");
             console.log("("+x2+","+y2+")");
@@ -283,7 +283,7 @@ var ChartTime = (function() {
             var len = data.data.length;
             var v_height = ctx.canvas.height / 4;
             var v_base_height = v_height * 0.9;
-            var x = common.get_x.call(this, len-1);;
+            var x = common.get_x.call(this, len);;
             var bar_height = v_height*data.data[len-1].volume/data.v_max;
             var y = v_base_height - bar_height;
             var bar_w = this.options.rect_unit.bar_w;
@@ -466,7 +466,8 @@ var ChartTime = (function() {
             for (var i = 0, item; item = data_arr[i]; i++) {
                 var x = common.get_x.call(this, i + 1);
                 var y = common.get_y.call(this, item.price);
-                if (i == data_arr_length - 1) {
+                if (i === data_arr_length - 1) {
+                    ctx.lineTo(x, y);
                     ctx.lineTo(x, y_min);
                 } else {
                     ctx.lineTo(x, y);
@@ -542,7 +543,7 @@ var ChartTime = (function() {
                 var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)));
                 ctx.fillText(text, padding_left - ctx.measureText(text).width-5, y_v_top + (v_height / 3) * i);
                 if (i != 0 && i!= 3) {
-                    draw_dash(ctx, padding_left, Math.round(y_v_top + v_height / 3 * i), ctx.canvas.width - padding_right, y_v_top + v_height / 3 * i, 5);
+                    draw_dash(ctx, padding_left, Math.round(y_v_top + v_height / 3 * i), ctx.canvas.width - padding_right+4, y_v_top + v_height / 3 * i, 5);
                 }
             }
             ctx.fill();

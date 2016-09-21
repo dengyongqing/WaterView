@@ -62,7 +62,7 @@ var DrawXY = (function() {
                     ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
                 }else{
                     ctx.strokeStyle = '#eeeeee';
-                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right, item.y, 5);
+                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right+4, item.y, 5);
                 }
                 ctx.fillStyle = '#007F24';
             } else if (i > (sepe_num - 1) / 2) {
@@ -72,7 +72,7 @@ var DrawXY = (function() {
                     ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
                 }else{
                     ctx.strokeStyle = '#eeeeee';
-                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right, item.y, 5);
+                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right+4, item.y, 5);
                 }
                 ctx.fillStyle = '#FF0A16';
             } else {
