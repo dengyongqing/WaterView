@@ -63,6 +63,7 @@ function drawIcon(container, x, y, imgUrl, info, currentPrice, isUp, persent) {
         timeChangePositionPad.className = "timeChangeMainPad";
         timeChangePositionPad.style.left = x - 75 + "px";
         timeChangePositionPad.style.top = y + 50 + "px";
+        timeChangePositionPad.style.display = "block";
 
         timeChangePositionPad.innerHTML = '<div class="timeChangeTriangle"></div>' +
             '<table class="timeChangeTable"><caption class="timeChangeHeader">' + changeType + '</caption>' +
@@ -73,7 +74,7 @@ function drawIcon(container, x, y, imgUrl, info, currentPrice, isUp, persent) {
     });
 
     common.addEvent(img, 'mouseout', function(e) {
-        timeChangePositionPad.innerHTML = "";
+        timeChangePositionPad.style.display = "none";
     });
 }
 

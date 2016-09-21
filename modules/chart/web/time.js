@@ -543,7 +543,7 @@ var ChartTime = (function() {
                 var text = common.format_unit(Math.floor(v_max / 3 * (3 - i)));
                 ctx.fillText(text, padding_left - ctx.measureText(text).width-5, y_v_top + (v_height / 3) * i);
                 if (i != 0 && i!= 3) {
-                    draw_dash(ctx, padding_left, Math.round(y_v_top + v_height / 3 * i), ctx.canvas.width - padding_right+4, y_v_top + v_height / 3 * i, 5);
+                    draw_dash(ctx, padding_left, Math.floor(y_v_top + v_height / 3 * i), ctx.canvas.width - padding_right+4, Math.floor(y_v_top + v_height / 3 * i), 5);
                 }
             }
             ctx.fill();

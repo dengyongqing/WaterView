@@ -60,7 +60,7 @@ var DrawXY = (function(){
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
-                DrawDashLine(ctx,x1, y1, x2+3, y2,5);
+                DrawDashLine(ctx,x1, y1, x2, y2,5);
             }
         }
 
@@ -99,7 +99,6 @@ var DrawXY = (function(){
         // 保存画笔状态
         ctx.save();
         ctx.beginPath();
-        ctx.strokeStyle = "#e1e1e1";
         this.options.context.rect(this.options.padding.left,this.options.c2_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_v_height + this.options.unit_height);
         ctx.stroke();
 
@@ -121,7 +120,8 @@ var DrawXY = (function(){
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
-                DrawDashLine(ctx,x1, y1, x2+3, y2,5);
+
+                DrawDashLine(ctx, x1, Math.round(y1)+0.5, x2, Math.round(y2)+0.5, 5);
             }
         }
 
@@ -150,7 +150,7 @@ var DrawXY = (function(){
 
             if(!(i == 0 || i == this.options.x_sepe_num)){
                 ctx.strokeStyle = "#eeeeee";
-                DrawDashLine(ctx, x1, y1, x2, y2, 5);
+                DrawDashLine(ctx, x1, Math.round(y1), x2, Math.round(y2), 5);
             }
             
         }
@@ -196,7 +196,7 @@ var DrawXY = (function(){
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
-                DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width - this.options.padding.right + 3, Math.round(item.y),5);
+                DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width - this.options.padding.right, Math.round(item.y),5);
             }
             // 绘制纵坐标刻度
             ctx.moveTo(0, item.y + 5);
@@ -204,7 +204,6 @@ var DrawXY = (function(){
             ctx.fillText(text, this.options.padding.left - 5 - ctx.measureText(text).width, item.y + 5);
         }
 
-        ctx.beginPath();
         /*K线图的高度*/
         var k_height = this.options.c_k_height;
         // 绘制横坐标刻度
@@ -250,7 +249,6 @@ var DrawXY = (function(){
             
         }
 
-        ctx.beginPath();
         var XMark_length = XMark.length;
         ctx.font="12px Arial,Helvetica,San-serif";
         
