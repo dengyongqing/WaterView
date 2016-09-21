@@ -120,7 +120,7 @@ var DrawXY = (function(){
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
-                DrawDashLine(ctx,x1, y1, x2, y2,5);
+                DrawDashLine(ctx, x1, Math.round(y1)+0.5, x2, Math.round(y2)+0.5, 5);
             }
         }
 
@@ -149,7 +149,7 @@ var DrawXY = (function(){
 
             if(!(i == 0 || i == this.options.x_sepe_num)){
                 ctx.strokeStyle = "#eeeeee";
-                DrawDashLine(ctx, x1, y1, x2, y2, 5);
+                DrawDashLine(ctx, x1, Math.round(y1), x2, Math.round(y2), 5);
             }
             
         }
