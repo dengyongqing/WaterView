@@ -51,15 +51,17 @@ var Interactive = (function() {
             /*X轴和Y轴标示线相交点*/
             var point = document.createElement("div");
             point.className = "cross-p";
-            point.style.width = "2px";
-            point.style.height = "2px";
+            point.style.width = "11px";
+            point.style.height = "11px";
+            this.options.point_width = 11;
             point.style.borderRadius = point.style.width;
-            point.style.backgroundColor = this.options.point_color;
+            point.style.background = "url("+require("images/dian.png")+")";
             this.options.cross.point = point;
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
             frag.appendChild(x_line);
             frag.appendChild(y_line);
+            frag.appendChild(point);
 
             document.getElementById(this.options.container).appendChild(frag);
         }
@@ -103,7 +105,7 @@ var Interactive = (function() {
         if (point) {
             var p_w = this.options.point_width;
             point.style.left = w_x - p_w / 2 + "px";
-            point.style.top = w_y - p_w / 2 + "px";
+            point.style.top = x_line_y + this.options.margin.top - p_w / 2 + "px";
         }
     }
 
@@ -132,7 +134,7 @@ var Interactive = (function() {
             var markMAContainer = this.options.markMAContainer;
             markMAContainer.innerHTML = "";
             markMAContainer.className = "markTContainer";
-            markMAContainer.style.top = 5 + "px";
+            markMAContainer.style.top = 0 + "px";
             markMAContainer.style.left = this.options.padding.left + 10 + "px";
 
             /*创建文档碎片*/
