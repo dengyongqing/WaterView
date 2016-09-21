@@ -169,6 +169,18 @@
 		        "width" : 800,
 		        "height" : 500
 	        });
+
+	        var select = document.getElementById("beforeBackRight");
+	        var options = select.children;
+			if(current.options.authorityType == "不复权"){
+				options[0].selected = true;
+			}else if(current.options.authorityType == "前复权"){
+				options[1].selected = true;
+			}else if(current.options.authorityType == "后复权"){
+				options[2].selected = true;
+			}
+
+
 	        window.beforeBackRight = "before";
 	        current.options.beforeBackRight = "before";
 
@@ -301,11 +313,9 @@
 				}else{
 					code = temp;
 				}
-	        	k0.options.code = code;
-	        	k0.draw();
+	        	current.options.code = code;
+	        	current.draw();
 	        });
-
-	        
 
 		}
 

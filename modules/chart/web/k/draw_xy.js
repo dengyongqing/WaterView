@@ -47,21 +47,25 @@ var DrawXY = (function(){
         ctx.strokeStyle = this.options.color.strokeStyle;
         // ctx.rect(this.options.padding.left,c2_y_top,ctx.canvas.width - this.options.padding.left - 2,v_height);
         for(var i = 0;i<3;i++){
+            ctx.beginPath();
             var x1 = this.options.padding.left;
             var y1 = c3_y_top + ctx.canvas.height * 1 / this.options.y_sepe_num * i;
             var x2 = this.options.padding.left + this.options.drawWidth;
             var y2 = c3_y_top + ctx.canvas.height * 1 / this.options.y_sepe_num * i;
 
             if(i == 0 || i == 2){
+                ctx.strokeStyle = "#e1e1e1";
                 ctx.moveTo(x1,y1);
                 ctx.lineTo(x2,y2);
+                ctx.stroke();
             }else{
+                ctx.strokeStyle = "#eeeeee";
                 DrawDashLine(ctx,x1, y1, x2, y2,5);
             }
         }
-        ctx.stroke();
 
         ctx.beginPath();
+        ctx.strokeStyle = "#eeeeee";
         /*画布宽度*/
         var k_width = this.options.drawWidth;
         /*K线图的高度*/
@@ -103,19 +107,24 @@ var DrawXY = (function(){
         ctx.strokeStyle = this.options.color.strokeStyle;
         // ctx.rect(this.options.padding.left,c2_y_top,ctx.canvas.width - this.options.padding.left - 2,v_height);
         for(var i = 0;i<4;i++){
+            ctx.beginPath();
             var x1 = this.options.padding.left;
             var y1 = c2_y_top + ctx.canvas.height * 1 / this.options.y_sepe_num * i;
             var x2 = ctx.canvas.width - this.options.padding.right;
             var y2 = c2_y_top + ctx.canvas.height * 1 / this.options.y_sepe_num * i;
 
             if(i == 0 || i == 3){
+                ctx.strokeStyle = "#e1e1e1";
                 ctx.moveTo(x1,y1);
                 ctx.lineTo(x2,y2);
+                ctx.stroke();
             }else{
+                ctx.strokeStyle = "#eeeeee";
                 DrawDashLine(ctx,x1, y1, x2, y2,5);
             }
         }
 
+        ctx.beginPath();
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
         ctx.font="12px Arial,Helvetica,San-serif";
@@ -139,6 +148,7 @@ var DrawXY = (function(){
             var y2 = this.options.c2_y_top + c_v_height;
 
             if(!(i == 0 || i == this.options.x_sepe_num)){
+                ctx.strokeStyle = "#eeeeee";
                 DrawDashLine(ctx, x1, y1, x2, y2, 5);
             }
             
@@ -177,12 +187,14 @@ var DrawXY = (function(){
         ctx.font="12px Arial,Helvetica,San-serif";
         ctx.textBaseline = "middle";
         for (var i = 0,item; item = line_list_array[i]; i++) {
-            
+            ctx.beginPath();
             if(i == 0 || i == line_list_array.length - 1){
+                ctx.strokeStyle = "#e1e1e1";
                 ctx.moveTo(this.options.padding.left, Math.round(item.y));
                 ctx.lineTo(ctx.canvas.width - this.options.padding.right, Math.round(item.y));
                 ctx.stroke();
             }else{
+                ctx.strokeStyle = "#eeeeee";
                 DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width - this.options.padding.right, Math.round(item.y),5);
             }
             // 绘制纵坐标刻度
@@ -202,7 +214,6 @@ var DrawXY = (function(){
    
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height){
-        ctx.beginPath();
         
         /*画布宽度*/
         var k_width = this.options.drawWidth;
@@ -212,23 +223,26 @@ var DrawXY = (function(){
 
         // 保存画笔状态
         ctx.save();
-        ctx.beginPath();
+        
         for(var i = 0;i <= this.options.x_sepe_num;i++){
-
+            ctx.beginPath();
             var x1 = this.options.padding.left + i * unit_w;
             var y1 = 0;
             var x2 = this.options.padding.left + i * unit_w;
             var y2 = k_height;
 
             if(i == 0){
+                ctx.strokeStyle = "#e1e1e1";
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
                 ctx.stroke();
             }else if(i == this.options.x_sepe_num){
+                ctx.strokeStyle = "#e1e1e1";
                 ctx.moveTo(x1 - 1, y1);
                 ctx.lineTo(x2 - 1, y2);
                 ctx.stroke();
             }else{
+                ctx.strokeStyle = "#eeeeee";
                 DrawDashLine(ctx, x1, y1, x2, y2, 5);
             }
             

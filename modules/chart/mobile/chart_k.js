@@ -66,6 +66,7 @@ var ChartK = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
+        this.container.className = "canvas-container";
         //画布
         var ctx = canvas.getContext('2d');
         this.options.canvas = canvas;
