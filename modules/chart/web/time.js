@@ -177,12 +177,13 @@ var ChartTime = (function() {
                 clearInterval(_this.options.intervalTimer);
                 flag = false;
             }
+            console.log("cur: "+currentIndex);
             if(tempMinute !== currentMinute && flag){
                 console.log("绘制");
                 currentMinute = tempMinute;
                 drawContinuePoint.call(_this);
             }
-        }, 500*60);
+        }, 1000*20);
 
         function drawContinuePoint() {
             var _this = this;
@@ -199,8 +200,8 @@ var ChartTime = (function() {
                     _this.options.interactive.showNoData();
                 }else{
                     currentIndex = data.data.length-2;
-                    console.log("pre: "+_this.options.data.data.length-1);
-                    console.log(currentIndex);
+                    console.log("pre: "+ _this.options.data.data.length-1);
+                    console.log("cur: "+currentIndex);
                     console.log(data.data.length-1);
                     console.log(data);
                     var max = data.max;
