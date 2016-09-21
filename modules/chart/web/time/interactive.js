@@ -53,10 +53,21 @@ var Interactive = (function() {
             x_line.style.width = canvas.width - padding_left - padding_right + "px";
             x_line.style.left = padding_left + "px";
             this.options.cross.x_line = x_line;
+            /*X轴和Y轴标示线相交点*/
+            var point = document.createElement("div");
+            point.className = "cross-p";
+            point.style.width = "11px";
+            point.style.height = "11px";
+            this.options.point_width = 11;
+            point.style.borderRadius = point.style.width;
+            point.style.background = "url("+require("images/dian.png")+")";
+            console.log(point.style.background);
+            this.options.cross.point = point;
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
             frag.appendChild(y_line);
             frag.appendChild(x_line);
+            frag.appendChild(point);
             document.getElementById(containerId).appendChild(frag);
         }
         var y_line = this.options.cross.y_line;
@@ -66,6 +77,12 @@ var Interactive = (function() {
         var x_line = this.options.cross.x_line;
         if (this.options.cross.x_line) {
             x_line.style.top = w_y + "px";
+        }
+        var point = this.options.cross.point;
+        if (point) {
+            var p_w = this.options.point_width;
+            point.style.left = w_x - p_w / 2 + "px";
+            point.style.top = w_y - p_w / 2 + "px";
         }
     }
 

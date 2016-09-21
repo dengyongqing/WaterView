@@ -328,6 +328,7 @@ body{
 	-moz-transform: rotate(45deg);       /* for Firefox */
 	-ms-transform: rotate(45deg);        /* for IE */
 	o-transform: rotate(45deg);         /* for Opera */
+	*display: none;
 }
 .timeChangeTable{
 	width: 170px;
