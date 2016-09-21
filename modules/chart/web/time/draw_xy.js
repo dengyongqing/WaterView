@@ -53,25 +53,28 @@ var DrawXY = (function() {
         var padding_right = this.options.padding.right;
         for (var i = 0, item; item = line_list_array[i]; i++) {
             ctx.beginPath();
+            ctx.lineWidth = 1;
             /*绘制y轴上的x轴方向分割*/
             if (i < (sepe_num - 1) / 2) {
                 if (i == 0) {
                     ctx.strokeStyle = '#e1e1e1';
                     ctx.moveTo(padding_left, Math.round(item.y));
                     ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
+                }else{
+                    ctx.strokeStyle = '#eeeeee';
+                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right, item.y, 5);
                 }
                 ctx.fillStyle = '#007F24';
-                ctx.strokeStyle = '#eeeeee';
-                draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width - padding_right, Math.round(item.y), 5);
             } else if (i > (sepe_num - 1) / 2) {
                 if (i == (sepe_num - 1)) {
                     ctx.strokeStyle = 'e1e1e1';
                     ctx.moveTo(padding_left, Math.round(item.y));
                     ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
+                }else{
+                    ctx.strokeStyle = '#eeeeee';
+                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right, item.y, 5);
                 }
                 ctx.fillStyle = '#FF0A16';
-                ctx.strokeStyle = '#eeeeee';
-                draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width - padding_right, Math.round(item.y), 5);
             } else {
                 ctx.fillStyle = '#333333';
                 ctx.strokeStyle = '#cadef8';
@@ -170,6 +173,7 @@ var DrawXY = (function() {
         var y_v_top = this.options.c2_y_top;
         var itemWidth = (k_width - padding_left - padding_right) / len;
         ctx.save();
+        ctx.lineWidth = 1;
         for (var i = 0; i <= len; i++) {
             ctx.beginPath();
             if (i != 0 && i != len) {
@@ -191,8 +195,8 @@ var DrawXY = (function() {
                 draw_dash(ctx, x, y_v_bottom, x, y_v_top - 10, 5);
             } else {
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(Math.floor(padding_left + i * itemWidth), y_min);
-                ctx.lineTo(Math.floor(padding_left + i * itemWidth), 0);
+                ctx.moveTo(Math.round(padding_left + i * itemWidth)+0.5, y_min);
+                ctx.lineTo(Math.round(padding_left + i * itemWidth)+0.5, 0);
                 ctx.stroke();
             }
 
