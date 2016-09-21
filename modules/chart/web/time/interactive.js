@@ -61,7 +61,6 @@ var Interactive = (function() {
             this.options.point_width = 11;
             point.style.borderRadius = point.style.width;
             point.style.background = "url("+require("images/dian.png")+")";
-            console.log(point.style.background);
             this.options.cross.point = point;
             /*创建文档碎片*/
             var frag = document.createDocumentFragment();
