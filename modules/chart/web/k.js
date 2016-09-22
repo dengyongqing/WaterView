@@ -839,11 +839,11 @@ var ChartK = (function() {
                     var y = common.get_y.call(this, item.value);
                     //横坐标和均线数据
                     ma_data.push(item);
-                    if(i == 0 || firstNode){
+                    if(i == 0){
+                       ctx.moveTo(x,y);
+                    }else if(y > this.options.c_k_height || y < 0 || firstNode){
                        ctx.moveTo(x,y);
                        firstNode = false;
-                    }else if(y > this.options.c_k_height || y < 0){
-                       ctx.moveTo(x,y);
                        flag = true;
                     }else{
                         if(flag){
@@ -853,9 +853,7 @@ var ChartK = (function() {
                         }
                         flag = false;
                     }
-                    // ctx.lineTo(x, y);
                 }
-                ctx.lineTo(x,y);
             }
 
             ctx.stroke();
@@ -966,11 +964,11 @@ var ChartK = (function() {
                     var y = common.get_y.call(this, item.value);
                     //横坐标和均线数据
                     ma_data.push(item);
-                    if(i == 0 || firstNode){
+                    if(i === 0){
+                       ctx.moveTo(x,y);
+                    }else if(y > this.options.c_k_height || y < 0 || firstNode){
                        ctx.moveTo(x,y);
                        firstNode = false;
-                    }else if(y > this.options.c_k_height || y < 0){
-                       ctx.moveTo(x,y);
                        flag = true;
                     }else{
                         if(flag){
@@ -982,7 +980,7 @@ var ChartK = (function() {
                     }
                     // ctx.lineTo(x, y);
                 }
-                ctx.lineTo(x,y);
+                // ctx.lineTo(x,y);
             }
 
             ctx.stroke();
