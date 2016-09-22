@@ -22,7 +22,7 @@ function setPreference(){
 
     var handle = document.createElement("div");
     handle.className = "preference-handle";
-    handle.innerHTML = "偏好<br/>设置";
+    handle.innerHTML = "均线<br/>设置";
     handle.style.top = this.options.c2_y_top + "px";
     handle.style.left = this.options.padding.left + this.options.drawWidth - 2 + "px";
     
@@ -154,7 +154,7 @@ function setPreference(){
             } 
         } 
        
-        handle.innerHTML = "偏好<br/>设置";
+        handle.innerHTML = "均线<br/>设置";
         preference.style.display = "none";
         handle_flag = true;
 
@@ -196,7 +196,7 @@ function setPreference(){
     right_panel_cancleBtn.className = "cancle-btn";
     
     common.addEvent(right_panel_cancleBtn, "click", function(){
-        handle.innerHTML = "偏好<br/>设置";
+        handle.innerHTML = "均线<br/>设置";
         preference.style.display = "none";
         handle_flag = true;
     });
@@ -264,7 +264,7 @@ function setPreference(){
             handle.innerHTML = "关闭<br/>设置";
             handle_flag = false;
         }else{
-            handle.innerHTML = "偏好<br/>设置";
+            handle.innerHTML = "均线<br/>设置";
             preference.style.display = "none";
             handle_flag = true;
         }

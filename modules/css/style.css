@@ -1,3 +1,8 @@
+body{
+	font-family: simsun;
+	font-size: 12px;
+}
+
 /*手机版图表样式*/
 .show-tip {
     position: absolute;
@@ -80,7 +85,7 @@
 	font-size: 14px;
 }
 .markTContainer span{
-	min-width: 120px;
+	margin-right: 20px;
 	display: inline-block;
 	*display: inline;
 	*zoom:1;
@@ -225,10 +230,7 @@
 
 
 /*web版图表样式*/
-body{
-	font-family: simsun;
-	font-size: 12px;
-}
+
 .canvas-container{
 	-webkit-user-select:none;
     -moz-user-select:none;
@@ -622,4 +624,5 @@ body{
 	margin-right: 5px;
 	font-size: 12px;
 	vertical-align:middle;
+	padding-left: 3px;
 }

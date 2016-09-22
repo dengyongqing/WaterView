@@ -831,7 +831,6 @@ var ChartK = (function() {
             ctx.beginPath();
             ctx.strokeStyle = color;
             var flag = false;
-            var firstNode = true;
             for (var i = 0; i < data_arr.length; i++) {
                 var item = data_arr[i];
                 if (item && item.value) {
@@ -839,9 +838,8 @@ var ChartK = (function() {
                     var y = common.get_y.call(this, item.value);
                     //横坐标和均线数据
                     ma_data.push(item);
-                    if(i == 0 || firstNode){
+                    if(i == 0){
                        ctx.moveTo(x,y);
-                       firstNode = false;
                     }else if(y > this.options.c_k_height || y < 0){
                        ctx.moveTo(x,y);
                        flag = true;
@@ -958,7 +956,6 @@ var ChartK = (function() {
             ctx.beginPath();
             ctx.strokeStyle = color;
             var flag = false;
-            var firstNode = true;
             for (var i = 0; i < data_arr.length; i++) {
                 var item = data_arr[i];
                 if (item && item.value) {
@@ -966,9 +963,8 @@ var ChartK = (function() {
                     var y = common.get_y.call(this, item.value);
                     //横坐标和均线数据
                     ma_data.push(item);
-                    if(i == 0 || firstNode){
+                    if(i == 0){
                        ctx.moveTo(x,y);
-                       firstNode = false;
                     }else if(y > this.options.c_k_height || y < 0){
                        ctx.moveTo(x,y);
                        flag = true;
@@ -1546,10 +1542,13 @@ var ChartK = (function() {
 
     // 清除k线图区域
     ChartK.prototype.clearK = function(){
+
         var ctx = this.options.context;
         ctx.fillStyle = "#fff";
         // ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
         ctx.fillRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
+        // 加水印
+        watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);
     }
 
     // 清除技术指标区域
