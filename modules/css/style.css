@@ -80,7 +80,7 @@
 	font-size: 14px;
 }
 .markTContainer span{
-	min-width: 150px;
+	min-width: 120px;
 	display: inline-block;
 	*display: inline;
 	*zoom:1;
@@ -536,7 +536,7 @@ body{
 	width:90px;
 	height: 30px;
 	line-height: 30px;
-	background-color: #4267A0;
+	background-color: #305895;
 	color: white;
 	font-size: 14px;
 }
@@ -548,7 +548,7 @@ body{
 	width:90px;
 	height: 30px;
 	line-height: 30px;
-	background-color: #4267A0;
+	background-color: #305895;
 	color: white;
 	font-size: 14px;
 }

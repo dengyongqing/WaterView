@@ -120,6 +120,7 @@ var DrawXY = (function(){
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
+
                 DrawDashLine(ctx, x1, Math.round(y1)+0.5, x2, Math.round(y2)+0.5, 5);
             }
         }
