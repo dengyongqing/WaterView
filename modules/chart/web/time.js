@@ -183,7 +183,7 @@ var ChartTime = (function() {
                 currentMinute = tempMinute;
                 drawContinuePoint.call(_this);
             }
-        }, 1000*10);
+        }, 1000*5);
 
         function drawContinuePoint() {
             var _this = this;
@@ -199,23 +199,16 @@ var ChartTime = (function() {
                 if(error){
                     _this.options.interactive.showNoData();
                 }else{
-                    currentIndex = data.data.length-2;
-                    console.log("pre: "+_this.options.data.data.length-1);
-                    console.log("cur: "+currentIndex);
-                    console.log(data.data.length-1);
-                    console.log(data);
                     var max = data.max;
                     var min = data.min;
                     var v_max = data.v_max;
-                    // debugger;
                     _this.options.data = data;
+                    console.log(max > currentMax || min < currentMin || v_max < currentVMax);
                     if(max > currentMax || min < currentMin || v_max < currentVMax){
                         allRePaint.call(_this, data);
                     }else{
                         addPoint.call(_this, data);
                     }
-                    currentIndex = _this.options.data.data.length-1;
-                    console.log("in"+currentIndex);
                     // _this.options.interactive.showTipsTime(0, 0, data.data, data.data.length - 1);
                 }
             });
@@ -223,22 +216,22 @@ var ChartTime = (function() {
 
         function allRePaint(data){
             this.clear();
-            dataCallback.apply(this, [data]);
+            this.draw(this.options.param);
         }
 
         function addPoint(data){
             var ctx = this.options.context;
-
-            addAvgLine.call(this, ctx, data, currentIndex);
+            var currentIndex = data.data.length - 2;
             addPriceLine.call(this, ctx, data, currentIndex);
+            addAvgLine.call(this, ctx, data, currentIndex);
             addVolume.call(this, ctx, data, currentIndex);
         }
 
         function addAvgLine(ctx, data, currentIndex){
-            var x1 = common.get_x.call(this, currentIndex+1);
-            var y1 = common.get_y.call(this, data.data[currentIndex].avg_cost);
-            var x2 = common.get_x.call(this, data.data.length);
-            var y2 = common.get_y.call(this, data.data[data.data.length-1].avg_cost);
+            var x1 = common.get_x.call(this, currentIndex);
+            var y1 = common.get_y.call(this, data.data[currentIndex-1].avg_cost);
+            var x2 = common.get_x.call(this, currentIndex+1);
+            var y2 = common.get_y.call(this, data.data[currentIndex].avg_cost);
             ctx.save();
             ctx.strokeStyle = "#F1CA15";
             ctx.beginPath();
@@ -250,12 +243,10 @@ var ChartTime = (function() {
 
         function addPriceLine(ctx, data, currentIndex){
             var y_min = common.get_y.call(this, this.options.data.min);
-            var x1 = common.get_x.call(this, currentIndex+1);
-            var y1 = common.get_y.call(this, data.data[currentIndex].price);
-            var x2 = common.get_x.call(this, data.data.length);
-            var y2 = common.get_y.call(this, data.data[data.data.length-1].price);
-            console.log("("+x1+","+y1+")");
-            console.log("("+x2+","+y2+")");
+            var x1 = common.get_x.call(this, currentIndex);
+            var y1 = common.get_y.call(this, data.data[currentIndex-1].price);
+            var x2 = common.get_x.call(this, currentIndex+1);
+            var y2 = common.get_y.call(this, data.data[currentIndex].price);
             ctx.save();
             ctx.strokeStyle = "#639EEA";
             ctx.beginPath();
@@ -280,17 +271,18 @@ var ChartTime = (function() {
         }
 
         function addVolume(ctx, data, currentIndex){
+            var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
             var len = data.data.length;
             var v_height = ctx.canvas.height / 4;
             var v_base_height = v_height * 0.9;
-            var x = common.get_x.call(this, len);;
-            var bar_height = v_height*data.data[len-1].volume/data.v_max;
-            var y = v_base_height - bar_height;
+            var x = common.get_x.call(this, len-1);
+            var bar_height = v_base_height*data.data[len-2].volume/data.v_max;
+            var y = y_v_bottom - bar_height;
             var bar_w = this.options.rect_unit.bar_w;
-
             ctx.save();
-            ctx.fillStyle = this.options.avg_cost_color;
-            ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
+            ctx.fillStyle = data.data[len-1].up ? this.options.up_color : this.options.down_color;
+            console.log(data.data[len-1]);
+            ctx.fillRect(x - bar_w / 2, y, bar_w, bar_height);
             ctx.restore();
         }
 
@@ -427,7 +419,7 @@ var ChartTime = (function() {
     function draw_line() {
         var ctx = this.options.context;
         var data = this.options.data;
-        var data_arr = data.data;
+        var data_arr = data.data.slice(0, data.data.length-1);
 
         drawStroke.apply(this, [ctx, data_arr]);
         drawFill.apply(this, [ctx, data_arr]);
@@ -484,7 +476,7 @@ var ChartTime = (function() {
         ctx.save();
         this.options.avg_cost_color = theme.draw_line.avg_cost_color;
         var color = this.options.avg_cost_color;
-        var data_arr = data.data;
+        var data_arr = data.data.slice(0, data.data.length-1);
         // var w = this.options.width - 30;
         ctx.beginPath();
         ctx.lineWidth = 1;
@@ -513,7 +505,7 @@ var ChartTime = (function() {
             var ctx = this.options.context;
             var data = this.options.data;
             /*成交量数组*/
-            var data_arr = data.data;
+            var data_arr = data.data.slice(0, data.data.length-1);
             /*最大成交量*/
             var v_max = (data.v_max).toFixed(0);
             var unit_height = this.options.unit_height;
