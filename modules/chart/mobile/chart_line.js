@@ -153,7 +153,7 @@ var ChartLine = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(data) {
-        var max = 0, min = 0,count=[];
+        var max = -1000000, min = 0,count=[];
         for(var i = 0;i<data.length;i++){
             count = count.concat(data[i].data);
         }
@@ -161,11 +161,15 @@ var ChartLine = (function() {
         min = count[0];
 
         for(var i =1;i<count.length;i++) {
-            max = Math.max(max,count[i]);
-            min = Math.min(min,count[i]);
+            if(count[i]){
+                max = Math.max(max,count[i]);
+                min = Math.min(min,count[i]);
+            }
+
         }
 
-        max = max/1 * 1.1;
+        max = max/1 + (max - min) * 0.05;
+        min = min/1 - (max - min) * 0.05;
         return {
             max:max,
             min:min

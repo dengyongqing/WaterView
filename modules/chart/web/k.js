@@ -1433,6 +1433,7 @@ var ChartK = (function() {
             temp_boll.apply(_this,[_this.options.start, _this.options.end]);
         }else{
             GetTeacData(params,function(data){
+
                 _this.options.boll = {};
                 _this.options.boll.bollup = data.bollup;
                 _this.options.boll.bollmb = data.bollmb;
@@ -1548,8 +1549,7 @@ var ChartK = (function() {
         ctx.fillStyle = "#fff";
         // ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
         ctx.fillRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
-        watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);
-    }
+        watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);    }
 
     // 清除技术指标区域
     ChartK.prototype.clearT = function(){

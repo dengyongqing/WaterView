@@ -18,7 +18,9 @@ function drawEXPMA(ctx,bbi){
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,bbi[i].value);
 
-        if(i == 0 || y > this.options.c_k_height || y < 0){
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else if(y > this.options.c_k_height || y < 0){
             ctx.moveTo(x,y);
             flag = true;
         }else{

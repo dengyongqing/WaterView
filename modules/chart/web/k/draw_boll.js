@@ -21,7 +21,9 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,bollup[i].value);
 
-        if(i == 0 || y < 0 || y > this.options.c_k_height){
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else if(y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
             flag = true;
         }else{
@@ -45,7 +47,9 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,bollmb[i].value);
 
-        if(i == 0 || y < 0 || y > this.options.c_k_height){
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else if(y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
             flag = true;
         }else{
@@ -55,6 +59,7 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
             }else{
                 ctx.lineTo(x,y);
             }
+            
         }
 
     }
@@ -68,7 +73,9 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,bolldn[i].value);
 
-        if(i == 0 || y < 0 || y > this.options.c_k_height){
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else if(y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
             flag = true;
         }else{
@@ -78,6 +85,7 @@ function drawBOLL(ctx,bollup,bollmb,bolldn){
             }else{
                 ctx.lineTo(x,y);
             }
+            
         }
 
     }

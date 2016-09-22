@@ -18,8 +18,9 @@ function drawEXPMA(ctx,expma12,expma50){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,expma12[i].value);
-
-        if(i == 0 || y < 0 || y > this.options.c_k_height){
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else if(y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
             flag = true;
         }else{
@@ -41,8 +42,9 @@ function drawEXPMA(ctx,expma12,expma50){
 
         var x = this.options.padding.left + i * unit_w + unit_w/2;
         var y = common.get_y.call(this,expma50[i].value);
-        
-        if(i == 0 || y < 0 || y > this.options.c_k_height){
+        if(i == 0){
+            ctx.moveTo(x,y);
+        }else if(y < 0 || y > this.options.c_k_height){
             ctx.moveTo(x,y);
             flag = true;
         }else{
