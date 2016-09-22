@@ -96,6 +96,8 @@ var ChartK = (function() {
             this.options.authorityType = "前复权";
         }else if(window.authorityType == "ba"){
             this.options.authorityType = "后复权";
+        }else{
+            this.options.authorityType = "前复权";
         }
 
     }
@@ -1575,10 +1577,13 @@ var ChartK = (function() {
 
         if(!flag){
             window.authorityType = "";
+            EMcookie.setCookie("beforeBackRight", "", exp, "/");
         }else if(flag == 1){
             window.authorityType = "fa";
+            EMcookie.setCookie("beforeBackRight", "fa", exp, "/");
         }else if(flag == 2){
             window.authorityType = "ba";
+            EMcookie.setCookie("beforeBackRight", "ba", exp, "/");
         }
 
         this.clear();

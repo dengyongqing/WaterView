@@ -34,6 +34,7 @@ function setPreference(){
     var tab = document.createElement("div");
     tab.className = "set-tab";
     var ma_tab = document.createElement("div");
+    // ma_tab.className = "ma-tab current";
     ma_tab.className = "ma-tab current";
     ma_tab.innerHTML = "均线设置";
     var right_tab = document.createElement("div");
@@ -204,7 +205,7 @@ function setPreference(){
     right_panel.style.display = "none";
 
     tab.appendChild(ma_tab);
-    tab.appendChild(right_tab);
+    // tab.appendChild(right_tab);
     set_container.appendChild(tab);
     set_container.appendChild(ma_panel);
     set_container.appendChild(right_panel);
