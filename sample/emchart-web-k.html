@@ -132,7 +132,7 @@
 					</select>
 				</div>
 
-				<div id="emchart" class="emchart" style="padding-top:40px;">
+				<div id="emchart" class="emchart" style="padding-top:50px;">
 					<div id="emchart-0" class="em-tab" >
 					</div>
 					<div id="emchart-1" class="em-tab">
@@ -170,19 +170,23 @@
 		        "height" : 500
 	        });
 
-	  //       var select = document.getElementById("beforeBackRight");
-	  //       var options = select.children;
-			// if(current.options.authorityType == "不复权"){
-			// 	options[0].selected = true;
-			// }else if(current.options.authorityType == "前复权"){
-			// 	options[1].selected = true;
-			// }else if(current.options.authorityType == "后复权"){
-			// 	options[2].selected = true;
-			// }
+	        var select = document.getElementById("beforeBackRight");
+	        var options = select.children;
+			if(current.options.authorityType == "不复权"){
+				options[0].selected = true;
+				k0.options.beforeBackRight = "";
+			}else if(current.options.authorityType == "前复权"){
+				options[1].selected = true;
+				k0.options.beforeBackRight = "before";
+			}else if(current.options.authorityType == "后复权"){
+				options[2].selected = true;
+				k0.options.beforeBackRight = "back";
+			}else{
+				options[1].selected = true;
+				k0.options.beforeBackRight = "before";
+			}
 
-
-	        window.beforeBackRight = "before";
-	        current.options.beforeBackRight = "before";
+			window.beforeBackRight = k0.options.beforeBackRight;
 
 			current.draw();
 	        var list = document.getElementsByTagName("li");

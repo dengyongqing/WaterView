@@ -99,6 +99,7 @@ var DrawXY = (function(){
         // 保存画笔状态
         ctx.save();
         ctx.beginPath();
+        ctx.strokeStyle = "#e1e1e1";
         this.options.context.rect(this.options.padding.left,this.options.c2_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_v_height + this.options.unit_height);
         ctx.stroke();
 

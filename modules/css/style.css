@@ -439,8 +439,8 @@ body{
 	height:30px;
 }
 .ma-tab{
-	float:left;
-	width:50%;
+	/*float:left;*/
+	/*width:50%;*/
 	height:30px;
 	line-height: 30px;
 	text-align: center;
@@ -466,7 +466,7 @@ body{
 	z-index: 103;
 	background-color: #fff;
 	margin-left: 100px;
-	width:300px;
+	width:280px;
 	height:220px;
 }
 
@@ -531,7 +531,7 @@ body{
 .confirm-btn{
 	float:left;
 	border: none;
-	margin-left:45px;
+	margin-left:30px;
 	margin-top:10px;
 	width:90px;
 	height: 30px;
@@ -543,7 +543,7 @@ body{
 .cancle-btn{
 	float:right;
 	border: none;
-	margin-right:45px;
+	margin-right:30px;
 	margin-top:10px;
 	width:90px;
 	height: 30px;
