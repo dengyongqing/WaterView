@@ -200,9 +200,10 @@ var Interactive = (function() {
 
             // 成交量均线
             var v_div_mark = document.createElement("div");
-            v_div_mark.className = "mark-ma";
+            // v_div_mark.className = "mark-ma";
+            v_div_mark.className = "markTContainer";
             v_div_mark.style.left = this.options.padding.left + "px";
-            v_div_mark.style.top = this.options.c2_y_top + "px";
+            v_div_mark.style.top = this.options.c2_y_top + 3 + "px";
             this.options.mark_v_ma.mark_v_ma = v_div_mark;
 
             /*创建文档碎片*/
@@ -210,9 +211,8 @@ var Interactive = (function() {
 
             // 成交量5日均线
             var v_volume = document.createElement('span');
-            v_volume.className = "span-m30";
-            v_volume.style.position = "absolute";
-            v_volume.style.left = "10px";
+            v_volume.style.marginLeft = "10px";
+            v_volume.style.color = "#fe59fe";
             this.options.mark_v_ma.v_volume = v_volume;
             if (volume) {
                 this.options.mark_v_ma.v_volume.innerText = "VOLUME: " + common.format_unit(volume, 2);
@@ -226,9 +226,7 @@ var Interactive = (function() {
 
             // 成交量5日均线
             var v_ma_5 = document.createElement('span');
-            v_ma_5.className = "span-m20";
-            v_ma_5.style.position = "absolute";
-            v_ma_5.style.left = "160px";
+            v_ma_5.style.color = "#488ee6";
             this.options.mark_v_ma.v_ma_5 = v_ma_5;
             if (obj_5) {
                 this.options.mark_v_ma.v_ma_5.innerText = "MA5: " + common.format_unit(obj_5.value, 2);
@@ -242,10 +240,8 @@ var Interactive = (function() {
 
             // 成交量10日均线
             var v_ma_10 = document.createElement('span');
-            v_ma_10.className = "span-m5";
-            v_ma_10.style.position = "absolute";
+            v_ma_10.style.color = "#f4cb15";
             // v_ma_10.style.left = this.options.padding.left + this.options.drawWidth * 1/3 - 50 + "px";
-            v_ma_10.style.left = "310px";
             this.options.mark_v_ma.v_ma_10 = v_ma_10;
             if (obj_10) {
                 this.options.mark_v_ma.v_ma_10.innerText = "MA10: " + common.format_unit(obj_10.value, 2);
@@ -315,7 +311,7 @@ var Interactive = (function() {
             var markTContainer = this.options.markTContainer;
             markTContainer.innerHTML = "";
             markTContainer.className = "markTContainer";
-            markTContainer.style.top = this.options.c3_y_top + 5 + "px";
+            markTContainer.style.top = this.options.c3_y_top + 3 + "px";
             markTContainer.style.left = this.options.padding.left + 10 + "px";
 
             /*创建文档碎片*/
