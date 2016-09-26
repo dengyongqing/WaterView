@@ -837,13 +837,16 @@ var ChartK = (function() {
                 if (item && item.value) {
                     var x = common.get_x.call(this, i + 1);
                     var y = common.get_y.call(this, item.value);
+                    if(firstNode){
+                        ctx.moveTo(x,y);
+                        firstNode = false;
+                    }
                     //横坐标和均线数据
                     ma_data.push(item);
                     if(i == 0){
                        ctx.moveTo(x,y);
-                    }else if(y > this.options.c_k_height || y < 0 || firstNode){
+                    }else if(y > this.options.c_k_height || y < 0){
                        ctx.moveTo(x,y);
-                       firstNode = false;
                        flag = true;
                     }else{
                         if(flag){
@@ -962,13 +965,16 @@ var ChartK = (function() {
                 if (item && item.value) {
                     var x = common.get_x.call(this, i + 1);
                     var y = common.get_y.call(this, item.value);
+                    if(firstNode){
+                        ctx.moveTo(x,y);
+                        firstNode = false;
+                    }
                     //横坐标和均线数据
                     ma_data.push(item);
                     if(i === 0){
                        ctx.moveTo(x,y);
-                    }else if(y > this.options.c_k_height || y < 0 || firstNode){
+                    }else if(y > this.options.c_k_height || y < 0){
                        ctx.moveTo(x,y);
-                       firstNode = false;
                        flag = true;
                     }else{
                         if(flag){
@@ -994,7 +1000,7 @@ var ChartK = (function() {
     ChartK.prototype.drawK = function(data){
         
         var data_arr = data == undefined ? this.options.currentData.data : data;
-
+        console.log(this.options.currentData.data);
         var ctx = this.options.context;
         // 获取单位绘制区域
         var rect_unit = this.options.rect_unit;
