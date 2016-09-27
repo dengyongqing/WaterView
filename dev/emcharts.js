@@ -14,6 +14,8 @@ var ChartLineQuarter = require('chart/web/line-quarter');
 var ChartWebTime = require('chart/web/time');
 /*绘制web的K线图*/
 var ChartWebK = require('chart/web/k');
+/*绘制mobile的通用柱状图*/
+var ChartMobileBar = require('chart/mobile/bar');
 /*加载样式文件*/
 require('css/style.css');
 
@@ -25,3 +27,4 @@ window.EmchartsWebLineQuarter = ChartLineQuarter;
 window.EmchartsWebLineRate = ChartLineRate;
 window.EmchartsWebTime = ChartWebTime;
 window.EmchartsWebK = ChartWebK;
+window.EmchartsMobileBar = ChartMobileBar;
