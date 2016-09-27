@@ -15,11 +15,11 @@
  */
 
 // 绘制坐标轴
-var DrawXY = require('chart/web/bar-quarter/draw_xy');
+var DrawXY = require('chart/mobile/bar/group-bar/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制季度柱状图
-var DrawBar = require('chart/web/bar-quarter/draw_bar');
+var DrawBar = require('chart/mobile/bar/group-bar/draw_bar');
 // 拓展，合并，复制
 var extend = require('tools/extend2');
 // 水印
@@ -115,6 +115,7 @@ var ChartBarQuarter = (function() {
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
         this.options.data.min = getMaxMinValue.min;
+
         this.options.padding_left = this.options.context.measureText("+1000").width + 10;
         this.options.yearUnit = getYearRect.call(this, canvas.width - this.options.padding_left, this.options.series.length);
         this.options.quarterUnit = getQuarterRect.call(this, this.options.yearUnit.bar_w, 4);
@@ -313,10 +314,62 @@ var ChartBarQuarter = (function() {
             }
         }
         if (max < Math.abs(min)) {
-            max = Math.abs(min) + Math.abs(min) / 16;
+            max = Math.abs(min);
         } else {
-            max = max + max / 16;
+            max = max;
         }
+
+
+        var step = max / 4;
+
+        if(step.toString().split(".")[1] && step.toString().split(".")[1].length > 3){
+            step = step.toFixed(3);
+        }
+
+        if(step < 1){
+
+            var num = step.toString().split(".")[1].length * (-1);
+            var base_step = Math.floor(step * Math.pow(10,(num + 1)* (-1))) * Math.pow(10,(num + 1));
+            var middle_step = (base_step + Math.pow(10,(num + 1))/2).toFixed(3);
+            var next_step = (base_step + Math.pow(10,(num + 1))).toFixed(3);
+
+            if(step == base_step){
+                step = base_step;
+            }else if(step > base_step && step <= middle_step){
+                step = middle_step;
+            }else if(step > middle_step && step <= next_step){
+                step = next_step;
+            }
+
+
+        }else if(step >= 1 && step <= 10){
+            step = Math.ceil(step);
+        }else if(step > 10 && step < 100){
+            if(step % 10 > 0){
+                step = Math.ceil(step/10) * 10;
+            }
+        }else{
+            var num = step.toString().length;
+            var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
+            var middle_step = base_step + Math.pow(10,(num - 1))/2;
+            var next_step = base_step + Math.pow(10,(num - 1));
+
+            if(step == base_step){
+                step = base_step;
+            }else if(step > base_step && step <= middle_step){
+                step = middle_step;
+            }else if(step > middle_step && step <= next_step){
+                step = next_step;
+            }
+        }
+
+        // else{
+        //     var num = step.toString().length;
+        //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
+        //     step = base_step;
+        // }
+        max = step * 4;
+
         tempObj.max = max;
         tempObj.min = min;
         return tempObj;

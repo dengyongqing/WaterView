@@ -14,6 +14,7 @@ var ChartLineQuarter = require('chart/web/line-quarter');
 var ChartWebTime = require('chart/web/time');
 /*绘制web的K线图*/
 var ChartWebK = require('chart/web/k');
+
 /*加载样式文件*/
 require('css/style.css');
 
