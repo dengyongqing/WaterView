@@ -4,7 +4,7 @@
 var extend = require('tools/extend2');
 /*主题*/
 var theme = require('theme/default');
-/*绘制网格虚线*/
+/*绘制虚线*/
 var DrawDashLine = require('chart/web/common/draw_dash_line');
 // 工具
 var common = require('chart/web/common/common'); 
