@@ -15,7 +15,7 @@ var ChartWebTime = require('chart/web/time');
 /*绘制web的K线图*/
 var ChartWebK = require('chart/web/k');
 /*绘制mobile的通用柱状图*/
-var ChartMobileBar = require('chart/mobile/bar');
+var ChartMobileBar = require('chart/mobile/bar/bar');
 /*加载样式文件*/
 require('css/style.css');
 
