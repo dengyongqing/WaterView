@@ -387,7 +387,6 @@ var Interactive = (function() {
 
     // Tip显示行情数据
     Interactive.prototype.showTip = function(canvas, w_x, w_y, c_y, w_y_open, w_y_highest, w_y_lowest, obj) {
-
         if (!this.options.tip) {
             this.options.tip = {};
             // 创建外部包裹元素
@@ -445,6 +444,7 @@ var Interactive = (function() {
             frag.appendChild(tipsLine.call(this, "percent", "涨跌幅"));
             frag.appendChild(tipsLine.call(this, "priceChange", "涨跌额"));
             frag.appendChild(tipsLine.call(this, "count", "成交量"));
+            frag.appendChild(tipsLine.call(this, "volumeMoney", "成交金额"));
             div_tip.appendChild(frag);
             document.getElementById(this.options.container).appendChild(div_tip);
             this.options.tip.div_tip_width = div_tip.clientWidth;
@@ -506,6 +506,7 @@ var Interactive = (function() {
             tip_obj.percent.style.color = color;
             tip_obj.priceChange.innerText = mark + "" + obj.priceChange;
             tip_obj.priceChange.style.color = color;
+            tip_obj.volumeMoney.innerHTML = obj.volumeMoney;
 
             tip_obj.count.innerText = common.format_unit(obj.volume);
             tip_obj.date_data.innerHTML = obj.date_time;

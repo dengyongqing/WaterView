@@ -37,6 +37,7 @@ function dealData(json,  extendType) {
         rect.open = itemBase[1];
         rect.close = itemBase[2];
         rect.volume = itemBase[5];
+        rect.volumeMoney = itemBase[6];
         rect.priceChange = (Math.abs(rect.close - yc)).toFixed(2);
         rect.percent = (rect.priceChange/yc*100).toFixed(2);
         rect.up = (rect.close * 1.0 - rect.open * 1.0) > 0 ? true : false;

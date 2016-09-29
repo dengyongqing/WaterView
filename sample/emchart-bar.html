@@ -21,14 +21,14 @@
 </head>
 <body>
 	<div id="container"></div>
-	<script src="../bundle/emcharts.js"></script>
+	<script src="../bundle/mobile_emcharts.js"></script>
 	
 	<script type="text/javascript">
 		
 		var quarter_color = "#ffc962";
 
 		window.onload = function(){
-			k0 = new EmchartsMobileBar({
+			k0 = new ChartMobiBar({
 	        	container : "container",
 		        "width" : 650,
 		        "height" : 500,
@@ -42,7 +42,7 @@
 					{	name:"净利润",
 						color:"#FF7200",
 						hoverColor:"#FF9A4A",	
-						data:[30000.00,70000.00,80000.00,70000.00, 40000.00, 110000.00, 150000.00]
+						data:[20000.00,70000.00,80000.00,70000.00, 40000.00, 110000.00, 150000.00]
 					}
 				]
 	        });
