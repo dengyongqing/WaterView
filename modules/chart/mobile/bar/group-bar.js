@@ -411,10 +411,12 @@ var ChartBarQuarter = (function() {
 
         // }else 
 
-        if(step >= 1 && step <= 10){
+        if(step >= 1 && step < 10){
             step = 10;
-        }else if(step > 10 && step < 100){
-            step = Math.ceil(step/10) * 10;
+        }else if(step >= 10 && step < 50){
+            step = 50;
+        }else if(step > 50 && step < 100){
+            step = 100;
         }else{
             var num = step.toString().split(".")[0].length;
             var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
@@ -436,11 +438,15 @@ var ChartBarQuarter = (function() {
         //     step = base_step;
         // }
 
+        if(flag){
+            step = step/Math.pow(10,maxDot);
+        }
+
         var upNum = 0,downNum = 0;
         var upNumFlag = true,downNumFlag = true;
 
-        for(i = 1;i<sepeNum;i++){
-            if(i * step > Math.abs(max) && upNumFlag){
+        for(i = 1;i<=sepeNum;i++){
+            if(i * step > Math.abs(max)){
                 upNum = i;
                 break;
             }
@@ -453,13 +459,8 @@ var ChartBarQuarter = (function() {
             min = min/Math.abs(min) * step * downNum;
             this.options.sepeNum = this.options.sepeNum + 1;
         }
-        
-        if(flag){
-            max = step * upNum/Math.pow(10,maxDot);
-        }else{
-            max = step * upNum;
-        }
-
+        this.options.maxDot = maxDot;
+        max = step * upNum
         tempObj.max = max;
         tempObj.min = min;
         tempObj.step = step;

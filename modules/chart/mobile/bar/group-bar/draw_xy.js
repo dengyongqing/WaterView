@@ -50,6 +50,7 @@
     // 绘制Y轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         // var sepe_num = line_list_array.length;
+        var _this = this;
         ctx.fillStyle = '#000';
         ctx.strokeStyle = '#eeeeee';
         ctx.textAlign = 'right';
@@ -63,26 +64,29 @@
             // 绘制纵坐标刻度
             if(this.options.data.min < 0) {
                 if(this.options.data.min + this.options.data.step * i < 0){
-                    ctx.fillText(this.options.data.min + this.options.data.step * i, this.options.padding_left - 10, item.y);
+                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
                 }else if(this.options.data.min + this.options.data.step * i == 0){
-                    ctx.fillText(0, this.options.padding_left - 10, item.y);
+                    ctx.fillText(0, this.options.padding_left - 10, item.y + 5);
                 }else {
-                    ctx.fillText(this.options.data.min + this.options.data.step * i, this.options.padding_left - 10, item.y + 10);
+                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
                 }
             }
             else {
-                if(i == 0){
-                    ctx.fillText(common.format_unit((i*absPoint / this.options.sepeNum).toFixed(3),3), this.options.padding_left - 10, item.y);
-                }
-                else {
-                    ctx.fillText(common.format_unit((i*this.options.data.max / this.options.sepeNum).toFixed(3),3), this.options.padding_left - 10, item.y +10);
-                }
+                ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
             }
 
-    ctx.stroke();
-}
+            ctx.stroke();
+        }
 
-}
+
+        function dealFloat(data){
+            if(data){
+                data = parseFloat((data).toFixed(_this.options.maxDot));
+            }
+            return data;
+        }
+
+    }
 
 /*绘制横坐标刻度值*/
 function drawXMark(ctx,k_height,oc_time_arr){
@@ -103,7 +107,7 @@ function drawXMark(ctx,k_height,oc_time_arr){
             ctx.beginPath();
             tempDate = oc_time_arr[i].value;
             var x = i * (k_width - padding_left) / (arr_length) +padding_left;
-            ctx.fillText(tempDate, x +  + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+30); 
+            ctx.fillText(tempDate, x +  + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
 
             ctx.moveTo(x,this.options.c_1_height);   
             ctx.lineTo(x,this.options.c_1_height + 5);
