@@ -56,11 +56,30 @@ var DrawBar = (function(){
                 ctx.strokeStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,bar);
-                if(!this.options.isLessZero){
-                    ctx.rect(x,y,this.options.quarterUnit.bar_w,this.options.c_1_height - y);
-                }else{
-                    ctx.rect(x,this.options.c_1_height/2,this.options.quarterUnit.bar_w,this.options.c_1_height/2 - y);
+
+                if(y >= 0 && this.options.data.min < 0){
+                    var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
+                    ctx.rect(x,y,this.options.quarterUnit.bar_w,sepe_y - y);
+                }else if(y >= 0 && this.options.data.min >= 0){
+                    var sepe_y = this.options.c_1_height;
+                    ctx.rect(x,y,this.options.quarterUnit.bar_w,sepe_y - y);
+                }else if(y < 0 && this.options.data.max >= 0){
+                    var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
+                    ctx.rect(x,sepe_y,this.options.quarterUnit.bar_w,y);
+                }else if(y < 0 && this.options.data.max < 0){
+                    var sepe_y = 0;
+                    ctx.rect(x,sepe_y,this.options.quarterUnit.bar_w,y);
                 }
+
+
+                // if(y >= 0 && this.options.data.min < 0){
+                //     var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
+                //     ctx.rect(x,sepe_y,this.options.quarterUnit.bar_w,sepe_y - y);
+                // }else if(y >= 0 && this.options.data.min >= 0){
+
+                // }else{
+                //     ctx.rect(x,this.options.c_1_height/2,this.options.quarterUnit.bar_w,y);
+                // }
                 ctx.fill();
             }
             
@@ -70,10 +89,19 @@ var DrawBar = (function(){
 
     // 图表y轴坐标计算
     function get_y(y) {
-        if(!this.options.isLessZero){
-            return this.options.c_1_height - (this.options.c_1_height * (y - this.options.data.min)/(this.options.data.max - this.options.data.min));
-        }else{
-            return this.options.c_1_height/2 - (this.options.c_1_height/2 * (-y)/(this.options.data.max));        
+        var sepe_max_min = this.options.data.max - this.options.data.min;
+        if(y >= 0 && this.options.data.min < 0){
+            var up_height = this.options.c_1_height * (this.options.data.max)/sepe_max_min;
+            return up_height - this.options.c_1_height * y/sepe_max_min;
+        }else if(y >= 0 && this.options.data.min >= 0){
+            var up_height = this.options.c_1_height;
+            return up_height - this.options.c_1_height * (y - this.options.data.min)/sepe_max_min;
+        }else if(y < 0 && this.options.data.max >= 0){
+            var sepe_y = this.options.c_1_height * (this.options.data.max)/sepe_max_min;
+            // var down_height = sepe_y + this.options.c_1_height * Math.abs(this.options.data.min)/sepe_max_min;
+            return this.options.c_1_height * Math.abs(y)/sepe_max_min + sepe_y;        
+        }else if(y < 0 && this.options.data.max < 0){
+            return this.options.c_1_height * Math.abs(y)/sepe_max_min + 0;        
         }
     }
     // 图表x轴坐标计算
