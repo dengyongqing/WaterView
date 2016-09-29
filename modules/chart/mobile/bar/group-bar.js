@@ -369,10 +369,14 @@ var ChartBarQuarter = (function() {
         }
 
         var step = max / this.options.sepeNum;
-
+        var flag = false;
         if(step.toString().split(".")[1]){
             step = step.toFixed(maxDot);
-            step = step * Math.pow(10,maxDot);
+            if(step < 1){
+                step = step * Math.pow(10,maxDot);
+                flag = true;
+            }
+            
         }
 
         // if(step < 1){
@@ -392,13 +396,11 @@ var ChartBarQuarter = (function() {
         // }else 
 
         if(step >= 1 && step <= 10){
-            step = Math.ceil(step);
+            step = 10;
         }else if(step > 10 && step < 100){
-            if(step % 10 > 0){
-                step = Math.ceil(step/10) * 10;
-            }
+            step = Math.ceil(step/10) * 10;
         }else{
-            var num = step.toString().length;
+            var num = step.toString().split(".")[0].length;
             var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
             var middle_step = base_step + Math.pow(10,(num - 1))/2;
             var next_step = base_step + Math.pow(10,(num - 1));
@@ -417,8 +419,11 @@ var ChartBarQuarter = (function() {
         //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
         //     step = base_step;
         // }
-        max = step * this.options.sepeNum / Math.pow(10,maxDot);
-
+        if(flag){
+            max = step * this.options.sepeNum/Math.pow(10,maxDot);
+        }else{
+            max = step * this.options.sepeNum;
+        }
         tempObj.max = max;
         tempObj.min = min;
         return tempObj;
