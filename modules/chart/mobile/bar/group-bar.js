@@ -66,6 +66,10 @@ var ChartBarQuarter = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
 
+        this.options.sepeNum = this.options.sepeNum == undefined ? 4 : this.options.sepeNum;
+        if(this.options.sepeNum < 1){
+            this.options.sepeNum = 1;
+        }
 
         // 容器中添加画布
         this.container.appendChild(canvas);
@@ -108,7 +112,7 @@ var ChartBarQuarter = (function() {
         // 折线数据
         var series = this.options.series;
         var canvas = this.options.canvas;
-        var getMaxMinValue = getMaxMark(series);
+        var getMaxMinValue = getMaxMark.apply(this,[series]);
         if (getMaxMinValue.min < 0) {
             this.options.isLessZero = true;
         }
@@ -196,17 +200,15 @@ var ChartBarQuarter = (function() {
         // 绘制的虚线的x坐标
         result.midddleLine = get_x.call(this, numYear, numQuarter) + quarterUnit.bar_w / 2;
         //绘制tips的坐标
-        result.tipsX = result.midddleLine + 3 * quarterUnit.bar_w / 4;
-        result.tipsY = get_y.call(this, -series[numYear].data[numQuarter]);
-        if (canvasX > canvas.width / 2) {
-            result.tipsX = result.midddleLine - 3 * quarterUnit.bar_w / 4;
-        }
-        if (this.options.series[numYear].data[numQuarter] < 0) {
-            result.tipsY -= 25;
-        }
+        result.tipsX = this.options.padding_left*this.options.dpr + yearUnit.rect_w * numYear;
+        result.tipsY = get_y.call(this, -series[numYear].data[0]) + this.options.canvas_offset_top*this.options.dpr;
+
         result.midddleLineHeight = result.tipsY;
 
-        result.content = this.options.series[numYear].data[numQuarter];
+        result.content = {};
+        result.content.series = this.options.series[numYear].data;
+        result.content.colors = this.options.xaxis[numYear];
+
         result.arr = numYear + ":" + numQuarter;
 
         return result;
@@ -229,7 +231,9 @@ var ChartBarQuarter = (function() {
 
         // tips.setAttribute("class", "web-tips");
         tips.className = "web-tips";
-        middleLine.className = "web-middleLine";
+        middleLine.className = "group-bar-mark";
+        middleLine.style.width = yearUnit.rect_w + "px";
+        middleLine.style.backgroundColor = "#333";
         // middleLine.setAttribute("class", "web-middleLine");
         _that.container.appendChild(tips);
         _that.container.appendChild(middleLine);
@@ -259,20 +263,57 @@ var ChartBarQuarter = (function() {
             if (status !== coordinateCanvas.arr) {
                 coordinateWindow.midddleLine = common.canvasToWindow.call(_that, canvas, coordinateCanvas.midddleLine, 0);
                 coordinateWindow.tips = common.canvasToWindow.call(_that, canvas, coordinateCanvas.tipsX, coordinateCanvas.tipsY);
+                
                 //绘制tips
-                tips.innerHTML = coordinateCanvas.content;
-                if (winX > canvas.width / 2) {
+                var series = coordinateCanvas.content.series;
+                var colors = coordinateCanvas.content.colors;
+
+                tips.innerHTML = "";
+                var title = document.createElement("div");
+                title.innerHTML = colors.value;
+                tips.appendChild(title);
+                for(var i=0,item;item=series[i]; i++){
+                    
+                    var color_span = document.createElement("span");
+                    color_span.className = "bar-color-span";
+                    color_span.style.backgroundColor = colors.colors[i];
+
+                    var value_span = document.createElement("span");
+                    value_span.className = "bar-value-span";
+                    value_span.innerHTML = item;
+
+                    var span_container = document.createElement("div");
+                    span_container.className = "";
+                    span_container.appendChild(color_span);
+                    span_container.appendChild(value_span);
+
+                    tips.appendChild(span_container);
+                }
+
+                // tips.innerHTML = coordinateCanvas.content;
+                var w_x = e.offsetX || (e.clientX - _that.container.getBoundingClientRect().left);
+                var w_y = e.offsetY || (e.clientY - _that.container.getBoundingClientRect().top);
+
+                if (w_x > canvas.width / 2) {
                     tips.style.left = (coordinateCanvas.tipsX - tips.clientWidth) + "px";
                 } else {
-                    tips.style.left = (coordinateCanvas.tipsX - tips.style.width) + "px";
+                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.yearUnit.rect_w) + "px";
                 }
                 // alert(coordinateWindow.tips.y);
-                tips.style.top = (coordinateCanvas.tipsY * dpr + tips.clientHeight) + "px";
+                tips.style.top = (coordinateCanvas.tipsY) - tips.clientHeight/2 + "px";
                 // var text = createTextNode(coordinateCanvas.content);
                 // tips.appendChild(text);
+
+               
+
+                // 鼠标在画布中的坐标
+                var c_pos = common.windowToCanvas.apply(_that,[canvas,w_x,w_y]);
+                var c_x = (c_pos.x).toFixed(0);
+
+                var index = Math.floor((c_x - _that.options.padding_left) / yearUnit.rect_w);
                 //绘制中线
                 middleLine.style.height = yHeight + "px";
-                middleLine.style.left = coordinateWindow.midddleLine.x + "px";
+                middleLine.style.left = index * yearUnit.rect_w + _that.options.padding_left + "px";
                 middleLine.style.top = offSetTop + "px";
                 status = coordinateCanvas.arr;
             }
@@ -305,12 +346,20 @@ var ChartBarQuarter = (function() {
     function getMaxMark(series) {
         var max = 0,
             min = 0,
+            maxDot = 0,
+            dot = 0,
             seriesLength = series.length,
             tempObj = {};
         for (var i = 0; i < seriesLength; i++) {
             for (var j = 0; j < series[i].data.length; j++) {
                 max = Math.max(max, series[i].data[j]);
                 min = Math.min(min, series[i].data[j]);
+
+                if(series[i].data[j].toString().split(".")[1]){
+                    dot = series[i].data[j].toString().split(".")[1].length;
+                    maxDot = Math.max(maxDot, dot);
+                }
+                
             }
         }
         if (max < Math.abs(min)) {
@@ -319,30 +368,30 @@ var ChartBarQuarter = (function() {
             max = max;
         }
 
+        var step = max / this.options.sepeNum;
 
-        var step = max / 4;
-
-        if(step.toString().split(".")[1] && step.toString().split(".")[1].length > 3){
-            step = step.toFixed(3);
+        if(step.toString().split(".")[1]){
+            step = step.toFixed(maxDot);
+            step = step * Math.pow(10,maxDot);
         }
 
-        if(step < 1){
+        // if(step < 1){
+        //     var num = step.toString().split(".")[1].length * (-1);
+        //     var base_step = Math.floor(step * Math.pow(10,(num + 1)* (-1))) * Math.pow(10,(num + 1));
+        //     var middle_step = (base_step + Math.pow(10,(num + 1))/2);
+        //     var next_step = (base_step + Math.pow(10,(num + 1)));
 
-            var num = step.toString().split(".")[1].length * (-1);
-            var base_step = Math.floor(step * Math.pow(10,(num + 1)* (-1))) * Math.pow(10,(num + 1));
-            var middle_step = (base_step + Math.pow(10,(num + 1))/2).toFixed(3);
-            var next_step = (base_step + Math.pow(10,(num + 1))).toFixed(3);
+        //     if(step == base_step){
+        //         step = base_step;
+        //     }else if(step > base_step && step <= middle_step){
+        //         step = middle_step;
+        //     }else if(step > middle_step && step <= next_step){
+        //         step = next_step;
+        //     }
 
-            if(step == base_step){
-                step = base_step;
-            }else if(step > base_step && step <= middle_step){
-                step = middle_step;
-            }else if(step > middle_step && step <= next_step){
-                step = next_step;
-            }
+        // }else 
 
-
-        }else if(step >= 1 && step <= 10){
+        if(step >= 1 && step <= 10){
             step = Math.ceil(step);
         }else if(step > 10 && step < 100){
             if(step % 10 > 0){
@@ -368,7 +417,7 @@ var ChartBarQuarter = (function() {
         //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
         //     step = base_step;
         // }
-        max = step * 4;
+        max = step * this.options.sepeNum / Math.pow(10,maxDot);
 
         tempObj.max = max;
         tempObj.min = min;

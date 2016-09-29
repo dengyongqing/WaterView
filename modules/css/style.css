@@ -77,6 +77,23 @@ body{
 	color:#fe59fe;
 }
 
+.bar-color-span{
+	display: inline-block;
+	margin-left: 10px;
+	width: 10px;
+	height: 10px;
+	vertical-align: middle;
+}
+
+.bar-value-span{
+	display: inline-block;
+	width: 50px;
+	height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
+	text-align: center;
+}
+
 /* 技术指标的样式 */
 .markTContainer{
 	position: absolute;
@@ -208,6 +225,12 @@ body{
 	position: absolute;
 	width: 0px;
 	border-right: dashed 1px #898989;
+}
+
+.group-bar-mark{
+	position: absolute;
+	opacity: 0.1;
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
 }
 
 .tech-index{
