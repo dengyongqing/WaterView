@@ -200,16 +200,9 @@ var ChartBarQuarter = (function() {
         // 绘制的虚线的x坐标
         result.midddleLine = get_x.call(this, numYear, numQuarter) + quarterUnit.bar_w / 2;
         //绘制tips的坐标
-        // if (canvasX > canvas.width / 2) {
-        //     result.tipsX = yearUnit.bar_w * numYear + series[numYear].data.length * ;
-        // }else{
-            result.tipsX = yearUnit.bar_w * numYear;
-        // }
-        result.tipsY = get_y.call(this, -series[numYear].data[0]);
-        
-        // if (this.options.series[numYear].data[numQuarter] < 0) {
-        //     result.tipsY -= 25;
-        // }
+        result.tipsX = this.options.padding_left*this.options.dpr + yearUnit.rect_w * numYear;
+        result.tipsY = get_y.call(this, -series[numYear].data[0]) + this.options.canvas_offset_top*this.options.dpr;
+
         result.midddleLineHeight = result.tipsY;
 
         result.content = {};
@@ -302,9 +295,9 @@ var ChartBarQuarter = (function() {
                 var w_y = e.offsetY || (e.clientY - _that.container.getBoundingClientRect().top);
 
                 if (w_x > canvas.width / 2) {
-                    tips.style.left = (coordinateCanvas.tipsX) + "px";
+                    tips.style.left = (coordinateCanvas.tipsX - tips.clientWidth) + "px";
                 } else {
-                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.yearUnit.bar_w + tips.clientWidth) + "px";
+                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.yearUnit.rect_w) + "px";
                 }
                 // alert(coordinateWindow.tips.y);
                 tips.style.top = (coordinateCanvas.tipsY) - tips.clientHeight/2 + "px";
