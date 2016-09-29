@@ -1000,7 +1000,6 @@ var ChartK = (function() {
     ChartK.prototype.drawK = function(data){
         
         var data_arr = data == undefined ? this.options.currentData.data : data;
-        console.log(this.options.currentData.data);
         var ctx = this.options.context;
         // 获取单位绘制区域
         var rect_unit = this.options.rect_unit;
