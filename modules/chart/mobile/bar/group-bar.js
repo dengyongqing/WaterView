@@ -200,16 +200,9 @@ var ChartBarQuarter = (function() {
         // 绘制的虚线的x坐标
         result.midddleLine = get_x.call(this, numYear, numQuarter) + quarterUnit.bar_w / 2;
         //绘制tips的坐标
-        // if (canvasX > canvas.width / 2) {
-        //     result.tipsX = yearUnit.bar_w * numYear + series[numYear].data.length * ;
-        // }else{
-            result.tipsX = yearUnit.bar_w * numYear;
-        // }
-        result.tipsY = get_y.call(this, -series[numYear].data[0]);
-        
-        // if (this.options.series[numYear].data[numQuarter] < 0) {
-        //     result.tipsY -= 25;
-        // }
+        result.tipsX = this.options.padding_left*this.options.dpr + yearUnit.rect_w * numYear;
+        result.tipsY = get_y.call(this, -series[numYear].data[0]) + this.options.canvas_offset_top*this.options.dpr;
+
         result.midddleLineHeight = result.tipsY;
 
         result.content = {};
@@ -302,9 +295,9 @@ var ChartBarQuarter = (function() {
                 var w_y = e.offsetY || (e.clientY - _that.container.getBoundingClientRect().top);
 
                 if (w_x > canvas.width / 2) {
-                    tips.style.left = (coordinateCanvas.tipsX) + "px";
+                    tips.style.left = (coordinateCanvas.tipsX - tips.clientWidth) + "px";
                 } else {
-                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.yearUnit.bar_w + tips.clientWidth) + "px";
+                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.yearUnit.rect_w) + "px";
                 }
                 // alert(coordinateWindow.tips.y);
                 tips.style.top = (coordinateCanvas.tipsY) - tips.clientHeight/2 + "px";
@@ -376,10 +369,14 @@ var ChartBarQuarter = (function() {
         }
 
         var step = max / this.options.sepeNum;
-
+        var flag = false;
         if(step.toString().split(".")[1]){
             step = step.toFixed(maxDot);
-            step = step * Math.pow(10,maxDot);
+            if(step < 1){
+                step = step * Math.pow(10,maxDot);
+                flag = true;
+            }
+            
         }
 
         // if(step < 1){
@@ -401,11 +398,9 @@ var ChartBarQuarter = (function() {
         if(step >= 1 && step <= 10){
             step = Math.ceil(step);
         }else if(step > 10 && step < 100){
-            if(step % 10 > 0){
-                step = Math.ceil(step/10) * 10;
-            }
+            step = Math.ceil(step/10) * 10;
         }else{
-            var num = step.toString().length;
+            var num = step.toString().split(".")[0].length;
             var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
             var middle_step = base_step + Math.pow(10,(num - 1))/2;
             var next_step = base_step + Math.pow(10,(num - 1));
@@ -424,8 +419,13 @@ var ChartBarQuarter = (function() {
         //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
         //     step = base_step;
         // }
-        max = step * this.options.sepeNum / Math.pow(10,maxDot);
-
+        if(flag){
+            max = step * this.options.sepeNum/Math.pow(10,maxDot);
+            debugger
+        }else{
+            max = step * this.options.sepeNum;
+        }
+        debugger;
         tempObj.max = max;
         tempObj.min = min;
         return tempObj;
