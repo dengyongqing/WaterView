@@ -30,7 +30,7 @@
         var y_min = 0;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = 5;
+        var sepe_num = this.options.sepeNum;
         /*开盘收盘时间数组*/
         var oc_time_arr = this.options.xaxis;
 
@@ -134,13 +134,13 @@ function drawXMark(ctx,k_height,oc_time_arr){
 
  /*Y轴标识线列表*/
  function getLineList(y_max, y_min, sepe_num, k_height) {
-    var ratio = (y_max - y_min) / (sepe_num-1);
+    var ratio = (y_max - y_min) / (sepe_num);
     var result = [];
-    for (var i = 0; i < sepe_num; i++) {
+    for (var i = 0; i <= sepe_num; i++) {
         result.push({
             num:  (y_min + i * ratio),
             x: 0,
-            y: k_height - (i / (sepe_num-1)) * k_height
+            y: k_height - (i / (sepe_num)) * k_height
         });
     }
     return result;

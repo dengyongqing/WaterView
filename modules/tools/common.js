@@ -131,7 +131,7 @@ var common = {
             num = 0;
         }
         
-        return (temp_value/1).toFixed(num) + unit;
+        return parseFloat((temp_value/1).toFixed(num)) + unit;
     },
     /**
      * 兼容性的事件添加

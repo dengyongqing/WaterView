@@ -51,8 +51,7 @@ var ChartMobileBar = (function() {
         var coordinate = getMaxMark(this.options.series);
         this.options.coordinateMinY = coordinate.min;
         this.options.coordinateMaxY = coordinate.max;
-
-    };
+    };  
 
     ChartMobileBar.prototype.draw = function() {
         this.init();

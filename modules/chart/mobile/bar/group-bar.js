@@ -396,7 +396,7 @@ var ChartBarQuarter = (function() {
         // }else 
 
         if(step >= 1 && step <= 10){
-            step = Math.ceil(step);
+            step = 10;
         }else if(step > 10 && step < 100){
             step = Math.ceil(step/10) * 10;
         }else{
@@ -421,7 +421,6 @@ var ChartBarQuarter = (function() {
         // }
         if(flag){
             max = step * this.options.sepeNum/Math.pow(10,maxDot);
-            debugger
         }else{
             max = step * this.options.sepeNum;
         }
