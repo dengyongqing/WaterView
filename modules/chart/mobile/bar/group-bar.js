@@ -424,7 +424,6 @@ var ChartBarQuarter = (function() {
         }else{
             max = step * this.options.sepeNum;
         }
-        debugger;
         tempObj.max = max;
         tempObj.min = min;
         return tempObj;
