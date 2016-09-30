@@ -20,24 +20,24 @@ function handleEvent(winX, winY) {
     var sepeNum = this.options.sepeNum;
 
     var totalHeight = canvas.height - paddingTop - paddingBottom;
-    var baseLine = paddingTop + (maxY/stepHeight) * (totalHeight)/sepeNum;
+    var baseLine = paddingTop + (maxY / stepHeight) * (totalHeight) / sepeNum;
 
     var current = {};
     current.outOrder = Math.floor((cvsX - paddingLeft) / unit_w_len);
     current.innerOrder = Math.floor((((cvsX - paddingLeft) % unit_w_len) - unit_w_kind) / (2 * unit_w_kind));
 
-    var baseLine = paddingTop + (maxY/stepHeight) * (totalHeight)/sepeNum;
+    var baseLine = paddingTop + (maxY / stepHeight) * (totalHeight) / sepeNum;
     var x, y, height, width, tempHeight, tempCurrent;
     /*没点击到范围内*/
     if (series[current.innerOrder] === undefined) {
         if (this.options.current) {
             tempCurrent = this.options.current;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
-            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY-minY));
+            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY - minY));
             x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
             y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
             width = unit_w_kind;
-            height = tempHeight;
+            height = Math.abs(tempHeight);
             ctx.clearRect(x, y, width, height);
             ctx.fillRect(x, y, width, height);
         }
@@ -46,11 +46,11 @@ function handleEvent(winX, winY) {
         }
         return;
     }
-    var rectHeight = totalHeight * (series[current.innerOrder].data[current.outOrder] / (maxY-minY));
+    var rectHeight = totalHeight * (series[current.innerOrder].data[current.outOrder] / (maxY - minY));
     var inRect = false;
-    if(rectHeight > 0){
+    if (rectHeight > 0) {
         inRect = !!(cvsY <= baseLine && cvsY >= baseLine - rectHeight);
-    }else{
+    } else {
         inRect = !!(cvsY >= baseLine && cvsY <= baseLine - rectHeight);
     }
     if (inRect) {
@@ -58,7 +58,7 @@ function handleEvent(winX, winY) {
         if (this.options.current) {
             tempCurrent = this.options.current;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
-            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY-minY));
+            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY - minY));
             x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
             y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
             width = unit_w_kind;
@@ -96,9 +96,11 @@ function handleEvent(winX, winY) {
             tipPanel.style.padding = "10px";
             tipPanel.style.color = "white";
             tipPanel.style.wordWrap = "break-word";
-            var top = y / dpr - tipPanel.clientHeight + unit_w_kind / dpr / 2;
+            var top = (baseLine - rectHeight) / dpr - (rectHeight / Math.abs(rectHeight)) * (tipPanel.clientHeight +
+                unit_w_kind / dpr / 2);
+            console.log(top);
             var left = x / dpr + unit_w_kind / dpr / 2;
-            /*顶部国界*/
+            /*顶部过界*/
             if (top * dpr < paddingTop) {
                 tipPanel.style.top = paddingTop / dpr + 10 + "px";
             } else {
@@ -135,7 +137,7 @@ function handleEvent(winX, winY) {
         if (this.options.current) {
             tempCurrent = this.options.current;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
-            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY-minY));
+            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY - minY));
             x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
             y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
             width = unit_w_kind;
