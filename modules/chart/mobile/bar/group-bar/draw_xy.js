@@ -49,10 +49,11 @@
     };
     // 绘制Y轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
+        ctx.save();
         // var sepe_num = line_list_array.length;
         var _this = this;
-        ctx.fillStyle = '#000';
-        ctx.strokeStyle = '#eeeeee';
+        ctx.fillStyle = '#979797';
+        
         ctx.textAlign = 'right';
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
@@ -69,6 +70,7 @@
                 }else if(this.options.data.min + this.options.data.step * i == 0){
                     ctx.fillText(0, this.options.padding_left - 10, item.y + 5);
                     dashFlag = false;
+                    ctx.strokeStyle = '#c9c9c9';
                     ctx.moveTo(this.options.padding_left, Math.round(item.y));
                     ctx.lineTo(ctx.canvas.width, Math.round(item.y));
                 }else {
@@ -80,6 +82,7 @@
             }
 
             if(dashFlag){
+                ctx.strokeStyle = '#e6e6e6';
                 DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y),3);
             }
             ctx.stroke();
@@ -92,20 +95,21 @@
             }
             return data;
         }
-
+        ctx.restore();
     }
 
 /*绘制横坐标刻度值*/
 function drawXMark(ctx,k_height,oc_time_arr){
         // var dpr = this.options.dpr;
+        ctx.save();
         var padding_left = this.options.padding_left;
         ctx.beginPath();
-        ctx.strokeStyle = "#9f9f9f";
-        ctx.rect(padding_left,0,ctx.canvas.width -padding_left,this.options.c_1_height);
+        ctx.strokeStyle = "#c9c9c9";
+        ctx.rect(padding_left,0,ctx.canvas.width -padding_left -1,this.options.c_1_height);
         ctx.stroke();
         
         ctx.textAlign = 'left';
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = '#979797';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
         var tempDate;
@@ -114,17 +118,28 @@ function drawXMark(ctx,k_height,oc_time_arr){
             ctx.beginPath();
             tempDate = oc_time_arr[i].value;
             var x = i * (k_width - padding_left) / (arr_length) +padding_left;
-            ctx.fillText(tempDate, x +  + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
+            ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
 
-            ctx.moveTo(x,this.options.c_1_height);   
-            ctx.lineTo(x,this.options.c_1_height + 5);
+            if(i == (arr_length-1)){
+                ctx.moveTo(x,this.options.c_1_height);   
+                ctx.lineTo(x,this.options.c_1_height + 5);
+
+                var x = (i+1) * (k_width - padding_left) / (arr_length) +padding_left;
+                ctx.moveTo(x-1,this.options.c_1_height);   
+                ctx.lineTo(x-1,this.options.c_1_height + 5);
+            }else{
+                ctx.moveTo(x,this.options.c_1_height);   
+                ctx.lineTo(x,this.options.c_1_height + 5);
+            }
+            
             ctx.stroke();
         }
         ctx.stroke();
-
+        ctx.restore();
     }
 
     function addGradient(){
+        ctx.save();
         var sepGradientLen = (this.options.canvas.width - this.options.padding_left) / this.options.series.length;
         var ctx = this.options.context;
         for(var i = 0;i < this.options.series.length;i++) {
@@ -140,6 +155,7 @@ function drawXMark(ctx,k_height,oc_time_arr){
          }
 
      }
+      ctx.restore();
  }
 
  /*Y轴标识线列表*/
