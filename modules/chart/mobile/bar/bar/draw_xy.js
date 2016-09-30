@@ -102,18 +102,18 @@ var DrawXY = (function() {
             ctx.fillText(minY + i * stepHeight, paddingLeft - 10, stepY * (4 - i) + paddingTop);
         }
 
-        /*单位*/
-        ctx.textBaseline = "bottom";
-        ctx.textAlign = "start";
-        ctx.fillText("单位：" + this.options.yaxis.unit, paddingLeft, y_top - 10);
+        // /*单位*/
+        // ctx.textBaseline = "bottom";
+        // ctx.textAlign = "start";
+        // ctx.fillText("单位：" + this.options.yaxis.unit, paddingLeft, y_top - 10);
 
-        /*柱体标识lengend*/
-        var unit_w_kind = this.options.unit_w_kind;
-        ctx.fillStyle = this.options.series[0].color;
-        ctx.fillRect(Math.round(canvas.width / 2 - unit_w_kind), canvas.height - 30 , unit_w_kind, 12 * dpr);
-        ctx.textBaseline = "top";
-        ctx.fillText(this.options.series[0].name, canvas.width / 2 + 10, canvas.height - 30);
-        ctx.restore();
+        // /*柱体标识lengend*/
+        // var unit_w_kind = this.options.unit_w_kind;
+        // ctx.fillStyle = this.options.series[0].color;
+        // ctx.fillRect(Math.round(canvas.width / 2 - unit_w_kind), canvas.height - 30 , unit_w_kind, 12 * dpr);
+        // ctx.textBaseline = "top";
+        // ctx.fillText(this.options.series[0].name, canvas.width / 2 + 10, canvas.height - 30);
+        // ctx.restore();
 
     }
 
