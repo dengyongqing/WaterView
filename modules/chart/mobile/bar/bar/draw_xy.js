@@ -49,10 +49,10 @@ var DrawXY = (function() {
 
         /*开始进行绘制*/
         ctx.save();
-        var y_bottom = Math.round(canvas.height - paddingBottom);
-        var y_top = paddingTop;
-        var x_left = paddingLeft;
-        var x_right = canvas.width - paddingRight;
+        var y_bottom = toOdd(Math.round(canvas.height - paddingBottom));
+        var y_top = toOdd(Math.round(paddingTop));
+        var x_left = toOdd(Math.round(paddingLeft));
+        var x_right = toOdd(Math.round(canvas.width - paddingRight));
         /*框*/
         ctx.strokeStyle = "#C9C9C9";
         ctx.beginPath();
@@ -68,7 +68,6 @@ var DrawXY = (function() {
 
         ctx.moveTo(x_right, y_bottom);
         ctx.lineTo(x_right, y_top);
-
         ctx.stroke();
 
         /*横标*/
@@ -108,6 +107,14 @@ var DrawXY = (function() {
                 ctx.textBaseline = "middle";
             }
             ctx.fillText(minY + i * stepHeight, paddingLeft - 10, stepY * (4 - i) + paddingTop);
+        }
+    }
+
+    function toOdd(num){
+        if(num%2 === 0){
+            return num+1;
+        }else{
+            return num;
         }
     }
 
