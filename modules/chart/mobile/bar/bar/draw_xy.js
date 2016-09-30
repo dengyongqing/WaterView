@@ -1,5 +1,5 @@
 var extend = require("tools/extend2");
-var draw_dash = require("chart/web/common/draw_dash_line");
+var draw_dash = require("chart/mobile/common/draw_dash_line");
 var DrawXY = (function() {
     function DrawXY(options) {
         this.options = {};
@@ -85,7 +85,15 @@ var DrawXY = (function() {
 
         /*纵标*/
         for (i = 1, len = sepeNum; i < len; i++) {
-            draw_dash(ctx, x_left, stepY * i + paddingTop, x_right, stepY * i + paddingTop, 5);
+            var round = 0;
+            if(i == maxY/stepHeight){
+                ctx.moveTo(x_left,Math.round(stepY * i + paddingTop) + round);
+                ctx.lineTo(x_right, round + Math.round(stepY * i + paddingTop));
+                ctx.stroke();
+            }else{
+                draw_dash(ctx, x_left, Math.round(stepY * i + paddingTop) + round,
+                    x_right, round + Math.round(stepY * i + paddingTop), 3);
+            }
         }
         /*纵标刻度*/
         var yMax = this.options.coordinateMaxY;
@@ -101,20 +109,6 @@ var DrawXY = (function() {
             }
             ctx.fillText(minY + i * stepHeight, paddingLeft - 10, stepY * (4 - i) + paddingTop);
         }
-
-        // /*单位*/
-        // ctx.textBaseline = "bottom";
-        // ctx.textAlign = "start";
-        // ctx.fillText("单位：" + this.options.yaxis.unit, paddingLeft, y_top - 10);
-
-        // /*柱体标识lengend*/
-        // var unit_w_kind = this.options.unit_w_kind;
-        // ctx.fillStyle = this.options.series[0].color;
-        // ctx.fillRect(Math.round(canvas.width / 2 - unit_w_kind), canvas.height - 30 , unit_w_kind, 12 * dpr);
-        // ctx.textBaseline = "top";
-        // ctx.fillText(this.options.series[0].name, canvas.width / 2 + 10, canvas.height - 30);
-        // ctx.restore();
-
     }
 
     return DrawXY;
