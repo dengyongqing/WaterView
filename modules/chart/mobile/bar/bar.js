@@ -52,6 +52,7 @@ var ChartMobileBar = (function() {
         this.options.unit_w_len = unit_w_len;
         this.options.unit_w_kind = unit_w_kind;
         var coordinate = divide(this.options.sepeNum, this.options.series[0].data);
+        console.log(coordinate);
         this.options.coordinate = coordinate;
     };  
 
