@@ -1,5 +1,6 @@
 var extend = require('tools/extend2');
 var DrawXY = require('chart/mobile/bar/bar/draw_xy');
+var divide = require('chart/mobile/bar/bar/divide');
 var drawBar = require('chart/mobile/bar/bar/draw_bar');
 var handleEvent = require('chart/mobile/bar/bar/handleEvent');
 
@@ -34,6 +35,7 @@ var ChartMobileBar = (function() {
 
         this.options.defaultColor = "#FF7200";
         this.options.defaultHoverColor = "#FF9A4A";
+        this.options.sepeNum = 4;
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("2.00").width * dpr;
         this.options.padding.right = 10;
@@ -47,10 +49,11 @@ var ChartMobileBar = (function() {
         var unit_w_kind = unit_w_len / (this.options.series.length * 2 + 1);
         this.options.unit_w_len = unit_w_len;
         this.options.unit_w_kind = unit_w_kind;
-
-        var coordinate = getMaxMark(this.options.series);
-        this.options.coordinateMinY = coordinate.min;
-        this.options.coordinateMaxY = coordinate.max;
+        var coordinate = divide(this.options.sepeNum, this.options.series[0].data);
+        this.options.coordinate = coordinate;
+        // var coordinate = getMaxMark.call(this, this.options.series);
+        // this.options.coordinateMinY = coordinate.min;
+        // this.options.coordinateMaxY = coordinate.max;
     };  
 
     ChartMobileBar.prototype.draw = function() {
@@ -104,21 +107,6 @@ var ChartMobileBar = (function() {
             
         }
 
-        // if(step < 1){
-        //     var num = step.toString().split(".")[1].length * (-1);
-        //     var base_step = Math.floor(step * Math.pow(10,(num + 1)* (-1))) * Math.pow(10,(num + 1));
-        //     var middle_step = (base_step + Math.pow(10,(num + 1))/2);
-        //     var next_step = (base_step + Math.pow(10,(num + 1)));
-
-        //     if(step == base_step){
-        //         step = base_step;
-        //     }else if(step > base_step && step <= middle_step){
-        //         step = middle_step;
-        //     }else if(step > middle_step && step <= next_step){
-        //         step = next_step;
-        //     }
-
-        // }else 
 
         if(step >= 1 && step <= 10){
             step = 10;

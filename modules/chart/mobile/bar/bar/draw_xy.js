@@ -28,7 +28,6 @@ var DrawXY = (function() {
 
     DrawXY.prototype.draw = function() {
         this.init();
-        console.log(this.options);
         var paddingTop = this.options.padding.top;
         var paddingLeft = this.options.padding.left;
         var paddingRight = this.options.padding.right;
@@ -40,9 +39,17 @@ var DrawXY = (function() {
         var unit_w_len = this.options.unit_w_len;
         var dpr = this.options.dpr;
 
+        var coordinate = this.options.coordinate;
+        var maxY = coordinate.max;
+        var minY = coordinate.min;
+        var stepHeight = coordinate.stepHeight;
+        var sepeNum = this.options.sepeNum;
+        var totalHeight = canvas.height - paddingTop - paddingBottom;
+        var baseLine = paddingTop + (maxY / stepHeight) * (totalHeight) / sepeNum;
+
         /*开始进行绘制*/
         ctx.save();
-        var y_bottom = Math.round(canvas.height - paddingTop - paddingBottom);
+        var y_bottom = Math.round(canvas.height - paddingBottom);
         var y_top = paddingTop;
         var x_left = paddingLeft;
         var x_right = canvas.width - paddingRight;
@@ -67,7 +74,7 @@ var DrawXY = (function() {
         /*横标*/
         var stepX = 1;
         var textWidth = ctx.measureText(arr_x[0]).width;
-        var stepY = (y_bottom - y_top) / 4;
+        var stepY = (y_bottom - y_top) / sepeNum;
         ctx.textBaseline = "top";
         if (textWidth >= unit_w_len * 4 / 5) {
             stepX = 2;
@@ -77,7 +84,7 @@ var DrawXY = (function() {
         }
 
         /*纵标*/
-        for (i = 1, len = 4; i < len; i++) {
+        for (i = 1, len = sepeNum; i < len; i++) {
             draw_dash(ctx, x_left, stepY * i + paddingTop, x_right, stepY * i + paddingTop, 5);
         }
         /*纵标刻度*/
@@ -92,7 +99,7 @@ var DrawXY = (function() {
             } else {
                 ctx.textBaseline = "middle";
             }
-            ctx.fillText(i * markStep, paddingLeft - 10, stepY * (4 - i) + paddingTop);
+            ctx.fillText(minY + i * stepHeight, paddingLeft - 10, stepY * (4 - i) + paddingTop);
         }
 
         /*单位*/
@@ -103,9 +110,9 @@ var DrawXY = (function() {
         /*柱体标识lengend*/
         var unit_w_kind = this.options.unit_w_kind;
         ctx.fillStyle = this.options.series[0].color;
-        ctx.fillRect(Math.round(canvas.width / 2 -  unit_w_kind), canvas.height - 30 * dpr, unit_w_kind, 12 * dpr);
+        ctx.fillRect(Math.round(canvas.width / 2 - unit_w_kind), canvas.height - 30 , unit_w_kind, 12 * dpr);
         ctx.textBaseline = "top";
-        ctx.fillText(this.options.series[0].name, canvas.width / 2 + 10, canvas.height - 30 * dpr);
+        ctx.fillText(this.options.series[0].name, canvas.width / 2 + 10, canvas.height - 30);
         ctx.restore();
 
     }
