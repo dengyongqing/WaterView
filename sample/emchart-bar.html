@@ -12,9 +12,8 @@
 		}
 		#container{
 			border: solid 1px #eee;
-			width: 650;
-			height: 500px;
 			margin: 10px 10px;
+			max-width: 500px;
 		}
 	</style>
 	
@@ -26,12 +25,13 @@
 	<script type="text/javascript">
 		
 		var quarter_color = "#ffc962";
+		var container = document.getElementById("container");
 
 		window.onload = function(){
 			k0 = new ChartMobiBar({
 	        	container : "container",
-		        "width" : 650,
-		        "height" : 500,
+		        "width" : container.offsetWidth - 20,
+		        "height" : container.offsetWidth,
 		        sepeNum:5,
 		        xaxis: {
 		        	value:["2014-06-30","2014-09-30","2014-12-30","2015-03-30","2015-06-30","2015-09-30","2015-12-30",]

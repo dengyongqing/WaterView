@@ -1,3 +1,4 @@
+var animationEasing = require('chart/mobile/bar/bar/animationEasing');
 /*事件处理程序*/
 function handleEvent(winX, winY) {
     var dpr = this.options.dpr;
@@ -30,16 +31,16 @@ function handleEvent(winX, winY) {
     var x, y, height, width, tempHeight, tempCurrent;
     /*没点击到范围内*/
     if (series[current.innerOrder] === undefined) {
-        if (this.options.current) {
-            tempCurrent = this.options.current;
+        if (this.options.preColume) {
+            tempCurrent = this.options.preColume;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
             tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY - minY));
             x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
             y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
             width = unit_w_kind;
             height = Math.abs(tempHeight);
-            ctx.clearRect(x, y, width, height);
-            ctx.fillRect(x, y, width, height);
+            ctx.clearRect(toEven(x), toEven(y), toEven(width), toEven(height));
+            ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
         }
         if (this.options.tipPanel) {
             this.options.tipPanel.style.visibility = "hidden";
@@ -55,25 +56,25 @@ function handleEvent(winX, winY) {
     }
     if (inRect) {
         /*改变颜色，并且记录*/
-        if (this.options.current) {
-            tempCurrent = this.options.current;
+        if (this.options.preColume) {
+            tempCurrent = this.options.preColume;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
             tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY - minY));
             x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
             y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
             width = unit_w_kind;
             height = Math.abs(tempHeight);
-            ctx.clearRect(x, y, width, height);
-            ctx.fillRect(x, y, width, height);
+            ctx.clearRect(toEven(x), toEven(y), toEven(width), toEven(height));
+            ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
         }
-        this.options.current = current;
+        this.options.preColume = current;
         ctx.fillStyle = this.options.series[current.innerOrder].hoverColor;
         x = current.outOrder * unit_w_len + (current.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
         y = rectHeight > 0 ? (baseLine - rectHeight) : baseLine;
         width = unit_w_kind;
         height = Math.abs(rectHeight);
-        ctx.clearRect(x, y, width, height);
-        ctx.fillRect(x, y, width, height);
+        ctx.clearRect(toEven(x), toEven(y), toEven(width), toEven(height));
+        ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
         /*tips交互*/
         if (!this.options.tipPanel) {
             var tipPanel = document.createElement("div");
@@ -118,29 +119,36 @@ function handleEvent(winX, winY) {
             var tipPanel = this.options.tipPanel;
             var top = (baseLine - rectHeight) / dpr;
             var left = x / dpr + unit_w_kind / dpr / 2;
+            var targetX, targetY;
             var offSetY = rectHeight > 0 ? (unit_w_kind / dpr / 2 - tipPanel.clientHeight) : -unit_w_kind / dpr / 2;
             tipPanel.children[0].innerHTML = this.options.xaxis.value[current.outOrder];
             tipPanel.children[1].innerHTML = series[current.innerOrder].data[current.outOrder];
             /*顶部过界*/
             if ( (top + offSetY) < paddingTop) {
-                tipPanel.style.top = paddingTop / dpr + 10 + "px";
+                targetY = paddingTop / dpr + 10;
             } else if((top + offSetY) > (canvas.height - paddingBottom) ){
-                tipPanel.style.top = paddingBottom / dpr - tipPanel.clientHeight - 10 + "px";
+                targetY = paddingBottom / dpr - tipPanel.clientHeight - 10;
             }  else {
-                tipPanel.style.top = top + offSetY + "px";
+                targetY = top + offSetY;
             }
             /*左边过界*/
             if ((left + tipPanel.clientWidth) * dpr > (canvas.width - paddingRight)) {
-                tipPanel.style.left = x / dpr + unit_w_kind / dpr / 2 - tipPanel.clientWidth + "px";
+                targetX = x / dpr + unit_w_kind / dpr / 2 - tipPanel.clientWidth;
             } else {
-                tipPanel.style.left = x / dpr + unit_w_kind / dpr / 2 + "px";
+                targetX = x / dpr + unit_w_kind / dpr / 2 ;
             }
-            this.options.tipPanel.style.visibility = "visible";
+            if(this.options.tipPanel.style.visibility === "hidden"){
+                tipPanel.style.top = targetY+"px";
+                tipPanel.style.left = targetX+"px";
+                this.options.tipPanel.style.visibility = "visible";
+            }else{
+                animationEasing.fast2slow(tipPanel, targetX, targetY);
+            }
         }
 
     } else {
-        if (this.options.current) {
-            tempCurrent = this.options.current;
+        if (this.options.preColume) {
+            tempCurrent = this.options.preColume;
             ctx.save();
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
             tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY - minY));
@@ -148,13 +156,22 @@ function handleEvent(winX, winY) {
             y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
             width = unit_w_kind;
             height = Math.abs(tempHeight);
-            ctx.clearRect(x, y, width, height);
-            ctx.fillRect(x, y, width, height);
+            ctx.clearRect(toEven(x), toEven(y), toEven(width), toEven(height));
+            ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
             ctx.restore();
         }
         if (this.options.tipPanel) {
             this.options.tipPanel.style.visibility = "hidden";
         }
+    }
+}
+
+function toEven(n){
+    var num = Math.round(n);
+    if(num % 2 === 0){
+        return num;
+    }else{
+        return num + 1;
     }
 }
 
