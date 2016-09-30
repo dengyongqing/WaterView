@@ -96,15 +96,17 @@ function handleEvent(winX, winY) {
             tipPanel.style.padding = "10px";
             tipPanel.style.color = "white";
             tipPanel.style.wordWrap = "break-word";
-            var top = (baseLine - rectHeight) / dpr - (rectHeight / Math.abs(rectHeight)) * (tipPanel.clientHeight +
-                unit_w_kind / dpr / 2);
+            var top = (baseLine - rectHeight) / dpr;
+            var offSetY = rectHeight > 0 ? (unit_w_kind / dpr / 2 - tipPanel.clientHeight) : -unit_w_kind / dpr / 2;
             console.log(top);
             var left = x / dpr + unit_w_kind / dpr / 2;
             /*顶部过界*/
-            if (top * dpr < paddingTop) {
+            if ((top + offSetY) < paddingTop) {
                 tipPanel.style.top = paddingTop / dpr + 10 + "px";
+            } else if((top + offSetY) > (canvas.height - paddingBottom) ){
+                tipPanel.style.top = paddingBottom / dpr - tipPanel.clientHeight - 10 + "px";
             } else {
-                tipPanel.style.top = y / dpr - tipPanel.clientHeight + unit_w_kind / dpr / 2 + "px";
+                tipPanel.style.top = top + offSetY + "px";
             }
             /*左边过界*/
             if ((left + tipPanel.clientWidth) * dpr > (canvas.width - paddingRight)) {
@@ -114,15 +116,18 @@ function handleEvent(winX, winY) {
             }
         } else {
             var tipPanel = this.options.tipPanel;
-            var top = y / dpr - tipPanel.clientHeight + unit_w_kind / dpr / 2;
+            var top = (baseLine - rectHeight) / dpr;
             var left = x / dpr + unit_w_kind / dpr / 2;
+            var offSetY = rectHeight > 0 ? (unit_w_kind / dpr / 2 - tipPanel.clientHeight) : -unit_w_kind / dpr / 2;
             tipPanel.children[0].innerHTML = this.options.xaxis.value[current.outOrder];
             tipPanel.children[1].innerHTML = series[current.innerOrder].data[current.outOrder];
             /*顶部过界*/
-            if (top * dpr < paddingTop) {
+            if ( (top + offSetY) < paddingTop) {
                 tipPanel.style.top = paddingTop / dpr + 10 + "px";
-            } else {
-                tipPanel.style.top = y / dpr - tipPanel.clientHeight + unit_w_kind / dpr / 2 + "px";
+            } else if((top + offSetY) > (canvas.height - paddingBottom) ){
+                tipPanel.style.top = paddingBottom / dpr - tipPanel.clientHeight - 10 + "px";
+            }  else {
+                tipPanel.style.top = top + offSetY + "px";
             }
             /*左边过界*/
             if ((left + tipPanel.clientWidth) * dpr > (canvas.width - paddingRight)) {
@@ -136,6 +141,7 @@ function handleEvent(winX, winY) {
     } else {
         if (this.options.current) {
             tempCurrent = this.options.current;
+            ctx.save();
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
             tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY - minY));
             x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
@@ -144,13 +150,12 @@ function handleEvent(winX, winY) {
             height = Math.abs(tempHeight);
             ctx.clearRect(x, y, width, height);
             ctx.fillRect(x, y, width, height);
+            ctx.restore();
         }
         if (this.options.tipPanel) {
             this.options.tipPanel.style.visibility = "hidden";
         }
     }
 }
-
-
 
 module.exports = handleEvent;
