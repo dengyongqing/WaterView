@@ -35,7 +35,9 @@ var ChartMobileBar = (function() {
 
         this.options.defaultColor = "#FF7200";
         this.options.defaultHoverColor = "#FF9A4A";
-        this.options.sepeNum = 4;
+        if(!this.options.sepeNum){
+            this.options.sepeNum = 4;
+        }
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("2.00").width * dpr;
         this.options.padding.right = 10;
