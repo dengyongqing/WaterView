@@ -1,37 +1,3 @@
-/*//自动计算的一种方法（自动计算间距，间距个数）
-var arr_base = [0.25, 0.5, 1, 2];
-var arr_num = [3, 4, 5, 6];
-var testData = [16];
-
-for (var i = 0, len = testData.length; i < len; i++) {
-    var min = 100000000;
-    var flagNum = 0;
-    var flagBase = 0;
-    var max = testData[i];
-    var base = getBase(max);
-    for (var j = 0, nLen = arr_num.length; j < nLen; j++) {
-        var after = max / arr_num[j];
-        for (var k = 0, bLen = arr_base.length; k < bLen; k++) {
-            if (Math.abs(after - arr_base[k] * base) < min) {
-                flagNum = j;
-                flagBase = k;
-                min = Math.abs(after - arr_base[k] * base);
-            }
-        }
-    }
-    console.log(flagNum);
-
-    if ((flagNum) % (arr_num.length - 1) === 0 && flagNum !== 0) {
-        flagNum = -1;
-        flagBase = flagBase + 1;
-    }
-
-
-    console.log(max + ": " + arr_base[flagBase] * base + ": " + arr_num[flagNum + 1]);
-}*/
-
-
-
 // 指定分割区间个数(num：希望分割为多少个区间, arr：传入的数组);返回步长
 function divide(num, arr) {
     var max = arr[0],
@@ -142,5 +108,6 @@ function getBase(max) {
         return arr[0].length - 1;
     }
 }
+
 
 module.exports = divide;

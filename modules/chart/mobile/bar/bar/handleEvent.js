@@ -4,6 +4,7 @@ function handleEvent(winX, winY) {
     var ctx = this.options.context;
     var cvsX = winX * dpr;
     var cvsY = winY * dpr;
+
     var paddingTop = this.options.padding.top;
     var paddingLeft = this.options.padding.left;
     var paddingRight = this.options.padding.right;
@@ -12,21 +13,31 @@ function handleEvent(winX, winY) {
     var unit_w_len = this.options.unit_w_len;
     var unit_w_kind = this.options.unit_w_kind;
     var canvas = this.options.canvas;
-    var maxY = this.options.coordinateMaxY;
+    var coordinate = this.options.coordinate;
+    var maxY = coordinate.max;
+    var minY = coordinate.min;
+    var stepHeight = coordinate.stepHeight;
+    var sepeNum = this.options.sepeNum;
+
+    var totalHeight = canvas.height - paddingTop - paddingBottom;
+    var baseLine = paddingTop + (maxY/stepHeight) * (totalHeight)/sepeNum;
 
     var current = {};
     current.outOrder = Math.floor((cvsX - paddingLeft) / unit_w_len);
     current.innerOrder = Math.floor((((cvsX - paddingLeft) % unit_w_len) - unit_w_kind) / (2 * unit_w_kind));
-    var y_bottom = canvas.height - paddingBottom - paddingTop;
+
+    var baseLine = paddingTop + (maxY/stepHeight) * (totalHeight)/sepeNum;
+    var x, y, height, width, tempHeight, tempCurrent;
+    /*没点击到范围内*/
     if (series[current.innerOrder] === undefined) {
         if (this.options.current) {
-            var tempCurrent = this.options.current;
+            tempCurrent = this.options.current;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
-            var tempHeight = (canvas.height - paddingTop - paddingBottom) * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / maxY);
-            var x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
-            var y = y_bottom - tempHeight;
-            var width = unit_w_kind;
-            var height = tempHeight;
+            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY-minY));
+            x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
+            y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
+            width = unit_w_kind;
+            height = tempHeight;
             ctx.clearRect(x, y, width, height);
             ctx.fillRect(x, y, width, height);
         }
@@ -35,30 +46,34 @@ function handleEvent(winX, winY) {
         }
         return;
     }
-    var rectHeight = (canvas.height - paddingTop - paddingBottom) * (series[current.innerOrder].data[current.outOrder] / maxY);
-    var y_top = y_bottom - rectHeight;
-    if (cvsY >= y_top && cvsY <= y_bottom) {
+    var rectHeight = totalHeight * (series[current.innerOrder].data[current.outOrder] / (maxY-minY));
+    var inRect = false;
+    if(rectHeight > 0){
+        inRect = !!(cvsY <= baseLine && cvsY >= baseLine - rectHeight);
+    }else{
+        inRect = !!(cvsY >= baseLine && cvsY <= baseLine - rectHeight);
+    }
+    if (inRect) {
         /*改变颜色，并且记录*/
         if (this.options.current) {
-            var tempCurrent = this.options.current;
+            tempCurrent = this.options.current;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
-            var tempHeight = (canvas.height - paddingTop - paddingBottom) * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / maxY);
-            var x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
-            var y = y_bottom - tempHeight;
-            var width = unit_w_kind;
-            var height = tempHeight;
+            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY-minY));
+            x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
+            y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
+            width = unit_w_kind;
+            height = Math.abs(tempHeight);
             ctx.clearRect(x, y, width, height);
             ctx.fillRect(x, y, width, height);
         }
         this.options.current = current;
         ctx.fillStyle = this.options.series[current.innerOrder].hoverColor;
         x = current.outOrder * unit_w_len + (current.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
-        y = y_top;
+        y = rectHeight > 0 ? (baseLine - rectHeight) : baseLine;
         width = unit_w_kind;
-        height = rectHeight;
+        height = Math.abs(rectHeight);
         ctx.clearRect(x, y, width, height);
         ctx.fillRect(x, y, width, height);
-
         /*tips交互*/
         if (!this.options.tipPanel) {
             var tipPanel = document.createElement("div");
@@ -114,18 +129,17 @@ function handleEvent(winX, winY) {
                 tipPanel.style.left = x / dpr + unit_w_kind / dpr / 2 + "px";
             }
             this.options.tipPanel.style.visibility = "visible";
-
         }
 
     } else {
         if (this.options.current) {
-            var tempCurrent = this.options.current;
+            tempCurrent = this.options.current;
             ctx.fillStyle = this.options.series[tempCurrent.innerOrder].color;
-            var tempHeight = (canvas.height - paddingTop - paddingBottom) * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / maxY);
-            var x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
-            var y = y_bottom - tempHeight;
-            var width = unit_w_kind;
-            var height = tempHeight;
+            tempHeight = totalHeight * (series[tempCurrent.innerOrder].data[tempCurrent.outOrder] / (maxY-minY));
+            x = tempCurrent.outOrder * unit_w_len + (tempCurrent.innerOrder * 2 + 1) * unit_w_kind + paddingLeft;
+            y = tempHeight > 0 ? (baseLine - tempHeight) : baseLine;
+            width = unit_w_kind;
+            height = Math.abs(tempHeight);
             ctx.clearRect(x, y, width, height);
             ctx.fillRect(x, y, width, height);
         }
