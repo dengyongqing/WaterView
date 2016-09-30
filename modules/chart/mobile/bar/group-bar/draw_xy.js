@@ -58,15 +58,19 @@
             ctx.beginPath();
             // ctx.moveTo(this.options.padding_left, Math.round(item.y));
             // ctx.lineTo(ctx.canvas.width, Math.round(item.y));
-            DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y),3);
+            
             // var absPoint = Math.max(this.options.data.max,Math.abs(this.options.data.min));
             // absPoint = absPoint.toFixed(3);
             // 绘制纵坐标刻度
+            var dashFlag = true;
             if(this.options.data.min < 0) {
                 if(this.options.data.min + this.options.data.step * i < 0){
                     ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
                 }else if(this.options.data.min + this.options.data.step * i == 0){
                     ctx.fillText(0, this.options.padding_left - 10, item.y + 5);
+                    dashFlag = false;
+                    ctx.moveTo(this.options.padding_left, Math.round(item.y));
+                    ctx.lineTo(ctx.canvas.width, Math.round(item.y));
                 }else {
                     ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
                 }
@@ -75,6 +79,9 @@
                 ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
             }
 
+            if(dashFlag){
+                DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y),3);
+            }
             ctx.stroke();
         }
 
