@@ -1,3 +1,4 @@
+/*绘制每个柱体*/
 function drawBar(){
 	var series = this.options.series;
 	var unit_w_len = this.options.unit_w_len;
