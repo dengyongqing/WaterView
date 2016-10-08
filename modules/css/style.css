@@ -1,7 +1,3 @@
-body{
-	font-family: simsun;
-	font-size: 12px;
-}
 
 /*手机版图表样式*/
 .show-tip {
@@ -259,6 +255,9 @@ body{
     -moz-user-select:none;
     -ms-user-select:none;
     user-select:none;
+
+   	font-family: simsun;
+	font-size: 12px;
 }
 .web-show-tip {
 	position: absolute;

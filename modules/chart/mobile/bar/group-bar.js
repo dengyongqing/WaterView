@@ -34,9 +34,9 @@ var ChartBarQuarter = (function() {
         this.defaultoptions = theme.defaulttheme;
         this.options = extend(this.defaultoptions, options);
         
-
         // 图表容器
         this.container = document.getElementById(options.container);
+        this.container.className = this.container.className + " canvas-container";
         // 图表加载完成事件
         this.onChartLoaded = options.onChartLoaded == undefined ? function(op) {
 
@@ -123,7 +123,7 @@ var ChartBarQuarter = (function() {
 
         this.options.padding_left = this.options.context.measureText("+1000万").width + 10;
         this.options.yearUnit = getYearRect.call(this, canvas.width - this.options.padding_left, this.options.series.length);
-        this.options.quarterUnit = getQuarterRect.call(this, this.options.yearUnit.bar_w, 4);
+        this.options.quarterUnit = getQuarterRect.call(this, this.options.yearUnit.bar_w, this.options.series[0].data.length);
 
         // 绘制坐标轴
         new DrawXY(this.options);
@@ -424,7 +424,8 @@ var ChartBarQuarter = (function() {
             var next_step = base_step + Math.pow(10,(num - 1));
 
             if(step == base_step){
-                step = base_step;
+                // step = base_step;
+                step = middle_step;
             }else if(step > base_step && step <= middle_step){
                 step = middle_step;
             }else if(step > middle_step && step <= next_step){
@@ -446,7 +447,7 @@ var ChartBarQuarter = (function() {
         var upNumFlag = true,downNumFlag = true;
 
         for(i = 1;i<=sepeNum;i++){
-            if(i * step > Math.abs(max)){
+            if(i * step > Math.abs(max) || i == sepeNum){
                 upNum = i;
                 break;
             }
