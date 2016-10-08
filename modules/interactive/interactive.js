@@ -159,6 +159,12 @@ var Interactive = (function() {
 	        frag.appendChild(ma_20_data);
 	        div_mark.appendChild(frag);
 	        document.getElementById(this.options.container).appendChild(div_mark);
+
+	        if(document.body.clientWidth <= 320){
+	        	ma_5_data.style.fontSize = "12px";
+	        	ma_10_data.style.fontSize = "12px";
+	        	ma_20_data.style.fontSize = "12px";
+	        }
 	        // div_tip.style.left = w_pos.x - 300 + "px";
 	    }else{
 	        var div_mark = this.options.mark_ma.mark_ma; 
