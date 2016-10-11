@@ -293,7 +293,7 @@
 	text-align: right;
 	height:20px;
 	line-height: 20px;
-	
+	white-space: nowrap;
 	*height:15px;
 	*line-height: 15px;
 }

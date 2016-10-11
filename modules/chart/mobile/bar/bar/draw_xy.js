@@ -1,3 +1,4 @@
+/*绘制xy轴*/
 var extend = require("tools/extend2");
 var draw_dash = require("chart/mobile/common/draw_dash_line");
 var DrawXY = (function() {
