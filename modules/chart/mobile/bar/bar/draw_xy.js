@@ -21,10 +21,6 @@ var DrawXY = (function() {
         this.options.xSplitShow = false; //是否进行分割
         this.options.xShowDivide = false; //是否显示分割标志
 
-        // 显示单位
-        this.options.showUnit = true;
-        // 显示legend
-        this.options.showLegend = true;
     }
 
     DrawXY.prototype.draw = function() {
@@ -76,11 +72,18 @@ var DrawXY = (function() {
         var textWidth = ctx.measureText(arr_x[0]).width;
         var stepY = (y_bottom - y_top) / sepeNum;
         ctx.textBaseline = "top";
-        if (textWidth >= unit_w_len * 4 / 5) {
-            stepX = 2;
-        }
+        // if (textWidth >= unit_w_len * 4 / 5) {
+        //     stepX = 2;
+        // }
+        stepX = Math.floor(textWidth/(unit_w_len * 4 / 5))+1;
         for (var i = 0, len = arr_x.length; i < len; i += stepX) {
-            ctx.fillText(arr_x[i], x_left + i * unit_w_len + (unit_w_len - textWidth) / 2, y_bottom + 15);
+            if((unit_w_len - textWidth) < 0 && i === 0){
+                ctx.fillText(arr_x[i], x_left , y_bottom + 15);
+            }else if((unit_w_len - textWidth) < 0 && i > len - stepX){
+                ctx.fillText(arr_x[i], x_right -  textWidth, y_bottom + 15);
+            }else{
+                ctx.fillText(arr_x[i], x_left + i * unit_w_len + (unit_w_len - textWidth) / 2, y_bottom + 15);
+            }
         }
 
         /*纵标*/
