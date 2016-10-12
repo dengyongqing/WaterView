@@ -26,7 +26,7 @@
 
 			<div class="content">
 				<div class="tabs">
-					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">港股图</div>
+					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">分组柱状图</div>
 					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
@@ -64,6 +64,8 @@
 		        "width" : document.body.offsetWidth - 20,
 	        	"height" : document.body.offsetWidth,
 		        sepeNum:5,
+		        // groupSpacing:0.2,
+		        // groupUnitSpacing0.2,
 		        xaxis: [{
 			        	value:"2010",
 			        	colors:colors
@@ -91,20 +93,20 @@
 			        ],
 		        series:[
 					{	
-						data:[500]
+						data:[300,500,700]
 					}
 					,{	
-						data:[500]
+						data:[300,500,700]
 					},{	
-						data:[500]
+						data:[-300,-500,-700]
 					},{	
-						data:[500]
+						data:[300,500,700]
 					},{	
-						data:[500]
+						data:[300,500,700]
 					},{	
-						data:[500]
+						data:[300,500,700]
 					},{	
-						data:[500]
+						data:[300,500,700]
 					}
 				]
 	        });
