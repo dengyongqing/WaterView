@@ -99,7 +99,6 @@ function handleEvent(winX, winY) {
             tipPanel.style.wordWrap = "break-word";
             var top = (baseLine - rectHeight) / dpr;
             var offSetY = rectHeight > 0 ? (unit_w_kind / dpr / 2 - tipPanel.clientHeight) : -unit_w_kind / dpr / 2;
-            console.log(top);
             var left = x / dpr + unit_w_kind / dpr / 2;
             /*顶部过界*/
             if ((top + offSetY) < paddingTop) {

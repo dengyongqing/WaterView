@@ -3,11 +3,20 @@ var animation = {
     fast2slow: function(obj, x2, y2) {
         var x1 = parseInt(obj.style.left);
         var y1 = parseInt(obj.style.top);
+        console.log(x1 + ": " + y1 + "   " + x2 + ": " + y2);
         var stepY = (y2 - y1) / 5;
         var stepX = (x2 - x1) / 5;
-        stepY = (Math.abs(stepY) <= 1) ? stepY*1/Math.abs(stepY) : stepY;
-        stepX = (Math.abs(stepX) <= 1) ? stepX*1/Math.abs(stepX) : stepX;
-
+        if(stepX === 0 && stepY === 0){
+            clearTimeout(obj.timer);
+            return;
+        }else if(stepX === 0){
+            stepY = (Math.abs(stepY) <= 1) ? stepY * 1 / Math.abs(stepY) : stepY;
+        }else if(stepY === 0){
+            stepX = (Math.abs(stepX) <= 1) ? stepX * 1 / Math.abs(stepX) : stepX;
+        }else{
+            stepY = (Math.abs(stepY) <= 1) ? stepY * 1 / Math.abs(stepY) : stepY;
+            stepX = (Math.abs(stepX) <= 1) ? stepX * 1 / Math.abs(stepX) : stepX;
+        }
         if (Math.abs(x2 - (x1 + stepX)) <= 1 && Math.abs(y2 - (y1 + stepY)) <= 1) {
             clearTimeout(obj.timer);
             return;

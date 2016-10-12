@@ -13,7 +13,7 @@
 		#container{
 			border: solid 1px #eee;
 			margin: 10px 10px;
-			max-width: 500px;
+			max-width: 800px;
 		}
 	</style>
 	
@@ -30,8 +30,8 @@
 		window.onload = function(){
 			k0 = new ChartMobiBar({
 	        	container : "container",
-		        "width" : container.offsetWidth - 20,
-		        "height" : container.offsetWidth,
+		        "width" : container.offsetWidth,
+		        "height" : container.offsetWidth-20,
 		        sepeNum:5,
 		        xaxis: {
 		        	value:["2014-06-30","2014-09-30","2014-12-30","2015-03-30","2015-06-30","2015-09-30","2015-12-30",]
