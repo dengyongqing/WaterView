@@ -66,81 +66,14 @@ var ChartMobileBar = (function() {
             var w_y = (e.touches[0].clientY - _this.container.getBoundingClientRect().top);
             handleEvent.call(_this, w_x, w_y);
         }, false);
+
+        this.options.canvas.addEventListener("click", function(e) {
+            var w_x = (e.clientX - _this.container.getBoundingClientRect().left);
+            var w_y = (e.clientY - _this.container.getBoundingClientRect().top);
+            handleEvent.call(_this, w_x, w_y);
+        }, false);
     };
 
-
-
-    // // 获取数组中的最大值
-    // function getMaxMark(series) {
-    //     var max = 0,
-    //         min = 0,
-    //         maxDot = 0,
-    //         dot = 0,
-    //         seriesLength = series.length,
-    //         tempObj = {};
-    //     for (var i = 0; i < seriesLength; i++) {
-    //         for (var j = 0; j < series[i].data.length; j++) {
-    //             max = Math.max(max, series[i].data[j]);
-    //             min = Math.min(min, series[i].data[j]);
-
-    //             if(series[i].data[j].toString().split(".")[1]){
-    //                 dot = series[i].data[j].toString().split(".")[1].length;
-    //                 maxDot = Math.max(maxDot, dot);
-    //             }
-                
-    //         }
-    //     }
-    //     if (max < Math.abs(min)) {
-    //         max = Math.abs(min);
-    //     } else {
-    //         max = max;
-    //     }
-
-    //     var step = max / this.options.sepeNum;
-    //     var flag = false;
-    //     if(step.toString().split(".")[1]){
-    //         step = step.toFixed(maxDot);
-    //         if(step < 1){
-    //             step = step * Math.pow(10,maxDot);
-    //             flag = true;
-    //         }
-            
-    //     }
-
-
-    //     if(step >= 1 && step <= 10){
-    //         step = 10;
-    //     }else if(step > 10 && step < 100){
-    //         step = Math.ceil(step/10) * 10;
-    //     }else{
-    //         var num = step.toString().split(".")[0].length;
-    //         var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
-    //         var middle_step = base_step + Math.pow(10,(num - 1))/2;
-    //         var next_step = base_step + Math.pow(10,(num - 1));
-
-    //         if(step == base_step){
-    //             step = base_step;
-    //         }else if(step > base_step && step <= middle_step){
-    //             step = middle_step;
-    //         }else if(step > middle_step && step <= next_step){
-    //             step = next_step;
-    //         }
-    //     }
-
-    //     // else{
-    //     //     var num = step.toString().length;
-    //     //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
-    //     //     step = base_step;
-    //     // }
-    //     if(flag){
-    //         max = step * this.options.sepeNum/Math.pow(10,maxDot);
-    //     }else{
-    //         max = step * this.options.sepeNum;
-    //     }
-    //     tempObj.max = max;
-    //     tempObj.min = min;
-    //     return tempObj;
-    // }
 
     return ChartMobileBar;
 })();
