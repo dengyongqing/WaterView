@@ -111,7 +111,7 @@ var ChartLine = (function() {
         var series = this.options.series;
         var maxAndMin = getMaxAndMin(series);
         this.options.data = {};
-        this.options.data.max = maxAndMin.max * 1.1;
+        this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
         this.options.padding_left = this.options.context.measureText("1000万").width + 20;
 
@@ -265,13 +265,19 @@ var ChartLine = (function() {
             tempObj = {};
         for (var i = 0; i < seriesLength; i++) {
             for (var j = 0; j < series[i].data.length; j++) {
+
+                if(i == 0 && j == 0){
+                    max = series[i].data[j];
+                    min = series[i].data[j];
+                }
                 max = Math.max(max, series[i].data[j]);
                 min = Math.min(min, series[i].data[j]);
             }
         }
        
-        tempObj.max = max;
+        tempObj.max = max + Math.abs(max - min) * 0.05;
         tempObj.min = min;
+
         return tempObj;
     }
     return ChartLine;

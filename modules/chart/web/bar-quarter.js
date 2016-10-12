@@ -313,9 +313,9 @@ var ChartBarQuarter = (function() {
             }
         }
         if (max < Math.abs(min)) {
-            max = Math.abs(min) + Math.abs(min) / 16;
+            max = Math.abs(min) + Math.abs(max - min) * 0.05;
         } else {
-            max = max + max / 16;
+            max = max + Math.abs(max - min) * 0.05;
         }
         tempObj.max = max;
         tempObj.min = min;

@@ -322,14 +322,20 @@ var ChartBarQuarter = (function() {
             tempObj = {};
         for (var i = 0; i < seriesLength; i++) {
             for (var j = 0; j < series[i].data.length; j++) {
+
+                if(i == 0 && j == 0){
+                    max = series[i].data[j];
+                    min = series[i].data[j];
+                }
+
                 max = Math.max(max, series[i].data[j]);
                 min = Math.min(min, series[i].data[j]);
             }
         }
         if (max < Math.abs(min)) {
-            max = Math.abs(min) + Math.abs(min) / 16;
+            max = Math.abs(min) + Math.abs(max - min) * 0.05;
         } else {
-            max = max + max / 16;
+            max = max + Math.abs(max - min) * 0.05;
         }
         tempObj.max = max;
         tempObj.min = min;
