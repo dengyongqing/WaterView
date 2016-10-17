@@ -56,7 +56,7 @@ var ChartMobileBar = (function() {
         this.options.coordinate = coordinate;
     };  
 
-    ChartMobileBar.prototype.draw = function() {
+    ChartMobileBar.prototype.draw = function(cb) {
         this.init();
         var _this = this;
         new DrawXY(this.options);
@@ -72,7 +72,30 @@ var ChartMobileBar = (function() {
             var w_y = (e.clientY - _this.container.getBoundingClientRect().top);
             handleEvent.call(_this, w_x, w_y);
         }, false);
+        if(cb){
+            cb();
+        }
     };
+
+    // 重绘
+    ChartMobileBar.prototype.reDraw = function() {
+        // 删除canvas画布
+        this.clear();
+        // 初始化
+        this.init();
+        this.draw();
+    }
+
+    ChartMobileBar.prototype.clear = function(cb) {
+        if (this.container) {
+            this.container.innerHTML = "";
+        } else {
+            document.getElementById(this.options.container).innerHTML = "";
+        }
+        if (cb) {
+            cb();
+        };
+    }
 
 
     return ChartMobileBar;
