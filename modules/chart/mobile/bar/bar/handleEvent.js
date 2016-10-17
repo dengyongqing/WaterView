@@ -79,7 +79,7 @@ function handleEvent(winX, winY) {
         if (!this.options.tipPanel) {
             var tipPanel = document.createElement("div");
 
-            var h1 = document.createElement("h4");
+            var h1 = document.createElement("strong");
             var paragraph = document.createElement("p");
             h1.innerHTML = this.options.xaxis.value[current.outOrder];
             paragraph.innerHTML = series[current.innerOrder].data[current.outOrder];

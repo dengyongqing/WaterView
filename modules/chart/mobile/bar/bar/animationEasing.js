@@ -3,7 +3,6 @@ var animation = {
     fast2slow: function(obj, x2, y2) {
         var x1 = parseInt(obj.style.left);
         var y1 = parseInt(obj.style.top);
-        console.log(x1 + ": " + y1 + "   " + x2 + ": " + y2);
         var stepY = (y2 - y1) / 5;
         var stepX = (x2 - x1) / 5;
         if(stepX === 0 && stepY === 0){
