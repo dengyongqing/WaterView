@@ -221,8 +221,9 @@ var ChartK = (function() {
                 }
                 // 传入的回调函数
                 if(callback){
-                    callback(_this.options);
+                    callback(null);
                 }
+
             });
             
 
@@ -231,6 +232,11 @@ var ChartK = (function() {
             inter.showNoData();
             // 隐藏loading效果
             inter.hideLoading();
+            debugger;
+            // 传入的回调函数
+            if(callback){
+                callback(e);
+            }
         }
         
 
