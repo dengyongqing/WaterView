@@ -80,7 +80,7 @@ function handleEvent(winX, winY) {
             var tipPanel = document.createElement("div");
 
             var h1 = document.createElement("strong");
-            var paragraph = document.createElement("p");
+            var paragraph = document.createElement("div");
             h1.innerHTML = this.options.xaxis.value[current.outOrder];
             paragraph.innerHTML = series[current.innerOrder].data[current.outOrder];
             tipPanel.appendChild(h1);
@@ -90,13 +90,13 @@ function handleEvent(winX, winY) {
 
             tipPanel.style.position = "absolute";
             tipPanel.style.mineHeight = "30px";
-            tipPanel.style.width = "100px";
+            tipPanel.style.paddingRight = "10px";
             tipPanel.style.opacity = "0.5";
             tipPanel.style.backgroundColor = "#4C4C4C";
             tipPanel.style.borderRadius = "5px";
             tipPanel.style.padding = "10px";
             tipPanel.style.color = "white";
-            tipPanel.style.wordWrap = "break-word";
+            h1.style.whiteSpace = "nowrap";
             paragraph.style.margin = "0px";
             var top = (baseLine - rectHeight) / dpr;
             var offSetY = rectHeight > 0 ? (unit_w_kind / dpr / 2 - tipPanel.clientHeight) : -unit_w_kind / dpr / 2;
