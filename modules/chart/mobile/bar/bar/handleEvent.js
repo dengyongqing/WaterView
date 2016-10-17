@@ -97,6 +97,9 @@ function handleEvent(winX, winY) {
             tipPanel.style.padding = "10px";
             tipPanel.style.color = "white";
             tipPanel.style.wordWrap = "break-word";
+            h1.style.style.margin = "0px";
+            h1.style.style.fontSize = "12px";
+            paragraph.style.margin = "0px";
             var top = (baseLine - rectHeight) / dpr;
             var offSetY = rectHeight > 0 ? (unit_w_kind / dpr / 2 - tipPanel.clientHeight) : -unit_w_kind / dpr / 2;
             var left = x / dpr + unit_w_kind / dpr / 2;
