@@ -118,7 +118,15 @@ function drawXMark(ctx,k_height,oc_time_arr){
             ctx.beginPath();
             tempDate = oc_time_arr[i].value;
             var x = i * (k_width - padding_left) / (arr_length) +padding_left;
-            ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
+            var isShow = oc_time_arr[i].show == undefined ? true : false;
+
+            if(oc_time_arr[i].show == undefined || oc_time_arr[i].show){
+                if(i == (arr_length-1)){
+                    ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
+                }else{
+                    ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
+                }
+            }
 
             if(i == (arr_length-1)){
                 ctx.moveTo(x,this.options.c_1_height);   
