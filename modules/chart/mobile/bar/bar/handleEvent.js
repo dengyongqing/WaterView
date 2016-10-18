@@ -94,7 +94,7 @@ function handleEvent(winX, winY) {
             tipPanel.style.opacity = "0.5";
             tipPanel.style.backgroundColor = "#4C4C4C";
             tipPanel.style.borderRadius = "5px";
-            tipPanel.style.padding = "10px";
+            tipPanel.style.padding = "5px";
             tipPanel.style.color = "white";
             h1.style.whiteSpace = "nowrap";
             paragraph.style.margin = "0px";
