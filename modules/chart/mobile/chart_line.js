@@ -52,7 +52,6 @@ var ChartLine = (function() {
 
     // 初始化
     ChartLine.prototype.init = function() {
-
         this.options.type = "line";
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
