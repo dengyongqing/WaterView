@@ -83,6 +83,7 @@ var slideBar = function() {
 
         //添加滑动块
         var containerBar = document.createElement("div");
+        _that.options.slideBarWrap = containerBar;
         containerBar.setAttribute("id", "slideBarWrap");
         containerBar.style.position = "absolute";
         containerBar.style.height = height + "px";
@@ -124,7 +125,7 @@ var slideBar = function() {
         var start = _that.options.start;
         var end = _that.options.end;
         var len = this.options.data.data.length;
-        var slideBar = document.getElementById("slideBarWrap");
+        var slideBar = _that.options.slideBarWrap;
         var width = _that.options.drawWidth;
         var slideBarLeft = width * start / len + "px";
         var slideBarWidth = width * (end - start) / len + "px";
