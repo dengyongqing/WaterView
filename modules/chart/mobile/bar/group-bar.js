@@ -410,8 +410,9 @@ var ChartBarQuarter = (function() {
         //     }
 
         // }else 
-
-        if(step >= 1 && step < 10){
+        if(step == 0){
+            step = 0;
+        }else if(step >= 1 && step < 10){
             step = 10;
         }else if(step >= 10 && step < 50){
             step = 50;

@@ -232,7 +232,6 @@ var ChartK = (function() {
             inter.showNoData();
             // 隐藏loading效果
             inter.hideLoading();
-            debugger;
             // 传入的回调函数
             if(callback){
                 callback(e);
@@ -1560,7 +1559,12 @@ var ChartK = (function() {
         ctx.fillStyle = "#fff";
         // ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
         ctx.fillRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
-        watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);    }
+        // if(!this.options.watermark){
+            watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);
+            this.options.watermark = true;    
+        // }
+        
+    }
 
     // 清除技术指标区域
     ChartK.prototype.clearT = function(){

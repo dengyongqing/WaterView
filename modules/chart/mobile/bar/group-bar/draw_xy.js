@@ -122,7 +122,7 @@ function drawXMark(ctx,k_height,oc_time_arr){
 
             if(oc_time_arr[i].show == undefined || oc_time_arr[i].show){
                 if(i == (arr_length-1)){
-                    ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
+                    ctx.fillText(tempDate, ((this.options.canvas.width - ctx.measureText(tempDate).width - 5)), this.options.c_1_height+20); 
                 }else{
                     ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
                 }
