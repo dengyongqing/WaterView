@@ -110,7 +110,7 @@ var DrawXY = (function() {
             } else {
                 ctx.textBaseline = "middle";
             }
-            ctx.fillText(minY + i * stepHeight, paddingLeft - 10, stepY * (sepeNum - i) + paddingTop);
+            ctx.fillText(roundFloat(minY + i * stepHeight), paddingLeft - 10, stepY * (sepeNum - i) + paddingTop);
         }
     }
 
@@ -128,6 +128,11 @@ var DrawXY = (function() {
         }else{
             return num;
         }
+    }
+
+    function roundFloat(f){
+        var m = Math.pow(10, 6);
+        return parseInt(f * m, 10) / m;
     }
 
     return DrawXY;
