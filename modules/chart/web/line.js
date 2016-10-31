@@ -27,7 +27,9 @@ var extend = require('tools/extend');
 var Interactive = require('interactive/interactive'); 
 // 水印
 var watermark = require('chart/watermark');
-
+// 添加通用工具
+var common = require('tools/common');
+// 获取步长，最大值，最小值
 var divide = require('chart/web/common/divide');
 
 var ChartLine = (function() {
@@ -141,11 +143,157 @@ var ChartLine = (function() {
         new DrawXY(this.options);
         // 绘制分时折线图
         new DrawLine(this.options);
+        this.addInteractive();
 
         // 加水印
         watermark.apply(this,[ctx,190,20]);
 
     };
+
+    //添加交互
+    ChartLine.prototype.addInteractive = function() {
+        var canvas = this.options.canvas;
+        var dateArr = this.options.xaxis;
+        var series = this.options.series;
+        var ctx = this.options.context;
+        var padding_left = this.options.padding_left;
+        var padding_top = this.options.canvas_offset_top;
+        var unit = (this.options.drawWidth - padding_left) / (dateArr.length - 1); //单位宽度
+        var that = this;
+        var dpr = this.options.dpr;
+        var y_max = this.options.data.max;
+        var y_min = this.options.data.min;
+        var c_1_height = this.options.c_1_height;
+        //添加交互事件
+        common.addEvent.call(that, canvas, "mousemove", function(e) {
+            var winX, winY;
+            //浏览器检测，获取到相对元素的x和y
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
+            }
+
+
+            var canvasX = winX * dpr - padding_left; //转换为canvas中的坐标
+            var canvasY = winY * dpr - padding_top;
+
+            //下标
+            var cursor = 0;
+            //用来显示tips的一组数据
+            var tipArr = [];
+            //获取交互需要的坐标数据
+            if (canvasX % unit < unit / 2) {
+                cursor = Math.floor(canvasX / unit);
+            } else {
+                cursor = Math.ceil(canvasX / unit);
+            }
+
+            if(cursor < 0){cursor = 0;}
+            if(cursor > dateArr.length-1){cursor = dateArr.length-1;}
+
+            for (var i = 0, len = series.length; i < len; i++) {
+                tipArr.push({
+                    color: series[i].color,
+                    data: series[i].data[cursor],
+                    name: series[i].name,
+                    y: padding_top + common.get_y.call(that, series[i].data[cursor])
+                });
+            }
+            //排序
+            tipArr.sort(function(a, b) {
+                return a.y - b.y;
+            });
+
+            //添加交互
+            if (!that.options.interOption) {
+                that.options.interOption = {};
+                //提示
+                var tips = document.createElement("div");
+                tips.className = "chart_line_tips";
+                if((cursor*unit/dpr + padding_left/dpr) > canvas.width/2){
+                    tips.style.left = cursor*unit/dpr + padding_left/dpr - tips.clientWidth + "px";
+                }else{
+                    tips.style.left = (cursor*unit/dpr + padding_left) + "px";
+                }
+                tips.style.top = (tipArr[0].y + tipArr[3].y)/2/dpr - 50 +"px";
+                var title = document.createElement("div");
+                title.className = "chart_line_tips_title";
+                title.innerHTML = dateArr[cursor].value;
+                tips.appendChild(title);
+                //交互的竖线
+                var yLine = document.createElement("div");
+                yLine.className = "chart_line_yline";
+                //交互的竖线
+                yLine.style.left = (cursor*unit/dpr - padding_left) + "px";
+                yLine.style.top = padding_top/dpr+"px";
+                yLine.style.height = c_1_height/dpr+"px";
+                that.container.appendChild(yLine);
+                var circles = [];
+                for (i = 0, len = tipArr.length; i < len; i++) {
+                    //tips内容
+                    var lineTip = document.createElement("div");
+                    lineTip.className = "chart_line_tips_line";
+                    var color = document.createElement("span");
+                    color.className = "chart_line_tips_color";
+                    color.style.backgroundColor = tipArr[i].color;
+                    lineTip.appendChild(color);
+                    var content = document.createElement("span");
+                    content.innerHTML = tipArr[i].data;
+                    lineTip.appendChild(content);
+                    tips.appendChild(lineTip);
+                    //圆圈
+                    var cir = document.createElement("div");
+                    cir.className = "chart_line_cir";
+                    cir.style.top = (tipArr[i].y/dpr - 6) + "px";
+                    cir.style.left = (cursor*unit/dpr + padding_left/dpr - 6) + "px";
+                    cir.style.borderColor = tipArr[i].color;
+                    that.container.appendChild(cir);
+                    circles.push(cir);
+                }
+
+                that.container.appendChild(tips);
+
+                that.options.interOption.tips = tips;
+                that.options.interOption.yLine = yLine;
+                that.options.interOption.circles = circles;
+            } else {
+                var tips = that.options.interOption.tips;
+                if((cursor*unit/dpr + padding_left/dpr) >= canvas.width/dpr/2){
+                    tips.style.left = cursor*unit/dpr - tips.clientWidth + "px";
+                }else{
+                    tips.style.left = (cursor*unit/dpr + padding_left) + "px";
+                }
+                tips.style.top = (tipArr[0].y + tipArr[3].y)/2/dpr - 50 +"px";
+                var yLine  = that.options.interOption.yLine;
+                yLine.style.left = (cursor*unit/dpr + padding_left/dpr) + "px";
+                var circles = that.options.interOption.circles;
+                var children = tips.children;
+                children[0].innerHTML = dateArr[cursor].value;
+                for (var j = 0, len = series.length; j < len; j++) {
+                    children[j + 1].children[0].style.backgroundColor = series[j].color;
+                    children[j + 1].children[1].innerHTML = series[j].data[cursor];
+                }
+                for(var k = 0, kLen = circles.length; k < kLen; k++){
+                    circles[k].style.top = tipArr[k].y/dpr - 5 + "px";
+                    circles[k].style.left = (cursor*unit/dpr + padding_left/dpr - 5) + "px";
+                    circles[k].style.borderColor = tipArr[k].color;
+                }
+            }
+
+            //当超出坐标系框就不显示交互
+            if(canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY <= c_1_height){
+                that.options.interOption.tips.style.display = "block";
+            }else{
+                that.options.interOption.tips.style.display = "none";
+                console.log("outer");
+            }
+        });
+    }
+
+
     // 重绘
     ChartLine.prototype.reDraw = function() {
         // 删除canvas画布

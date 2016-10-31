@@ -26,6 +26,8 @@ var extend = require('tools/extend2');
 var watermark = require('chart/watermark');
 // 添加通用工具
 var common = require('tools/common');
+// 获取步长，最大值，最小值
+var divide = require('chart/web/common/divide');
 
 var ChartBarQuarter = (function() {
 
@@ -352,121 +354,18 @@ var ChartBarQuarter = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(series) {
-        var max = 0,
-            min = 0,
-            maxDot = 0,
-            dot = 0,
-            seriesLength = series.length,
-            tempObj = {};
+        var  seriesLength = series.length;
+        var arr = [];
         for (var i = 0; i < seriesLength; i++) {
-            for (var j = 0; j < series[i].data.length; j++) {
-                max = Math.max(max, series[i].data[j]);
-                min = Math.min(min, series[i].data[j]);
-
-                if(series[i].data[j].toString().split(".")[1]){
-                    dot = series[i].data[j].toString().split(".")[1].length;
-                    maxDot = Math.max(maxDot, dot);
-                }
-                
-            }
+            arr = arr.concat(series[i].data);
         }
-
-        // if (max < Math.abs(min)) {
-        //     max = Math.abs(min);
-        // } else {
-        //     max = max;
-        // }
-
-        var sepeNum = this.options.sepeNum;
-
-        if(min < 0){
-            var step = (Math.abs(max) + Math.abs(min)) / sepeNum;
-        }else{
-            var step = Math.abs(max) / sepeNum;
-        }
-        
-        var flag = false;
-        if(step.toString().split(".")[1]){
-            step = step.toFixed(maxDot);
-            if(step < 1){
-                step = step * Math.pow(10,maxDot);
-                flag = true;
-            }
-            
-        }
-
-        // if(step < 1){
-        //     var num = step.toString().split(".")[1].length * (-1);
-        //     var base_step = Math.floor(step * Math.pow(10,(num + 1)* (-1))) * Math.pow(10,(num + 1));
-        //     var middle_step = (base_step + Math.pow(10,(num + 1))/2);
-        //     var next_step = (base_step + Math.pow(10,(num + 1)));
-
-        //     if(step == base_step){
-        //         step = base_step;
-        //     }else if(step > base_step && step <= middle_step){
-        //         step = middle_step;
-        //     }else if(step > middle_step && step <= next_step){
-        //         step = next_step;
-        //     }
-
-        // }else 
-        if(step == 0){
-            step = 0;
-        }else if(step >= 1 && step < 10){
-            step = 10;
-        }else if(step >= 10 && step < 50){
-            step = 50;
-        }else if(step > 50 && step < 100){
-            step = 100;
-        }else{
-            var num = step.toString().split(".")[0].length;
-            var base_step = Math.floor(step/Math.pow(10,(num - 1))) * Math.pow(10,(num - 1));
-            var middle_step = base_step + Math.pow(10,(num - 1))/2;
-            var next_step = base_step + Math.pow(10,(num - 1));
-
-            if(step == base_step){
-                // step = base_step;
-                step = middle_step;
-            }else if(step > base_step && step <= middle_step){
-                step = middle_step;
-            }else if(step > middle_step && step <= next_step){
-                step = next_step;
-            }
-        }
-
-        // else{
-        //     var num = step.toString().length;
-        //     var base_step = Math.ceil(step/Math.pow(10,(num - 2))) * Math.pow(10,(num - 2));
-        //     step = base_step;
-        // }
-
-        if(flag){
-            step = step/Math.pow(10,maxDot);
-        }
-
-        var upNum = 0,downNum = 0;
-        var upNumFlag = true,downNumFlag = true;
-
-        for(i = 1;i<=sepeNum;i++){
-            if(i * step > Math.abs(max) || i == sepeNum){
-                upNum = i;
-                break;
-            }
-
-        }
-        downNum = sepeNum - upNum;
-
-        while(downNum * step < Math.abs(min)){
-            downNum = downNum + 1;
-            min = min/Math.abs(min) * step * downNum;
-            this.options.sepeNum = this.options.sepeNum + 1;
-        }
-        this.options.maxDot = maxDot;
-        max = step * upNum
-        tempObj.max = max;
-        tempObj.min = min;
-        tempObj.step = step;
-        return tempObj;
+        debugger;
+        var tempObj = divide(this.options.sepeNum,arr);
+        return {
+            max:tempObj.max,
+            min:tempObj.min,
+            step:tempObj.stepHeight
+        };
     }
 
     return ChartBarQuarter;
