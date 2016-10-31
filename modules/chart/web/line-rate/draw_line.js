@@ -1,5 +1,5 @@
 /**
- * 绘制折线图
+ * 绘制折线
  *
  * this:{
  *     container:画布的容器
@@ -10,7 +10,12 @@
  *     type:    "TL"(分时图),"DK"(日K线图),"WK"(周K线图),"MK"(月K线图)
  *     canvas:  画布对象
  *     ctx:     画布上下文
-
+ *     canvas_offset_top:   画布中坐标轴向下偏移量
+ *     padding_left:    画布左侧边距
+ *     k_v_away:    行情图表（分时图或K线图）和成交量图表的间距
+ *     scale_count:     缩放默认值
+ *     c_1_height:  行情图表（分时图或K线图）的高度
+ *     rect_unit:   分时图或K线图单位绘制区域
  * }
  *
  */
@@ -53,7 +58,7 @@ var DrawLine = (function(){
 			
 		}
 		if(this.options.showflag){
-			// drawLineMark.apply(this,[ctx,series]);
+			drawLineMark.apply(this,[ctx,series]);
 		}
 	};
 	
@@ -67,22 +72,16 @@ var DrawLine = (function(){
 
 		ctx.beginPath();
 
-		for(var i = 0;i < arr_length; i++){
-			var item = arr[i];
-			if(item){
-				 var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-				 var y = common.get_y.call(this,item);
-				 if(i == 0){
-				 	ctx.moveTo(this.options.padding_left,y);
-				 }else if(i == arr_length - 1){
-				 	ctx.lineTo(x,y);
-				 }else{
-				 	ctx.lineTo(x,y);
-				 }
-			}else{
-				 continue;
-			}
-			 
+		for(var i = 0,item;item = arr[i]; i++){
+			 var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
+			 var y = common.get_y.call(this,item);
+			 if(i == 0){
+			 	ctx.moveTo(this.options.padding_left,y);
+			 }else if(i == arr_length - 1){
+			 	ctx.lineTo(x,y);
+			 }else{
+			 	ctx.lineTo(x,y);
+			 }
 		}
 		
 		// ctx.fill();
@@ -158,7 +157,7 @@ var DrawLine = (function(){
 	    	}else{
 	    		// 填充颜色
 				ctx.fillStyle = line.color;
-	    		// ctx.rect(x_start + 20,y_start + mark_offset,wh,wh);
+	    		ctx.rect(x_start + 20,y_start + mark_offset,wh,wh);
 	    		ctx.fill();
 	    		ctx.fillStyle = '#333';
 	    		ctx.fillText(line.name, x_start + wh + 80, y_start + mark_offset + text_offset);
@@ -167,34 +166,6 @@ var DrawLine = (function(){
 		// 恢复画笔状态
 		ctx.restore();
     }
-
-    // 图表y轴坐标计算
-    function get_y(y) {
-        var sepe_max_min = this.options.data.max - this.options.data.min;
-        if(y >= 0 && this.options.data.min < 0){
-            var up_height = this.options.c_1_height * (this.options.data.max)/sepe_max_min;
-            return up_height - this.options.c_1_height * y/sepe_max_min;
-        }else if(y >= 0 && this.options.data.min >= 0){
-            var up_height = this.options.c_1_height;
-            return up_height - this.options.c_1_height * (y - this.options.data.min)/sepe_max_min;
-        }else if(y < 0 && this.options.data.max >= 0){
-            var sepe_y = this.options.c_1_height * (this.options.data.max)/sepe_max_min;
-            // var down_height = sepe_y + this.options.c_1_height * Math.abs(this.options.data.min)/sepe_max_min;
-            return this.options.c_1_height * Math.abs(y)/sepe_max_min + sepe_y;        
-        }else if(y < 0 && this.options.data.max < 0){
-            return this.options.c_1_height * Math.abs(y)/sepe_max_min + 0;        
-        }
-    }
-    // 图表x轴坐标计算
-    function get_x(year_num,quarter_num) {
-        var group = this.options.group;
-        var groupUnit = this.options.groupUnit;
-        var padding_left = this.options.padding_left;
-        var year_sepe = this.options.group.rect_w - this.options.group.bar_w;
-        var quarter_sepe = this.options.groupUnit.rect_w - this.options.groupUnit.bar_w;
-        return group.rect_w * year_num + padding_left + groupUnit.rect_w * quarter_num + year_sepe/2 + quarter_sepe/2;
-    }
-
 
 	return DrawLine;
 })();

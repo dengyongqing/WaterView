@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta charset="UTF-8">
+	<title>手机图表</title>
+	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+	<style type="text/css">
+		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
+		    margin: 0;
+		    padding: 0;
+		}
+	</style>
+	
+</head>
+<body>
+	<div class="main-wrap">
+		<div class="main">
+			<div class="header">
+				<div class="tool-bar">
+					
+				
+				</div>
+				
+			</div>
+
+			<div class="content">
+				<div class="tabs">
+					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">折线图</div>
+					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
+					<div id="tab-2" target="emchart-2" class="tab">周K</div>
+					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
+				</div>
+				<div class="emchart">
+					<div id="emchart-0" class="em-tab" >
+					</div>
+					<div id="emchart-1" class="em-tab">
+					</div>
+					<div id="emchart-2" class="em-tab">
+					</div>
+					<div id="emchart-3" class="em-tab">
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+
+	</div>
+	<script src="../bundle/emcharts.js"></script>
+	
+	<script type="text/javascript">
+		
+
+		window.onload = function(){
+			current_tab = k0 = new EmchartsWebLine({
+				dpr: 2,
+	        	container : "emchart-0",
+		        "width" : document.body.offsetWidth - 20,
+		        "height" : document.body.offsetWidth,
+		        showflag: true,
+		        xaxis: [{
+			        	value:"2016-03-01",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-02",
+			        	showline:true,
+			        	show:false
+			        },{
+			        	value:"2016-03-03",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-04",
+			        	showline:true,
+			        	show:false
+			        },{
+			        	value:"2016-03-05",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-06",
+			        	showline:true,
+			        	show:false
+			        },{
+			        	value:"2016-03-07",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-08",
+			        	showline:true,
+			        	show:false
+			        },{
+			        	value:"2016-03-09",
+			        	showline:true,
+			        	show:true
+		        	}],
+		        series:[
+					{	
+						name:"5日均线",
+						color:"#ff5000",
+						showpoint:false,
+						data:[-400,-300,-600,-700,-500,-700,-400,-300,-600]
+					},
+					{	
+						name:"10日均线",
+						color:"#b9d1f4",
+						showpoint:false,
+						data:[800,700,1000,1100,900,1100,800,700,1000]
+					},
+					{	
+						name:"20日均线",
+						color:"red",
+						showpoint:false,
+						data:[1200,1100,1400,1500,1300,1500,1200,1100,1400]
+					},
+					{	
+						name:"60日均线",
+						color:"#7e0043",
+						showpoint:false,
+						data:[1600,1500,1800,1900,1700,1900,1600,1500,1800]
+					}
+				]
+	        });
+	        k0.draw();
+		}
+
+	</script>
+	
+</body>
+</html>
