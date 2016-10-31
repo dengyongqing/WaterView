@@ -43,6 +43,7 @@
         // 绘制横坐标刻度
         drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
     };
+
     // 绘制坐标轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
         // var sepe_num = line_list_array.length;
