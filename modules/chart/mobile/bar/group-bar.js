@@ -47,7 +47,7 @@ var ChartBarQuarter = (function() {
     // 初始化
     ChartBarQuarter.prototype.init = function() {
 
-        this.options.type = "bar-quarter";
+        this.options.type = "group-bar";
         var canvas = document.createElement("canvas");
         
         // 去除画布上粘贴效果
