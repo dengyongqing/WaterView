@@ -59,7 +59,6 @@ var common = {
     },
     // 图表y轴坐标计算
     get_y: function(y) {
-
         var max = (this.options.currentData && this.options.currentData.max) || this.options.data.max;
         var min = (this.options.currentData && this.options.currentData.min) || this.options.data.min;
         return this.options.c_k_height - (this.options.c_k_height * (y - min) / (max - min));
