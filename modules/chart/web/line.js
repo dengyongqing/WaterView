@@ -232,9 +232,9 @@ var ChartLine = (function() {
                 var tips = document.createElement("div");
                 tips.className = "chart_line_tips";
                 if((cursor*unit/dpr + padding_left/dpr) > canvas.width/2){
-                    tips.style.left = cursor*unit/dpr + padding_left/dpr - tips.clientWidth + "px";
+                    tips.style.left = cursor*unit/dpr + padding_left/dpr  - padding_left/2 - tips.clientWidth + "px";
                 }else{
-                    tips.style.left = (cursor*unit/dpr + padding_left) + "px";
+                    tips.style.left = (cursor*unit/dpr + padding_left  + padding_left/2) + "px";
                 }
                 tips.style.top = (tipArr[0].y + tipArr[3].y)/2/dpr - 50 +"px";
                 var title = document.createElement("div");
@@ -280,9 +280,9 @@ var ChartLine = (function() {
             } else {
                 var tips = that.options.interOption.tips;
                 if((cursor*unit/dpr + padding_left/dpr) >= canvas.width/dpr/2){
-                    tips.style.left = cursor*unit/dpr - tips.clientWidth + "px";
+                    tips.style.left = cursor*unit/dpr + padding_left/2 - tips.clientWidth + "px";
                 }else{
-                    tips.style.left = (cursor*unit/dpr + padding_left) + "px";
+                    tips.style.left = (cursor*unit/dpr + padding_left + padding_left/2) + "px";
                 }
                 tips.style.top = (tipArr[0].y + tipArr[3].y)/2/dpr - 50 +"px";
                 var yLine  = that.options.interOption.yLine;
