@@ -110,7 +110,7 @@ var DrawXY = (function() {
             } else {
                 ctx.textBaseline = "middle";
             }
-            ctx.fillText(roundFloat(minY + i * stepHeight), paddingLeft - 10, stepY * (sepeNum - i) + paddingTop);
+            ctx.fillText(roundFloat(minY + i * stepHeight, stepHeight), paddingLeft - 10, stepY * (sepeNum - i) + paddingTop);
         }
     }
 
@@ -130,9 +130,13 @@ var DrawXY = (function() {
         }
     }
 
-    function roundFloat(f){
-        var m = Math.pow(10, 6);
-        return parseInt(f * m, 10) / m;
+    function roundFloat(f, stepHeight){
+        var precise = 1;
+        if(stepHeight.toString().indexOf(".") !== -1){
+            precise = stepHeight.toString().length - stepHeight.toString().indexOf(".")-1;
+        }debugger;
+        var m = Math.pow(10, precise);
+        return Math.ceil(f * m)/ m;
     }
 
     return DrawXY;
