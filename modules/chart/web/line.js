@@ -22,7 +22,7 @@ var theme = require('theme/default');
 // 绘制分时折线图
 var DrawLine = require('chart/web/line/draw_line'); 
 // 拓展，合并，复制
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 // 交互效果
 var Interactive = require('interactive/interactive'); 
 // 水印
@@ -36,10 +36,8 @@ var ChartLine = (function() {
 
     // 构造函数
     function ChartLine(options) {
-        this.defaultoptions = theme.chartLine;
         this.options = {};
-        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
-
+        this.options = extend(theme.defaulttheme, options);
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件
@@ -114,7 +112,8 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
 
         // 加水印
-        watermark.apply(this,[this.options.context,190,10,82,20]);
+        watermark.apply(this, [ctx,220,20]);
+       
     };
 
     // 绘图
@@ -152,6 +151,10 @@ var ChartLine = (function() {
         // 绘制分时折线图
         new DrawLine(this.options);
         this.addInteractive();
+
+        // 加水印
+        // watermark.apply(this, [ctx, 190, 20]);
+
     };
 
     //添加交互
@@ -159,6 +162,7 @@ var ChartLine = (function() {
         var canvas = this.options.canvas;
         var dateArr = this.options.xaxis;
         var series = this.options.series;
+        var series2 = this.options.series2;
         var ctx = this.options.context;
         var padding_left = this.options.padding_left;
         var padding_top = this.options.canvas_offset_top;
@@ -167,6 +171,8 @@ var ChartLine = (function() {
         var dpr = this.options.dpr;
         var y_max = this.options.data.max;
         var y_min = this.options.data.min;
+        var y_max2 = this.options.data.max2;
+        var y_min2 = this.options.data.min2;
         var c_1_height = this.options.c_1_height;
         //添加交互事件
         common.addEvent.call(that, canvas, "mousemove", function(e) {
@@ -204,6 +210,14 @@ var ChartLine = (function() {
                     data: series[i].data[cursor],
                     name: series[i].name,
                     y: padding_top + common.get_y.call(that, series[i].data[cursor])
+                });
+            }
+            for (i = 0, len = series2.length; i < len; i++) {
+                tipArr.push({
+                    color: series2[i].color,
+                    data: series2[i].data[cursor],
+                    name: series2[i].name,
+                    y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2))
                 });
             }
             //排序
@@ -276,9 +290,9 @@ var ChartLine = (function() {
                 var circles = that.options.interOption.circles;
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
-                for (var j = 0, len = series.length; j < len; j++) {
-                    children[j + 1].children[0].style.backgroundColor = series[j].color;
-                    children[j + 1].children[1].innerHTML = series[j].data[cursor];
+                for (var j = 0, len = tipArr.length; j < len; j++) {
+                    children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
+                    children[j + 1].children[1].innerHTML = tipArr[j].data;
                 }
                 for(var k = 0, kLen = circles.length; k < kLen; k++){
                     circles[k].style.top = tipArr[k].y/dpr - 5 + "px";

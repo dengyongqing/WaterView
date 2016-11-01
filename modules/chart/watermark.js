@@ -8,9 +8,8 @@ function addWatermark(ctx,right,top,width,height) {
     img.width = 0;
     img.height = 0;
 
-    img.src = 'http://g1.dfcfw.com/g1/201607/20160727150611.png';
-
     ctx.drawImage(img, canvas.width - right, top, width, height);	
+    img.src = 'http://g1.dfcfw.com/g1/201607/20160727150611.png';
 }
 
 module.exports = addWatermark;
