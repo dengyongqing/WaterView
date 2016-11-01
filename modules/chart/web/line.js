@@ -112,9 +112,9 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
 
         // 加水印
-        watermark.apply(this, [ctx, 220, 40, 164, 41]);
+        watermark.apply(this, [ctx,250,20]);
     }
-
+    
     // 绘图
     ChartLine.prototype.draw = function(callback) {
         // 删除canvas画布
