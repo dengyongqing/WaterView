@@ -46,6 +46,7 @@
 
     // 绘制坐标轴最左边刻度
     function drawXYLine(ctx,y_max,y_min,line_list_array){
+        ctx.save();
         // var sepe_num = line_list_array.length;
         ctx.fillStyle = '#b1b1b1';
         ctx.strokeStyle = '#ccc';
@@ -59,11 +60,12 @@
             ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
             ctx.stroke();
         }
-
+        ctx.restore();
     }
 
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
+        ctx.save();
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.beginPath();
@@ -95,14 +97,9 @@
 
         }
 
-
-        // var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-
-            // 绘制坐标刻度
-            ctx.stroke();
-
-
-        // ctx.moveTo(0,k_height + 10);
+        // 绘制坐标刻度
+        ctx.stroke();
+        ctx.restore();
     }
     
     /*Y轴标识线列表*/

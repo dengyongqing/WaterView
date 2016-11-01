@@ -52,41 +52,48 @@
     };
     // 绘制坐标轴左侧刻度
     function drawYMark(ctx,y_max,y_min,line_list_array,flag){
+        ctx.save();
         // var sepe_num = line_list_array.length;
-        ctx.fillStyle = '#b1b1b1';
-        ctx.strokeStyle = '#ccc';
+        ctx.fillStyle = '#000';
+        
         ctx.textAlign = 'right';
+        ctx.lineWidth = "1px";
 
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
 
             if(i == 0 || i == line_list_array.length - 1){
+                ctx.strokeStyle = '#ccc';
                 ctx.moveTo(this.options.padding_left, Math.round(item.y));
                 ctx.lineTo(this.options.drawWidth, Math.round(item.y));
+                ctx.stroke();
             }else{
-                DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), this.options.drawWidth, Math.round(item.y),3);
+                ctx.strokeStyle = '#e6e6e6';
+                DrawDashLine(ctx,Math.round(this.options.padding_left), Math.round(item.y), Math.round(this.options.drawWidth), Math.round(item.y),3);
             }
             
             // 绘制纵坐标刻度
             if(this.options.series2 && flag){
                 // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
-                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), ctx.canvas.width, item.y +10);
+                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), ctx.canvas.width, item.y + 5);
             }else{
-                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
+                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y + 5);
             }
-            
-            ctx.stroke();
         }
-
+         ctx.restore();
     }
 
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
+        ctx.save();
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
-        ctx.beginPath();
         ctx.textAlign = 'center';
-        ctx.fillStyle = '#b1b1b1';
+        ctx.fillStyle = '#000';
+        ctx.lineWidth = "1px";
+
+        ctx.beginPath();
+        
         /*画布宽度*/
         var k_width = this.options.drawWidth;
         // var y_date = this.options.c_1_height;
@@ -106,11 +113,14 @@
             }
 
             if(tempDate.showline == undefined ? true : tempDate.showline){
-                ctx.strokeStyle = '#ccc';
-                if(i == 0 || i == oc_time_arr.length - 1){
+               
+                if(i == 0 || i == arr_length - 1){
+                    ctx.strokeStyle = '#ccc';
                     ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
                     ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
+                    ctx.stroke();
                 }else{
+                    ctx.strokeStyle = '#e6e6e6';
                     DrawDashLine(ctx,i * (k_width - padding_left) / (arr_length-1) + padding_left,0, i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height,3);
                 }
                 
@@ -118,14 +128,8 @@
 
         }
 
-
-        // var x = ((ctx.canvas.width - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
-
-            // 绘制坐标刻度
-            ctx.stroke();
-
-
-        // ctx.moveTo(0,k_height + 10);
+        // 绘制坐标刻度
+        ctx.restore();
     }
     
     /*Y轴标识线列表*/
