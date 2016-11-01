@@ -274,9 +274,9 @@ var ChartLine = (function() {
                 var circles = that.options.interOption.circles;
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
-                for (var j = 0, len = series.length; j < len; j++) {
-                    children[j + 1].children[0].style.backgroundColor = series[j].color;
-                    children[j + 1].children[1].innerHTML = series[j].data[cursor];
+                for (var j = 0, len = tipArr.length; j < len; j++) {
+                    children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
+                    children[j + 1].children[1].innerHTML = tipArr[j].data;
                 }
                 for(var k = 0, kLen = circles.length; k < kLen; k++){
                     circles[k].style.top = tipArr[k].y/dpr - 5 + "px";
