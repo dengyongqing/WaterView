@@ -53,11 +53,16 @@
 		
 
 		window.onload = function(){
-			current_tab = k0 = new EmchartsWebLine({
+			var k0 = new EmchartsWebLine({
 	        	container : "emchart-0",
 		        "width" : 800,
 		        "height" : 500,
 		        showflag: true,
+		        font:{
+		        	fontFamily:'Microsoft Yahei',
+		        	fontSize:"12",
+		        	color:"#000"
+		        },
 		        xaxis: [{
 			        	value:"2016-03-01",
 			        	showline:true,

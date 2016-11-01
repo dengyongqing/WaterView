@@ -109,7 +109,27 @@ var ChartLine = (function() {
         // 画布上部内间距
         ctx.translate("0",this.options.canvas_offset_top);
         // 画笔参数设置
-        ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
+        var font = "";
+        var fontSize = "";
+        var fontFamily = "";
+        if(this.options.font){
+            if(this.options.font.fontFamily){
+                fontFamily = this.options.font.fontFamily;
+            }else{
+                fontFamily = "Arial";
+            }
+
+            if(this.options.font.fontSize){
+                fontSize = this.options.font.fontSize;
+            }else{
+                fontSize = 12;
+            }
+
+            font = fontSize + "px " +  fontFamily;
+        }else{
+            font = "12px Arial";
+        }
+        ctx.font = font;
         ctx.lineWidth = 1 * this.options.dpr;
 
         // 加水印
