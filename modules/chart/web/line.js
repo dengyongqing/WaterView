@@ -22,7 +22,7 @@ var theme = require('theme/default');
 // 绘制分时折线图
 var DrawLine = require('chart/web/line/draw_line'); 
 // 拓展，合并，复制
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 // 交互效果
 var Interactive = require('interactive/interactive'); 
 // 水印
@@ -36,10 +36,8 @@ var ChartLine = (function() {
 
     // 构造函数
     function ChartLine(options) {
-        this.defaultoptions = theme.chartLine;
         this.options = {};
-        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
-
+        this.options = extend(theme.defaulttheme, options);
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件
@@ -114,8 +112,8 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
 
         // 加水印
-        watermark.apply(this,[ctx,220,20,164,40]);
-    };
+        watermark.apply(this, [ctx, 220, 40, 164, 41]);
+    }
 
     // 绘图
     ChartLine.prototype.draw = function(callback) {
@@ -152,6 +150,10 @@ var ChartLine = (function() {
         // 绘制分时折线图
         new DrawLine(this.options);
         this.addInteractive();
+
+        // 加水印
+        // watermark.apply(this, [ctx, 190, 20]);
+
     };
 
     //添加交互
@@ -343,7 +345,7 @@ var ChartLine = (function() {
             min:tempObj.min,
             step:tempObj.stepHeight
         };
-     }
+    }
 
     return ChartLine;
 })();
