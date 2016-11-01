@@ -120,7 +120,7 @@
 .chart_line_yline{
 	position: absolute;
 	width: 0px;
-	border-left: solid 1px red;
+	border-left: solid 1px #898989;
 }
 .chart_line_cir{
 	background-color: white;
