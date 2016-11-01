@@ -1560,7 +1560,7 @@ var ChartK = (function() {
         // ctx.clearRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
         ctx.fillRect(0,this.options.unit_height * (-1),this.options.padding.left + this.options.drawWidth + 10,this.options.c2_y_top);
         // if(!this.options.watermark){
-            watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20]);
+            watermark.apply(this,[this.options.context,95 + this.options.padding.right,10,82,20,true]);
             this.options.watermark = true;    
         // }
         

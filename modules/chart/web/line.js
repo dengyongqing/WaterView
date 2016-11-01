@@ -112,7 +112,7 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
 
         // 加水印
-        watermark.apply(this, [ctx,220,20]);
+        watermark.apply(this, [ctx,250,20]);
        
     };
 
