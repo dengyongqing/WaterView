@@ -100,7 +100,6 @@
 	max-width: 200px;
 	padding: 10px;
 	border-radius: 5px;
-	behavior: url(ie-css3.htc);
 }
 .chart_line_tips_title{
 	font-size: 18px;
@@ -116,7 +115,6 @@
 	height: 10px;
 	border-radius: 10px;
 	margin-right: 5px;
-	behavior: url(ie-css3.htc);
 }
 .chart_line_tips_content{}
 .chart_line_yline{
@@ -131,7 +129,6 @@
 	border-radius: 10px;
 	border: solid 1px white;
 	position: absolute;
-	behavior: url(ie-css3.htc);
 }
 
 /* 技术指标的样式 */
