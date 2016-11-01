@@ -114,7 +114,7 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
 
         // 加水印
-        watermark.apply(this,[this.options.context,190,10,82,20]);
+        watermark.apply(this,[ctx,90,10,82,20]);
     };
 
     // 绘图
@@ -303,7 +303,6 @@ var ChartLine = (function() {
                 that.options.interOption.tips.style.display = "block";
             }else{
                 that.options.interOption.tips.style.display = "none";
-                console.log("outer");
             }
         });
     }
