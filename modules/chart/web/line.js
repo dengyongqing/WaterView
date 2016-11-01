@@ -112,8 +112,6 @@ var ChartLine = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
-        
-        
 
         // 加水印
         watermark.apply(this,[this.options.context,190,10,82,20]);
