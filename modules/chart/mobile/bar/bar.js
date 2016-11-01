@@ -2,7 +2,8 @@ var extend = require('tools/extend2');
 var DrawXY = require('chart/mobile/bar/bar/draw_xy');
 var divide = require('chart/mobile/bar/bar/divide');
 var drawBar = require('chart/mobile/bar/bar/draw_bar');
-var handleEvent = require('chart/mobile/bar/bar/handleEvent');
+var handleEvent = require('chart/mobile/bar/bar/handleEvent');// 水印
+var watermark = require('chart/watermark');
 
 var ChartMobileBar = (function() {
 
@@ -54,6 +55,7 @@ var ChartMobileBar = (function() {
         this.options.unit_w_kind = unit_w_kind;
         var coordinate = divide(this.options.sepeNum, this.options.series[0].data);
         this.options.coordinate = coordinate;
+
     };  
 
     ChartMobileBar.prototype.draw = function(cb) {

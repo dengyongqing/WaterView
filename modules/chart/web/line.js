@@ -114,7 +114,7 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
 
         // 加水印
-        watermark.apply(this,[ctx,90,10,82,20]);
+        watermark.apply(this,[ctx,220,20,164,40]);
     };
 
     // 绘图
