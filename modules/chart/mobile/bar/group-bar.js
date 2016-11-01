@@ -359,7 +359,7 @@ var ChartBarQuarter = (function() {
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
-        debugger;
+
         var tempObj = divide(this.options.sepeNum,arr);
         return {
             max:tempObj.max,

@@ -58,8 +58,14 @@ var ChartLine = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-        // 画布
-        var ctx = canvas.getContext('2d');
+        // 兼容IE6-IE9
+        try {
+            var ctx = canvas.getContext('2d');
+        } catch (error) {
+            canvas = window.G_vmlCanvasManager.initElement(canvas);
+            var ctx = canvas.getContext('2d');
+        }
+
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
@@ -68,22 +74,24 @@ var ChartLine = (function() {
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
+        // 容器中添加画布
+        this.container.appendChild(canvas);
+
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / (9 * 2);
         // 画布内容向坐偏移的距离
         this.options.padding_left = ctx.measureText("+100000万").width;
 
-        // 行情图表（分时图或K线图）和成交量图表的间距
-        this.options.k_v_away = canvas.height / (9 * 2);
         // 缩放默认值
         this.options.scale_count = 0;
         this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
-        if(this.options.showflag){
-            this.options.c_1_height = canvas.height * (5/9);
-        }else{
-            this.options.c_1_height = canvas.height * (7/9);
-        }
+        this.options.c_1_height = canvas.height * (8/9);
+        // if(this.options.showflag){
+        //     this.options.c_1_height = canvas.height * (5/9);
+        // }else{
+        //     this.options.c_1_height = canvas.height * (7/9);
+        // }
 
         this.options.sepeNum = this.options.sepeNum == undefined ? 4 : this.options.sepeNum;
         if(this.options.sepeNum < 2){
@@ -105,8 +113,10 @@ var ChartLine = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
         
-        // 容器中添加画布
-        this.container.appendChild(canvas);
+        
+
+        // 加水印
+        watermark.apply(this,[this.options.context,190,10,82,20]);
     };
 
     // 绘图
@@ -144,10 +154,6 @@ var ChartLine = (function() {
         // 绘制分时折线图
         new DrawLine(this.options);
         this.addInteractive();
-
-        // 加水印
-        watermark.apply(this,[ctx,190,20]);
-
     };
 
     //添加交互
