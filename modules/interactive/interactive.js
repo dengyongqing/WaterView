@@ -25,7 +25,7 @@
  */
 
 // 拓展，合并，复制
-var extend = require('extend');
+var extend = require('tools/extend2');
 // 工具模块
 var common = require('tools/common'); 
 // 主题
@@ -36,8 +36,8 @@ var Interactive = (function() {
 	// 构造函数
     function Interactive(options) {
         this.defaultoptions = theme.interactive;
-        this.options = {};
-        this.options = extend(true,this.options,this.defaultoptions, options);
+        this.options = extend(this.defaultoptions, options);
+        // this.options = extend(true,this.options,this.defaultoptions, options);
     }
 
   	// 鼠标十字标识线

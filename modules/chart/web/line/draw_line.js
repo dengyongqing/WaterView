@@ -16,7 +16,7 @@
  */
 
 /*继承*/
-var extend = require('tools/extend');
+var extend = require('tools/extend2');
 /*主题*/
 var theme = require('theme/default');
 /*工具*/
@@ -24,9 +24,7 @@ var common = require('common');
 var DrawLine = (function(){
 	function DrawLine(options){
 		// 设置默认参数
-        this.defaultoptions = theme.drawLine;
-        this.options = {};
-        extend(false,this.options, this.defaultoptions, options);
+        this.options = extend(theme.defaulttheme, options);
         // 绘图
         this.draw();
 	};
