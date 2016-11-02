@@ -97,17 +97,20 @@
 	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
 	opacity: 0.7;
 	color:white;
-	max-width: 200px;
+	min-width: 80px;
 	padding: 10px;
 	border-radius: 5px;
+	font-family: "Microsoft YaHei";
+	font-weight: lighter;
 }
 .chart_line_tips_title{
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 400px;
 	padding: 5px 0px;
 }
 .chart_line_tips_line{
 	padding: 2px 0px;
+	font-size: 12px;
 }
 .chart_line_tips_color{
 	display: inline-block;
