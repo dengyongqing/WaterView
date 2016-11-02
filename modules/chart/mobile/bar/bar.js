@@ -55,7 +55,8 @@ var ChartMobileBar = (function() {
         this.options.unit_w_kind = unit_w_kind;
         var coordinate = divide(this.options.sepeNum, this.options.series[0].data);
         this.options.coordinate = coordinate;
-
+        // 加水印
+        watermark.apply(this,[this.options.context,90*dpr,40*dpr,82*dpr,20*dpr]);
     };  
 
     ChartMobileBar.prototype.draw = function(cb) {
