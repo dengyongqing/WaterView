@@ -54,8 +54,7 @@
     function drawYMark(ctx,y_max,y_min,line_list_array,flag){
         ctx.save();
         // var sepe_num = line_list_array.length;
-        ctx.fillStyle = '#000';
-        
+        ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
         ctx.textAlign = 'right';
         ctx.lineWidth = "1px";
 
@@ -90,7 +89,7 @@
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.textAlign = 'center';
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
         ctx.lineWidth = "1px";
 
         /*画布宽度*/
