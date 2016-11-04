@@ -58,15 +58,45 @@
 	        	container : "emchart-0",
 		        "width" : 800,
 		        "height" : 500,
-		        // showflag: true,
-		        // font:{
-		        // 	fontFamily:'Microsoft Yahei',
-		        // 	fontSize:"12",
-		        // 	color:"#000"
-		        // },
-		        
-	        });
-	        k0.draw();
+		        startOffset: Math.PI ,
+		        data: [{
+		            name: "超大单流出",
+		            value: 565458.36,
+		            color: "#54BECC",
+		            showInfo: true
+		        }, {
+		            name: "超大单流入",
+		            value: 265458.36,
+		            color: "#68D4B2",
+		            showInfo: true
+		        }, {
+		            name: "大单流入",
+		            value: 165458.36,
+		            color: "#A5E59B",
+		            showInfo: true
+		        }, {
+		            name: "大单流出",
+		            value: 85458,
+		            color: "#E6F3A3",
+		            showInfo: true
+		        },{
+		            name: "小单流出",
+		            value: 45458,
+		            color: "#F0D588",
+		            showInfo: true
+		        },{
+		            name: "小单入",
+		            value: 865458.36,
+		            color: "#6990D5",
+		            showInfo: true
+		        }],
+		        point: {
+		            x: 200,
+		            y: 200
+		        },
+		        radius: 150
+			});
+			k0.draw();
 		}
 
 	</script>
