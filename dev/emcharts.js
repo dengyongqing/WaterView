@@ -16,6 +16,8 @@ var ChartLine = require('chart/web/line');
 var ChartWebTime = require('chart/web/time');
 /*绘制web的K线图*/
 var ChartWebK = require('chart/web/k');
+/*绘制web的饼状图*/
+var ChartPie = require('chart/web/pie');
 
 /*加载样式文件*/
 require('css/style.css');
@@ -28,3 +30,4 @@ window.EmchartsWebLineRate = ChartLineRate;
 window.EmchartsWebLine = ChartLine;
 window.EmchartsWebTime = ChartWebTime;
 window.EmchartsWebK = ChartWebK;
+window.EmchartsPie = ChartPie;
