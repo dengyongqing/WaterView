@@ -1,9 +1,13 @@
 var drawInfo = require("./drawInfo");
 var drawPie = require("./drawPie");
 var getSpaceArry = require("./getSpaceArry");
+var getTheta = require("./getTheta");
+var pieHandlerClick = require('./pieHandlerClick');
 
 module.exports = {
     "drawInfo": drawInfo,
     "drawPie": drawPie,
-    "getSpaceArry": getSpaceArry
+    "getSpaceArry": getSpaceArry,
+    "getTheta":getTheta,
+    "pieHandlerClick": pieHandlerClick,
 }

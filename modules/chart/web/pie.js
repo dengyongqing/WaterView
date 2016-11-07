@@ -81,25 +81,30 @@ var ChartPie = (function() {
         var pies = [];
 
         for (var i = 0, len = data.length; i < len; i++) {
-            total += data[i].value;
+            if (data[i].show || data[i].show === undefined) {
+                total += data[i].value;
+            }
         }
         for (i = 0; i < data.length; i++) {
-            var drawStart = current,
-                drawEnd = current + data[i].value / total * 2 * Math.PI;
-            current += data[i].value / total * 2 * Math.PI;
-            var middle = (drawStart + drawEnd) / 2;
-            // 记录所有的饼块的信息(比较信息， 用于确定点击范围)
-            pies.push({
-                value: data[i].value,
-                name: data[i].name,
-                start: drawStart,
-                end: drawEnd,
-                middle: middle,
-                color: data[i].color,
-                showInfo: data[i].showInfo,
-                id: i,
-                isOut: false
-            });
+            if (data[i].show || data[i].show === undefined) { //由此控制某个饼块是否显示
+                var drawStart = current,
+                    drawEnd = current + data[i].value / total * 2 * Math.PI;
+                current += data[i].value / total * 2 * Math.PI;
+                var middle = (drawStart + drawEnd) / 2;
+                // 记录所有的饼块的信息(比较信息， 用于确定点击范围)
+                pies.push({
+                    value: data[i].value,
+                    name: data[i].name,
+                    start: drawStart,
+                    end: drawEnd,
+                    middle: middle,
+                    color: data[i].color,
+                    showInfo: data[i].showInfo,
+                    id: i,
+                    isOut: false
+                });
+            }
+
         }
 
         var yBottom = point.y - radius - 20;
@@ -110,6 +115,7 @@ var ChartPie = (function() {
         pies.sort(function(a, b) {
             return a.start - b.start;
         });
+        this.options.pies = pies;
         //进行绘制
         for (i = 0; i < pies.length; i++) {
             var pieStart = pies[i].start;
@@ -123,10 +129,43 @@ var ChartPie = (function() {
             methods.drawInfo(ctx, pies[i], radius, point, ySpace);
         }
 
+        //添加交互
+        this.addInteractive();
+
     };
 
     //添加交互
-    ChartPie.prototype.addInteractive = function() {}
+    ChartPie.prototype.addInteractive = function() {
+        var canvas = this.options.canvas;
+        var that = this;
+        var pies = this.options.pies;
+        var point = this.options.point;
+        var radius = this.options.radius;
+        var startOffset = this.options.startOffset;
+        //添加交互事件
+        common.addEvent.call(that, canvas, 'click', function(e) {
+            // 事件处理
+            var x = e.layerX - point.x;
+            var y = e.layerY - point.y;
+            var theta = 0; //点击处的弧度
+
+            if (x * x + y * y > radius * radius) {
+                return;
+            }
+            theta = methods.getTheta(x, y, startOffset);
+            for (var i = 0, len = pies.length; i < len; i++) {
+                if (theta <= pies[i].end) {
+                    var pie = pies[i];
+                    pie.clicked = true;
+                    methods.pieHandlerClick.call(that, pie);
+                    break;
+                }
+            }
+        });
+        common.addEvent.call(that, canvas, "mousemove", function(e) {
+
+        });
+    }
 
 
     // 重绘
