@@ -17,7 +17,7 @@ module.exports = function(ctx, obj, point, radius, ySpace, onPie) {
     var pieMiddleDegree = (pieStartDegree + pieEndDegree) / 2;
     drawPie(ctx, point, radius + 16, pieStartDegree, pieEndDegree, "white");
     if (onPie) {
-        drawInfoOn(ctx, obj, radius, point, 16, true);
+        drawInfoOn(ctx, obj, radius, point, 12, true);
     }
     drawPie(ctx, point, radius, pieStartDegree, pieEndDegree, obj.color);
     if (onPie) {
