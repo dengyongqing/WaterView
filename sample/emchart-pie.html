@@ -71,8 +71,8 @@
 				<ul class="lis">
 					<li id = "0"><span class="color" style="background-color: #68D4B2"></span><span class="name">超大单流出</span></li>
 					<li id="1"><span class="color" style="background-color: #54BECC"></span><span class="name">超大单流入</span></li>
-					<li id="2"><span class="color" style="background-color: #E6F3A3"></span><span class="name">大单流出</span></li>
-					<li id="3"><span class="color" style="background-color: #A5E59B"></span><span class="name">大单流入</span></li>
+					<li id="2"><span class="color" style="background-color: #E6F3A3"></span><span class="name">大单流入</span></li>
+					<li id="3"><span class="color" style="background-color: #A5E59B"></span><span class="name">大单流出</span></li>
 					<li id="4"><span class="color" style="background-color: #F0D588"></span><span class="name">小单流入</span></li>
 					<li id="5"><span class="color" style="background-color: #6990D5"></span><span class="name">小单流出</span></li>
 				</ul>
@@ -92,7 +92,7 @@
 		        "width" : 800,
 		        "height" : 500,
 		        startOffset: Math.PI,
-		        onPie:true,
+		        // onPie:true,
 		        data: [{
 		            name: "超大单流出",
 		            value: 565458.36,
@@ -127,10 +127,10 @@
 		            showInfo: true
 		        }],
 		        point: {
-		            x: 300,
-		            y: 200
+		            x: 350,
+		            y: 250
 		        },
-		        radius: 100
+		        radius: 180
 			}
 			var k0 = new EmchartsPie(options);
 			k0.draw();

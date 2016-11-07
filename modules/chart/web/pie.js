@@ -156,8 +156,16 @@ var ChartPie = (function() {
         //添加交互事件
         common.addEvent.call(that, canvas, 'click', function(e) {
             // 事件处理
-            var x = e.layerX - point.x;
-            var y = e.layerY - point.y;
+            var winX, winY;
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
+            }
+            var x = winX - point.x;
+            var y = winY - point.y;
             var theta = 0; //点击处的弧度
 
             if (x * x + y * y > radius * radius) {
@@ -175,8 +183,16 @@ var ChartPie = (function() {
         });
         common.addEvent.call(that, canvas, "mousemove", function(e) { //浮动交互(显示tips)
             //首先判断在哪个饼块上
-            var x = e.layerX - point.x;
-            var y = e.layerY - point.y;
+            var winX, winY;
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
+            }
+            var x = winX - point.x;
+            var y = winY - point.y;
             var theta = 0; //点击处的弧度
             var inPie = true;
             if (x * x + y * y > radius * radius) {
@@ -187,7 +203,7 @@ var ChartPie = (function() {
                 if (theta <= pies[i].end) {
                     var pie = pies[i];
                     pie.clicked = true;
-                    methods.pieHandlerMove.call(that, pie, e.layerX, e.layerY, inPie);
+                    methods.pieHandlerMove.call(that, pie, winX, winY, inPie);
                     break;
                 }
             }
