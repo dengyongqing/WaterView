@@ -137,6 +137,7 @@ var ChartPie = (function() {
     //添加交互
     ChartPie.prototype.addInteractive = function() {
         var canvas = this.options.canvas;
+        var container = this.container;
         var that = this;
         var pies = this.options.pies;
         var point = this.options.point;
@@ -162,8 +163,25 @@ var ChartPie = (function() {
                 }
             }
         });
-        common.addEvent.call(that, canvas, "mousemove", function(e) {
+        common.addEvent.call(that, canvas, "mousemove", function(e) { //浮动交互
+            //首先判断在哪个饼块上
+            var x = e.layerX - point.x;
+            var y = e.layerY - point.y;
+            var theta = 0; //点击处的弧度
+            var inPie = true;
 
+            if (x * x + y * y > radius * radius) {
+                inPie = false;
+            }
+            theta = methods.getTheta(x, y, startOffset);
+            for (var i = 0, len = pies.length; i < len; i++) {
+                if (theta <= pies[i].end) {
+                    var pie = pies[i];
+                    pie.clicked = true;
+                    methods.pieHandlerMove.call(that, pie, e.layerX, e.layerY,inPie);
+                    break;
+                }
+            }
         });
     }
 
