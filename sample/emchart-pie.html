@@ -92,7 +92,7 @@
 		        "width" : 800,
 		        "height" : 500,
 		        startOffset: Math.PI,
-		        // onPie:true,
+		        onPie:true,
 		        data: [{
 		            name: "超大单流出",
 		            value: 565458.36,
@@ -138,14 +138,20 @@
 			var lis = document.getElementsByTagName("li");
 			for(var i = 0, len = lis.length; i < len; i++){
 				lis[i].onclick = function(e){
-					var id = e.target;
-					var tarElement = null;
-					if(e.target.nodeName === "SPAN"){
-						id = e.target.parentNode.getAttribute("id");
-						tarElement = e.target.parentNode;
+					var id = 0;
+					var target = null;
+					if(!!window.event.srcElement){
+						target = window.event.srcElement
 					}else{
-						id = e.target.getAttribute("id");
-						tarElement = e.target;
+						target = e.target;
+					}
+					var tarElement = null;
+					if(target.nodeName === "SPAN"){
+						id = target.parentNode.getAttribute("id");
+						tarElement = target.parentNode;
+					}else{
+						id = target.getAttribute("id");
+						tarElement = target;
 					}
 					if(k0.options.data[id].show === undefined){
 						k0.options.data[id].show = false;
