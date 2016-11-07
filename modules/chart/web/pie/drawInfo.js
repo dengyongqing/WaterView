@@ -24,7 +24,7 @@ module.exports = function(ctx, pie, radius, point, ySpace, onlyLine) {
     ctx.font = "12px";
     ctx.textAlign = Math.cos(pie.middle) > 0 ? "start" : "end";
     ctx.textBaseline = "middle";
-    if (!onlyLine) {//只画触角
+    if (!onlyLine) {//不只画触角
         ctx.fillText(pie.name, EndX + (Math.cos(pie.middle) > 0 ? 5 : -5), EndY);
         ctx.fillStyle = pie.color;
         ctx.arc(EndX + isNegative * 2, EndY, 2, 0, Math.PI * 2);

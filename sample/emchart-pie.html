@@ -11,6 +11,32 @@
 		    margin: 0;
 		    padding: 0;
 		}
+		.emchart-0{
+			border: solid 1px #eee;
+		}
+		.lis{
+			background-color: white;
+			width: 100%;
+			padding-left: 100px;
+		}
+		.lis li{
+			display: inline-block;
+			padding: 10px;
+			-webkit-user-select:none; 
+			-moz-user-select:none; 
+			-ms-user-select:none; user-select:none;
+		}
+		.color{
+			display: inline-block;
+			height: 12px;
+			width: 12px;
+			background-color: #000;
+			margin: 0px 5px;
+		}
+		li:hover{
+			cursor: pointer;
+		}
+		.name{}
 	</style>
 	
 </head>
@@ -42,7 +68,14 @@
 					<div id="emchart-3" class="em-tab">
 					</div>
 				</div>
-				
+				<ul class="lis">
+					<li id = "0"><span class="color" style="background-color: #68D4B2"></span><span class="name">超大单流出</span></li>
+					<li id="1"><span class="color" style="background-color: #54BECC"></span><span class="name">超大单流入</span></li>
+					<li id="2"><span class="color" style="background-color: #E6F3A3"></span><span class="name">大单流出</span></li>
+					<li id="3"><span class="color" style="background-color: #A5E59B"></span><span class="name">大单流入</span></li>
+					<li id="4"><span class="color" style="background-color: #F0D588"></span><span class="name">小单流入</span></li>
+					<li id="5"><span class="color" style="background-color: #6990D5"></span><span class="name">小单流出</span></li>
+				</ul>
 			</div>
 
 		</div>
@@ -54,50 +87,81 @@
 		
 
 		window.onload = function(){
-			var k0 = new EmchartsPie({
+			var options = {
 	        	container : "emchart-0",
 		        "width" : 800,
 		        "height" : 500,
-		        startOffset: Math.PI ,
+		        startOffset: Math.PI,
+		        onPie:true,
 		        data: [{
 		            name: "超大单流出",
 		            value: 565458.36,
 		            color: "#54BECC",
 		            show:true,
 		            showInfo: true
-		        }, {
+		        },{
 		            name: "超大单流入",
 		            value: 265458.36,
 		            color: "#68D4B2",
+		            info:"自定义显示内容",
 		            showInfo: true
-		        }, {
+		        },{
 		            name: "大单流入",
 		            value: 165458.36,
 		            color: "#A5E59B",
 		            showInfo: true
-		        }, {
+		        },{
 		            name: "大单流出",
 		            value: 85458,
 		            color: "#E6F3A3",
 		            showInfo: true
 		        },{
-		            name: "小单流出",
+		            name: "小单流入",
 		            value: 45458,
 		            color: "#F0D588",
 		            showInfo: true
 		        },{
-		            name: "小单入",
+		            name: "小单流出",
 		            value: 865458.36,
 		            color: "#6990D5",
 		            showInfo: true
 		        }],
 		        point: {
-		            x: 200,
+		            x: 300,
 		            y: 200
 		        },
-		        radius: 150
-			});
+		        radius: 100
+			}
+			var k0 = new EmchartsPie(options);
 			k0.draw();
+
+			var lis = document.getElementsByTagName("li");
+			for(var i = 0, len = lis.length; i < len; i++){
+				lis[i].onclick = function(e){
+					var id = e.target;
+					var tarElement = null;
+					if(e.target.nodeName === "SPAN"){
+						id = e.target.parentNode.getAttribute("id");
+						tarElement = e.target.parentNode;
+					}else{
+						id = e.target.getAttribute("id");
+						tarElement = e.target;
+					}
+					if(k0.options.data[id].show === undefined){
+						k0.options.data[id].show = false;
+						tarElement.children[0].style.backgroundColor = "#eee";
+					}else{
+						k0.options.data[id].show = !k0.options.data[id].show;
+						if(k0.options.data[id].show){
+							tarElement.children[0].style.backgroundColor = k0.options.data[id].color;
+						}else{
+							tarElement.children[0].style.backgroundColor = "#eee";
+						}
+						
+					}
+					k0.reDraw();
+				}
+			}
 		}
 
 	</script>

@@ -18,7 +18,7 @@ module.exports = function(pie, x, y, inPie) {
         var name = document.createElement("span");
         name.innerHTML = pie.name;
         var value = document.createElement("div");
-        value.innerHTML = pie.value;
+        value.innerHTML = pie.info;
 
         tips.appendChild(disc);
         tips.appendChild(name);
@@ -37,13 +37,13 @@ module.exports = function(pie, x, y, inPie) {
         
         tips.children[0].style.backgroundColor = pie.color;
         tips.children[1].innerHTML = pie.name;
-        tips.children[2].innerHTML = pie.value;
+        tips.children[2].innerHTML = pie.info;
 
         if (Math.cos(pie.middle) >= 0) {
-            tips.style.top = y + 10 + "px";
+            tips.style.top = y - tips.clientHeight - 10 + "px";
             tips.style.left = x + 10 + "px";
         } else {
-        	tips.style.top = y  + "px";
+        	tips.style.top = y - tips.clientHeight - 10  + "px";
             tips.style.left = x - tips.clientWidth - 10 + "px";
         }
     }

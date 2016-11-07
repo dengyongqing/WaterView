@@ -1,4 +1,5 @@
 var drawPie = require('./drawPie');
+var drawInfoOn = require('./drawInfoOn');
 
 /**
  * 饼块弹出
@@ -8,11 +9,15 @@ var drawPie = require('./drawPie');
  * @param  {[type]} radius 饼块半径
  * @return {[type]}        无返回
  */
-module.exports = function(ctx, obj, point, radius) {
+module.exports = function(ctx, obj, point, radius, onPie) {
     var pieStartDegree = obj.start;
     var pieEndDegree = obj.end;
     var pieMiddleDegree = (pieStartDegree + pieEndDegree) / 2;
-    drawPie(ctx, point, radius + 11, pieStartDegree, pieEndDegree, "white");
+    drawPie(ctx, point, radius + 10, pieStartDegree, pieEndDegree, "white");
+    if(onPie){
+        drawInfoOn(ctx, obj, radius, point, 12, true);
+    }
+
     drawPie(ctx, {
         x: point.x + 5 * Math.cos(pieMiddleDegree),
         y: point.y + 5 * Math.sin(pieMiddleDegree)
@@ -27,4 +32,8 @@ module.exports = function(ctx, obj, point, radius) {
         x: point.x + 5 * Math.cos(pieMiddleDegree),
         y: point.y + 5 * Math.sin(pieMiddleDegree)
     }, radius, pieStartDegree, pieEndDegree, obj.color);
+
+    if (onPie) {
+        drawInfoOn(ctx, obj, radius, point, 16);
+    }
 }

@@ -58,8 +58,11 @@ var ChartPie = (function() {
             this.options.font.fontFamily = "Microsoft Yahei";
         }
 
+        this.options.startOffset = this.options.startOffset || Math.PI/2;
+
         //每条触角文字的高度
         this.options.ySpace = parseInt(this.options.font.fontSize);
+        this.options.onPie = this.options.onPie || false;
 
         // 加水印
         watermark.apply(this, [ctx, 130, 20, 82, 20]);
@@ -76,13 +79,15 @@ var ChartPie = (function() {
             data = this.options.data,
             ySpace = this.options.ySpace,
             point = this.options.point,
-            radius = this.options.radius;
+            radius = this.options.radius,
+            fontSize = "12",
+            onPie = this.options.onPie;
 
         var pies = [];
 
         for (var i = 0, len = data.length; i < len; i++) {
             if (data[i].show || data[i].show === undefined) {
-                total += data[i].value;
+                total += parseFloat(data[i].value);
             }
         }
         for (i = 0; i < data.length; i++) {
@@ -94,6 +99,7 @@ var ChartPie = (function() {
                 // 记录所有的饼块的信息(比较信息， 用于确定点击范围)
                 pies.push({
                     value: data[i].value,
+                    info:data[i].info || data[i].value,
                     name: data[i].name,
                     start: drawStart,
                     end: drawEnd,
@@ -116,7 +122,7 @@ var ChartPie = (function() {
             return a.start - b.start;
         });
         this.options.pies = pies;
-        //进行绘制
+        //进行绘制（显示在外面，触角形式）
         for (i = 0; i < pies.length; i++) {
             var pieStart = pies[i].start;
             var pieEnd = pies[i].end;
@@ -126,7 +132,11 @@ var ChartPie = (function() {
                 ctx.globalCompositeOperation = 'source-atop';
             }
             methods.drawPie(ctx, point, radius, pieStart, pieEnd, color);
-            methods.drawInfo(ctx, pies[i], radius, point, ySpace);
+            if (onPie) {
+                methods.drawInfoOn(ctx, pies[i], radius, point, fontSize);
+            } else {
+                methods.drawInfo(ctx, pies[i], radius, point, ySpace);
+            }
         }
 
         //添加交互
@@ -163,13 +173,12 @@ var ChartPie = (function() {
                 }
             }
         });
-        common.addEvent.call(that, canvas, "mousemove", function(e) { //浮动交互
+        common.addEvent.call(that, canvas, "mousemove", function(e) { //浮动交互(显示tips)
             //首先判断在哪个饼块上
             var x = e.layerX - point.x;
             var y = e.layerY - point.y;
             var theta = 0; //点击处的弧度
             var inPie = true;
-
             if (x * x + y * y > radius * radius) {
                 inPie = false;
             }
@@ -178,7 +187,7 @@ var ChartPie = (function() {
                 if (theta <= pies[i].end) {
                     var pie = pies[i];
                     pie.clicked = true;
-                    methods.pieHandlerMove.call(that, pie, e.layerX, e.layerY,inPie);
+                    methods.pieHandlerMove.call(that, pie, e.layerX, e.layerY, inPie);
                     break;
                 }
             }
@@ -187,9 +196,23 @@ var ChartPie = (function() {
 
 
     // 重绘
-    ChartPie.prototype.reDraw = function() {}
+    ChartPie.prototype.reDraw = function() {
         // 删除canvas画布
-    ChartPie.prototype.clear = function(cb) {}
+        this.clear();
+        this.draw();
+    }
+        // 删除canvas画布
+    ChartPie.prototype.clear = function(cb) {
+        if(this.container){
+            this.container.innerHTML = "";
+        }else{
+            document.getElementById(this.options.container).innerHTML = "";
+        }
+        this.options.tips = null;
+        if (cb) {
+            cb();
+        };
+    }
 
     return ChartPie;
 })();

@@ -7,7 +7,7 @@ module.exports = function(arr, resultLen, ySpace, radius, point, yBottom) {
     var rightArr = [];
     for (var i = 0, len = arr.length; i < len; i++) {
         //分左右两边
-        if (Math.cos(arr[i].middle) <= 0) {
+        if (Math.cos(arr[i].middle) < 0) {
             leftArr.push(arr[i]);
         } else {
             rightArr.push(arr[i]);

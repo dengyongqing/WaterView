@@ -7,19 +7,20 @@ module.exports = function (obj) {
     var radius = this.options.radius;
     var ctx = this.options.context;
     var ySpace = this.options.ySpace;
+    var onPie = this.options.onPie;
     if (this.options.prePieClick) {
         if (this.options.prePieClick == obj) {
-            pieIn(ctx, obj, point, radius, ySpace);
+            pieIn(ctx, obj, point, radius, ySpace, onPie);
             obj.clicked = false;
             this.options.prePieClick = null;
         } else {
-            pieIn(ctx, this.options.prePieClick, point, radius, ySpace);
+            pieIn(ctx, this.options.prePieClick, point, radius, ySpace, onPie);
             this.options.prePieClick.clicked = false;
-            pieOut(ctx, obj, point, radius);
+            pieOut(ctx, obj, point, radius, onPie);
             this.options.prePieClick = obj;
         }
     } else {
-        pieOut(ctx, obj, point, radius);
+        pieOut(ctx, obj, point, radius, onPie);
         this.options.prePieClick = obj;
     }
 }
