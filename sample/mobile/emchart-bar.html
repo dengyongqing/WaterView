@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta charset="UTF-8">
+	<title>手机图表</title>
+	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+	<style type="text/css">
+		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
+		    margin: 0;
+		    padding: 0;
+		}
+		#container{
+			border: solid 1px #eee;
+			margin: 10px 10px;
+			max-width: 800px;
+		}
+	</style>
+	
+</head>
+<body>
+	<div id="container"></div>
+	<script src="../../bundle/mobile_emcharts.js"></script>
+	
+	<script type="text/javascript">
+		
+		var quarter_color = "#ffc962";
+		var container = document.getElementById("container");
+
+		window.onload = function(){
+			k0 = new ChartMobiBar({
+	        	container : "container",
+		        "width" : 500,
+		        "height" : 500,
+		        sepeNum:6,
+		        xaxis: {
+		        	value:["2014-06-30","2014-09-30","2014-12-30","2015-03-30","2015-06-30","2015-09-30","2015-12-30",]
+		        },
+		        series:[
+					{
+						color:"#FF7200",
+						hoverColor:"#FF9A4A",	
+						data:[2,1,1,1, 1, 2, 2]
+					}
+				]
+	        });
+	        k0.draw();
+		}
+	</script>
+	
+</body>
+</html>

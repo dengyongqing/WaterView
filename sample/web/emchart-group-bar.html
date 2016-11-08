@@ -26,7 +26,7 @@
 
 			<div class="content">
 				<div class="tabs">
-					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">港股图</div>
+					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">分组柱状图</div>
 					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
@@ -47,7 +47,7 @@
 		</div>
 
 	</div>
-	<script src="../bundle/emcharts.js"></script>
+	<script src="../../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
 		
@@ -56,48 +56,60 @@
 		var three_quarter = "#ff9c00";
 		var four_quarter = "#ff7e00";
 
+		var colors = [one_quarter,two_quarter,three_quarter,four_quarter];
+
 		window.onload = function(){
-			k0 = new EmchartsWebBarQuarter({
+			k0 = new ChartWebGroupBar({
 	        	container : "emchart-0",
 		        "width" : 500,
-		        "height" : 500,
+	        	"height" : 500,
+		        sepeNum:5,
+		        // groupSpacing:0.2,
+		        // groupUnitSpacing0.2,
 		        xaxis: [{
 			        	value:"2010",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
-			        },{
+			        	colors:colors
+			        }
+			        ,{
 			        	value:"2011",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	colors:colors,
+			        	show:false
 			        },{
 			        	value:"2012",
 			        	colors:["#a9f392","#8be96f","#5ad834","#44ca1b"]
 			        },{
 			        	value:"2013",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	colors:colors,
+			        	show:false
 			        },{
 			        	value:"2014",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	colors:colors
 			        },{
 			        	value:"2015",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
+			        	colors:colors,
+			        	show:false	
 			        },{
 			        	value:"2016",
-			        	colors:[one_quarter,two_quarter,three_quarter,four_quarter]
-			        }],
+			        	colors:colors
+			        }
+			        
+			        ],
 		        series:[
 					{	
-						data:[500,700,900,1100]
+						data:[300,500,700]
+					}
+					,{	
+						data:[300,500,700]
 					},{	
-						data:[500,700,900,1100]
+						data:[-300,-500,-700]
 					},{	
-						data:[-500,-700,-900,-1100]
+						data:[300,500,700]
 					},{	
-						data:[500,700,900,1100]
+						data:[300,500,700]
 					},{	
-						data:[500,700,900,1100]
+						data:[300,500,700]
 					},{	
-						data:[500,700,900,1100]
-					},{	
-						data:[500,700,900,1100]
+						data:[300,500,700]
 					}
 				]
 	        });

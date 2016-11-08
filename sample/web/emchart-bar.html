@@ -10,17 +10,13 @@
 		    margin: 0;
 		    padding: 0;
 		}
-		#container{
-			border: solid 1px #eee;
-			margin: 10px 10px;
-			max-width: 800px;
-		}
+		
 	</style>
 	
 </head>
 <body>
 	<div id="container"></div>
-	<script src="../bundle/mobile_emcharts.js"></script>
+	<script src="../../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
 		
@@ -28,7 +24,7 @@
 		var container = document.getElementById("container");
 
 		window.onload = function(){
-			k0 = new ChartMobiBar({
+			k0 = new ChartWebBar({
 	        	container : "container",
 		        "width" : 500,
 		        "height" : 500,

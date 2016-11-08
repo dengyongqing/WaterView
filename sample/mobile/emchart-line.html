@@ -47,22 +47,18 @@
 		</div>
 
 	</div>
-	<script src="../bundle/emcharts.js"></script>
+	<script src="../../bundle/mobile_emcharts.js"></script>
 	
 	<script type="text/javascript">
 		
 
 		window.onload = function(){
-			var k0 = new EmchartsWebLine({
+			current_tab = k0 = new EmchartsMobileLine({
+				dpr: 2,
 	        	container : "emchart-0",
-		        "width" : 800,
-		        "height" : 500,
+		        "width" : document.body.offsetWidth - 20,
+		        "height" : document.body.offsetWidth,
 		        showflag: true,
-		        font:{
-		        	fontFamily:'Microsoft Yahei',
-		        	fontSize:"12",
-		        	color:"#000"
-		        },
 		        xaxis: [{
 			        	value:"2016-03-01",
 			        	showline:true,
@@ -105,33 +101,25 @@
 						name:"5日均线",
 						color:"#ff5000",
 						showpoint:false,
-						data:[-400,-300,-600,-700,-500,-700,-400,-300,-600]
+						data:[6000000,6000000,6000000,7000000,5000000,7000000,4000000,3000000,6000000]
 					},
 					{	
 						name:"10日均线",
 						color:"#b9d1f4",
 						showpoint:false,
-						data:[800,700,1000,1100,900,1100,800,700,1000]
+						data:[8000000,7000000,10000000,11000000,9000000,11000000,8000000,7000000,10000000]
 					},
 					{	
 						name:"20日均线",
-						color:"red",
+						color:"#0068b7",
 						showpoint:false,
-						data:[1200,1100,1400,1500,1300,1500,1200,1100,1400]
+						data:[12000000,11000000,14000000,15000000,13000000,15000001,12000000,11000000,14000000]
 					},
 					{	
 						name:"60日均线",
 						color:"#7e0043",
 						showpoint:false,
-						data:[1600,1500,1800,1900,1700,1900,1600,1500,1800]
-					}
-				],
-				series2:[
-					{	
-						name:"5日均线",
-						color:"blue",
-						showpoint:false,
-						data:[-3,-5,7,-9,7,5,7,5,3]
+						data:[16000000,15000000,18000000,19000001,17000001,19000001,16000000,15000000,18000000]
 					}
 				]
 	        });

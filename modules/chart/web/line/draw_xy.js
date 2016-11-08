@@ -42,10 +42,12 @@
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height,step);
-        var line_list_array2 = getLineList(y_max2, y_min2, sepe_num, k_height,step2);
-
         drawYMark.call(this,ctx,y_max,y_min,line_list_array,false);
-        drawYMark.call(this,ctx,y_max,y_min,line_list_array2,true);
+
+        if(this.options.series2){
+            var line_list_array2 = getLineList(y_max2, y_min2, sepe_num, k_height,step2);
+            drawYMark.call(this,ctx,y_max,y_min,line_list_array2,true);
+        }
 
         // 绘制横坐标刻度
         drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
@@ -60,7 +62,7 @@
 
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
-
+            
             if(i == 0 || i == line_list_array.length - 1){
                 ctx.strokeStyle = '#ccc';
                 ctx.moveTo(this.options.padding_left, Math.round(item.y));
@@ -72,10 +74,13 @@
             }
             
             // 绘制纵坐标刻度
+            // ctx.textAlign = 'left';
             if(this.options.series2 && flag){
                 // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
-                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), ctx.canvas.width, item.y + 5);
+                ctx.textAlign = 'left';
+                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.drawWidth + 10, item.y + 5);
             }else{
+                ctx.textAlign = 'right';
                 ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y + 5);
             }
 
@@ -102,10 +107,14 @@
             ctx.beginPath();
             tempDate = oc_time_arr[i];
             if(tempDate.show == undefined ? true : tempDate.show){
-                if(i < arr_length - 1){
+                if(this.options.series2){
                     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
-                }else if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > this.options.drawWidth){
-                    ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                }else{
+                    if(i < arr_length - 1){
+                        ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+                    }else if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > this.options.drawWidth){
+                        ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                    }
                 }
                 
             }

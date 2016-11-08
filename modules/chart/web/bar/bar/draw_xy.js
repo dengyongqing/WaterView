@@ -67,6 +67,7 @@ var DrawXY = (function() {
         ctx.lineTo(x_right, y_top);
         ctx.stroke();
 
+        ctx.beginPath();
         /*横标*/
         var stepX = 1;
         var textWidth = ctx.measureText(arr_x[0]).width;
@@ -85,7 +86,7 @@ var DrawXY = (function() {
                 ctx.fillText(arr_x[i], x_left + i * unit_w_len + (unit_w_len - textWidth) / 2, y_bottom + 15);
             }
         }
-
+        
         /*纵标*/
         for (i = 1, len = sepeNum; i < len; i++) {
             var round = 0;
@@ -94,6 +95,7 @@ var DrawXY = (function() {
                 ctx.lineTo(x_right, round + Math.round(stepY * i + paddingTop));
                 ctx.stroke();
             }else{
+                ctx.beginPath();
                 draw_dash(ctx, x_left, Math.round(stepY * i + paddingTop) + round,
                     x_right, round + Math.round(stepY * i + paddingTop), 3);
             }

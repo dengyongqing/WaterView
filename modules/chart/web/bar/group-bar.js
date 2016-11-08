@@ -94,7 +94,7 @@ var ChartBarQuarter = (function() {
         ctx.translate("0", this.options.canvas_offset_top);
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
-        ctx.lineWidth = 1 * this.options.dpr;
+        ctx.lineWidth = 1 * this.options.dpr + 0.5;
         this.options.groupSpacing = this.options.groupSpacing == undefined ? "0.2" : this.options.groupSpacing;
         this.options.groupUnitSpacing =  this.options.groupUnitSpacing == undefined ? "0.2" : this.options.groupUnitSpacing;;
 

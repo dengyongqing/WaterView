@@ -51,20 +51,23 @@ var DrawLine = (function(){
 			
 		}
 		// 第二个坐标轴折线数据
-		var series2 = this.options.series2;
+		if(this.options.series2){
+			var series2 = this.options.series2;
 
-		for(var i = 0,line;line = series2[i]; i++){
-			// 填充颜色
-			ctx.fillStyle = line.color == undefined ? "#333" : line.color;
-			// 画笔颜色
-	        ctx.strokeStyle = line.color == undefined ? "#333" : line.color;
-        	drawLine.apply(this,[ctx,line,true]);
-	        			
-			if(line.showpoint){
-				drawPoint.apply(this,[ctx,line,true]);
+			for(var i = 0,line;line = series2[i]; i++){
+				// 填充颜色
+				ctx.fillStyle = line.color == undefined ? "#333" : line.color;
+				// 画笔颜色
+		        ctx.strokeStyle = line.color == undefined ? "#333" : line.color;
+	        	drawLine.apply(this,[ctx,line,true]);
+		        			
+				if(line.showpoint){
+					drawPoint.apply(this,[ctx,line,true]);
+				}
+				
 			}
-			
 		}
+		
 
 		if(this.options.showflag){
 			// drawLineMark.apply(this,[ctx,series]);

@@ -57,7 +57,7 @@ function dealData(json, num) {
         rect.lowest = itemBase[4];
 
         if (i > 0) {
-            rect.percent = (Math.abs(rect.close * 1.0 - rect.open * 1.0) / rect.open * 1.0).toFixed(2);
+            rect.percent = (Math.abs(rect.close * 1.0 - rect.open * 1.0) * 100/ rect.open * 1.0).toFixed(2);
         } else {
             rect.percent = 0;
             max = min = rect.open;

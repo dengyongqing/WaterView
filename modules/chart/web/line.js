@@ -98,7 +98,7 @@ var ChartLine = (function() {
         }
 
         if(this.options.series2){
-            this.options.drawWidth = canvas.width - ctx.measureText("+10万").width;
+            this.options.drawWidth = canvas.width - ctx.measureText("+1000万").width;
         }else{
             this.options.drawWidth = canvas.width;
         }
@@ -158,12 +158,14 @@ var ChartLine = (function() {
         this.options.data.step = maxAndMin.step;
 
         // 第二坐标轴折线数据
-        var series2 = this.options.series2;
-        var maxAndMin2 = getMaxMark.call(this,series2);
-        this.options.data.max2 = maxAndMin2.max;
-        this.options.data.min2 = maxAndMin2.min;
-        this.options.data.step2 = maxAndMin2.step;
-
+        if(this.options.series2){
+            var series2 = this.options.series2;
+            var maxAndMin2 = getMaxMark.call(this,series2);
+            this.options.data.max2 = maxAndMin2.max;
+            this.options.data.min2 = maxAndMin2.min;
+            this.options.data.step2 = maxAndMin2.step;
+        }
+        
         this.options.padding_left = this.options.context.measureText("-1000万").width + 20;
 
         // 绘制坐标轴
@@ -232,14 +234,17 @@ var ChartLine = (function() {
                     y: padding_top + common.get_y.call(that, series[i].data[cursor])
                 });
             }
-            for (i = 0, len = series2.length; i < len; i++) {
-                tipArr.push({
-                    color: series2[i].color,
-                    data: series2[i].data[cursor],
-                    name: series2[i].name,
-                    y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2))
-                });
+            if(that.options.series2){
+                for (i = 0, len = series2.length; i < len; i++) {
+                    tipArr.push({
+                        color: series2[i].color,
+                        data: series2[i].data[cursor],
+                        name: series2[i].name,
+                        y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2))
+                    });
+                }
             }
+            
             //排序
             tipArr.sort(function(a, b) {
                 return a.y - b.y;
