@@ -249,7 +249,6 @@ var ChartLine = (function() {
                 } else {
                     tips.style.left = (result.pointX / dpr - radius - tips.clientWidth) + "px";
                 }
-                console.log();
                 tips.style.top = (result.pointY / dpr + radius) + "px";
             } else {
                 tips.style.display = "none";

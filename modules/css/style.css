@@ -102,6 +102,7 @@
 	border-radius: 5px;
 	font-family: "Microsoft YaHei";
 	font-weight: lighter;
+	-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
 }
 .chart_line_tips_title{
 	font-size: 16px;
