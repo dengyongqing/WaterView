@@ -34,6 +34,6 @@ module.exports = function(ctx, ctx2, obj, point, radius, onPie) {
     }, radius, pieStartDegree, pieEndDegree, obj.color);
 
     if (onPie) {
-        drawInfoOn(ctx2, obj, radius, point, 16);
+        drawInfoOn(ctx2, obj, radius+5, point, 16);
     }
 }
