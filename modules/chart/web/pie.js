@@ -121,7 +121,7 @@ var ChartPie = (function() {
                     value: data[i].value,
                     info: data[i].info || data[i].name,
                     tip: data[i].tip || data[i].value,
-                    name: data[i].name,
+                    name: data[i].name || "",
                     start: drawStart,
                     end: drawEnd,
                     middle: middle,
@@ -159,7 +159,8 @@ var ChartPie = (function() {
 
         //添加交互
         this.addInteractive();
-
+        if (callback)
+            callback();
     };
 
     //添加交互
