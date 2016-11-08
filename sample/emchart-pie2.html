@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta charset="UTF-8">
+	<title>手机图表</title>
+	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+	<style type="text/css">
+		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
+		    margin: 0;
+		    padding: 0;
+		}
+		.emchart-0{
+			border: solid 1px #eee;
+		}
+		.lis{
+			background-color: white;
+			width: 100%;
+			padding-left: 100px;
+		}
+		.lis li{
+			display: inline-block;
+			padding: 10px;
+			-webkit-user-select:none; 
+			-moz-user-select:none; 
+			-ms-user-select:none; user-select:none;
+		}
+		.color{
+			display: inline-block;
+			height: 12px;
+			width: 12px;
+			background-color: #000;
+			margin: 0px 5px;
+		}
+		li:hover{
+			cursor: pointer;
+		}
+		.name{}
+	</style>
+	
+</head>
+<body>
+	<div class="main-wrap">
+		<div class="main">
+			<div class="header">
+				<div class="tool-bar">
+					
+				
+				</div>
+				
+			</div>
+
+			<div class="content">
+				<div class="tabs">
+					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">折线图</div>
+					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
+					<div id="tab-2" target="emchart-2" class="tab">周K</div>
+					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
+				</div>
+				<div class="emchart">
+					<div id="emchart-0" class="em-tab" >
+					</div>
+					<div id="emchart-1" class="em-tab">
+					</div>
+					<div id="emchart-2" class="em-tab">
+					</div>
+					<div id="emchart-3" class="em-tab">
+					</div>
+				</div>
+				<ul class="lis">
+					<li id = "0"><span class="color" style="background-color: #68D4B2"></span><span class="name">超大单流出</span></li>
+					<li id="1"><span class="color" style="background-color: #54BECC"></span><span class="name">超大单流入</span></li>
+					<li id="2"><span class="color" style="background-color: #E6F3A3"></span><span class="name">大单流入</span></li>
+					<li id="3"><span class="color" style="background-color: #A5E59B"></span><span class="name">大单流出</span></li>
+					<li id="4"><span class="color" style="background-color: #F0D588"></span><span class="name">小单流入</span></li>
+					<li id="5"><span class="color" style="background-color: #6990D5"></span><span class="name">小单流出</span></li>
+				</ul>
+			</div>
+
+		</div>
+
+	</div>
+	<script src="../bundle/emcharts.js"></script>
+	
+	<script type="text/javascript">
+		
+
+		window.onload = function(){
+			var options = {
+	        	container : "emchart-0",
+		        "width" : 800,
+		        "height" : 500,
+		        startOffset: Math.PI,
+		        onPie:true,
+		        data: [{
+		            name: "超大单流出",
+		            value: 565458.36,
+		            color: "#54BECC",
+		            info:"30%",
+		            show:true,
+		            showInfo: true
+		        },{
+		            name: "超大单流入",
+		            value: 265458.36,
+		            color: "#68D4B2",
+		            info:"20%",
+		            tip:"自定义提示的内容",
+		            showInfo: true
+		        },{
+		            name: "大单流入",
+		            value: 165458.36,
+		            color: "#A5E59B",
+		            info:"15%",
+		            showInfo: true
+		        },{
+		            name: "大单流出",
+		            value: 85458,
+		            color: "#E6F3A3",
+		            info:"8%",
+		            showInfo: true
+		        },{
+		            name: "小单流入",
+		            value: 45458,
+		            color: "#F0D588",
+		            info:"7%",
+		            showInfo: true
+		        },{
+		            name: "小单流出",
+		            value: 865458.36,
+		            color: "#6990D5",
+		            info:"45%",
+		            showInfo: true
+		        }],
+		        point: {
+		            x: 350,
+		            y: 250
+		        },
+		        radius: 180
+			}
+			var k0 = new EmchartsPie(options);
+			k0.draw();
+
+			var lis = document.getElementsByTagName("li");
+			for(var i = 0, len = lis.length; i < len; i++){
+				lis[i].onclick = function(e){
+					var id = 0;
+					var target = null;
+					if(!!window.event.srcElement){
+						target = window.event.srcElement
+					}else{
+						target = e.target;
+					}
+					var tarElement = null;
+					if(target.nodeName === "SPAN"){
+						id = target.parentNode.getAttribute("id");
+						tarElement = target.parentNode;
+					}else{
+						id = target.getAttribute("id");
+						tarElement = target;
+					}
+					if(k0.options.data[id].show === undefined){
+						k0.options.data[id].show = false;
+						tarElement.children[0].style.backgroundColor = "#eee";
+					}else{
+						k0.options.data[id].show = !k0.options.data[id].show;
+						if(k0.options.data[id].show){
+							tarElement.children[0].style.backgroundColor = k0.options.data[id].color;
+						}else{
+							tarElement.children[0].style.backgroundColor = "#eee";
+						}
+						
+					}
+					k0.reDraw();
+				}
+			}
+		}
+
+	</script>
+	
+</body>
+</html>
