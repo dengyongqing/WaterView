@@ -6,21 +6,22 @@ module.exports = function (obj) {
     var point = this.options.point;
     var radius = this.options.radius;
     var ctx = this.options.context;
+    var ctx2 = this.options.context2;
     var ySpace = this.options.ySpace;
     var onPie = this.options.onPie;
     if (this.options.prePieClick) {
         if (this.options.prePieClick == obj) {
-            pieIn(ctx, obj, point, radius, ySpace, onPie);
+            pieIn(ctx, ctx2, obj, point, radius, ySpace, onPie);
             obj.clicked = false;
             this.options.prePieClick = null;
         } else {
-            pieIn(ctx, this.options.prePieClick, point, radius, ySpace, onPie);
+            pieIn(ctx, ctx2, this.options.prePieClick, point, radius, ySpace, onPie);
             this.options.prePieClick.clicked = false;
-            pieOut(ctx, obj, point, radius, onPie);
+            pieOut(ctx, ctx2, obj, point, radius, onPie);
             this.options.prePieClick = obj;
         }
     } else {
-        pieOut(ctx, obj, point, radius, onPie);
+        pieOut(ctx, ctx2, obj, point, radius, onPie);
         this.options.prePieClick = obj;
     }
 }

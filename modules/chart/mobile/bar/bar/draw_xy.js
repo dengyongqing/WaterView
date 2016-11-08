@@ -134,7 +134,7 @@ var DrawXY = (function() {
         var precise = 1;
         if(stepHeight.toString().indexOf(".") !== -1){
             precise = stepHeight.toString().length - stepHeight.toString().indexOf(".")-1;
-        }debugger;
+        }
         var m = Math.pow(10, precise);
         return Math.ceil(f * m)/ m;
     }

@@ -27,30 +27,49 @@ var ChartPie = (function() {
     ChartPie.prototype.init = function() {
 
         var canvas = document.createElement("canvas");
+        var canvas2 = document.createElement("canvas");//用于解决写在扇形上的文字被覆盖的问题
         this.container.style.position = "relative";
         // 兼容IE6-IE9
         try {
             var ctx = canvas.getContext('2d');
+            var ctx2 = canvas2.getContext('2d');
         } catch (error) {
             canvas = window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
+
+            canvas2 = window.G_vmlCanvasManager.initElement(canvas2);
+            var ctx2 = canvas2.getContext('2d');
         }
 
         this.options.canvas = canvas;
         this.options.context = ctx;
+
+        this.options.canvas2 = canvas2;
+        this.options.context2 = ctx2;
         // 设备像素比
         var dpr = this.options.dpr = 1;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
+        canvas2.width = this.options.width * dpr;
+        canvas2.height = this.options.height * dpr;
+
         // 容器中添加画布
         this.container.appendChild(canvas);
+        this.container.appendChild(canvas2);
 
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
+
+        canvas2.style.width = this.options.width + "px";
+        canvas2.style.height = this.options.height + "px";
+        canvas2.style.border = "0";
+        canvas2.style.position = "absolute";
+        canvas2.style.top = "0px";
+        canvas2.style.left = "0px";
 
         if (!this.options.font) {
             this.options.font = {};
@@ -74,6 +93,7 @@ var ChartPie = (function() {
 
         var startOffset = this.options.startOffset,
             ctx = this.options.context,
+            ctx2 = this.options.context2,
             current = startOffset,
             total = 0,
             data = this.options.data,
@@ -131,7 +151,7 @@ var ChartPie = (function() {
             var color = pies[i].color;
             methods.drawPie(ctx, point, radius, pieStart, pieEnd, color);
             if (onPie) {
-                methods.drawInfoOn(ctx, pies[i], radius, point, fontSize);
+                methods.drawInfoOn(ctx2, pies[i], radius, point, fontSize);
             } else {
                 methods.drawInfo(ctx, pies[i], radius, point, ySpace);
             }
@@ -145,6 +165,7 @@ var ChartPie = (function() {
     //添加交互
     ChartPie.prototype.addInteractive = function() {
         var canvas = this.options.canvas;
+        var canvas2 = this.options.canvas2;
         var container = this.container;
         var that = this;
         var pies = this.options.pies;
@@ -152,7 +173,7 @@ var ChartPie = (function() {
         var radius = this.options.radius;
         var startOffset = this.options.startOffset;
         //添加交互事件
-        common.addEvent.call(that, canvas, 'click', function(e) {
+        common.addEvent.call(that, canvas2, 'click', function(e) {
             // 事件处理
             var winX, winY;
             if (e.layerX) {
@@ -179,7 +200,7 @@ var ChartPie = (function() {
                 }
             }
         });
-        common.addEvent.call(that, canvas, "mousemove", function(e) { //浮动交互(显示tips)
+        common.addEvent.call(that, canvas2, "mousemove", function(e) { //浮动交互(显示tips)
             //首先判断在哪个饼块上
             var winX, winY;
             if (e.layerX) {
