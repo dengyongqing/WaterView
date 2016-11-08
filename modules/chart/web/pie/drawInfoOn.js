@@ -24,13 +24,13 @@ module.exports = function(ctx, pie, radius, point, fontSize, isClear) {
         }
         if (isClear) {
             ctx.fillStyle = "white";
-            ctx.fillText(pie.value, x, y);
+            ctx.fillText(pie.info, x, y);
             // if (!inRight) {
             //     x = x - ctx.measureText(pie.value).width;
             // }
             // ctx.clearRect(x, y - fontSize / 2, ctx.measureText(pie.value).width, fontSize);
         } else {
-            ctx.fillText(pie.value, x, y);
+            ctx.fillText(pie.info, x, y);
         }
         ctx.restore();
     }

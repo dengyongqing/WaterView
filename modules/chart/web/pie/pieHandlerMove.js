@@ -18,7 +18,7 @@ module.exports = function(pie, x, y, inPie) {
         var name = document.createElement("span");
         name.innerHTML = pie.name;
         var value = document.createElement("div");
-        value.innerHTML = pie.info;
+        value.innerHTML = pie.tip;
 
         tips.appendChild(disc);
         tips.appendChild(name);
@@ -37,7 +37,7 @@ module.exports = function(pie, x, y, inPie) {
         
         tips.children[0].style.backgroundColor = pie.color;
         tips.children[1].innerHTML = pie.name;
-        tips.children[2].innerHTML = pie.info;
+        tips.children[2].innerHTML = pie.tip;
 
         if (Math.cos(pie.middle) >= 0) {
             tips.style.top = y - tips.clientHeight - 10 + "px";

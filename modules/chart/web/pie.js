@@ -58,7 +58,7 @@ var ChartPie = (function() {
             this.options.font.fontFamily = "Microsoft Yahei";
         }
 
-        this.options.startOffset = this.options.startOffset || Math.PI/2;
+        this.options.startOffset = this.options.startOffset || Math.PI / 2;
 
         //每条触角文字的高度
         this.options.ySpace = parseInt(this.options.font.fontSize);
@@ -99,7 +99,8 @@ var ChartPie = (function() {
                 // 记录所有的饼块的信息(比较信息， 用于确定点击范围)
                 pies.push({
                     value: data[i].value,
-                    info:data[i].info || data[i].value,
+                    info: data[i].info || data[i].name,
+                    tip: data[i].tip || data[i].value,
                     name: data[i].name,
                     start: drawStart,
                     end: drawEnd,
@@ -128,9 +129,6 @@ var ChartPie = (function() {
             var pieEnd = pies[i].end;
             var pieMiddle = pies[i].middle;
             var color = pies[i].color;
-            if (i === pies.length) {
-                ctx.globalCompositeOperation = 'source-atop';
-            }
             methods.drawPie(ctx, point, radius, pieStart, pieEnd, color);
             if (onPie) {
                 methods.drawInfoOn(ctx, pies[i], radius, point, fontSize);
@@ -213,15 +211,15 @@ var ChartPie = (function() {
 
     // 重绘
     ChartPie.prototype.reDraw = function() {
-        // 删除canvas画布
-        this.clear();
-        this.draw();
-    }
+            // 删除canvas画布
+            this.clear();
+            this.draw();
+        }
         // 删除canvas画布
     ChartPie.prototype.clear = function(cb) {
-        if(this.container){
+        if (this.container) {
             this.container.innerHTML = "";
-        }else{
+        } else {
             document.getElementById(this.options.container).innerHTML = "";
         }
         this.options.tips = null;
