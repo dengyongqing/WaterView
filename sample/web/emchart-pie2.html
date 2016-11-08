@@ -81,7 +81,7 @@
 		</div>
 
 	</div>
-	<script src="../bundle/emcharts.js"></script>
+	<script src="../../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
 		
@@ -92,39 +92,44 @@
 		        "width" : 800,
 		        "height" : 500,
 		        startOffset: Math.PI,
-		        // onPie:true,
+		        onPie:true,
 		        data: [{
 		            name: "超大单流出",
 		            value: 565458.36,
 		            color: "#54BECC",
+		            info:"30%",
 		            show:true,
 		            showInfo: true
 		        },{
 		            name: "超大单流入",
 		            value: 265458.36,
 		            color: "#68D4B2",
-		            info:"超大单流入",
+		            info:"20%",
 		            tip:"自定义提示的内容",
 		            showInfo: true
 		        },{
 		            name: "大单流入",
 		            value: 165458.36,
 		            color: "#A5E59B",
+		            info:"15%",
 		            showInfo: true
 		        },{
 		            name: "大单流出",
 		            value: 85458,
 		            color: "#E6F3A3",
+		            info:"8%",
 		            showInfo: true
 		        },{
 		            name: "小单流入",
 		            value: 45458,
 		            color: "#F0D588",
+		            info:"7%",
 		            showInfo: true
 		        },{
 		            name: "小单流出",
 		            value: 865458.36,
 		            color: "#6990D5",
+		            info:"45%",
 		            showInfo: true
 		        }],
 		        point: {

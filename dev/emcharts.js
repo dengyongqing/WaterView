@@ -25,6 +25,8 @@ var EmchartsWebK = require('chart/web/k');
 var ChartWebBar = require('chart/web/bar/bar');
 /*绘制web分组柱状图*/
 var ChartWebGroupBar = require('chart/web/bar/group-bar');
+/*绘制web的饼状图*/
+var ChartPie = require('chart/web/pie');
 
 /*加载样式文件*/
 require('css/style.css');
@@ -56,3 +58,5 @@ window.EmchartsWebK = EmchartsWebK;
 window.ChartWebBar = ChartWebBar;
 // web分组柱状图
 window.ChartWebGroupBar = ChartWebGroupBar;
+//web饼图
+window.EmchartsPie = ChartPie;
