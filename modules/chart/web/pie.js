@@ -27,7 +27,7 @@ var ChartPie = (function() {
     ChartPie.prototype.init = function() {
 
         var canvas = document.createElement("canvas");
-        var canvas2 = document.createElement("canvas");//用于解决写在扇形上的文字被覆盖的问题
+        var canvas2 = document.createElement("canvas"); //用于解决写在扇形上的文字被覆盖的问题
         this.container.style.position = "relative";
         // 兼容IE6-IE9
         try {
@@ -187,10 +187,24 @@ var ChartPie = (function() {
             var y = winY - point.y;
             var theta = 0; //点击处的弧度
 
-            if (x * x + y * y > radius * radius) {
-                return;
-            }
             theta = methods.getTheta(x, y, startOffset);
+            //弹出后依然尽行点击判断
+            if (!that.options.prePieClick) {
+                if (x * x + y * y > radius * radius) {
+                    return;
+                }
+            } else {
+                var pre = that.options.prePieClick;
+                if (theta >= pre.start && theta <= pre.end) {
+                    if (x * x + y * y > (radius + 15) * (radius + 15)) {
+                        return;
+                    }
+                } else {
+                    if (x * x + y * y > radius * radius)
+                        return;
+                }
+            }
+
             for (var i = 0, len = pies.length; i < len; i++) {
                 if (theta <= pies[i].end) {
                     var pie = pies[i];
