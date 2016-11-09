@@ -13,5 +13,5 @@ module.exports = {
     "getSpaceArry": getSpaceArry,
     "getTheta":getTheta,
     "pieHandlerClick": pieHandlerClick,
-    "pieHandlerMove": pieHandlerMove,
+    "pieHandlerMove": pieHandlerMove
 }
