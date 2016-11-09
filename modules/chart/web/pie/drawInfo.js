@@ -9,14 +9,29 @@
  * @return {[type]}          [description]
  */
 module.exports = function(ctx, pie, radius, point, ySpace, status) {
-    var top = point.y - radius - 20;
+    var top = point.y - radius - radius/10;
     var isNegative = Math.cos(pie.middle) / Math.abs(Math.cos(pie.middle));
     var BeginX = point.x + (radius) * Math.cos(pie.middle);
     var BeginY = point.y + (radius) * Math.sin(pie.middle);
-    var MiddleX = point.x + (radius + 15) * Math.cos(pie.middle);
+    // var MiddleX = point.x + (radius+20) * Math.cos(pie.middle);
+    // var MiddleY = point.y + (radius+20) * Math.sin(pie.middle);
+    // var EndY = top + pie.yIndex * ySpace;
+    // var theta = Math.asin(( MiddleY-point.y )/(radius+30));
+    // var EndX = point.x + isNegative*(radius + 30) * Math.cos(theta);
+    // 此处会出现问题，问题来源是设计，解决方法
+    // 1. 设计为用贝塞尔曲线绘制，不用直线
+    // 2. 改变绘制方法，先沿着中间弧度方向绘制，再绘制到文字绘制处
+    // 3. 在顶层绘制（会出现不能遮盖的问题）
+
     var MiddleY = top + pie.yIndex * ySpace;
-    var EndX = MiddleX + 20 * isNegative;
-    var EndY = top + pie.yIndex * ySpace;
+    var theta = Math.asin(( MiddleY-point.y )/(radius+radius/10));
+    var MiddleX = point.x + isNegative*(radius + radius/10) * Math.cos(theta);
+    var EndX = MiddleX + radius/10 * isNegative;
+    if(pie.yIndex === 0){
+        MiddleX = EndX;
+    }
+    MiddleY = MiddleY + Math.sin(pie.middle) / Math.abs(Math.sin(pie.middle))*ySpace/2;
+    var EndY = MiddleY;
     var textWidth = ctx.measureText(pie.name).width;
     var fontSize = ctx.font.split("px ")[0] * 1;
     var textHeight = fontSize;

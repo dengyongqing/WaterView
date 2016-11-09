@@ -8,7 +8,7 @@
  * @param  {Boolean} isClear  [description]
  * @return {[type]}           [description]
  */
-module.exports = function(ctx, pie, radius, point, fontSize, isClear) {
+module.exports = function(ctx, pie, pies, radius, point, fontSize, isClear) {
     var x = point.x + (radius - 20) * Math.cos(pie.middle);
     var y = point.y + (radius - 20) * Math.sin(pie.middle);
     var inRight = Math.cos(pie.middle) >= 0 ? true : false;
@@ -16,20 +16,30 @@ module.exports = function(ctx, pie, radius, point, fontSize, isClear) {
     if (pie.showInfo) {
         ctx.beginPath();
         ctx.save();
-        ctx.font = fontSize + "px "+ fontFamily;
+        // debugger;
+        ctx.font = fontSize + "px " + fontFamily;
         ctx.textBaseline = "middle";
         if (inRight) {
             ctx.textAlign = "start";
         } else {
             ctx.textAlign = "end";
         }
-        if (isClear) {
-            ctx.fillStyle = "white";
-            ctx.fillText(pie.info, x, y);
-            if (!inRight) {
-                x = x - ctx.measureText(pie.value).width;
+        if (!!isClear) { //清除（整片清除， 再写上出目标以外的文字）
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            for (var i = 0, len = pies.length; i < len; i++) {
+                //重写除目标以外的所有文字
+                if (pies[i].id !== pie.id) {
+                    var tempIn = Math.cos(pies[i].middle) >= 0 ? true : false;
+                    if (tempIn) {
+                        ctx.textAlign = "start";
+                    } else {
+                        ctx.textAlign = "end";
+                    }
+                    var tempX = point.x + (radius - 20) * Math.cos(pies[i].middle);
+                    var tempY = point.y + (radius - 20) * Math.sin(pies[i].middle);
+                    ctx.fillText(pies[i].info, tempX, tempY);
+                }
             }
-            ctx.clearRect(x, y - fontSize / 2, ctx.measureText(pie.value).width, fontSize);
         } else {
             ctx.fillText(pie.info, x, y);
         }
