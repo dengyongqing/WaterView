@@ -10,16 +10,17 @@ var drawInfoOn = require('./drawInfoOn');
  * @param  {[type]} radius 饼块半径
  * @return {[type]}        无返回
  */
-module.exports = function(ctx, ctx2, obj, point, radius, ySpace, onPie) {
+module.exports = function(ctx, ctx2, obj, pies, point, radius, ySpace, onPie) {
     var pieStartDegree = obj.start;
     var pieEndDegree = obj.end;
     var pieMiddleDegree = (pieStartDegree + pieEndDegree) / 2;
     var fontSize = ctx2.font.split("px ")[0]*1;
     drawPie(ctx, point, radius + 10, pieStartDegree, pieEndDegree, "white");
+    //清除字
     if(onPie){
-        drawInfoOn(ctx2, obj, radius, point, fontSize, true);
-    }else{//清除字
-        drawInfo(ctx, obj, radius, point, ySpace, 3);
+        drawInfoOn(ctx2, obj, pies, radius, point, fontSize, true);
+    }else{
+        drawInfo(ctx, obj, pies, radius, point, ySpace, 3);
     }
     drawPie(ctx, {
         x: point.x + 5 * Math.cos(pieMiddleDegree),
@@ -37,7 +38,7 @@ module.exports = function(ctx, ctx2, obj, point, radius, ySpace, onPie) {
     }, radius, pieStartDegree, pieEndDegree, obj.color);
 
     if (onPie) {
-        drawInfoOn(ctx2, obj, radius+5, point, fontSize+4);
+        drawInfoOn(ctx2, obj, pies, radius+5, point, fontSize+4);
     }else{//写字
         drawInfo(ctx, obj, radius, point, ySpace, 1);
     }

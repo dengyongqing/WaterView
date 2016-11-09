@@ -150,7 +150,7 @@ var ChartPie = (function() {
             var color = pies[i].color;
             methods.drawPie(ctx, point, radius, pieStart, pieEnd, color);
             if (onPie) {
-                methods.drawInfoOn(ctx2, pies[i], radius, point, fontSize);
+                methods.drawInfoOn(ctx2, pies[i], pies, radius, point, fontSize);
             } else {
                 methods.drawInfo(ctx, pies[i], radius, point, ySpace);
             }
