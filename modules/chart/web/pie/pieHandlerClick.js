@@ -17,11 +17,11 @@ module.exports = function (obj) {
         } else {
             pieIn(ctx, ctx2, this.options.prePieClick, point, radius, ySpace, onPie);
             this.options.prePieClick.clicked = false;
-            pieOut(ctx, ctx2, obj, point, radius, onPie);
+            pieOut(ctx, ctx2, obj, point, radius, ySpace, onPie);
             this.options.prePieClick = obj;
         }
     } else {
-        pieOut(ctx, ctx2, obj, point, radius, onPie);
+        pieOut(ctx, ctx2, obj, point, radius, ySpace, onPie);
         this.options.prePieClick = obj;
     }
 }

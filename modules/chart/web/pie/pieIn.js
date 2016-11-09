@@ -20,10 +20,13 @@ module.exports = function(ctx, ctx2, obj, point, radius, ySpace, onPie) {
     if (onPie) {
         drawInfoOn(ctx2, obj, radius+5, point, fontSize+4, true);
     }
+    //清除线条和文字
+    drawInfo(ctx, obj, radius, point, ySpace, 3);
+    drawInfo(ctx, obj, radius, point, ySpace, 4);
     drawPie(ctx, point, radius, pieStartDegree, pieEndDegree, obj.color);
     if (onPie) {
         drawInfoOn(ctx2, obj, radius, point, fontSize);
     } else {
-        drawInfo(ctx2, obj, radius, point, ySpace, true);
+        drawInfo(ctx, obj, radius, point, ySpace);
     }
 }

@@ -152,7 +152,7 @@ var ChartPie = (function() {
             if (onPie) {
                 methods.drawInfoOn(ctx2, pies[i], radius, point, fontSize);
             } else {
-                methods.drawInfo(ctx2, pies[i], radius, point, ySpace);
+                methods.drawInfo(ctx, pies[i], radius, point, ySpace);
             }
         }
 
