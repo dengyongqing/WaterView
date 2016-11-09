@@ -36,9 +36,14 @@ function dealData(json, num) {
     var i = 0;
     result.data = [];
     //昨日收盘价
-    var yes_clo_price = 0;
+    var yes_clo_price = json.info.yc;
     var len = arr.length;
     var start = (len - num) > 0 ? (len - num) : 0;
+    if(start === 0){
+        yes_clo_price = arr[0].split(/\[|\]/)[0].split(",")[2];
+    }else{
+        yes_clo_price = arr[start-1].split(/\[|\]/)[0].split(",")[2];
+    }
     for (i = start; i < len; i++) {
         try {
             var item = arr[i].split(/\[|\]/);
@@ -57,14 +62,14 @@ function dealData(json, num) {
         rect.lowest = itemBase[4];
 
         if (i > 0) {
-            rect.percent = (Math.abs(rect.close * 1.0 - rect.open * 1.0) * 100/ rect.open * 1.0).toFixed(2);
+            rect.percent = ((rect.close * 1.0 - yes_clo_price) * 100/yes_clo_price * 1.0).toFixed(2);
         } else {
             rect.percent = 0;
             max = min = rect.open;
         }
         rect.volume = itemBase[5];
 
-        yes_clo_price = close;
+        yes_clo_price = rect.close;
         rect.up = (rect.close * 1.0 - rect.open * 1.0) > 0 ? true : false;
 
         var mas = item[1].split(",");
