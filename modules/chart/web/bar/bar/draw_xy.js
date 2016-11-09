@@ -86,7 +86,7 @@ var DrawXY = (function() {
                 ctx.fillText(arr_x[i], x_left + i * unit_w_len + (unit_w_len - textWidth) / 2, y_bottom + 15);
             }
         }
-        
+
         /*纵标*/
         for (i = 1, len = sepeNum; i < len; i++) {
             var round = 0;
@@ -95,9 +95,12 @@ var DrawXY = (function() {
                 ctx.lineTo(x_right, round + Math.round(stepY * i + paddingTop));
                 ctx.stroke();
             }else{
+                ctx.save();
                 ctx.beginPath();
+                ctx.strokeStyle = '#e6e6e6';
                 draw_dash(ctx, x_left, Math.round(stepY * i + paddingTop) + round,
                     x_right, round + Math.round(stepY * i + paddingTop), 3);
+                ctx.restore();
             }
         }
         /*纵标刻度*/

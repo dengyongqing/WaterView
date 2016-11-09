@@ -83,7 +83,6 @@
                 ctx.textAlign = 'right';
                 ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y + 5);
             }
-
         }
          ctx.restore();
     }

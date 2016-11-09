@@ -76,7 +76,7 @@ var ChartLine = (function() {
         this.container.appendChild(canvas);
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / (9 * 2);
+        this.options.canvas_offset_top = 15;
         // 画布内容向坐偏移的距离
 
         this.options.padding_left = ctx.measureText("+10000万").width;
@@ -85,7 +85,7 @@ var ChartLine = (function() {
         this.options.scale_count = 0;
         this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height * (8/9);
+        this.options.c_1_height = canvas.height - 40;
         // if(this.options.showflag){
         //     this.options.c_1_height = canvas.height * (5/9);
         // }else{
@@ -133,7 +133,7 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
 
         // 加水印
-        watermark.apply(this, [ctx,130,20,82,20]);
+        watermark.apply(this, [ctx,130,10,82,20]);
     }
     
     // 绘图
@@ -166,8 +166,6 @@ var ChartLine = (function() {
             this.options.data.step2 = maxAndMin2.step;
         }
         
-        this.options.padding_left = this.options.context.measureText("-1000万").width + 20;
-
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图

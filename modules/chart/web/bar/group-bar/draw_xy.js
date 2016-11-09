@@ -73,6 +73,7 @@
                     ctx.strokeStyle = '#c9c9c9';
                     ctx.moveTo(this.options.padding_left, Math.round(item.y));
                     ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+                    ctx.stroke();
                 }else {
                     ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
                 }
@@ -82,10 +83,13 @@
             }
 
             if(dashFlag){
+                ctx.save();
+                ctx.beginPath();
                 ctx.strokeStyle = '#e6e6e6';
                 DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y),3);
+                ctx.restore();
             }
-            ctx.stroke();
+            
         }
 
 
