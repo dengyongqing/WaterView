@@ -13,9 +13,10 @@ module.exports = function(ctx, ctx2, obj, point, radius, onPie) {
     var pieStartDegree = obj.start;
     var pieEndDegree = obj.end;
     var pieMiddleDegree = (pieStartDegree + pieEndDegree) / 2;
+    var fontSize = ctx2.font.split("px ")[0]*1;
     drawPie(ctx, point, radius + 10, pieStartDegree, pieEndDegree, "white");
     if(onPie){
-        drawInfoOn(ctx2, obj, radius, point, 12, true);
+        drawInfoOn(ctx2, obj, radius, point, fontSize, true);
     }
 
     drawPie(ctx, {
@@ -34,6 +35,6 @@ module.exports = function(ctx, ctx2, obj, point, radius, onPie) {
     }, radius, pieStartDegree, pieEndDegree, obj.color);
 
     if (onPie) {
-        drawInfoOn(ctx2, obj, radius+5, point, 16);
+        drawInfoOn(ctx2, obj, radius+5, point, fontSize+4);
     }
 }

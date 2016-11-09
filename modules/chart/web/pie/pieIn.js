@@ -15,14 +15,15 @@ module.exports = function(ctx, ctx2, obj, point, radius, ySpace, onPie) {
     var pieStartDegree = obj.start;
     var pieEndDegree = obj.end;
     var pieMiddleDegree = (pieStartDegree + pieEndDegree) / 2;
+    var fontSize = ctx2.font.split("px ")[0]*1;
     drawPie(ctx, point, radius + 16, pieStartDegree, pieEndDegree, "white");
     if (onPie) {
-        drawInfoOn(ctx2, obj, radius+5, point, 16, true);
+        drawInfoOn(ctx2, obj, radius+5, point, fontSize+4, true);
     }
     drawPie(ctx, point, radius, pieStartDegree, pieEndDegree, obj.color);
     if (onPie) {
-        drawInfoOn(ctx2, obj, radius, point, 12);
+        drawInfoOn(ctx2, obj, radius, point, fontSize);
     } else {
-        drawInfo(ctx, obj, radius, point, ySpace);
+        drawInfo(ctx2, obj, radius, point, ySpace, true);
     }
 }

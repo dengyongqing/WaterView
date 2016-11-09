@@ -72,15 +72,14 @@ var ChartPie = (function() {
         canvas2.style.left = "0px";
 
         if (!this.options.font) {
-            this.options.font = {};
-            this.options.font.fontSize = "16px";
-            this.options.font.fontFamily = "Microsoft Yahei";
+            this.options.font = "12px Microsoft Yahei";
         }
-
+        ctx.font = this.options.font;
+        ctx2.font = this.options.font;
         this.options.startOffset = this.options.startOffset || Math.PI / 2;
-
+        var ySpace = this.options.font.split("px ")[0];
         //每条触角文字的高度
-        this.options.ySpace = parseInt(this.options.font.fontSize);
+        this.options.ySpace = ySpace;
         this.options.onPie = this.options.onPie || false;
 
         // 加水印
@@ -100,7 +99,7 @@ var ChartPie = (function() {
             ySpace = this.options.ySpace,
             point = this.options.point,
             radius = this.options.radius,
-            fontSize = "12",
+            fontSize = ctx2.font.split("px ")[0]*1,
             onPie = this.options.onPie;
 
         var pies = [];
@@ -153,7 +152,7 @@ var ChartPie = (function() {
             if (onPie) {
                 methods.drawInfoOn(ctx2, pies[i], radius, point, fontSize);
             } else {
-                methods.drawInfo(ctx, pies[i], radius, point, ySpace);
+                methods.drawInfo(ctx2, pies[i], radius, point, ySpace);
             }
         }
 

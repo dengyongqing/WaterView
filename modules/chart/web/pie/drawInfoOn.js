@@ -12,10 +12,11 @@ module.exports = function(ctx, pie, radius, point, fontSize, isClear) {
     var x = point.x + (radius - 20) * Math.cos(pie.middle);
     var y = point.y + (radius - 20) * Math.sin(pie.middle);
     var inRight = Math.cos(pie.middle) >= 0 ? true : false;
+    var fontFamily = ctx.font.split("px ")[1].trim();
     if (pie.showInfo) {
         ctx.beginPath();
         ctx.save();
-        ctx.font = fontSize + "px Arial";
+        ctx.font = fontSize + "px "+ fontFamily;
         ctx.textBaseline = "middle";
         if (inRight) {
             ctx.textAlign = "start";
