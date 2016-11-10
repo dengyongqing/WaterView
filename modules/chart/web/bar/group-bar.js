@@ -123,7 +123,7 @@ var ChartBarQuarter = (function() {
         this.options.data.min = getMaxMinValue.min;
         this.options.data.step = getMaxMinValue.step;
 
-        this.options.padding_left = this.options.context.measureText("+1000万").width + 10;
+        this.options.padding_left = this.options.context.measureText("+1000万").width;
         this.options.group = getYearRect.call(this, canvas.width - this.options.padding_left, this.options.series.length);
         this.options.groupUnit = getQuarterRect.call(this, this.options.group.bar_w, this.options.series[0].data.length);
 
@@ -304,7 +304,7 @@ var ChartBarQuarter = (function() {
                 var w_x = e.offsetX || (e.clientX - _that.container.getBoundingClientRect().left);
                 var w_y = e.offsetY || (e.clientY - _that.container.getBoundingClientRect().top);
 
-                if (w_x > canvas.width / 2) {
+                if (winX > canvas.width / 2) {
                     tips.style.left = (coordinateCanvas.tipsX - tips.clientWidth) + "px";
                 } else {
                     tips.style.left = (coordinateCanvas.tipsX  + _that.options.group.rect_w) + "px";
@@ -314,17 +314,18 @@ var ChartBarQuarter = (function() {
                 // var text = createTextNode(coordinateCanvas.content);
                 // tips.appendChild(text);
 
-               
-
                 // 鼠标在画布中的坐标
-                var c_pos = common.windowToCanvas.apply(_that,[canvas,w_x,w_y]);
+                var c_pos = common.windowToCanvas.apply(_that,[canvas,winX,winY]);
                 var c_x = (c_pos.x).toFixed(0);
 
-                var index = Math.floor((c_x - _that.options.padding_left) / group.rect_w);
-                //绘制中线
-                middleLine.style.height = yHeight + "px";
-                middleLine.style.left = index * group.rect_w + _that.options.padding_left + "px";
-                middleLine.style.top = offSetTop + "px";
+                if(c_x - _that.options.padding_left > 0){
+                    var index = Math.floor((c_x - _that.options.padding_left) / group.rect_w);
+                    //绘制中线
+                    middleLine.style.height = yHeight + "px";
+                    middleLine.style.left = index * group.rect_w + _that.options.padding_left + "px";
+                    middleLine.style.top = offSetTop + "px";
+                }
+                
                 status = coordinateCanvas.arr;
             }
 
