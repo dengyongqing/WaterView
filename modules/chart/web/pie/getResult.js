@@ -8,8 +8,13 @@ module.exports = function(arr, resultLen, ySpace, radius, point, yBottom) {
     }
     for (i = 0; i < arrLen; i++) {
         if (arr[i].showInfo) { //如果需要显示触手
-            var y = point.y + (radius + 20) * Math.sin(arr[i].middle) - yBottom;
-            var tempIndex = Math.floor(y / ySpace); //得到了调整之前的触手排列位置
+            var y = point.y + (radius + radius/10) * Math.sin(arr[i].middle) - yBottom;
+            var tempIndex = Math.round(y / ySpace); //得到了调整之前的触手排列位置
+            if(Math.sin(arr[i].middle) > 0){
+                tempIndex = Math.floor(y / ySpace);
+            }else{
+                tempIndex = Math.ceil(y / ySpace);
+            }
             //判断是否重叠并且进行调整
             if (overResult[tempIndex]) {
                 //重叠，两头同时进行搜索，找到的第一个空，插入,跳出循环
