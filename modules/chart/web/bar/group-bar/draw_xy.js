@@ -52,6 +52,7 @@
         ctx.save();
         // var sepe_num = line_list_array.length;
         var _this = this;
+        var list_length = line_list_array.length;
         ctx.fillStyle = '#979797';
         
         ctx.textAlign = 'right';
@@ -72,7 +73,7 @@
                     dashFlag = false;
                     ctx.strokeStyle = '#c9c9c9';
                     ctx.moveTo(this.options.padding_left, Math.round(item.y));
-                    ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+                    ctx.lineTo(this.options.drawWidth, Math.round(item.y));
                     ctx.stroke();
                 }else {
                     ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
@@ -82,11 +83,11 @@
                 ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
             }
 
-            if(dashFlag){
+            if(i != 0 && i != list_length -1 && dashFlag){
                 ctx.save();
                 ctx.beginPath();
                 ctx.strokeStyle = '#e6e6e6';
-                DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), ctx.canvas.width, Math.round(item.y),3);
+                DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), this.options.drawWidth, Math.round(item.y),3);
                 ctx.restore();
             }
             
@@ -107,15 +108,16 @@ function drawXMark(ctx,k_height,oc_time_arr){
         // var dpr = this.options.dpr;
         ctx.save();
         var padding_left = this.options.padding_left;
+        var dpr = this.options.dpr;
         ctx.beginPath();
         ctx.strokeStyle = "#c9c9c9";
-        ctx.rect(padding_left,0,ctx.canvas.width -padding_left -1,this.options.c_1_height);
+        ctx.rect(padding_left,0,this.options.drawWidth -padding_left,this.options.c_1_height);
         ctx.stroke();
         
         ctx.textAlign = 'left';
         ctx.fillStyle = '#979797';
         /*画布宽度*/
-        var k_width = ctx.canvas.width;
+        var k_width = this.options.drawWidth;
         var tempDate;
         var arr_length = oc_time_arr.length;
         for(var i = 0;i<arr_length;i++) {
@@ -125,23 +127,25 @@ function drawXMark(ctx,k_height,oc_time_arr){
             var isShow = oc_time_arr[i].show == undefined ? true : false;
 
             if(oc_time_arr[i].show == undefined || oc_time_arr[i].show){
-                if(i == (arr_length-1)){
-                    ctx.fillText(tempDate, ((this.options.canvas.width - ctx.measureText(tempDate).width - 5)), this.options.c_1_height+20); 
-                }else{
-                    ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20); 
-                }
+
+                ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20*dpr); 
+                // if(i == (arr_length-1)){
+                //     ctx.fillText(tempDate, ((this.options.drawWidth - ctx.measureText(tempDate).width - 2)), this.options.c_1_height+20*dpr); 
+                // }else{
+                //     ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20*dpr); 
+                // }
             }
 
             if(i == (arr_length-1)){
                 ctx.moveTo(x,this.options.c_1_height);   
-                ctx.lineTo(x,this.options.c_1_height + 5);
+                ctx.lineTo(x,this.options.c_1_height + 5*dpr);
 
                 var x = (i+1) * (k_width - padding_left) / (arr_length) +padding_left;
                 ctx.moveTo(x-1,this.options.c_1_height);   
-                ctx.lineTo(x-1,this.options.c_1_height + 5);
+                ctx.lineTo(x-1,this.options.c_1_height + 5*dpr);
             }else{
                 ctx.moveTo(x,this.options.c_1_height);   
-                ctx.lineTo(x,this.options.c_1_height + 5);
+                ctx.lineTo(x,this.options.c_1_height + 5*dpr);
             }
             
             ctx.stroke();

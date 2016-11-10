@@ -83,12 +83,15 @@ var ChartBarQuarter = (function() {
         canvas.height = this.options.height * dpr;
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / 5 / 4;
+        this.options.canvas_offset_top = 15 * dpr;
         // 画布内容向坐偏移的距离
-        this.options.c_1_height = 4 * canvas.height / 5;
+        this.options.c_1_height = canvas.height - 50 * dpr;
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
+
+        this.options.padding_left = this.options.context.measureText("+10000万").width;
+        this.options.drawWidth = canvas.width - this.options.padding_left;
 
         // 画布上部内间距
         ctx.translate("0", this.options.canvas_offset_top);
@@ -99,7 +102,7 @@ var ChartBarQuarter = (function() {
         this.options.groupUnitSpacing =  this.options.groupUnitSpacing == undefined ? "0.2" : this.options.groupUnitSpacing;;
 
         // 加水印
-        watermark.apply(this,[this.options.context,90,10,82,20]);
+        watermark.apply(this,[this.options.context,this.options.padding_left + 95 * dpr,10 * dpr,82 * dpr,20 * dpr]);
     };
 
     // 绘图
@@ -123,8 +126,7 @@ var ChartBarQuarter = (function() {
         this.options.data.min = getMaxMinValue.min;
         this.options.data.step = getMaxMinValue.step;
 
-        this.options.padding_left = this.options.context.measureText("+1000万").width + 10;
-        this.options.group = getYearRect.call(this, canvas.width - this.options.padding_left, this.options.series.length);
+        this.options.group = getYearRect.call(this, this.options.drawWidth - this.options.padding_left, this.options.series.length);
         this.options.groupUnit = getQuarterRect.call(this, this.options.group.bar_w, this.options.series[0].data.length);
 
         // 绘制坐标轴
@@ -210,8 +212,8 @@ var ChartBarQuarter = (function() {
         // 绘制的虚线的x坐标
         result.midddleLine = get_x.call(this, numYear, numQuarter) + groupUnit.bar_w / 2;
         //绘制tips的坐标
-        result.tipsX = this.options.padding_left*this.options.dpr + group.rect_w * numYear;
-        result.tipsY = get_y.call(this, series[numYear].data[0]) + this.options.canvas_offset_top*this.options.dpr;
+        result.tipsX = this.options.padding_left + group.rect_w * numYear;
+        result.tipsY = get_y.call(this, series[numYear].data[0]) + this.options.canvas_offset_top;
 
         result.midddleLineHeight = result.tipsY;
 
@@ -242,7 +244,7 @@ var ChartBarQuarter = (function() {
         // tips.setAttribute("class", "web-tips");
         tips.className = "web-tips";
         middleLine.className = "group-bar-mark";
-        middleLine.style.width = group.rect_w + "px";
+        middleLine.style.width = group.rect_w/dpr + "px";
         middleLine.style.backgroundColor = "#333";
         // middleLine.setAttribute("class", "web-middleLine");
         _that.container.appendChild(tips);
@@ -261,7 +263,7 @@ var ChartBarQuarter = (function() {
             }
 
             //当超出坐标系框就不显示交互
-            if (winX >= padding_left && winX < (canvas.width -  (group.rect_w - group.bar_w) / 2) && (winY >= offSetTop && winY * dpr < (offSetTop * dpr + yHeight))) {
+            if (winX >= padding_left/dpr && winX < (canvas.width -  (group.rect_w - group.bar_w) / 2 / dpr) && (winY >= offSetTop/dpr && winY < (offSetTop + yHeight)/dpr)) {
                 tips.style.display = "inline-block";
                 middleLine.style.display = "inline-block";
             } else {
@@ -304,13 +306,13 @@ var ChartBarQuarter = (function() {
                 var w_x = e.offsetX || (e.clientX - _that.container.getBoundingClientRect().left);
                 var w_y = e.offsetY || (e.clientY - _that.container.getBoundingClientRect().top);
 
-                if (w_x > canvas.width / 2) {
-                    tips.style.left = (coordinateCanvas.tipsX - tips.clientWidth) + "px";
+                if (w_x > canvas.width / 2 / dpr) {
+                    tips.style.left = (coordinateCanvas.tipsX/dpr - tips.clientWidth) + "px";
                 } else {
-                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.group.rect_w) + "px";
+                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.group.rect_w)/dpr + "px";
                 }
                 // alert(coordinateWindow.tips.y);
-                tips.style.top = (coordinateCanvas.tipsY) - tips.clientHeight/2 + "px";
+                tips.style.top = (coordinateCanvas.tipsY)/dpr - tips.clientHeight/2 + "px";
                 // var text = createTextNode(coordinateCanvas.content);
                 // tips.appendChild(text);
 
@@ -320,11 +322,14 @@ var ChartBarQuarter = (function() {
                 var c_pos = common.windowToCanvas.apply(_that,[canvas,w_x,w_y]);
                 var c_x = (c_pos.x).toFixed(0);
 
-                var index = Math.floor((c_x - _that.options.padding_left) / group.rect_w);
-                //绘制中线
-                middleLine.style.height = yHeight + "px";
-                middleLine.style.left = index * group.rect_w + _that.options.padding_left + "px";
-                middleLine.style.top = offSetTop + "px";
+                if(c_x - _that.options.padding_left > 0){
+                    var index = Math.floor((c_x - _that.options.padding_left) / group.rect_w);
+                    //绘制中线
+                    middleLine.style.height = yHeight/_that.options.dpr + "px";
+                    middleLine.style.left = (index * group.rect_w + _that.options.padding_left)/dpr + "px";
+                    middleLine.style.top = offSetTop/dpr + "px";
+                }
+                
                 status = coordinateCanvas.arr;
             }
 

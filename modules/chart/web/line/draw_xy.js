@@ -109,11 +109,14 @@
                 if(this.options.series2){
                     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
                 }else{
-                    if(i < arr_length - 1){
-                        ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
-                    }else if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > this.options.drawWidth){
-                        ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
-                    }
+
+                    ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+
+                    // if(i < arr_length - 1){
+                    //     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+                    // }else if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > this.options.drawWidth){
+                    //     ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                    // }
                 }
                 
             }

@@ -97,11 +97,14 @@ var ChartLine = (function() {
             this.options.sepeNum = 2;
         }
 
-        if(this.options.series2){
-            this.options.drawWidth = canvas.width - ctx.measureText("+1000万").width;
-        }else{
-            this.options.drawWidth = canvas.width;
-        }
+        this.options.drawWidth = canvas.width - this.options.padding_left;
+
+        // if(this.options.series2){
+        //     this.options.drawWidth = canvas.width - this.options.padding_left * 2;
+        // }else{
+        //     this.options.drawWidth = canvas.width;
+        // }
+        
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
@@ -133,7 +136,7 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
 
         // 加水印
-        watermark.apply(this, [ctx,130,10,82,20]);
+        watermark.apply(this, [ctx,95 + this.options.padding_left,10,82,20]);
     }
     
     // 绘图
