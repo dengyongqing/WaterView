@@ -15,7 +15,7 @@ module.exports = function(ctx, ctx2, obj, pies, point, radius, ySpace, onPie) {
     var pieEndDegree = obj.end;
     var pieMiddleDegree = (pieStartDegree + pieEndDegree) / 2;
     var fontSize = ctx2.font.split("px ")[0]*1;
-    drawPie(ctx, point, radius + 10, pieStartDegree, pieEndDegree, "white");
+    drawPie(ctx, point, radius + radius/20, pieStartDegree, pieEndDegree, "white");
     //清除字
     if(onPie){
         drawInfoOn(ctx2, obj, pies, radius, point, fontSize, true);
@@ -23,22 +23,22 @@ module.exports = function(ctx, ctx2, obj, pies, point, radius, ySpace, onPie) {
         drawInfo(ctx, obj, pies, radius, point, ySpace, 3);
     }
     drawPie(ctx, {
-        x: point.x + 5 * Math.cos(pieMiddleDegree),
-        y: point.y + 5 * Math.sin(pieMiddleDegree)
-    }, radius + 10, pieStartDegree, pieEndDegree, obj.color);
+        x: point.x + radius/40 * Math.cos(pieMiddleDegree),
+        y: point.y + radius/40 * Math.sin(pieMiddleDegree)
+    }, radius + radius/20, pieStartDegree, pieEndDegree, obj.color);
 
     drawPie(ctx, {
-        x: point.x + 5 * Math.cos(pieMiddleDegree),
-        y: point.y + 5 * Math.sin(pieMiddleDegree)
-    }, radius + 5, pieStartDegree, pieEndDegree, "white", true);
+        x: point.x + radius/40 * Math.cos(pieMiddleDegree),
+        y: point.y + radius/40 * Math.sin(pieMiddleDegree)
+    }, radius + radius/40, pieStartDegree, pieEndDegree, "white", true);
 
     drawPie(ctx, {
-        x: point.x + 5 * Math.cos(pieMiddleDegree),
-        y: point.y + 5 * Math.sin(pieMiddleDegree)
+        x: point.x + radius/40 * Math.cos(pieMiddleDegree),
+        y: point.y + radius/40 * Math.sin(pieMiddleDegree)
     }, radius, pieStartDegree, pieEndDegree, obj.color);
 
     if (onPie) {
-        drawInfoOn(ctx2, obj, pies, radius+5, point, fontSize+4);
+        drawInfoOn(ctx2, obj, pies, radius+radius/40, point, fontSize+4);
     }else{//写字
         drawInfo(ctx, obj, radius, point, ySpace, 1);
     }

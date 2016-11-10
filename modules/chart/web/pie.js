@@ -133,8 +133,8 @@ var ChartPie = (function() {
 
         }
 
-        var yBottom = point.y - radius - 20;
-        var yTop = point.y + radius + 20;
+        var yBottom = point.y - radius - radius/10;
+        var yTop = point.y + radius + radius/10;
 
         //获得触角分布情况
         pies = methods.getSpaceArry(pies, Math.floor((yTop - yBottom) / ySpace), ySpace, radius, point, yBottom);
