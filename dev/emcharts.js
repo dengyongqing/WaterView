@@ -22,9 +22,9 @@ var EmchartsWebTime = require('chart/web/time');
 /*绘制web的K线图*/
 var EmchartsWebK = require('chart/web/k');
 /*绘制web柱状图*/
-var ChartWebBar = require('chart/web/bar/bar');
+var EmchartsWebBar = require('chart/web/bar/bar');
 /*绘制web分组柱状图*/
-var ChartWebGroupBar = require('chart/web/bar/group-bar');
+var EmchartsWebGroupBar = require('chart/web/bar/group-bar');
 /*绘制web的饼状图*/
 var ChartPie = require('chart/web/pie');
 
@@ -55,8 +55,8 @@ window.EmchartsWebTime = EmchartsWebTime;
 // web行情K线图
 window.EmchartsWebK = EmchartsWebK;
 // web柱状图
-window.ChartWebBar = ChartWebBar;
+window.EmchartsWebBar = EmchartsWebBar;
 // web分组柱状图
-window.ChartWebGroupBar = ChartWebGroupBar;
+window.EmchartsWebGroupBar = EmchartsWebGroupBar;
 //web饼图
 window.EmchartsPie = ChartPie;
