@@ -153,6 +153,9 @@ function handleEvent(winX, winY) {
                 tipPanel.style.left = targetX+"px";
                 this.options.tipPanel.style.visibility = "visible";
             }else{
+                if(tipPanel.timer){
+                    clearTimeout(tipPanel.timer);
+                }
                 animationEasing.fast2slow(tipPanel, targetX, targetY);
             }
         }
