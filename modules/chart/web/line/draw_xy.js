@@ -93,7 +93,11 @@
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.textAlign = 'center';
-        ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
+        if(this.options.font){
+            ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
+        }else{
+            ctx.fillStyle = '#000';
+        }
         ctx.lineWidth = "1px";
 
         /*画布宽度*/
