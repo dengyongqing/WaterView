@@ -38,43 +38,48 @@ var DrawBar = (function(){
         // 横坐标数据
         var xaxis = this.options.xaxis;
 
+
         for(var i = 0,se;se = series[i]; i++){
-           
-            var bar_arr = se.data;
+                var bar_arr = se.data;
+                var arr_length = bar_arr.length;
+                for(var j = 0;j < arr_length; j++){
+                    var bar = bar_arr[j];
 
-            for(var j = 0,bar;bar = bar_arr[j]; j++){
-                ctx.beginPath();
-                // 填充颜色
-                ctx.fillStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
-                // 画笔颜色
-                ctx.strokeStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
-                var x = get_x.apply(this,[i,j]);
-                var y = get_y.call(this,bar);
+                    if(bar != null && bar !== "" && bar != undefined){
+                        ctx.beginPath();
+                    // 填充颜色
+                    ctx.fillStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
+                    // 画笔颜色
+                    ctx.strokeStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];
+                    var x = get_x.apply(this,[i,j]);
+                    var y = get_y.call(this,bar);
 
-                if(y >= 0 && this.options.data.min < 0){
-                    var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
-                    ctx.rect(x,y,this.options.groupUnit.bar_w,sepe_y - y);
-                }else if(y >= 0 && this.options.data.min >= 0){
-                    var sepe_y = this.options.c_1_height;
-                    ctx.rect(x,y,this.options.groupUnit.bar_w,sepe_y - y);
-                }else if(y < 0 && this.options.data.max >= 0){
-                    var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
-                    ctx.rect(x,sepe_y,this.options.groupUnit.bar_w,y);
-                }else if(y < 0 && this.options.data.max < 0){
-                    var sepe_y = 0;
-                    ctx.rect(x,sepe_y,this.options.groupUnit.bar_w,y);
+                    if(y >= 0 && this.options.data.min < 0){
+                        var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
+                        ctx.rect(x,y,this.options.groupUnit.bar_w,sepe_y - y);
+                    }else if(y >= 0 && this.options.data.min >= 0){
+                        var sepe_y = this.options.c_1_height;
+                        ctx.rect(x,y,this.options.groupUnit.bar_w,sepe_y - y);
+                    }else if(y < 0 && this.options.data.max >= 0){
+                        var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
+                        ctx.rect(x,sepe_y,this.options.groupUnit.bar_w,y);
+                    }else if(y < 0 && this.options.data.max < 0){
+                        var sepe_y = 0;
+                        ctx.rect(x,sepe_y,this.options.groupUnit.bar_w,y);
+                    }
+
+
+                    // if(y >= 0 && this.options.data.min < 0){
+                    //     var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
+                    //     ctx.rect(x,sepe_y,this.options.groupUnit.bar_w,sepe_y - y);
+                    // }else if(y >= 0 && this.options.data.min >= 0){
+
+                    // }else{
+                    //     ctx.rect(x,this.options.c_1_height/2,this.options.groupUnit.bar_w,y);
+                    // }
+                    ctx.fill();
                 }
-
-
-                // if(y >= 0 && this.options.data.min < 0){
-                //     var sepe_y = this.options.c_1_height * (this.options.data.max)/(this.options.data.max - this.options.data.min);
-                //     ctx.rect(x,sepe_y,this.options.groupUnit.bar_w,sepe_y - y);
-                // }else if(y >= 0 && this.options.data.min >= 0){
-
-                // }else{
-                //     ctx.rect(x,this.options.c_1_height/2,this.options.groupUnit.bar_w,y);
-                // }
-                ctx.fill();
+                
             }
             
         }

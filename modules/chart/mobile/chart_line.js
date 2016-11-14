@@ -121,7 +121,7 @@ var ChartLine = (function() {
 
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
-        this.options.padding_left = this.options.context.measureText("-1000万").width + 20;
+        this.options.padding_left = ctx.measureText("+9000万").width + 20;
 
         // 绘制坐标轴
         new DrawXY(this.options);

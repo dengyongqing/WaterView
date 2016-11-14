@@ -263,7 +263,7 @@ var ChartBarQuarter = (function() {
             }
 
             //当超出坐标系框就不显示交互
-            if (winX >= padding_left/dpr && winX < (canvas.width -  (group.rect_w - group.bar_w) / 2 / dpr) && (winY >= offSetTop/dpr && winY < (offSetTop + yHeight)/dpr)) {
+            if (winX >= padding_left/dpr && winX*dpr < _that.options.drawWidth && (winY >= offSetTop/dpr && winY < (offSetTop + yHeight)/dpr)) {
                 tips.style.display = "inline-block";
                 middleLine.style.display = "inline-block";
             } else {
@@ -271,7 +271,9 @@ var ChartBarQuarter = (function() {
                 middleLine.style.display = "none";
             }
             //canvas中是坐标与屏幕坐标之间的相互转换
-            coordinateCanvas = getCoordinateByClient.call(_that, winX);
+            if(winX*dpr < _that.options.drawWidth){
+                coordinateCanvas = getCoordinateByClient.call(_that, winX);
+            }
             if (status !== coordinateCanvas.arr) {
                 coordinateWindow.midddleLine = common.canvasToWindow.call(_that, canvas, coordinateCanvas.midddleLine, 0);
                 coordinateWindow.tips = common.canvasToWindow.call(_that, canvas, coordinateCanvas.tipsX, coordinateCanvas.tipsY);

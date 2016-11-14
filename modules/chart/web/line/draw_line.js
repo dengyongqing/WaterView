@@ -47,8 +47,9 @@ var DrawLine = (function(){
 	        			
 			if(line.showpoint){
 				drawPoint.apply(this,[ctx,line,false]);
+			}else if(line.data.length == 1){
+				drawPoint.apply(this,[ctx,line,false]);
 			}
-			
 		}
 		// 第二个坐标轴折线数据
 		if(this.options.series2){
@@ -96,8 +97,6 @@ var DrawLine = (function(){
 				 }else{
 				 	ctx.lineTo(x,y);
 				 }
-			}else{
-				 continue;
 			}
 			 
 		}
@@ -112,41 +111,44 @@ var DrawLine = (function(){
 	function drawPoint(ctx,line,flag){
 		// 保存画笔状态
 		ctx.save();
-		
 		var arr = line.data;
         var arr_length = arr.length;
 
         // 节点（折线连接点半径）	
         var pointRadius = this.options.pointRadius;
        
-		for(var i = 0,item;item = arr[i]; i++){
-			 ctx.beginPath();
-			 if(arr_length == 1){
-			 	var sepe_num = 1;
-			 }else{
-			 	var sepe_num = arr_length - 1;
-			 }
+		for(var i = 0;i < arr_length; i++){
+			 var item = arr[i];
+			 if(item != null && item !== "" && item != undefined){
+			 	 ctx.beginPath();
+				 if(arr_length == 1){
+				 	var sepe_num = 1;
+				 }else{
+				 	var sepe_num = arr_length - 1;
+				 }
 
-			 if(arr_length == 1){
- 	        	 var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
-			 }else{
- 	        	 var x = ((this.options.drawWidth - this.options.padding_left)/sepe_num) * (i) + this.options.padding_left;
-			 }
+				 if(arr_length == 1){
+	 	        	 var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
+				 }else{
+	 	        	 var x = ((this.options.drawWidth - this.options.padding_left)/sepe_num) * (i) + this.options.padding_left;
+				 }
 
-			 if(flag){
-			 	var y = get_y.call(this,item);
-			 }else{
-			 	var y = common.get_y.call(this,item);
+				 if(flag){
+				 	var y = get_y.call(this,item);
+				 }else{
+				 	var y = common.get_y.call(this,item);
+				 }
+				 
+				 if(i == 0){
+				 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
+				 	ctx.fill();
+				 }else{
+				 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
+				 	ctx.fill();
+				 }
+		 	 
 			 }
 			 
-			 if(i == 0){
-			 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
-			 	ctx.fill();
-			 }else{
-			 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
-			 	ctx.fill();
-			 }
-		 	 
 		}
 		// 恢复画笔状态
 		ctx.restore();

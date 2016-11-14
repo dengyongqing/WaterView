@@ -294,6 +294,17 @@
 
 
 /*web版图表样式*/
+.emcharts-container{
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+
+   	font-family: simsun;
+	font-size: 12px;
+	box-sizing: inherit;
+}
 
 .canvas-container{
 	-webkit-user-select:none;

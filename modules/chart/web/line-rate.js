@@ -95,6 +95,9 @@ var ChartLine = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
+
+        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        
         // 加水印
         watermark.apply(this,[this.options.context,90,20,82,20]);
 
@@ -113,7 +116,7 @@ var ChartLine = (function() {
         this.options.data = {};
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
-        this.options.padding_left = this.options.context.measureText("1000万").width + 20;
+        
 
         // 绘制坐标轴
         new DrawXY(this.options);

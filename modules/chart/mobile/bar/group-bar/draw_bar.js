@@ -41,8 +41,9 @@ var DrawBar = (function(){
         for(var i = 0,se;se = series[i]; i++){
            
             var bar_arr = se.data;
-
-            for(var j = 0,bar;bar = bar_arr[j]; j++){
+            var arr_length = bar_arr.length;
+            for(var j = 0;j < arr_length; j++){
+                var bar = bar_arr[j];
                 ctx.beginPath();
                 // 填充颜色
                 ctx.fillStyle = xaxis[i].colors[j] == undefined ? "#333" : xaxis[i].colors[j];

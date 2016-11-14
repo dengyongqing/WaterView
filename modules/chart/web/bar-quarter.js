@@ -92,6 +92,8 @@ var ChartBarQuarter = (function() {
         this.options.yearUnitSpacing = "0.2";
         this.options.quarterUnitSpacing = "0.4";
 
+        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+
         // 加水印
         watermark.apply(this,[this.options.context,90,20,82,20]);
     };
@@ -115,7 +117,7 @@ var ChartBarQuarter = (function() {
         this.options.data = {};
         this.options.data.max = getMaxMinValue.max;
         this.options.data.min = getMaxMinValue.min;
-        this.options.padding_left = this.options.context.measureText("+1000").width + 10;
+        
         this.options.yearUnit = getYearRect.call(this, canvas.width - this.options.padding_left, this.options.series.length);
         this.options.quarterUnit = getQuarterRect.call(this, this.options.yearUnit.bar_w, 4);
 

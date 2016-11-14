@@ -50,7 +50,7 @@ var ChartMobileBar = (function() {
             this.options.sepeNum = 4;
         }
         this.options.padding = {};
-        this.options.padding.left = ctx.measureText("+10000").width * dpr;
+        this.options.padding.left = (ctx.measureText("+9000万").width + 20) * dpr;
         this.options.padding.right = 10;
         this.options.padding.top = this.options.font_size * 2 * dpr;
         this.options.padding.bottom = 50 * dpr;
