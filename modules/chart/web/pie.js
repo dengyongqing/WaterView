@@ -72,7 +72,7 @@ var ChartPie = (function() {
         canvas2.style.left = "0px";
 
         if (!this.options.font) {
-            this.options.font = "12px Microsoft Yahei";
+            this.options.font = "12px Arial";
         }
         ctx.font = this.options.font;
         ctx2.font = this.options.font;

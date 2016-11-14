@@ -262,7 +262,7 @@ var ChartLine = (function() {
                 }else{
                     tips.style.left = (cursor*unit/dpr + padding_left  + padding_left/2) + "px";
                 }
-                tips.style.top = (tipArr[0].y + tipArr[3].y)/2/dpr - 50 +"px";
+                tips.style.top = (tipArr[0].y + tipArr[tipArr.length-1].y)/2/dpr +"px";
                 var title = document.createElement("div");
                 title.className = "chart_line_tips_title";
                 title.innerHTML = dateArr[cursor].value;
@@ -310,7 +310,7 @@ var ChartLine = (function() {
                 }else{
                     tips.style.left = (cursor*unit/dpr + padding_left + padding_left/2) + "px";
                 }
-                tips.style.top = (tipArr[0].y + tipArr[3].y)/2/dpr - 50 +"px";
+                tips.style.top = (tipArr[0].y + tipArr[tipArr.length-1].y)/2/dpr - 50 +"px";
                 var yLine  = that.options.interOption.yLine;
                 yLine.style.left = (cursor*unit/dpr + padding_left/dpr) + "px";
                 var circles = that.options.interOption.circles;
