@@ -1,16 +1,22 @@
 // 指定分割区间个数(num：希望分割为多少个区间, arr：传入的数组);返回步长
 function divide(num, arr) {
     var max = arr[0],
-        min = arr[0];
-    var result = {};
+        min = 0;
     if(arr.length === 1){
         arr.push(0);
     }
     var len = arr.length;
+    var result = {};
+    var flag = 1;
     // 找到数组中的最大最小值
     for (var i = len - 1; i >= 0; i--) {
         max = Math.max(max, arr[i]);
         min = Math.min(min, arr[i]);
+    }
+    if(max <= 0){
+        max = Math.abs(min);
+        min = Math.abs(max);
+        flag = -1;
     }
     // 对最大最小值情况判断，进行不同求值过程
     var stepHeight = getStepLength(num, max, min);
@@ -18,8 +24,13 @@ function divide(num, arr) {
     var intStepHeight = stepHeight * Math.pow(10, Math.abs(base) + 1);
     // 正数的分割个数
     var integerStepNum = Math.floor(max / stepHeight + 1);
-    result.max = moveDot((integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0;
-    result.min = -moveDot((num - integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0;
+    if(flag === 1){
+        result.max = moveDot((integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0;
+        result.min = -moveDot((num - integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0;
+    }else{//如果都是负数，交换最大最小值
+        result.min = moveDot((integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0*flag;
+        result.max = -moveDot((num - integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0*flag;
+    }
     result.stepHeight = stepHeight;
     return result;
 }
@@ -59,7 +70,7 @@ function moveDot(n, num) {
 function getStepLength(num, max, min) {
     var tempNum = num;
     var totalHeight = max;
-    if (min < 0) {
+    if (min < 0 && max > 0) {
         totalHeight = max + Math.abs(min);
         tempNum = num - 1;
     }

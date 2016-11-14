@@ -20,11 +20,11 @@ var DrawXY = require('chart/web/line/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制分时折线图
-var DrawLine = require('chart/web/line/draw_line'); 
+var DrawLine = require('chart/web/line/draw_line');
 // 拓展，合并，复制
 var extend = require('tools/extend2');
 // 交互效果
-var Interactive = require('interactive/interactive'); 
+var Interactive = require('interactive/interactive');
 // 水印
 var watermark = require('chart/watermark');
 // 添加通用工具
@@ -41,10 +41,10 @@ var ChartLine = (function() {
         // 图表容器
         this.container = document.getElementById(options.container);
         // 图表加载完成事件
-        this.onChartLoaded = options.onChartLoaded == undefined ? function(op){
+        this.onChartLoaded = options.onChartLoaded == undefined ? function(op) {
 
-        }:options.onChartLoaded;
-        
+        } : options.onChartLoaded;
+
     }
 
     // 初始化
@@ -93,7 +93,7 @@ var ChartLine = (function() {
         // }
 
         this.options.sepeNum = this.options.sepeNum == undefined ? 4 : this.options.sepeNum;
-        if(this.options.sepeNum < 2){
+        if (this.options.sepeNum < 2) {
             this.options.sepeNum = 2;
         }
 
@@ -104,32 +104,32 @@ var ChartLine = (function() {
         // }else{
         //     this.options.drawWidth = canvas.width;
         // }
-        
+
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
 
         // 画布上部内间距
-        ctx.translate("0",this.options.canvas_offset_top);
+        ctx.translate("0", this.options.canvas_offset_top);
         // 画笔参数设置
         var font = "";
         var fontSize = "";
         var fontFamily = "";
-        if(this.options.font){
-            if(this.options.font.fontFamily){
+        if (this.options.font) {
+            if (this.options.font.fontFamily) {
                 fontFamily = this.options.font.fontFamily;
-            }else{
+            } else {
                 fontFamily = "Arial";
             }
 
-            if(this.options.font.fontSize){
+            if (this.options.font.fontSize) {
                 fontSize = this.options.font.fontSize;
-            }else{
+            } else {
                 fontSize = 12;
             }
 
-            font = fontSize + "px " +  fontFamily;
-        }else{
+            font = fontSize + "px " + fontFamily;
+        } else {
             font = "12px Arial";
         }
         ctx.font = font;
@@ -139,9 +139,9 @@ var ChartLine = (function() {
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
 
         // 加水印
-        watermark.apply(this, [ctx,95 + this.options.padding_left,10,82,20]);
+        watermark.apply(this, [ctx, 95 + this.options.padding_left, 10, 82, 20]);
     }
-    
+
     // 绘图
     ChartLine.prototype.draw = function(callback) {
         // 删除canvas画布
@@ -158,20 +158,20 @@ var ChartLine = (function() {
         // 第一坐标轴折线数据
         var series = this.options.series;
         this.options.data = {};
-        var maxAndMin = getMaxMark.call(this,series);
+        var maxAndMin = getMaxMark.call(this, series);
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
         this.options.data.step = maxAndMin.step;
 
         // 第二坐标轴折线数据
-        if(this.options.series2){
+        if (this.options.series2) {
             var series2 = this.options.series2;
-            var maxAndMin2 = getMaxMark.call(this,series2);
+            var maxAndMin2 = getMaxMark.call(this, series2);
             this.options.data.max2 = maxAndMin2.max;
             this.options.data.min2 = maxAndMin2.min;
             this.options.data.step2 = maxAndMin2.step;
         }
-        
+
         // 绘制坐标轴
         new DrawXY(this.options);
         // 绘制分时折线图
@@ -193,9 +193,9 @@ var ChartLine = (function() {
         var padding_left = this.options.padding_left;
         var padding_top = this.options.canvas_offset_top;
         var unit; //单位宽度
-        if(dateArr.length === 1){
+        if (dateArr.length === 1) {
             unit = this.options.drawWidth - padding_left;
-        }else{
+        } else {
             unit = (this.options.drawWidth - padding_left) / (dateArr.length - 1); //单位宽度
         }
         var that = this;
@@ -205,6 +205,7 @@ var ChartLine = (function() {
         var y_max2 = this.options.data.max2;
         var y_min2 = this.options.data.min2;
         var c_1_height = this.options.c_1_height;
+        var radius = this.options.pointRadius;
         //添加交互事件
         common.addEvent.call(that, canvas, "mousemove", function(e) {
             var winX, winY;
@@ -232,8 +233,8 @@ var ChartLine = (function() {
                 cursor = Math.ceil(canvasX / unit);
             }
 
-            if(cursor < 0){cursor = 0;}
-            if(cursor > dateArr.length-1){cursor = dateArr.length-1;}
+            if (cursor < 0) { cursor = 0; }
+            if (cursor > dateArr.length - 1) { cursor = dateArr.length - 1; }
 
             for (var i = 0, len = series.length; i < len; i++) {
                 tipArr.push({
@@ -243,7 +244,7 @@ var ChartLine = (function() {
                     y: padding_top + common.get_y.call(that, series[i].data[cursor])
                 });
             }
-            if(that.options.series2){
+            if (that.options.series2) {
                 for (i = 0, len = series2.length; i < len; i++) {
                     tipArr.push({
                         color: series2[i].color,
@@ -253,11 +254,18 @@ var ChartLine = (function() {
                     });
                 }
             }
-            
+
             //排序
             tipArr.sort(function(a, b) {
                 return a.y - b.y;
             });
+
+            var left = 0;
+            if (dateArr.length == 1) {
+                left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left);
+            } else {
+                left = (cursor * unit / dpr + padding_left);
+            }
 
             //添加交互
             if (!that.options.interOption) {
@@ -265,12 +273,13 @@ var ChartLine = (function() {
                 //提示
                 var tips = document.createElement("div");
                 tips.className = "chart_line_tips";
-                if((cursor*unit/dpr + padding_left/dpr) > canvas.width/2){
-                    tips.style.left = cursor*unit/dpr + padding_left/dpr  - padding_left/2 - tips.clientWidth + "px";
-                }else{
-                    tips.style.left = (cursor*unit/dpr + padding_left  + padding_left/2) + "px";
+
+                if ((cursor * unit / dpr + padding_left / dpr) > canvas.width / 2) {
+                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
+                } else {
+                    tips.style.left = (left + padding_left / 2) + "px";
                 }
-                tips.style.top = (tipArr[0].y + tipArr[tipArr.length-1].y)/2/dpr +"px";
+                tips.style.top = (tipArr[0].y + tipArr[tipArr.length - 1].y) / 2 / dpr + "px";
                 var title = document.createElement("div");
                 title.className = "chart_line_tips_title";
                 title.innerHTML = dateArr[cursor].value;
@@ -279,9 +288,9 @@ var ChartLine = (function() {
                 var yLine = document.createElement("div");
                 yLine.className = "chart_line_yline";
                 //交互的竖线
-                yLine.style.left = (cursor*unit/dpr - padding_left) + "px";
-                yLine.style.top = padding_top/dpr+"px";
-                yLine.style.height = c_1_height/dpr+"px";
+                yLine.style.left = left + "px";
+                yLine.style.top = padding_top / dpr + "px";
+                yLine.style.height = c_1_height / dpr + "px";
                 that.container.appendChild(yLine);
                 var circles = [];
                 for (i = 0, len = tipArr.length; i < len; i++) {
@@ -299,8 +308,10 @@ var ChartLine = (function() {
                     //圆圈
                     var cir = document.createElement("div");
                     cir.className = "chart_line_cir";
-                    cir.style.top = (tipArr[i].y/dpr - 6) + "px";
-                    cir.style.left = (cursor*unit/dpr + padding_left/dpr - 6) + "px";
+                    cir.style.width = 2 * radius + "px";
+                    cir.style.height = 2 * radius + "px";
+                    cir.style.top = (tipArr[i].y / dpr - radius) + "px";
+                    cir.style.left = (left - radius) + "px";
                     cir.style.borderColor = tipArr[i].color;
                     that.container.appendChild(cir);
                     circles.push(cir);
@@ -313,14 +324,14 @@ var ChartLine = (function() {
                 that.options.interOption.circles = circles;
             } else {
                 var tips = that.options.interOption.tips;
-                if((cursor*unit/dpr + padding_left/dpr) >= canvas.width/dpr/2){
-                    tips.style.left = cursor*unit/dpr + padding_left/2 - tips.clientWidth + "px";
-                }else{
-                    tips.style.left = (cursor*unit/dpr + padding_left + padding_left/2) + "px";
+                if ((cursor * unit / dpr + padding_left / dpr) >= canvas.width / dpr / 2) {
+                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
+                } else {
+                    tips.style.left = (left + padding_left / 2) + "px";
                 }
-                tips.style.top = (tipArr[0].y + tipArr[tipArr.length-1].y)/2/dpr - 50 +"px";
-                var yLine  = that.options.interOption.yLine;
-                yLine.style.left = (cursor*unit/dpr + padding_left/dpr) + "px";
+                tips.style.top = (tipArr[0].y + tipArr[tipArr.length - 1].y) / 2 / dpr - 50 + "px";
+                var yLine = that.options.interOption.yLine;
+                yLine.style.left = left + "px";
                 var circles = that.options.interOption.circles;
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
@@ -328,18 +339,26 @@ var ChartLine = (function() {
                     children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
                     children[j + 1].children[1].innerHTML = tipArr[j].data;
                 }
-                for(var k = 0, kLen = circles.length; k < kLen; k++){
-                    circles[k].style.top = tipArr[k].y/dpr - 5 + "px";
-                    circles[k].style.left = (cursor*unit/dpr + padding_left/dpr - 5) + "px";
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.top = tipArr[k].y / dpr - radius + "px";
+                    circles[k].style.left = (left - radius) + "px";
                     circles[k].style.borderColor = tipArr[k].color;
                 }
             }
 
             //当超出坐标系框就不显示交互
-            if(canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY <= c_1_height){
+            if (canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY <= c_1_height) {
                 that.options.interOption.tips.style.display = "block";
-            }else{
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.display = "block";
+                }
+                yLine.style.display = "block";
+            } else {
                 that.options.interOption.tips.style.display = "none";
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.display = "none";
+                }
+                yLine.style.display = "none";
             }
         });
     }
@@ -347,17 +366,17 @@ var ChartLine = (function() {
 
     // 重绘
     ChartLine.prototype.reDraw = function() {
+            // 删除canvas画布
+            this.clear();
+            // 初始化
+            this.init();
+            this.draw();
+        }
         // 删除canvas画布
-        this.clear();
-        // 初始化
-        this.init();
-        this.draw();
-    }
-    // 删除canvas画布
     ChartLine.prototype.clear = function(cb) {
-        if(this.container){
+        if (this.container) {
             this.container.innerHTML = "";
-        }else{
+        } else {
             document.getElementById(this.options.container).innerHTML = "";
         }
         if (cb) {
@@ -367,17 +386,17 @@ var ChartLine = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(series) {
-       
-        var  seriesLength = series.length;
+
+        var seriesLength = series.length;
         var arr = [];
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
-        var tempObj = divide(this.options.sepeNum,arr);
+        var tempObj = divide(this.options.sepeNum, arr);
         return {
-            max:tempObj.max,
-            min:tempObj.min,
-            step:tempObj.stepHeight
+            max: tempObj.max,
+            min: tempObj.min,
+            step: tempObj.stepHeight
         };
     }
 
