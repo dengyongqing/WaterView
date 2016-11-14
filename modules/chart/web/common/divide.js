@@ -1,9 +1,12 @@
 // 指定分割区间个数(num：希望分割为多少个区间, arr：传入的数组);返回步长
 function divide(num, arr) {
     var max = arr[0],
-        min = 0;
-    var len = arr.length;
+        min = arr[0];
     var result = {};
+    if(arr.length === 1){
+        arr.push(0);
+    }
+    var len = arr.length;
     // 找到数组中的最大最小值
     for (var i = len - 1; i >= 0; i--) {
         max = Math.max(max, arr[i]);

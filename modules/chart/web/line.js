@@ -189,7 +189,12 @@ var ChartLine = (function() {
         var ctx = this.options.context;
         var padding_left = this.options.padding_left;
         var padding_top = this.options.canvas_offset_top;
-        var unit = (this.options.drawWidth - padding_left) / (dateArr.length - 1); //单位宽度
+        var unit; //单位宽度
+        if(dateArr.length === 1){
+            unit = this.options.drawWidth - padding_left;
+        }else{
+            unit = (this.options.drawWidth - padding_left) / (dateArr.length - 1); //单位宽度
+        }
         var that = this;
         var dpr = this.options.dpr;
         var y_max = this.options.data.max;
@@ -365,7 +370,7 @@ var ChartLine = (function() {
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
-
+        debugger;
         var tempObj = divide(this.options.sepeNum,arr);
         return {
             max:tempObj.max,
