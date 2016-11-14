@@ -111,7 +111,13 @@
             tempDate = oc_time_arr[i];
             if(tempDate.show == undefined ? true : tempDate.show){
                 if(this.options.series2){
-                    ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+
+                     if(arr_length == 1){
+                        var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
+                     }else{
+                        var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                     }
+                    ctx.fillText(tempDate.value, x, this.options.c_1_height+20);
                 }else{
 
                     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);

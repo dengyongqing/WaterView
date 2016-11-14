@@ -154,7 +154,7 @@ var ChartLine = (function() {
         var canvas = this.options.canvas;
         var paddingLeft = this.options.padding_left;
         var offSetTop = this.options.canvas_offset_top;
-        var radius = this.options.pointRadius;
+        var radius = this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
         var dpr = this.options.dpr;
 
         var series = this.options.series;

@@ -69,9 +69,6 @@ var DrawLine = (function(){
 		}
 		
 
-		if(this.options.showflag){
-			// drawLineMark.apply(this,[ctx,series]);
-		}
 	};
 	
 	// 绘制折线
@@ -115,16 +112,27 @@ var DrawLine = (function(){
 	function drawPoint(ctx,line,flag){
 		// 保存画笔状态
 		ctx.save();
-
+		
 		var arr = line.data;
         var arr_length = arr.length;
 
-        // 节点（折线连接点半径）
+        // 节点（折线连接点半径）	
         var pointRadius = this.options.pointRadius;
-
+       
 		for(var i = 0,item;item = arr[i]; i++){
 			 ctx.beginPath();
-        	 var x = ((this.options.drawWdith)/(arr_length-1)) * (i) + this.options.padding_left;
+			 if(arr_length == 1){
+			 	var sepe_num = 1;
+			 }else{
+			 	var sepe_num = arr_length - 1;
+			 }
+
+			 if(arr_length == 1){
+ 	        	 var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
+			 }else{
+ 	        	 var x = ((this.options.drawWidth - this.options.padding_left)/sepe_num) * (i) + this.options.padding_left;
+			 }
+
 			 if(flag){
 			 	var y = get_y.call(this,item);
 			 }else{
@@ -134,8 +142,6 @@ var DrawLine = (function(){
 			 if(i == 0){
 			 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
 			 	ctx.fill();
-			 }else if(i == arr_length - 1){
-			 	
 			 }else{
 			 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
 			 	ctx.fill();
@@ -145,53 +151,6 @@ var DrawLine = (function(){
 		// 恢复画笔状态
 		ctx.restore();
 	}
-
-
-    // 绘制折线标识
-    function drawLineMark(ctx,series){
-    	// 保存画笔状态
-		ctx.save();
-		var dpr = this.options.dpr;
-		var x_middle = ctx.canvas.width/2;
-		var wh = this.options.lineMarkWidth * dpr;
-		var x_start = 0;
-		var y_start = ctx.canvas.height * (7/9 - 1/18);
-
-		for(var i = 0,line;line = series[i]; i++){
-			ctx.beginPath();
-			
-			// 画笔颜色
-	        ctx.strokeStyle = '#cadef8';
-	        var mark_offset = (Math.floor(i/2)) * (wh + 7 * dpr);
-	        var text_offset = this.options.font_size * this.options.dpr + (wh-this.options.font_size * this.options.dpr)/2;
-			if(i == 0){
-				// 填充颜色
-				ctx.fillStyle = line.color;
-				ctx.rect(x_start + 20,y_start,wh,wh);
-				ctx.fill();
-				// 填充颜色
-				ctx.fillStyle = '#333';
-				ctx.fillText(line.name, x_start + wh + 80, y_start + text_offset);
-			}else if((i + 1) % 2 == 0){
-				// 填充颜色
-				ctx.fillStyle = line.color;
-		 		ctx.rect(x_middle,y_start + mark_offset,wh,wh);
-		 		ctx.fill();
-		 		// 填充颜色
-				ctx.fillStyle = '#333';
-        		ctx.fillText(line.name, x_middle + wh + 60, y_start + mark_offset + text_offset);
-	    	}else{
-	    		// 填充颜色
-				ctx.fillStyle = line.color;
-	    		// ctx.rect(x_start + 20,y_start + mark_offset,wh,wh);
-	    		ctx.fill();
-	    		ctx.fillStyle = '#333';
-	    		ctx.fillText(line.name, x_start + wh + 80, y_start + mark_offset + text_offset);
-	    	}
-		}
-		// 恢复画笔状态
-		ctx.restore();
-    }
 
     // 图表y轴坐标计算
     function get_y(y) {

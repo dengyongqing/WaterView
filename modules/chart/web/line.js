@@ -135,6 +135,9 @@ var ChartLine = (function() {
         ctx.font = font;
         ctx.lineWidth = 1 * this.options.dpr;
 
+        //锚点半径
+        this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
+
         // 加水印
         watermark.apply(this, [ctx,95 + this.options.padding_left,10,82,20]);
     }
