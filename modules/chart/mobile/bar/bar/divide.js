@@ -2,6 +2,9 @@
 function divide(num, arr) {
     var max = arr[0],
         min = 0;
+    if(arr.length === 1){
+        arr.push(0);
+    }
     var len = arr.length;
     var result = {};
     var flag = 1;
