@@ -32,6 +32,8 @@ var ChartTime = (function() {
 
         // 图表容器
         this.container = document.getElementById(options.container);
+
+        this.container.className = this.container.className + " emcharts-container";
         // 图表加载完成事件
         this.onChartLoaded = options.onChartLoaded == undefined ? function(op) {
 
@@ -46,7 +48,6 @@ var ChartTime = (function() {
         var canvas = document.createElement("canvas");
 
         this.container.style.position = "relative";
-        this.container.className = "canvas-container";
         // 画布
         try {
             var ctx = canvas.getContext('2d');

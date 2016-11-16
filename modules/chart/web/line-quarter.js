@@ -35,6 +35,8 @@ var ChartBarQuarter = (function() {
 
         // 图表容器
         this.container = document.getElementById(options.container);
+
+        this.container.className = this.container.className + " emcharts-container";
         // 图表加载完成事件
         this.onChartLoaded = options.onChartLoaded == undefined ? function(op) {
 

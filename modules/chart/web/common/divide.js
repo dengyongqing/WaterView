@@ -1,5 +1,12 @@
 // 指定分割区间个数(num：希望分割为多少个区间, arr：传入的数组);返回步长
-function divide(num, arr) {
+function divide(num, parmarr) {
+    //做处理，防止出现undefind，null, NaN之类的数据
+    var arr = [];
+    for(var i = 0, len = parmarr.length; i < len; i++){
+        if(parmarr[i] !== NaN && parmarr[i] !== null && parmarr[i] !== undefined ){
+            arr.push(parmarr[i]);
+        }
+    }
     var max = arr[0],
         min = 0;
     if(arr.length === 1){

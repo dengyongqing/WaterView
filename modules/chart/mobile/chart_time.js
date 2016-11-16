@@ -53,6 +53,8 @@ var ChartTime = (function() {
 
         // 图表容器
         this.container = document.getElementById(options.container);
+
+        this.container.className = this.container.className + " emcharts-container";
         // 图表加载完成事件
         this.onChartLoaded = options.onChartLoaded == undefined ? function(op){
 
@@ -69,7 +71,6 @@ var ChartTime = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-        this.container.className = "canvas-container";
         // 画布
         var ctx = canvas.getContext('2d');
         this.options.canvas = canvas;
