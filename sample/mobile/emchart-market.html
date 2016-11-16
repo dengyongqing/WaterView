@@ -81,6 +81,7 @@
 				        current_tab = k1 = new EmchartsMobileK({
 							dpr: 2,
 							type: "DK",
+							showV:false,
 							code: code == "" ? "3000592":code,
 				        	container : target_id,
 					        "width" : document.body.offsetWidth - 20,
@@ -93,6 +94,8 @@
 				        current_tab = k2 = new EmchartsMobileK({
 							dpr: 2,
 							type: "WK",
+							showV:true,
+							showVMark:false,
 							code: code == "" ? "3000592":code,
 				        	container : target_id,
 					        "width" : document.body.offsetWidth - 20,
@@ -105,6 +108,7 @@
 				        current_tab = k3 = new EmchartsMobileK({
 							dpr: 2,
 							type: "MK",
+							showV:true,
 							code: code == "" ? "3000592":code,
 				        	container : target_id,
 					        "width" : document.body.offsetWidth - 20,

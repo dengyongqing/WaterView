@@ -48,7 +48,7 @@ var ChartK = (function() {
     function ChartK(options) {
         this.defaultoptions = theme.chartK;
         this.options = {};
-        extend(true, this.options, theme.defaulttheme, this.defaultoptions, options);
+        extend(true, this.options, theme.defaulttheme, options);
 
         // 图表容器
         this.container = document.getElementById(options.container);
@@ -81,17 +81,26 @@ var ChartK = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / 8;
         // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
+        this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
         this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height * 0.5;
+        if(this.options.showV){
+            this.options.c_1_height = canvas.height * 0.5;
+        }else{
+            this.options.c_1_height = canvas.height - 90 * dpr;
+        }
+        
+        
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
+
+        // 是否显示十字指示线
+        this.options.crossline = false;
 
         // 画布上部内间距
         ctx.translate("0",this.options.canvas_offset_top);
@@ -302,9 +311,6 @@ var ChartK = (function() {
             var rect_unit = common.get_rect.apply(this,[canvas,data.data.length]);
             this.options.rect_unit = rect_unit;
 
-            // 绘制坐标轴
-            new DrawXY(this.options);
-
             if(data && data.data && data.data.length > 0){
                 // 绘制K线图
                 new DrawK(this.options);
@@ -312,7 +318,12 @@ var ChartK = (function() {
                 new DrawMA(this.options);
             }
             // 绘制成交量图
-            new DrawV(this.options);
+            if(this.options.showV){
+                new DrawV(this.options);
+            }
+
+            // 绘制坐标轴
+            new DrawXY(this.options);
 
             // 上榜日标识点
             if(this.options.interactive.options.pointsContainer){
