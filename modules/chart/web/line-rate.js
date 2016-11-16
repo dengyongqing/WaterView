@@ -96,8 +96,7 @@ var ChartLine = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
 
-        this.options.padding_left = ctx.measureText("+9000万").width + 20;
-        
+
         // 加水印
         watermark.apply(this,[this.options.context,90,20,82,20]);
 
@@ -110,6 +109,8 @@ var ChartLine = (function() {
         // 初始化
         this.init();
 
+        var ctx = this.options.context;
+
         // 折线数据
         var series = this.options.series;
         var maxAndMin = getMaxAndMin(series);
@@ -117,6 +118,10 @@ var ChartLine = (function() {
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
         
+        // 画布内容偏移的距离
+        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        // this.options.padding_left = ctx.measureText(common.format_unit(this.options.data.max)).width + 20;
+        this.options.drawWidth = ctx.canvas.width - this.options.padding_left;
 
         // 绘制坐标轴
         new DrawXY(this.options);

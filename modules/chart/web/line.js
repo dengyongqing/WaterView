@@ -77,8 +77,7 @@ var ChartLine = (function() {
 
         // 画布向下偏移的距离
         this.options.canvas_offset_top = 15;
-        // 画布内容偏移的距离
-        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        
 
         // 缩放默认值
         this.options.scale_count = 0;
@@ -96,7 +95,7 @@ var ChartLine = (function() {
             this.options.sepeNum = 2;
         }
 
-        this.options.drawWidth = canvas.width - this.options.padding_left;
+        
 
         // if(this.options.series2){
         //     this.options.drawWidth = canvas.width - this.options.padding_left * 2;
@@ -138,7 +137,7 @@ var ChartLine = (function() {
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
 
         // 加水印
-        watermark.apply(this, [ctx, 95 + this.options.padding_left, 10, 82, 20]);
+        watermark.apply(this, [ctx, 110 + this.options.padding_left, 10, 82, 20]);
     }
 
     // 绘图
@@ -161,6 +160,10 @@ var ChartLine = (function() {
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
         this.options.data.step = maxAndMin.step;
+
+        // 画布内容偏移的距离
+        this.options.padding_left = maxAndMin.maxPaddingLeftWidth + 20;
+        this.options.drawWidth = ctx.canvas.width - this.options.padding_left;
 
         // 第二坐标轴折线数据
         if (this.options.series2) {
@@ -385,17 +388,26 @@ var ChartLine = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(series) {
-
+        
         var seriesLength = series.length;
         var arr = [];
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
         var tempObj = divide(this.options.sepeNum, arr);
+
+        var ctx = this.options.context;
+        var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
+        var frontMaxWidth = ctx.measureText(common.format_unit(parseInt(tempObj.max))).width;
+        var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
+        var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth:frontMinWidth;
+        var maxPaddingLeftWidth = frontWidth + backWidth;
+
         return {
             max: tempObj.max,
             min: tempObj.min,
-            step: tempObj.stepHeight
+            step: tempObj.stepHeight,
+            maxPaddingLeftWidth:maxPaddingLeftWidth
         };
     }
 

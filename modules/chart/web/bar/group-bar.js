@@ -90,7 +90,19 @@ var ChartBarQuarter = (function() {
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
 
-        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        // 折线数据
+        var series = this.options.series;
+        var getMaxMinValue = getMaxMark.apply(this,[series]);
+        if (getMaxMinValue.min < 0) {
+            this.options.isLessZero = true;
+        }
+        this.options.data = {};
+        this.options.data.max = getMaxMinValue.max;
+        this.options.data.min = getMaxMinValue.min;
+        this.options.data.step = getMaxMinValue.step;
+
+        // this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        this.options.padding_left = getMaxMinValue.maxPaddingLeftWidth * dpr + 20;
         this.options.drawWidth = canvas.width - this.options.padding_left;
 
         // 画布上部内间距
@@ -114,17 +126,7 @@ var ChartBarQuarter = (function() {
         // 显示loading效果
         // inter.showLoading();
         // var _this = this;
-        // 折线数据
-        var series = this.options.series;
-        var canvas = this.options.canvas;
-        var getMaxMinValue = getMaxMark.apply(this,[series]);
-        if (getMaxMinValue.min < 0) {
-            this.options.isLessZero = true;
-        }
-        this.options.data = {};
-        this.options.data.max = getMaxMinValue.max;
-        this.options.data.min = getMaxMinValue.min;
-        this.options.data.step = getMaxMinValue.step;
+
 
         this.options.group = getYearRect.call(this, this.options.drawWidth - this.options.padding_left, this.options.series.length);
         this.options.groupUnit = getQuarterRect.call(this, this.options.group.bar_w, this.options.series[0].data.length);
@@ -369,10 +371,19 @@ var ChartBarQuarter = (function() {
         }
 
         var tempObj = divide(this.options.sepeNum,arr);
+        
+        var ctx = this.options.context;
+        var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
+        var frontMaxWidth = ctx.measureText(common.format_unit(parseInt(tempObj.max))).width;
+        var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
+        var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth:frontMinWidth;
+        var maxPaddingLeftWidth = frontWidth + backWidth;
+
         return {
-            max:tempObj.max,
-            min:tempObj.min,
-            step:tempObj.stepHeight
+            max: tempObj.max,
+            min: tempObj.min,
+            step: tempObj.stepHeight,
+            maxPaddingLeftWidth:maxPaddingLeftWidth
         };
     }
 
