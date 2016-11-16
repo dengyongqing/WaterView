@@ -1,6 +1,6 @@
 
 /*手机版图表样式*/
-.show-tip {
+.emcharts-container .show-tip {
     position: absolute;
     top: 0px;
     z-index: 999;
@@ -14,66 +14,66 @@
     font-family: 'Microsoft Yahei';
    
 }
-.show-tip .span-price{
+.emcharts-container .show-tip .span-price{
 	font-size: 22px;
 }
-.show-tip span{
+.emcharts-container .show-tip span{
 	font-size: 14px;height:25px;line-height:25px;
     white-space: nowrap;
 }
 
-.tip-line-1,.tip-line-2{
+.emcharts-container .tip-line-1,.tip-line-2{
 	height:25px;
 	line-height:25px;
 }
 
-.show-tip .span-time-c1{
+.emcharts-container .show-tip .span-time-c1{
 	text-align: left;
 	margin-right: 10px;
 }
-.show-tip .span-time-c2{
+.emcharts-container .show-tip .span-time-c2{
 	text-align: right;
 }
 
-.show-tip .span-k-c1{
+.emcharts-container .show-tip .span-k-c1{
 	text-align: left;
 	margin-right: 10px;
 }
-.show-tip .span-k-c2{
+.emcharts-container .show-tip .span-k-c2{
 	text-align: right;
 }
 
 
-.cross-y{
+.emcharts-container .cross-y{
 	position:absolute;top:0px;z-index:98;border-left:1px dashed #8f8f8f;width:0px;background-color:#fff;
 }
-.cross-x{
+.emcharts-container .cross-x{
 	position:absolute;left:0px;z-index:98;border-top:1px dashed #8f8f8f;height:0px;
 }
-.cross-p{
+.emcharts-container .cross-p{
 	position:absolute;z-index:100;
 }
-.mark-ma{
+.emcharts-container .mark-ma{
 	position:absolute;top:0px;right:0px;z-index:97;border:0;height:30px;line-height:30px;font-family:Microsoft Yahei;font-weight:lighter;
 }
-.mark-ma span {
+.emcharts-container .mark-ma span {
 	display:inline-block;padding-right:10px;font-size:14px;text-align:left;color:#ffba42;
 }
 
-.mark-ma .span-m5{
+.emcharts-container .mark-ma .span-m5{
 	color:#f4cb15;
 }
-.mark-ma .span-m10{
+.emcharts-container .mark-ma .span-m10{
 	color:#ff5b10;
 }
-.mark-ma .span-m20{
+.emcharts-container .mark-ma .span-m20{
 	color:#488ee6;
 }
-.mark-ma .span-m30{
+.emcharts-container .mark-ma .span-m30{
 	color:#fe59fe;
 }
 
-.bar-color-span{
+.emcharts-container .bar-color-span{
 	display: inline-block;
 	margin-left: 10px;
 	width: 10px;
@@ -81,7 +81,7 @@
 	vertical-align: middle;
 }
 
-.bar-value-span{
+.emcharts-container .bar-value-span{
 	display: inline-block;
 	width: 50px;
 	height: 20px;
@@ -91,7 +91,7 @@
 }
 
 /* chart_line 的样式 */
-.chart_line_tips{
+.emcharts-container .chart_line_tips{
 	position: absolute;
 	background-color: #000;
 	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
@@ -104,29 +104,29 @@
 	font-weight: lighter;
 	-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
 }
-.chart_line_tips_title{
+.emcharts-container .chart_line_tips_title{
 	font-size: 16px;
 	font-weight: 400px;
 	padding: 5px 0px;
 }
-.chart_line_tips_line{
+.emcharts-container .chart_line_tips_line{
 	padding: 2px 0px;
 	font-size: 12px;
 }
-.chart_line_tips_color{
+.emcharts-container .chart_line_tips_color{
 	display: inline-block;
 	width: 10px;
 	height: 10px;
 	border-radius: 10px;
 	margin-right: 5px;
 }
-.chart_line_tips_content{}
-.chart_line_yline{
+.emcharts-container .chart_line_tips_content{}
+.emcharts-container .chart_line_yline{
 	position: absolute;
 	width: 0px;
 	border-left: solid 1px #898989;
 }
-.chart_line_cir{
+.emcharts-container .chart_line_cir{
 	background-color: white;
 	width: 10px;
 	height: 10px;
@@ -136,34 +136,34 @@
 }
 
 /* 技术指标的样式 */
-.markTContainer{
+.emcharts-container .markTContainer{
 	position: absolute;
 	font-family: 'Microsoft Yahei';
 	font-weight: lighter;
 	font-size: 14px;
 }
-.markTContainer span{
+.emcharts-container .markTContainer span{
 	margin-right: 20px;
 	display: inline-block;
 	*display: inline;
 	*zoom:1;
 }
 
-.scale-div{
+.emcharts-container .scale-div{
 	position:absolute;z-index:99;border:0px;width:90px;height:45px;
 	opacity:0.7;
 }
-.scale-div .span-minus{
+.emcharts-container .scale-div .span-minus{
 	width: 30px;height: 30px;float: left;border-radius: 6px;
 	background: url(../images/minus.png) no-repeat center center #cccccc;
 	font-size: 14px;
 }
-.scale-div .span-plus{
+.emcharts-container .scale-div .span-plus{
 	width: 30px;height: 30px;float: right;border-radius: 6px;
 	background: url(../images/plus.png) no-repeat center center #cccccc;
 	font-size: 14px;
 }
-.scale-opacity{
+.emcharts-container .scale-opacity{
 	opacity:0.3;
 }
 
@@ -208,7 +208,7 @@
 	border-bottom: 3px solid #2f5895;
 }
 
-.loading-chart {
+.emcharts-container .loading-chart {
 	position: absolute;
 	left:0;
 	top:0;
@@ -222,7 +222,7 @@
     font-size: 20px;
 }
 
-.delay-div{
+.emcharts-container .delay-div{
 	position: absolute;
 	left:0;
 	top:0;
@@ -233,7 +233,7 @@
     opacity: 0;
 }
 
-.mark-point{
+.emcharts-container .mark-point{
 	position: absolute;
 	z-index: 97;
 	min-width: 15px;
@@ -245,7 +245,7 @@
 
 
 /*web港股的样式*/
-.web-tips{
+.emcharts-container .web-tips{
 	display: none;
 	left: -10000px;
 	top: -10000px;
@@ -261,25 +261,25 @@
 	padding: 2px;
 	white-space:nowrap;
 }
-.web-middleLine{
+.emcharts-container .web-middleLine{
 	display: none;
 	position: absolute;
 	width: 0px;
 	border-right: dashed 1px #898989;
 }
 
-.group-bar-mark{
+.emcharts-container .group-bar-mark{
 	position: absolute;
 	opacity: 0.1;
 	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
 }
 
-.tech-index{
+.emcharts-container .tech-index{
 	position:absolute;
 	z-index: 99;
 }
 
-.tech-index-item{
+.emcharts-container .tech-index-item{
 	background-color: #707070;
 	float:left;
 	text-align: center;
@@ -287,7 +287,7 @@
 	cursor: pointer;
 }
 
-.tech-index .current{
+.emcharts-container .tech-index .current{
 	background-color: #c2c2c2;
 	color:#707070;
 }
@@ -295,7 +295,7 @@
 
 /*web版图表样式*/
 
-.canvas-container{
+.emcharts-container{
 	-webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
@@ -306,7 +306,7 @@
 	font-size: 12px;
 	box-sizing: inherit;
 }
-.web-show-tip {
+.emcharts-container .web-show-tip {
 	position: absolute;
 	top: 0px;
 	background-color: red;
@@ -323,7 +323,7 @@
 
 }
 
-.web-tip-line-left{
+.emcharts-container .web-tip-line-left{
 	float: left;
 	width:50%;
 	text-align: left;
@@ -334,7 +334,7 @@
 	*line-height: 15px;
 }
 
-.web-tip-line-right{
+.emcharts-container .web-tip-line-right{
 	float: left;
 	width:50%;
 	text-align: right;
@@ -345,7 +345,7 @@
 	*line-height: 15px;
 }
 
-.web-tip-first-line{
+.emcharts-container .web-tip-first-line{
 	width:100%;
 	background: #edf5ff;
 	height:30px;
@@ -353,12 +353,12 @@
 	text-align: center;
 }
 
-.web-tip-line-container{
+.emcharts-container .web-tip-line-container{
 	padding:8px;
 	*margin-bottom: 8px;
 }
 
-.time-tips-coordinate{
+.emcharts-container .time-tips-coordinate{
 	display: none;
 	position: absolute;
 	padding: 0px 3px;
@@ -367,7 +367,7 @@
 	color: white;
 	z-index: 1000;
 }
-.time-tips-top{
+.emcharts-container .time-tips-top{
 	display: none;
 	font-size: 14px;
 	color: #888;
@@ -376,7 +376,7 @@
 }
 
 /* web 版 分时图盘口异动样式 */
-.timeChangeMainPad {
+.emcharts-container .timeChangeMainPad {
     border: solid #65CAFE 1px;
     position: absolute;
     top: 100px;
@@ -386,7 +386,7 @@
     background-color: white;
     z-index: 100;
 }
-.timeChangeTriangle{
+.emcharts-container .timeChangeTriangle{
 	position: absolute;
     left: 70px;
     top: -6px;
@@ -401,12 +401,12 @@
 	o-transform: rotate(45deg);         /* for Opera */
 	*display: none;
 }
-.timeChangeTable{
+.emcharts-container .timeChangeTable{
 	width: 170px;
 	height: 50px;
     table-layout: fixed;
 }
-.timeChangeHeader{
+.emcharts-container .timeChangeHeader{
 	background-color: #D1E7FF;
   	text-align: center;
     width: 170px;
@@ -416,82 +416,82 @@
 
 /* web版 k线图指标样式 */
 
-.kt-pad {
+.emcharts-container .kt-pad {
     position: absolute;
     color: #5F5F5F;
     margin-left: 15px;
     min-width: 70px;
 }
 
-.kt-title {
+.emcharts-container .kt-title {
     margin-bottom: 5px;
     font-size: 12px;
 }
 
-.kt-line {
+.emcharts-container .kt-line {
     background-color: white; position: relative; margin: 7px 0px;
 }
 
-.kt-line:hover{
+.emcharts-container .kt-line:hover{
     cursor: pointer;
 }
 
-.kt-radio-wrap{
+.emcharts-container .kt-radio-wrap{
 	position: relative; display: inline-block; *zoom:1;*display:inline; border: solid 1px #305896;height: 10px; width: 10px;background-color: white;box-sizing:content-box;
 }
 
-.kt-radio {
+.emcharts-container .kt-radio {
     position:absolute; margin: 2px; width: 6px; height: 6px; background-color: #305896;display: none;
 }
 
-.kt-name {
+.emcharts-container .kt-name {
     color: #555;line-height: 18px;display: inline-block; height: 16px;padding-left: 5px;position: absolute; top: -2px; left: 15px;*display: inline;
 }
 
-.kt-radio-choose {
+.emcharts-container .kt-radio-choose {
     display: block;
 }
 
 /* web k 线的滑动 */
-.slideBarCVS{
+.emcharts-container .slideBarCVS{
 	background-color: white;
 	outline: solid 1px #E9E9E9;
 
 }
 
-.leftDrag{
+.emcharts-container .leftDrag{
 	background-color: white;
 	opacity: 2;
 	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=200);
 }
-.leftDrag:hover{
+.emcharts-container .leftDrag:hover{
 	cursor: w-resize;
 }
 
-.rightDrag{
+.emcharts-container .rightDrag{
 	background-color: white;
 }
-.rightDrag:hover{cursor: e-resize;}
-.containerBar{
+.emcharts-container .rightDrag:hover{cursor: e-resize;}
+.emcharts-container .containerBar{
 	background-color: #e0e0e0;
 	opacity: 0.5;
 	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
 	border:solid 1px #35709C;
 }
-.containerBar:hover{cursor: move;}
+.emcharts-container .containerBar:hover{cursor: move;}
 
 .preference-container{
 	position: absolute;
 	z-index: 101;
 }
-.preference-shade{
+.emcharts-container .preference-shade{
 	background-color: #333;
 	opacity: 0.1;
 	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
 	width:100%;
 	height: 100%;
 }
-.preference-handle{
+.emcharts-container .preference-handle{
 	position:absolute;
 	z-index: 101;
 	background-color: #fff;
@@ -506,11 +506,11 @@
 	font-size: 12px;
     box-sizing: content-box;
 }
-.set-tab{
+.emcharts-container .set-tab{
 	border-bottom:1px solid #4267A0;
 	height:30px;
 }
-.ma-tab{
+.emcharts-container .ma-tab{
 	/*float:left;*/
 	/*width:50%;*/
 	height:30px;
@@ -519,11 +519,11 @@
 	cursor: pointer;
 	font-size: 14px;
 }
-.set-tab .current{
+.emcharts-container .set-tab .current{
 	background-color: #4267A0;
 	color:#fff;
 }
-.right-tab{
+.emcharts-container .right-tab{
 	float:left;
 	width:50%;
 	height:30px;
@@ -533,7 +533,7 @@
 	font-size: 14px;
 }
 
-.set-container{
+.emcharts-container .set-container{
 	position: absolute;
 	z-index: 103;
 	background-color: #fff;
@@ -542,33 +542,33 @@
 	height:220px;
 }
 
-.pre-notice{
+.emcharts-container .pre-notice{
 	height:20px;
 	line-height: 20px;
 	text-align: center;
 	margin: 5px 0px;
 	font-size: 14px;
 }
-.ma-item{
+.emcharts-container .ma-item{
 	height: 27px;
 	line-height: 30px;
 	padding-left: 15px;
 	text-align: center;
 }
-.setting-span-ma5{
+.emcharts-container .setting-span-ma5{
 	background-color:#f4cb15;
 }
-.setting-span-ma10{
+.emcharts-container .setting-span-ma10{
 	background-color:#ff5b10;
 }
-.setting-span-ma20{
+.emcharts-container .setting-span-ma20{
 	background-color:#488ee6;
 }
-.setting-span-ma30{
+.emcharts-container .setting-span-ma30{
 	background-color:#fe59fe;
 }
 
-.span-setting{
+.emcharts-container .span-setting{
 	display: inline-block;
 	*display: inline;
 	*zoom:1;
@@ -578,14 +578,14 @@
 	vertical-align:middle;
 	cursor: pointer;
 }
-.item-span{
+.emcharts-container .item-span{
 	
 }
 
-.right-panel{
+.emcharts-container .right-panel{
 	text-align: center;
 }
-.right-panel-form{
+.emcharts-container .right-panel-form{
 	text-align: left;
 	width: 160px;
 	margin: 20px auto;
@@ -600,7 +600,7 @@
 }
 */
 
-.confirm-btn{
+.emcharts-container .confirm-btn{
 	float:left;
 	border: none;
 	margin-left:30px;
@@ -612,7 +612,7 @@
 	color: white;
 	font-size: 14px;
 }
-.cancle-btn{
+.emcharts-container .cancle-btn{
 	float:right;
 	border: none;
 	margin-right:30px;
@@ -625,14 +625,14 @@
 	font-size: 14px;
 }
 
-.colorPad{
+.emcharts-container .colorPad{
 	display: none;
 	position: absolute;
 	top: 120px;
 	left: 120px;
 	background-color: white;
 }
-.colorPadTriangle{
+.emcharts-container .colorPadTriangle{
 	position: absolute;
 	top: 9px;
 	left: -12px;
@@ -643,7 +643,7 @@
 	overflow: hidden;
 	z-index: 100;
 }
-.colorPadTriangle .up{
+.emcharts-container .colorPadTriangle .up{
 	position: absolute;
 	top: 2px;
 	left: 3px;
@@ -658,7 +658,7 @@
 	*display: none;
 	z-index: 10;
 }
-.colorPadTriangle .down{
+.emcharts-container .colorPadTriangle .down{
 	position: absolute;
 	top: 7px;
 	left: -1px;
@@ -673,20 +673,20 @@
 	*display: none;
 	z-index: 10;
 }
-.colorTable{
+.emcharts-container .colorTable{
 	width: 100px;
 	height:90px;
 	border: solid 1px #aaa; 
 }
-.colorTable td{
+.emcharts-container .colorTable td{
 	position: relative;
 	z-index: 100;
 	border: solid 3px #fff;
 }
-.ma-panel{
+.emcharts-container .ma-panel{
 	position: relative;
 }
-.ma-item-input{
+.emcharts-container .ma-item-input{
 	width:30px;
 	height: 15px;
 	line-height: 15px;
