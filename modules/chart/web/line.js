@@ -295,8 +295,8 @@ var ChartLine = (function() {
                 yLine.style.left = left + "px";
                 yLine.style.top = padding_top / dpr + "px";
                 yLine.style.height = c_1_height / dpr + "px";
+                that.container.appendChild(yLine);
                 var circles = [];
-                var flaHave = false;
                 for (i = 0, len = tipArr.length; i < len; i++) {
                     //tips内容
                     var lineTip = document.createElement("div");
@@ -319,27 +319,15 @@ var ChartLine = (function() {
                     cir.style.borderColor = tipArr[i].color;
                     that.container.appendChild(cir);
                     circles.push(cir);
-                    if(tipArr[i].data != ""){
-                        flaHave = true;
-                    }else{
-                        lineTip.style.display = "none";
-                        cir.style.display = "none";
-                    }
                 }
 
-                if(!flaHave){
-                    tips.style.display = "none";
-                    yLine.style.display = "none";
-                }
                 that.container.appendChild(tips);
-                that.container.appendChild(yLine);
 
                 that.options.interOption.tips = tips;
                 that.options.interOption.yLine = yLine;
                 that.options.interOption.circles = circles;
             } else {
                 var tips = that.options.interOption.tips;
-                var flag = false;
                 if ((cursor * unit / dpr + padding_left / dpr) >= canvas.width / dpr / 2) {
                     tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
                 } else {
@@ -355,7 +343,6 @@ var ChartLine = (function() {
                     if(tipArr[j].data == ""){
                         children[j + 1].style.display = "none";
                     }else{
-                        flag = true;
                         children[j + 1].style.display = "block";
                         children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
                         children[j + 1].children[1].innerHTML = tipArr[j].data;
@@ -370,10 +357,7 @@ var ChartLine = (function() {
                         circles[k].style.left = (left - radius) + "px";
                         circles[k].style.borderColor = tipArr[k].color;
                     }
-                }
-                if(!flag){
-                    that.options.interOption.tips.style.display = "block";
-                    yLine.style.display = "block";
+                    
                 }
             }
 
