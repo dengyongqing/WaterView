@@ -81,16 +81,28 @@ var ChartTime = (function() {
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
+        // 画布分割区域
+        this.options.sepeNum = 7;
+
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / 8;
+        this.options.canvas_offset_top = canvas.height / this.options.sepeNum;
         // 画布内容向坐偏移的距离
         this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距
-        this.options.k_v_away = canvas.height / 8;
+        this.options.k_v_away = canvas.height / this.options.sepeNum;
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height * 0.5;
+        if(this.options.showV){
+            this.options.c_1_height = canvas.height * 0.5;
+        }else{
+            this.options.c_1_height = canvas.height - 90 * dpr;
+        }
+
+
+        this.options.unit = {};
+        this.options.unit.unitHeight = canvas.height/this.options.sepeNum;
+        
         //y轴分割
         this.options.y_sep = this.options.y_sep || 5;
         //x轴分割
@@ -194,7 +206,9 @@ var ChartTime = (function() {
             // 绘制坐标轴
             new DrawXY(this.options);
             // 绘制分时图成交量
-            new DrawV(this.options);
+            if(this.options.showV){
+                new DrawV(this.options);
+            }
             // 隐藏loading效果
             inter.hideLoading();
             // 图表加载完成时间
@@ -208,7 +222,7 @@ var ChartTime = (function() {
         }
         
         // 加水印
-        watermark.apply(this,[this.options.context,170,20 - this.options.canvas.height / 8]);
+        watermark.apply(this,[this.options.context,170,20]);
 
         return true;
     }

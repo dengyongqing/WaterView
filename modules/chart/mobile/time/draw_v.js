@@ -33,7 +33,7 @@ var DrawV = (function() {
         var padding_left = this.options.padding_left;
         var v_height = ctx.canvas.height / 4;
         var v_base_height = v_height * 0.9;
-        var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
+        var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top - this.options.unit.unitHeight/3;
         var y_v_top = y_v_bottom - v_height;
         var y_v_width = ctx.canvas.width - this.options.padding_left;
 
@@ -63,6 +63,7 @@ var DrawV = (function() {
         var up_color = this.options.up_color;
         var down_color = this.options.down_color
 
+        ctx.beginPath();
         /*绘制边框和分割线*/
         ctx.strokeStyle = '#e5e5e5';
         ctx.lineWidth = this.options.dpr;

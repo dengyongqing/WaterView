@@ -96,6 +96,7 @@ var DrawXY = (function() {
             // 绘制纵坐标涨跌幅
             drawYPercent.call(_this, ctx, y_max, y_min, item);
         }
+        ctx.strokeStyle = "#e5e5e5";
         ctx.strokeRect(padding_left, 0, k_width, k_height);
         ctx.restore();
     }
