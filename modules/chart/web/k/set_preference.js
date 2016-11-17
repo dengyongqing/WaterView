@@ -24,7 +24,7 @@ function setPreference(){
     handle.className = "preference-handle";
     handle.innerHTML = "均线<br/>设置";
     handle.style.top = this.options.c2_y_top + "px";
-    handle.style.left = this.options.padding.left + this.options.drawWidth - 2 + "px";
+    handle.style.left = this.options.padding.left + this.options.drawWidth  + "px";
     
     var set_container = document.createElement("div");
     set_container.className = "set-container";

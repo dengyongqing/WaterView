@@ -27,6 +27,7 @@ var watermark = require('chart/watermark');
 /*工具*/
 var common = require('tools/common');
 
+
 var ChartLine = (function() {
 
     // 构造函数
@@ -121,7 +122,7 @@ var ChartLine = (function() {
         this.options.data.min = maxAndMin.min;
         
         // 画布内容偏移的距离
-        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        this.options.padding_left = ctx.measureText("+9000万").width + 10;
         // this.options.padding_left = ctx.measureText(common.format_unit(this.options.data.max)).width + 20;
         this.options.drawWidth = ctx.canvas.width - this.options.padding_left;
 

@@ -29,6 +29,7 @@ var common = require('tools/common');
 // 获取步长，最大值，最小值
 var divide = require('chart/web/common/divide');
 
+
 var ChartBarQuarter = (function() {
 
     // 构造函数

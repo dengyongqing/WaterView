@@ -8,6 +8,8 @@ var theme = require('theme/default');
 var DrawDashLine = require('chart/web/common/draw_dash_line');
 // 工具
 var common = require('chart/web/common/common'); 
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -37,9 +39,9 @@ var DrawXY = (function(){
         ctx.beginPath();
         ctx.fillStyle = this.options.color.fillStyle;
         ctx.strokeStyle = this.options.color.strokeStyle;
-        ctx.moveTo(this.options.padding.left,this.options.c3_y_top - this.options.unit_height);
-        ctx.lineTo(this.options.padding.left,this.options.c3_y_top + this.options.c_t_height);
-        this.options.context.rect(this.options.padding.left,this.options.c3_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_t_height + this.options.unit_height);
+        ctx.moveTo(XYF(this.options.padding.left),XYF(this.options.c3_y_top - this.options.unit_height));
+        ctx.lineTo(XYF(this.options.padding.left),XYF(this.options.c3_y_top + this.options.c_t_height));
+        this.options.context.rect(XYF(this.options.padding.left),XYF(this.options.c3_y_top - this.options.unit_height),Math.round(this.options.drawWidth - 2),Math.round(this.options.c_t_height + this.options.unit_height));
         ctx.stroke();
 
         var c3_y_top = this.options.c3_y_top;
@@ -55,8 +57,8 @@ var DrawXY = (function(){
 
             if(i == 0 || i == 2){
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(x1,y1);
-                ctx.lineTo(x2,y2);
+                ctx.moveTo(XYF(x1),XYF(y1));
+                ctx.lineTo(XYF(x2),XYF(y2));
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
@@ -100,7 +102,7 @@ var DrawXY = (function(){
         ctx.save();
         ctx.beginPath();
         ctx.strokeStyle = "#e1e1e1";
-        this.options.context.rect(this.options.padding.left,this.options.c2_y_top - this.options.unit_height,this.options.drawWidth - 2,this.options.c_v_height + this.options.unit_height);
+        this.options.context.rect(XYF(this.options.padding.left),XYF(this.options.c2_y_top - this.options.unit_height),Math.round(this.options.drawWidth - 2),Math.round(this.options.c_v_height + this.options.unit_height));
         ctx.stroke();
 
         var c2_y_top = this.options.c2_y_top;
@@ -116,8 +118,8 @@ var DrawXY = (function(){
 
             if(i == 0 || i == 3){
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(x1,y1);
-                ctx.lineTo(x2,y2);
+                ctx.moveTo(XYF(x1),XYF(y1));
+                ctx.lineTo(XYF(x2),XYF(y2));
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
@@ -192,15 +194,15 @@ var DrawXY = (function(){
             ctx.beginPath();
             if(i == 0 || i == line_list_array.length - 1){
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(this.options.padding.left, Math.round(item.y));
-                ctx.lineTo(ctx.canvas.width - this.options.padding.right, Math.round(item.y));
+                ctx.moveTo(XYF(this.options.padding.left), XYF(item.y));
+                ctx.lineTo(XYF(ctx.canvas.width - this.options.padding.right), XYF(item.y));
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";
                 DrawDashLine(ctx,this.options.padding.left, Math.round(item.y),ctx.canvas.width - this.options.padding.right, Math.round(item.y),5);
             }
             // 绘制纵坐标刻度
-            ctx.moveTo(0, item.y + 5);
+            ctx.moveTo(0.5, XYF(item.y + 5));
             var text = (item.num/1).toFixed(this.options.pricedigit);
             ctx.fillText(text, this.options.padding.left - 5 - ctx.measureText(text).width, item.y + 5);
         }
@@ -235,13 +237,13 @@ var DrawXY = (function(){
 
             if(i == 0){
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(x1, y1);
-                ctx.lineTo(x2, y2);
+                ctx.moveTo(XYF(x1), XYF(y1));
+                ctx.lineTo(XYF(x2), XYF(y2));
                 ctx.stroke();
             }else if(i == this.options.x_sepe_num){
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(x1 - 1, y1);
-                ctx.lineTo(x2 - 1, y2);
+                ctx.moveTo(XYF(x1 - 1), XYF(y1));
+                ctx.lineTo(XYF(x2 - 1), XYF(y2));
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = "#eeeeee";

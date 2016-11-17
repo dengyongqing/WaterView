@@ -17,6 +17,8 @@
 var extend = require('tools/extend');
 /*主题*/
 var theme = require('theme/default');
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawQuarterLine = (function(){
     function DrawQuarterLine(options){
         // 设置默认参数
@@ -47,9 +49,9 @@ var DrawQuarterLine = (function(){
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,line);
                 if(i == 0 && j == 0){
-                    ctx.moveTo(x,y);
+                    ctx.moveTo(XYF(x),XYF(y));
                 }else{
-                    ctx.lineTo(x,y);
+                    ctx.lineTo(XYF(x),XYF(y));
                 }
         
             }
@@ -78,7 +80,7 @@ var DrawQuarterLine = (function(){
                 ctx.beginPath();
                 var x = get_x.apply(this,[i,j]);
                 var y = get_y.call(this,line);
-                ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
+                ctx.arc(XYF(x), XYF(y), pointRadius, 0, Math.PI * 2, true); 
                 ctx.fill();
             }
             
