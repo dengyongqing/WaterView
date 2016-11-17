@@ -21,18 +21,18 @@
  */
 
 // 绘制坐标轴
-var DrawXY = require('chart/draw_xy');
+var DrawXY = require('chart/mobile/time/draw_xy');
 // 主题
 var theme = require('theme/default');
 var common = require('tools/common'); 
 // 获取分时图数据
 var GetDataTime = require('getdata/mobile/chart_time'); 
 // 绘制分时折线图
-var DrawLine = require('chart/draw_line'); 
+var DrawLine = require('chart/mobile/time/draw_line'); 
 // 绘制分时折线图中的平均线
-var DrawAvgCost = require('chart/draw_avg_cost'); 
+var DrawAvgCost = require('chart/mobile/time/draw_avg_cost'); 
 // 绘制成交量图
-var DrawV = require('chart/draw_v');
+var DrawV = require('chart/mobile/time/draw_v');
 // 工具
 var common = require('tools/common'); 
 // 拓展，合并，复制
@@ -84,13 +84,17 @@ var ChartTime = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = canvas.height / 8;
         // 画布内容向坐偏移的距离
-        this.options.padding_left = theme.defaulttheme.padding_left * dpr;
+        this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距
         this.options.k_v_away = canvas.height / 8;
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
         this.options.c_1_height = canvas.height * 0.5;
+        //y轴分割
+        this.options.y_sep = this.options.y_sep || 5;
+        //x轴分割
+        this.options.x_sep = this.options.x_sep || 4;
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
@@ -179,8 +183,6 @@ var ChartTime = (function() {
             var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
             this.options.rect_unit = rect_unit;
 
-            // 绘制坐标轴
-            new DrawXY(this.options);
 
             if(data && data.data && data.data.length > 0){
                 // 绘制分时折线图
@@ -189,6 +191,8 @@ var ChartTime = (function() {
                 new DrawAvgCost(this.options);
             }
             
+            // 绘制坐标轴
+            new DrawXY(this.options);
             // 绘制分时图成交量
             new DrawV(this.options);
             // 隐藏loading效果

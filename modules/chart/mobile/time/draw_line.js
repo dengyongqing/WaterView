@@ -44,16 +44,14 @@ var DrawLine = (function(){
 		var data_arr = data.data;
 		
 		drawStroke.apply(this,[ctx,data_arr]);
-		drawFill.apply(this,[ctx,data_arr]);
 	};
 	/*绘制分时线*/
 	function drawStroke(ctx,data_arr){
 		ctx.beginPath();
+	 	ctx.save();
 	 	
-		// ctx.strokeStyle = "rgba(0,0,0,0)";
-		ctx.strokeStyle = "#3f88e5";
-		
-		// var data_arr_length = data_arr.length;
+		ctx.strokeStyle = "#195F9A";
+
 		for(var i = 0,item;item = data_arr[i]; i++){
 			 var x = common.get_x.call(this,i + 1);
 			 var y = common.get_y.call(this,item.price);
@@ -62,31 +60,7 @@ var DrawLine = (function(){
 			 item.cross_y = y;
 		}
 		ctx.stroke();
-	}
-	/*分时线填充渐变色*/
-	function drawFill(ctx,data_arr){
-		var y_min = common.get_y.call(this,this.options.data.min);
-		/* 指定渐变区域 */
-        var grad  = ctx.createLinearGradient(0,0,0,ctx.canvas.height);
-        /* 指定几个颜色 */
-        grad.addColorStop(0,'rgba(221,234,250,0.7)');
-        grad.addColorStop(1,'rgba(255,255,255,0)');
-        var data_arr_length = data_arr.length;
-
-		ctx.beginPath();
-		ctx.fillStyle = grad;
-		ctx.moveTo(this.options.padding_left,y_min);
-
-		for(var i = 0,item;item = data_arr[i]; i++){
-			 var x = common.get_x.call(this,i + 1);
-			 var y = common.get_y.call(this,item.price);
-			 if(i == data_arr_length - 1){
-			 	ctx.lineTo(x,y_min);
-			 }else{
-			 	ctx.lineTo(x,y);
-			 }
-		}
-		ctx.fill();
+		ctx.restore();
 	}
 	return DrawLine;
 })();

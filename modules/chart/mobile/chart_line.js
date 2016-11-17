@@ -69,7 +69,7 @@ var ChartLine = (function() {
         // 设备像素比
         var dpr = this.options.dpr;
         // 画布的宽和高
-        canvas.width = this.options.width * dpr;
+        canvas.width = dpr;
         canvas.height = this.options.height * dpr;
 
         // 画布向下偏移的距离

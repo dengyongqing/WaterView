@@ -47,7 +47,6 @@ var Draw_Avg_Cost = (function () {
 	Draw_Avg_Cost.prototype.draw_k = function(ctx,data) {
 		var color = this.options.avg_cost_color;
 		var data_arr = data.data;
-		// var w = this.options.width - 30;
 		ctx.beginPath();
 		ctx.lineWidth = 1;
 		ctx.strokeStyle = color;
