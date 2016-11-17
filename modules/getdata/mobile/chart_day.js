@@ -67,6 +67,9 @@ function getdata(option, callback, interactive) {
         'extend':"ma",
         isCR :false
     };
+    if(option.authorityType !== "" && option.authorityType){
+        urldata.authorityType = option.authorityType;
+    }
 
     jsonp(url, urldata, callbackstring, function(json) {
         try{    
