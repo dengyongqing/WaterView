@@ -75,10 +75,8 @@ var DrawXY = (function() {
                 ctx.textBaseline = "top";
             } else {
                 if (i % 2 == 1) {
-                    ctx.strokeStyle = "#efefef";
                     draw_dash(ctx, 0, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 5);
                 } else {
-                    ctx.strokeStyle = "#e5e5e5";
                     ctx.moveTo(0, Math.round(item.y));
                     ctx.lineTo(ctx.canvas.width, Math.round(item.y));
                     ctx.stroke();
@@ -96,8 +94,8 @@ var DrawXY = (function() {
             // 绘制纵坐标涨跌幅
             drawYPercent.call(_this, ctx, y_max, y_min, item);
         }
-        ctx.strokeStyle = "#e5e5e5";
-        ctx.strokeRect(padding_left, 0, k_width, k_height);
+        ctx.rect(1, 0, k_width-2, k_height);
+        ctx.stroke();
         ctx.restore();
     }
     /*绘制纵坐标涨跌幅*/
@@ -138,17 +136,17 @@ var DrawXY = (function() {
         var x_sep = this.options.x_sep;
         /*绘制x轴上的竖直分割线*/
         var itemWidth = k_width / x_sep;
+        ctx.strokeStyle = "#e5e5e5";
         for (var j = 1; j < x_sep; j++) {
             ctx.beginPath();
             if (j % 2 != 0) {
-                ctx.strokeStyle = "#efefef";
-                draw_dash(ctx, padding_left + itemWidth * j, 0,padding_left + itemWidth * j, k_height, 5);
+                draw_dash(ctx, Math.round(padding_left + itemWidth * j), 0, Math.round(padding_left + itemWidth * j), k_height, 5);
             } else {
                 ctx.strokeStyle = "#e5e5e5";
+                ctx.moveTo(padding_left + itemWidth * j, 0);
+                ctx.lineTo(padding_left + itemWidth * j, k_height);
+                ctx.stroke();
             }
-            ctx.moveTo(padding_left + itemWidth * j, 0);
-            ctx.lineTo(padding_left + itemWidth * j, k_height);
-            ctx.stroke();
         }
         ctx.restore();
     }

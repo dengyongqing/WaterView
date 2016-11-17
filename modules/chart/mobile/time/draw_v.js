@@ -2,6 +2,7 @@
 var extend = require('tools/extend');
 /*工具*/
 var common = require('common');
+var draw_dash = require("chart/mobile/common/draw_dash_line");
 /*主题*/
 var theme = require('theme/default');
 var DrawV = (function() {
@@ -36,6 +37,9 @@ var DrawV = (function() {
         var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top - this.options.unit.unitHeight/3;
         var y_v_top = y_v_bottom - v_height;
         var y_v_width = ctx.canvas.width - this.options.padding_left;
+        var x_sep = this.options.x_sep;
+        /*绘制x轴上的竖直分割线*/
+        var itemWidth = y_v_width / x_sep;
 
         if (!data_arr || data_arr.length == 0) {
             ctx.beginPath();
@@ -43,7 +47,7 @@ var DrawV = (function() {
             ctx.strokeStyle = '#e5e5e5';
             ctx.fillText(0, 0, y_v_top + 10);
             ctx.rect(this.options.padding_left, y_v_top, ctx.canvas.width - this.options.padding_left, v_height);
-            ctx.stroke();
+            // ctx.stroke();
             return;
         }
 
@@ -63,16 +67,25 @@ var DrawV = (function() {
         var up_color = this.options.up_color;
         var down_color = this.options.down_color
 
-        ctx.beginPath();
         /*绘制边框和分割线*/
-        ctx.strokeStyle = '#e5e5e5';
+        ctx.strokeStyle = '#efefef';
         ctx.lineWidth = this.options.dpr;
+        ctx.beginPath();
         ctx.rect(this.options.padding_left, y_v_top, y_v_width, v_height);
         ctx.moveTo(padding_left, y_v_top + v_height/2);
         ctx.lineTo(y_v_width, y_v_top + v_height/2);
-        ctx.moveTo(y_v_width/2+padding_left, y_v_top);
-        ctx.lineTo(y_v_width/2+padding_left,y_v_bottom);
         ctx.stroke();
+        for(var j = 1; j <= x_sep-1; j++){
+            if(j % 2 != 0){
+                ctx.beginPath();
+                draw_dash(ctx, itemWidth*(j)+padding_left, y_v_top, itemWidth*(j)+padding_left,y_v_bottom);
+            }else{
+                ctx.beginPath();
+                ctx.moveTo(padding_left + y_v_width/2, y_v_top);
+                ctx.lineTo(padding_left + y_v_width/2, y_v_bottom);
+                ctx.stroke();
+            }
+        }
 
         ctx.lineWidth = 1;
         for (var i = 0, item; item = data_arr[i]; i++) {
@@ -105,7 +118,6 @@ var DrawV = (function() {
             }
 
             ctx.rect(x - bar_w / 2, y, bar_w, bar_height);
-            ctx.stroke();
             ctx.fill();
         }
 
@@ -115,7 +127,7 @@ var DrawV = (function() {
         ctx.beginPath();
         ctx.fillStyle = '#999';
         ctx.fillText(common.format_unit(v_max), 0, y_v_end + 10);
-        ctx.stroke();
+        // ctx.stroke();
     }
     // 获取最大成交量
     function getVMax(data) {
