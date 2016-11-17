@@ -79,10 +79,10 @@ var ChartK = (function() {
         canvas.height = this.options.height * dpr;
 
         // 画布分割区域
-        this.options.sepeNum = 8;
+        this.options.sepeNum = 7;
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / this.options.sepeNum;
+        this.options.canvas_offset_top = canvas.height / this.options.sepeNum /2;
         // 画布内容向坐偏移的距离
         this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距
@@ -91,7 +91,7 @@ var ChartK = (function() {
         this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
         // 画布上第一个图表的高度
         if(this.options.showV){
-            this.options.c_1_height = canvas.height * 0.5;
+            this.options.c_1_height = canvas.height * 4/this.options.sepeNum;
         }else{
             this.options.c_1_height = canvas.height - 90 * dpr;
         }

@@ -102,11 +102,11 @@ var DrawXY = (function(){
             if(isNaN(item.num)){
                 ctx.fillText("0.00", 0, item.y - 10);
             }else if(i==0){
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y - 10);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
             }else if(i == (line_list_array.length - 1)){
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 25);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y + 20);
             }else{
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 10);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y + 10);
             }
             
         }
@@ -136,7 +136,7 @@ var DrawXY = (function(){
         ctx.fillStyle = '#999';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
-        var y_date = k_height + this.options.unit.unitHeight * 1/3;
+        var y_date = k_height + (ctx.canvas.height/8) * 1/3;
 
         ctx.fillText(oc_time_arr[0], padding_left, y_date);
         ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);
