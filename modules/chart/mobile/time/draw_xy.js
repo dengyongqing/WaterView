@@ -48,41 +48,7 @@ var DrawXY = (function(){
         }
         
     };
-    // 绘制分时图坐标轴
-    function drawXYTime(ctx,y_max,y_min,line_list_array){
-        var _this = this;
-        var sepe_num = line_list_array.length;
-        for (var i = 0,item; item = line_list_array[i]; i++) {
-            ctx.beginPath();
-
-            if (i < (sepe_num -1) / 2) {
-                ctx.fillStyle = '#007F24';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else if(i > (sepe_num -1) / 2){
-                ctx.fillStyle = '#FF0A16';
-                ctx.strokeStyle = 'rgba(230,230,230, 1)';
-            }
-            else{
-                ctx.fillStyle = '#333333';
-                ctx.strokeStyle = '#cadef8';
-            }
-
-            ctx.moveTo(0, Math.round(item.y));
-            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
-            // 绘制纵坐标刻度
-            if(isNaN(item.num)){
-                ctx.fillText("0.00", 0, item.y - 10);
-            }else{
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
-            }
-
-            ctx.stroke();
-            // 绘制纵坐标涨跌幅
-            drawYPercent.call(_this,ctx,y_max, y_min, item);
-        }
-
-    }
+    
     //绘制K线图坐标轴
     function drawXYK(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
