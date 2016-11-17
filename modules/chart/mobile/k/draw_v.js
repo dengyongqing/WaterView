@@ -34,9 +34,9 @@ var DrawV = (function(){
 		var data = this.options.data;
 		/*成交量数组*/
 		var data_arr = data.data;
-		var v_height = ctx.canvas.height / 4;
+		var v_height = this.options.unit.unitHeight * 2;
 		var v_base_height = v_height * 0.9;
-		var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top - this.options.unit.unitHeight/3;
+		var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
 		var y_v_top = y_v_bottom - v_height;
 		if(!data_arr || data_arr.length == 0){
 			ctx.beginPath();

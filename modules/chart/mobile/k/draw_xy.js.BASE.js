@@ -4,8 +4,6 @@
 var extend = require('tools/extend');
 /*主题*/
 var theme = require('theme/default');
-/*绘制虚线*/
-var DrawDashLine = require('chart/web/common/draw_dash_line');
 var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -29,7 +27,7 @@ var DrawXY = (function(){
         var y_min = data.min;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = 5;
+        var sepe_num = this.options.sepe_num;
         /*开盘收盘时间数组*/
         var oc_time_arr = data.timeStrs;
 
@@ -38,7 +36,11 @@ var DrawXY = (function(){
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
-        drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
+        if(type == "TL"){
+            drawXYTime.call(this,ctx,y_max,y_min,line_list_array);
+        }else{
+            drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
+        }
 
         // 绘制横坐标刻度
         if(oc_time_arr){
@@ -46,69 +48,70 @@ var DrawXY = (function(){
         }
         
     };
-
-    //绘制K线图坐标轴
-    function drawXYK(ctx,y_max,y_min,line_list_array){
+    // 绘制分时图坐标轴
+    function drawXYTime(ctx,y_max,y_min,line_list_array){
+        var _this = this;
         var sepe_num = line_list_array.length;
-        ctx.fillStyle = '#333333';
-        ctx.strokeStyle = '#e5e5e5';
-        ctx.rect(1,0,this.options.canvas.width - 2,this.options.c_1_height);
-        ctx.stroke();
-
-        ctx.beginPath();
-        for(var i = 0;i<3;i++){
-            var x = ((i+1)/4)*(ctx.canvas.width - this.options.padding_left) + this.options.padding_left;
-            
-            if(i == 1){
-                ctx.strokeStyle = '#e5e5e5';
-                ctx.moveTo(x,0);
-                ctx.lineTo(x,this.options.c_1_height);
-                ctx.stroke();
-            }else{
-                ctx.strokeStyle = '#efefef';
-                DrawDashLine(ctx,x,0,x,this.options.c_1_height,5);
-            }
-            
-        }
-
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
 
-            // if (i < (sepe_num -1) / 2) {
-            //     ctx.fillStyle = '#333333';
-            //     ctx.strokeStyle = '#e5e5e5';
-            // }
-            // else if(i > (sepe_num -1) / 2){
-            //     ctx.fillStyle = '#333333';
-            //     ctx.strokeStyle = '#e5e5e5';
-            // }
-            // else{
-            //     ctx.fillStyle = '#333333';
-            //     ctx.strokeStyle = '#e5e5e5';
-            // }
-
-            if(i == 2){
-                ctx.strokeStyle = '#e5e5e5';
-                ctx.moveTo(0, Math.round(item.y));
-                ctx.lineTo(ctx.canvas.width, Math.round(item.y));
-                ctx.stroke();
-            }else if(i != 0 && i != (line_list_array.length - 1)){
-                ctx.strokeStyle = '#efefef';
-                DrawDashLine(ctx,0, Math.round(item.y), ctx.canvas.width, Math.round(item.y),5);
+            if (i < (sepe_num -1) / 2) {
+                ctx.fillStyle = '#007F24';
+                ctx.strokeStyle = 'rgba(230,230,230, 1)';
             }
-            
-            
+            else if(i > (sepe_num -1) / 2){
+                ctx.fillStyle = '#FF0A16';
+                ctx.strokeStyle = 'rgba(230,230,230, 1)';
+            }
+            else{
+                ctx.fillStyle = '#333333';
+                ctx.strokeStyle = '#cadef8';
+            }
+
+            ctx.moveTo(0, Math.round(item.y));
+            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             // 绘制纵坐标刻度
             if(isNaN(item.num)){
                 ctx.fillText("0.00", 0, item.y - 10);
-            }else if(i==0){
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y - 10);
-            }else if(i == (line_list_array.length - 1)){
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 25);
             }else{
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 10);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
             }
+
+            ctx.stroke();
+            // 绘制纵坐标涨跌幅
+            drawYPercent.call(_this,ctx,y_max, y_min, item);
+        }
+
+    }
+    //绘制K线图坐标轴
+    function drawXYK(ctx,y_max,y_min,line_list_array){
+        var sepe_num = line_list_array.length;
+        for (var i = 0,item; item = line_list_array[i]; i++) {
+            ctx.beginPath();
+
+            if (i < (sepe_num -1) / 2) {
+                ctx.fillStyle = '#333333';
+                ctx.strokeStyle = 'rgba(230,230,230, 1)';
+            }
+            else if(i > (sepe_num -1) / 2){
+                ctx.fillStyle = '#333333';
+                ctx.strokeStyle = 'rgba(230,230,230, 1)';
+            }
+            else{
+                ctx.fillStyle = '#333333';
+                ctx.strokeStyle = 'rgba(230,230,230, 1)';
+            }
+
             
+            ctx.moveTo(0, Math.round(item.y));
+            ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+            // 绘制纵坐标刻度
+            if(isNaN(item.num)){
+                ctx.fillText("0.00", 0, item.y - 10);
+            }else{
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
+            }
+            ctx.stroke();
         }
 
     }
@@ -136,7 +139,7 @@ var DrawXY = (function(){
         ctx.fillStyle = '#999';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
-        var y_date = k_height + this.options.unit.unitHeight * 1/3;
+        var y_date = k_height + (ctx.canvas.height/8) * 1/3;
 
         ctx.fillText(oc_time_arr[0], padding_left, y_date);
         ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);

@@ -60,12 +60,10 @@ var DrawXY = (function(){
             var x = ((i+1)/4)*(ctx.canvas.width - this.options.padding_left) + this.options.padding_left;
             
             if(i == 1){
-                ctx.strokeStyle = '#e5e5e5';
                 ctx.moveTo(x,0);
                 ctx.lineTo(x,this.options.c_1_height);
                 ctx.stroke();
             }else{
-                ctx.strokeStyle = '#efefef';
                 DrawDashLine(ctx,x,0,x,this.options.c_1_height,5);
             }
             
@@ -88,12 +86,10 @@ var DrawXY = (function(){
             // }
 
             if(i == 2){
-                ctx.strokeStyle = '#e5e5e5';
                 ctx.moveTo(0, Math.round(item.y));
                 ctx.lineTo(ctx.canvas.width, Math.round(item.y));
                 ctx.stroke();
             }else if(i != 0 && i != (line_list_array.length - 1)){
-                ctx.strokeStyle = '#efefef';
                 DrawDashLine(ctx,0, Math.round(item.y), ctx.canvas.width, Math.round(item.y),5);
             }
             
@@ -102,11 +98,11 @@ var DrawXY = (function(){
             if(isNaN(item.num)){
                 ctx.fillText("0.00", 0, item.y - 10);
             }else if(i==0){
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y - 10);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y - 10);
             }else if(i == (line_list_array.length - 1)){
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 25);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y + 20);
             }else{
-                ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 10);
+                ctx.fillText((item.num).toFixed(this.options.pricedigit), 0, item.y + 10);
             }
             
         }
@@ -136,7 +132,7 @@ var DrawXY = (function(){
         ctx.fillStyle = '#999';
         /*画布宽度*/
         var k_width = ctx.canvas.width;
-        var y_date = k_height + this.options.unit.unitHeight * 1/3;
+        var y_date = k_height + (ctx.canvas.height/8) * 1/3;
 
         ctx.fillText(oc_time_arr[0], padding_left, y_date);
         ctx.fillText(oc_time_arr[1], (k_width-padding_left)/2 + padding_left - ctx.measureText(oc_time_arr[1]).width/2, y_date);

@@ -41,7 +41,7 @@ var Interactive = (function() {
 	        var y_line = document.createElement("div");
 	        y_line.className = "cross-y";
 	        if(this.options.showV){
-	        	y_line.style.height = (c_box.height - this.options.unit.unitHeight/3/dpr) + "px";
+	        	y_line.style.height = (this.options.canvas.height/dpr) + "px";
 	        }else{
 	        	y_line.style.height = (this.options.c_1_height + this.options.canvas_offset_top)/dpr + "px";
 	        }
@@ -99,7 +99,7 @@ var Interactive = (function() {
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div"); 
 	        div_mark.className = "mark-ma";
-	        div_mark.style.top = "5px";
+	        div_mark.style.top = this.options.canvas_offset_top/this.options.dpr - 30 + "px";
 	        this.options.mark_ma.mark_ma = div_mark;
 	        
 	        /*创建文档碎片*/
