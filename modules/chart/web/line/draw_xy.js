@@ -40,6 +40,11 @@
 
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
+
+        ctx.strokeStyle = '#ccc';
+        ctx.rect(this.options.padding_left,0,this.options.drawWidth - this.options.padding_left,k_height);
+        ctx.stroke();
+
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height,step);
         drawYMark.call(this,ctx,y_max,y_min,line_list_array,false);
@@ -64,10 +69,10 @@
             ctx.beginPath();
             
             if(i == 0 || i == line_list_array.length - 1){
-                ctx.strokeStyle = '#ccc';
-                ctx.moveTo(this.options.padding_left, Math.round(item.y));
-                ctx.lineTo(this.options.drawWidth, Math.round(item.y));
-                ctx.stroke();
+                // ctx.strokeStyle = '#ccc';
+                // ctx.moveTo(this.options.padding_left, Math.round(item.y));
+                // ctx.lineTo(this.options.drawWidth, Math.round(item.y));
+                // ctx.stroke();
             }else{
                 ctx.strokeStyle = '#e6e6e6';
                 DrawDashLine(ctx,Math.round(this.options.padding_left), Math.round(item.y), Math.round(this.options.drawWidth), Math.round(item.y),3);
@@ -110,34 +115,38 @@
             ctx.beginPath();
             tempDate = oc_time_arr[i];
             if(tempDate.show == undefined ? true : tempDate.show){
-                if(this.options.series2){
 
-                     if(arr_length == 1){
-                        var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
-                     }else{
-                        var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
-                     }
-                    ctx.fillText(tempDate.value, x, this.options.c_1_height+20);
+                if(arr_length == 1){
+                    var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
+                    ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
                 }else{
+                    if(this.options.series2){
+                     
+                        var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                        ctx.fillText(tempDate.value, x, this.options.c_1_height+20);
+                    }else{
+                        
+                        var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                        ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
-                    ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
-
-                    // if(i < arr_length - 1){
-                    //     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
-                    // }else if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > this.options.drawWidth){
-                    //     ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
-                    // }
+                        // if(i < arr_length - 1){
+                        //     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+                        // }else if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > this.options.drawWidth){
+                        //     ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                        // }
+                    }
                 }
+                
                 
             }
 
             if(tempDate.showline == undefined ? true : tempDate.showline){
                
                 if(i == 0 || i == arr_length - 1){
-                    ctx.strokeStyle = '#ccc';
-                    ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
-                    ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
-                    ctx.stroke();
+                    // ctx.strokeStyle = '#ccc';
+                    // ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
+                    // ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
+                    // ctx.stroke();
                 }else{
                     ctx.strokeStyle = '#e6e6e6';
                     DrawDashLine(ctx,i * (k_width - padding_left) / (arr_length-1) + padding_left,0, i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height,3);

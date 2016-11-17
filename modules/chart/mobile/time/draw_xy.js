@@ -39,12 +39,14 @@ var DrawXY = (function() {
 
         drawXYTime.call(this, ctx, y_max, y_min, line_list_array);
 
+
         // 绘制横坐标刻度
         if (oc_time_arr) {
             drawXMark.apply(this, [ctx, k_height, oc_time_arr]);
         }
 
     };
+
     // 绘制分时图坐标轴
     function drawXYTime(ctx, y_max, y_min, line_list_array) {
         var _this = this;
@@ -83,13 +85,13 @@ var DrawXY = (function() {
                 }
                 ctx.textBaseline = "middle";
             }
-
             // 绘制纵坐标刻度
             if (isNaN(item.num)) {
                 ctx.fillText("0.00", 5, item.y);
             } else {
                 ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y);
             }
+
 
             // 绘制纵坐标涨跌幅
             drawYPercent.call(_this, ctx, y_max, y_min, item);
@@ -122,6 +124,7 @@ var DrawXY = (function() {
         /*画布宽度*/
         var k_width = ctx.canvas.width - padding_left;
         var y_date = k_height + (ctx.canvas.height / 8) * 1 / 3;
+
         for (var i = 0, len = oc_time_arr.length; i < len; i++) {
             if (i == 0) {
                 ctx.fillText(oc_time_arr[i], padding_left, y_date);
