@@ -104,7 +104,7 @@ var ChartBarQuarter = (function() {
 
         // this.options.padding_left = ctx.measureText("+9000万").width + 20;
         this.options.padding_left = getMaxMinValue.maxPaddingLeftWidth * dpr + 20;
-        this.options.drawWidth = canvas.width - this.options.padding_left;
+        this.options.drawWidth = canvas.width - 10;
 
         // 画布上部内间距
         ctx.translate("0", this.options.canvas_offset_top);
