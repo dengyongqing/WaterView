@@ -707,3 +707,12 @@
 	vertical-align:middle;
 	padding-left: 3px;
 }
+
+.emcharts-container .fu-quan-select{
+	position: relative;
+	z-index: 100;
+	right:20px;
+	top:20px;
+	width:50px;
+	height:30px;
+}

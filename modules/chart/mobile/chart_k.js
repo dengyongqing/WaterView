@@ -192,7 +192,7 @@ var ChartK = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-
+        addFuQuan.call(this);
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -351,7 +351,7 @@ var ChartK = (function() {
         }
         
        // 加水印
-       watermark.apply(this,[this.options.context,170,20]);
+       watermark.apply(this,[this.options.context,190,20]);
 
        return true;
     }
@@ -560,6 +560,24 @@ var ChartK = (function() {
              inter.markMA(canvas,ma_5_data[index],ma_10_data[index],ma_20_data[index]);
         }
 
+    }
+
+    function addFuQuan(){
+        var select = document.createElement("select");
+        var option1 = document.createElement("option");
+        option1.value = "";
+        option1.innerHtml = "不复权";
+        var option2 = document.createElement("option");
+        option2.value = "fa";
+        option2.innerHtml = "前复权";
+        var option3 = document.createElement("option");
+        option3.value = "ba";
+        option3.innerHtml = "后复权";
+        select.appendChild(option1);
+        select.appendChild(option2);
+        select.appendChild(option3);
+        select.className = "fu-quan-select";
+        this.container.appendChild(select);
     }
 
     return ChartK;

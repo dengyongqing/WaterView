@@ -33,7 +33,7 @@ var DrawLine = (function(){
 	DrawLine.prototype.draw = function(){
 
 		var ctx = this.options.context;
-		ctx.lineWidth = 1 * this.options.dpr + 1;
+		ctx.lineWidth = 1;
 		// 第一个坐标轴折线数据
 		var series = this.options.series;
 		// 横坐标数据

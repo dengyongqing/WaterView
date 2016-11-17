@@ -116,7 +116,7 @@ var ChartTime = (function() {
         ctx.translate("0",this.options.canvas_offset_top);
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
-        ctx.lineWidth = 1 * this.options.dpr + 0.5;
+        ctx.lineWidth = 1 * this.options.dpr;
         
         // 容器中添加画布
         this.container.appendChild(canvas);
@@ -220,9 +220,9 @@ var ChartTime = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-        
+        var dpr = this.options.dpr;
         // 加水印
-        watermark.apply(this,[this.options.context,170,20]);
+        watermark.apply(this,[this.options.context,85*dpr,10*dpr, 82*dpr, 20*dpr]);
 
         return true;
     }

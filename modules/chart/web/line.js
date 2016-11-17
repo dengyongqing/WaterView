@@ -138,8 +138,7 @@ var ChartLine = (function() {
         //锚点半径
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
 
-        // 加水印
-        watermark.apply(this, [ctx, 110 + this.options.padding_left, 10, 82, 20]);
+      
     }
 
     // 绘图
@@ -164,8 +163,17 @@ var ChartLine = (function() {
         this.options.data.step = maxAndMin.step;
 
         // 画布内容偏移的距离
-        this.options.padding_left = maxAndMin.maxPaddingLeftWidth + 20;
-        this.options.drawWidth = ctx.canvas.width - this.options.padding_left;
+        this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 20);
+        if(this.options.series2){
+            this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
+            // 加水印
+            watermark.apply(this, [ctx, 100 + this.options.padding_left, 10, 82, 20]);
+        }else{
+            this.options.drawWidth = Math.round(ctx.canvas.width - 10);
+            // 加水印
+            watermark.apply(this, [ctx, 100, 10, 82, 20]);
+        }
+       
 
         // 第二坐标轴折线数据
         if (this.options.series2) {
