@@ -340,13 +340,24 @@ var ChartLine = (function() {
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
-                    children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
-                    children[j + 1].children[1].innerHTML = tipArr[j].data;
+                    if(tipArr[j].data == ""){
+                        children[j + 1].style.display = "none";
+                    }else{
+                        children[j + 1].style.display = "block";
+                        children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
+                        children[j + 1].children[1].innerHTML = tipArr[j].data;
+                    }
                 }
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                    circles[k].style.top = tipArr[k].y / dpr - radius + "px";
-                    circles[k].style.left = (left - radius) + "px";
-                    circles[k].style.borderColor = tipArr[k].color;
+                    if(tipArr[k].data == ""){
+                        circles[k].style.display = "none";
+                    }else{
+                        circles[k].style.display = "block";
+                        circles[k].style.top = tipArr[k].y / dpr - radius + "px";
+                        circles[k].style.left = (left - radius) + "px";
+                        circles[k].style.borderColor = tipArr[k].color;
+                    }
+                    
                 }
             }
 
