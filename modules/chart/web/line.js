@@ -370,6 +370,7 @@ var ChartLine = (function() {
                         circles[k].style.left = (left - radius) + "px";
                         circles[k].style.borderColor = tipArr[k].color;
                     }
+                    
                 }
                 if(!flag){
                     that.options.interOption.tips.style.display = "block";
