@@ -47,7 +47,7 @@ var DrawV = (function() {
             ctx.strokeStyle = '#e5e5e5';
             ctx.fillText(0, 0, y_v_top + 10);
             ctx.rect(this.options.padding_left, y_v_top, ctx.canvas.width - this.options.padding_left, v_height);
-            // ctx.stroke();
+            ctx.stroke();
             return;
         }
 
@@ -70,7 +70,6 @@ var DrawV = (function() {
         /*绘制边框和分割线*/
         ctx.strokeStyle = '#efefef';
         ctx.lineWidth = this.options.dpr;
-        ctx.beginPath();
         ctx.rect(this.options.padding_left, y_v_top, y_v_width, v_height);
         ctx.moveTo(padding_left, y_v_top + v_height/2);
         ctx.lineTo(y_v_width, y_v_top + v_height/2);
@@ -127,7 +126,7 @@ var DrawV = (function() {
         ctx.beginPath();
         ctx.fillStyle = '#999';
         ctx.fillText(common.format_unit(v_max), 0, y_v_end + 10);
-        // ctx.stroke();
+        ctx.stroke();
     }
     // 获取最大成交量
     function getVMax(data) {
