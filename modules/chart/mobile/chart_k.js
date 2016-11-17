@@ -21,7 +21,7 @@
  */
  
 // 绘制坐标轴
-var DrawXY = require('chart/draw_xy');
+var DrawXY = require('chart/mobile/k/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 获取K线图数据
@@ -29,11 +29,11 @@ var GetDataDay = require('getdata/mobile/chart_day');
 var GetDataWeek = require('getdata/mobile/chart_week'); 
 var GetDataMonth = require('getdata/mobile/chart_month'); 
 // 绘制K线图
-var DrawK = require('chart/draw_k'); 
+var DrawK = require('chart/mobile/k/draw_k'); 
 // 绘制均线图
-var DrawMA = require('chart/draw_ma'); 
+var DrawMA = require('chart/mobile/k/draw_ma'); 
 // 绘制成交量图
-var DrawV = require('chart/draw_v'); 
+var DrawV = require('chart/mobile/k/draw_v'); 
 // 工具
 var common = require('tools/common'); 
 // 交互效果
@@ -78,12 +78,15 @@ var ChartK = (function() {
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
+        // 画布分割区域
+        this.options.sepeNum = 8;
+
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / 8;
+        this.options.canvas_offset_top = canvas.height / this.options.sepeNum;
         // 画布内容向坐偏移的距离
         this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距
-        this.options.k_v_away = canvas.height / 8;
+        this.options.k_v_away = canvas.height / this.options.sepeNum;
         // 缩放默认值
         this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
         // 画布上第一个图表的高度
@@ -93,7 +96,8 @@ var ChartK = (function() {
             this.options.c_1_height = canvas.height - 90 * dpr;
         }
         
-        
+        this.options.unit = {};
+        this.options.unit.unitHeight = canvas.height/this.options.sepeNum;
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
