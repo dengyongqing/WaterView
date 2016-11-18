@@ -1,7 +1,7 @@
 // 工具
 var common = require('chart/web/common/common'); 
 // cookie
-var EMcookie = require('chart/web/common/cookie'); 
+var EMcookie = require('tools/cookie'); 
 function setPreference(){
     var _this = this;
 

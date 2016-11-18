@@ -62,7 +62,7 @@ var watermark = require('chart/watermark');
 // 偏好设置
 var setPreference = require('chart/web/k/set_preference');
 // cookie
-var EMcookie = require('chart/web/common/cookie');
+var EMcookie = require('tools/cookie');
 
 var dynamicMA = require('chart/web/k/dynamicMA');
 

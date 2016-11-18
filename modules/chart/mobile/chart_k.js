@@ -10,12 +10,6 @@
  *     type:    "TL"(分时图),"DK"(日K线图),"WK"(周K线图),"MK"(月K线图)
  *     canvas:  画布对象
  *     ctx:     画布上下文
- *     canvas_offset_top:   画布中坐标轴向下偏移量
- *     padding_left:    画布左侧边距
- *     k_v_away:    行情图表（分时图或K线图）和成交量图表的间距
- *     scale_count:     缩放默认值
- *     c_1_height:  行情图表（分时图或K线图）的高度
- *     rect_unit:   分时图或K线图单位绘制区域
  * }
  *
  */
@@ -42,6 +36,8 @@ var Interactive = require('interactive/interactive');
 var extend = require('tools/extend');
 // 水印
 var watermark = require('chart/watermark');
+// cookie
+var EMcookie = require('tools/cookie');
 
 var ChartK = (function() {
 
@@ -111,6 +107,9 @@ var ChartK = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr + 0.5;
+
+        // 复权方式
+        this.options.authorityType = EMcookie.getCookie("emcharts-authorityType") == null ? "" : EMcookie.getCookie("emcharts-authorityType");
        
         // 容器中添加画布
         this.container.appendChild(canvas);
@@ -277,6 +276,7 @@ var ChartK = (function() {
         var obj = {};
         obj.code = this.options.code;
         obj.count = this.options.scale_count;
+        obj.authorityType = this.options.authorityType; 
         return obj;
     }
     // 回调函数
@@ -563,21 +563,55 @@ var ChartK = (function() {
     }
 
     function addFuQuan(){
+        var _this = this;
         var select = document.createElement("select");
         var option1 = document.createElement("option");
         option1.value = "";
-        option1.innerHtml = "不复权";
+        option1.innerHTML = "不复权";
         var option2 = document.createElement("option");
         option2.value = "fa";
-        option2.innerHtml = "前复权";
+        option2.innerHTML = "前复权";
         var option3 = document.createElement("option");
         option3.value = "ba";
-        option3.innerHtml = "后复权";
+        option3.innerHTML = "后复权";
         select.appendChild(option1);
         select.appendChild(option2);
         select.appendChild(option3);
         select.className = "fu-quan-select";
         this.container.appendChild(select);
+
+        var authorityType = EMcookie.getCookie("emcharts-authorityType") == null ? "" : EMcookie.getCookie("emcharts-authorityType");
+
+        if(authorityType == ""){
+            option1.selected = "selected";
+        }else if(authorityType == "fa"){
+            option2.selected = "selected";
+        }else if(authorityType == "ba"){
+            option3.selected = "selected";
+        }
+
+        common.addEvent(select,"change",function(event){
+                var v = event.target.value;
+                
+                _this.options.authorityType = v;
+
+                var Days = 1000000;
+                var exp = new Date(); 
+                exp.setTime(exp.getTime() + Days*24*60*60*1000);
+                EMcookie.setCookie("emcharts-authorityType", v, exp, "/");
+
+                _this.draw();
+               
+                // current.options.beforeBackRight = v;
+                // if(v == "before"){
+                //     current.beforeBackRight(1);
+                // }else if(v == "back"){
+                //     current.beforeBackRight(2);
+                // }else{
+                //     current.beforeBackRight(0);
+                // }
+                    
+            });
     }
 
     return ChartK;

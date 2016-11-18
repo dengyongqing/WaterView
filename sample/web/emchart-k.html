@@ -294,7 +294,7 @@
 	        });
 
 	        addEvent(document.getElementById("beforeBackRight"),"change",function(event){
-	        	var v = document.getElementById("beforeBackRight").value;
+	        	var v = event.target.value;
 	        	
 	        	window.beforeBackRight = v;
 	        	current.options.beforeBackRight = v;

@@ -709,10 +709,12 @@
 }
 
 .emcharts-container .fu-quan-select{
-	position: relative;
+	position: absolute;
 	z-index: 100;
-	right:20px;
-	top:20px;
-	width:50px;
-	height:30px;
+	right:0px;
+	top:5px;
+	width:70px;
+	height:20px;
+	font-size: 12px;
+	font-family: simsun;
 }
