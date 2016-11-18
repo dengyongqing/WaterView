@@ -5,8 +5,10 @@
  /*主题*/
  var theme = require('theme/default');
  var common = require('tools/common');
-/*绘制虚线*/
+ /*绘制虚线*/
  var DrawDashLine = require('chart/mobile/common/draw_dash_line');
+ // 格式化坐标
+ var XYF = require('chart/web/common/xyf');
  var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -41,8 +43,11 @@
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
 
+        ctx.beginPath();
+        ctx.lineWidth = 1;
         ctx.strokeStyle = '#ccc';
-        ctx.rect(this.options.padding_left,0,this.options.drawWidth - this.options.padding_left,k_height);
+
+        ctx.rect(XYF(this.options.padding_left),0.5,Math.round(this.options.drawWidth - this.options.padding_left),Math.round(k_height));
         ctx.stroke();
 
         /*Y轴标识线列表*/
@@ -63,7 +68,7 @@
         // var sepe_num = line_list_array.length;
         ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
         ctx.textAlign = 'right';
-        ctx.lineWidth = "1px";
+        ctx.lineWidth = 1;
 
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
@@ -75,7 +80,7 @@
                 // ctx.stroke();
             }else{
                 ctx.strokeStyle = '#e6e6e6';
-                DrawDashLine(ctx,Math.round(this.options.padding_left), Math.round(item.y), Math.round(this.options.drawWidth), Math.round(item.y),3);
+                DrawDashLine(ctx,this.options.padding_left, item.y, this.options.drawWidth, item.y,3);
             }
             
             // 绘制纵坐标刻度
@@ -83,10 +88,10 @@
             if(this.options.series2 && flag){
                 // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
                 ctx.textAlign = 'left';
-                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.drawWidth + 10, item.y + 5);
+                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), XYF(this.options.drawWidth + 10), XYF(item.y + 5));
             }else{
                 ctx.textAlign = 'right';
-                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y + 5);
+                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), XYF(this.options.padding_left - 10), XYF(item.y + 5));
             }
         }
          ctx.restore();
@@ -95,6 +100,7 @@
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){
         ctx.save();
+        ctx.lineWidth = 1;
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.textAlign = 'center';
@@ -103,7 +109,6 @@
         }else{
             ctx.fillStyle = '#000';
         }
-        ctx.lineWidth = "1px";
 
         /*画布宽度*/
         var k_width = this.options.drawWidth;
@@ -118,26 +123,37 @@
 
                 if(arr_length == 1){
                     var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
-                    ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
+                    ctx.fillText(tempDate.value, XYF(x) , XYF(this.options.c_1_height+20));
                 }else{
-                    if(this.options.series2){
+                    // if(this.options.series2){
                      
-                        var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
-                        ctx.fillText(tempDate.value, x, this.options.c_1_height+20);
-                    }else{
+                    //     var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                    //     ctx.fillText(tempDate.value, x, this.options.c_1_height+20);
+                    // }else{
                         
-                        var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
-                        ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
+                    //     var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                    //     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
-                        // if(i < arr_length - 1){
-                        //     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
-                        // }else if(i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width > this.options.drawWidth){
-                        //     ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
-                        // }
+                    //     if(i == 0){
+                    //         ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                    //     }else if(i == arr_length - 1){
+                    //         ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                    //     }else{
+                    //         ctx.fillText(tempDate.value, x, this.options.c_1_height+20);   
+                    //     }
+                    // }
+
+                    var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                    // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
+
+                    if(i == 0){
+                        ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20));
+                    }else if(i == arr_length - 1){
+                        ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20));
+                    }else{
+                        ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20));   
                     }
                 }
-                
-                
             }
 
             if(tempDate.showline == undefined ? true : tempDate.showline){

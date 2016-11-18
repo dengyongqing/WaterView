@@ -14,7 +14,7 @@
  */
 
 // 绘制坐标轴
-var DrawXY = require('chart/web/bar-quarter/draw_xy');
+var DrawXY = require('chart/web/line-quarter/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 绘制季度折线图
@@ -116,7 +116,7 @@ var ChartBarQuarter = (function() {
 
         // 画布内容偏移的距离
         var ctx = this.options.context;
-        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        this.options.padding_left = ctx.measureText("+9000万").width + 10;
         // this.options.padding_left = ctx.measureText(common.format_unit(this.options.data.max)).width + 20;
         this.options.drawWidth = ctx.canvas.width - this.options.padding_left;
 
@@ -346,6 +346,9 @@ var ChartBarQuarter = (function() {
         } else {
             max = max + Math.abs(max - min) * 0.05;
         }
+
+        
+
         tempObj.max = max;
         tempObj.min = min;
         return tempObj;

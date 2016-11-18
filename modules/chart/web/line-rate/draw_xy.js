@@ -5,6 +5,8 @@
  /*主题*/
  var theme = require('theme/default');
  var common = require('tools/common');
+ // 格式化坐标
+ var XYF = require('chart/web/common/xyf');
  var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -53,16 +55,16 @@
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             if(i == 0){
-                ctx.moveTo(this.options.padding_left, Math.round(item.y));
-                ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+                ctx.moveTo(XYF(this.options.padding_left), XYF(item.y));
+                ctx.lineTo(XYF(ctx.canvas.width), XYF(item.y));
                 ctx.stroke();
             }
             // 绘制左侧纵坐标刻度
-            ctx.fillText(common.format_unit(item.num/1,2), this.options.padding_left-10, item.y);
+            ctx.fillText(common.format_unit(item.num/1,2), XYF(this.options.padding_left-10), XYF(item.y));
 
             if(this.options.bothmark){
                 // 绘制右侧纵坐标刻度
-                ctx.fillText(common.format_unit(item.num/1,2), ctx.canvas.width - 10, item.y);
+                ctx.fillText(common.format_unit(item.num/1,2), XYF(ctx.canvas.width - 10), XYF(item.y));
             }
             
             
@@ -87,7 +89,7 @@
         for(var i = 0;i<arr_length;i++) {
             tempDate = oc_time_arr[i];
             if(tempDate.show == undefined ? true : tempDate.show){
-                ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
+                ctx.fillText(tempDate.value, XYF(i * (k_width - padding_left) / (arr_length-1) + padding_left), XYF(this.options.c_1_height+20));
                 // if(i < arr_length - 1){
                 //     ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
                 //     // ctx.fillText(tempDate.value.split('-')[0] + "-" + tempDate.value.split('-')[1]+'-'+tempDate.value.split('-')[2], i * (k_width - padding_left) / (arr_length-1) + padding_left, this.options.c_1_height+20);
@@ -97,8 +99,13 @@
 
             if(tempDate.showline == undefined ? true : tempDate.showline && (i == 0 || i == arr_length - 1)){
                 ctx.strokeStyle = '#ccc';
-                ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
-                ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
+                if(i == arr_length - 1){
+                    var x = i * (k_width - padding_left) / (arr_length-1) + padding_left - 1;
+                }else{
+                    var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                }
+                ctx.moveTo(XYF(x),0.5);
+                ctx.lineTo(XYF(x),XYF(this.options.c_1_height));
             }
 
         }

@@ -7,6 +7,8 @@
  var common = require('tools/common');
  /*绘制虚线*/
  var DrawDashLine = require('chart/mobile/common/draw_dash_line');
+ // 格式化坐标
+ var XYF = require('chart/web/common/xyf');
  var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -72,8 +74,8 @@
                     ctx.fillText(0, this.options.padding_left - 10, item.y + 5);
                     dashFlag = false;
                     ctx.strokeStyle = '#c9c9c9';
-                    ctx.moveTo(this.options.padding_left, Math.round(item.y));
-                    ctx.lineTo(this.options.drawWidth, Math.round(item.y));
+                    ctx.moveTo(XYF(this.options.padding_left), XYF(item.y));
+                    ctx.lineTo(XYF(this.options.drawWidth), XYF(item.y));
                     ctx.stroke();
                 }else {
                     ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), this.options.padding_left - 10, item.y + 5);
@@ -111,7 +113,7 @@ function drawXMark(ctx,k_height,oc_time_arr){
         var dpr = this.options.dpr;
         ctx.beginPath();
         ctx.strokeStyle = "#c9c9c9";
-        ctx.rect(padding_left,0,this.options.drawWidth -padding_left,this.options.c_1_height);
+        ctx.rect(XYF(padding_left),0.5,Math.round(this.options.drawWidth -padding_left),Math.round(this.options.c_1_height));
         ctx.stroke();
         
         ctx.textAlign = 'left';
@@ -137,15 +139,15 @@ function drawXMark(ctx,k_height,oc_time_arr){
             }
 
             if(i == (arr_length-1)){
-                ctx.moveTo(x,this.options.c_1_height);   
-                ctx.lineTo(x,this.options.c_1_height + 5*dpr);
+                ctx.moveTo(XYF(x),XYF(this.options.c_1_height));   
+                ctx.lineTo(XYF(x),XYF(this.options.c_1_height + 5*dpr));
 
                 var x = (i+1) * (k_width - padding_left) / (arr_length) +padding_left;
-                ctx.moveTo(x-1,this.options.c_1_height);   
-                ctx.lineTo(x-1,this.options.c_1_height + 5*dpr);
+                ctx.moveTo(XYF(x),XYF(this.options.c_1_height));   
+                ctx.lineTo(XYF(x),XYF(this.options.c_1_height + 5*dpr));
             }else{
-                ctx.moveTo(x,this.options.c_1_height);   
-                ctx.lineTo(x,this.options.c_1_height + 5*dpr);
+                ctx.moveTo(XYF(x),XYF(this.options.c_1_height));   
+                ctx.lineTo(XYF(x),XYF(this.options.c_1_height + 5*dpr));
             }
             
             ctx.stroke();

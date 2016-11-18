@@ -1,6 +1,8 @@
 /*绘制xy轴*/
 var extend = require("tools/extend2");
 var draw_dash = require("chart/mobile/common/draw_dash_line");
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawXY = (function() {
     function DrawXY(options) {
         this.options = {};
@@ -54,17 +56,17 @@ var DrawXY = (function() {
         ctx.strokeStyle = "#C9C9C9";
         ctx.beginPath();
 
-        ctx.moveTo(x_left, y_bottom);
-        ctx.lineTo(x_right, y_bottom);
+        ctx.moveTo(XYF(x_left), XYF(y_bottom));
+        ctx.lineTo(XYF(x_right), XYF(y_bottom));
 
-        ctx.moveTo(x_left, y_bottom);
-        ctx.lineTo(x_left, y_top);
+        ctx.moveTo(XYF(x_left), XYF(y_bottom));
+        ctx.lineTo(XYF(x_left), XYF(y_top));
 
-        ctx.moveTo(x_left, y_top);
-        ctx.lineTo(x_right, y_top);
+        ctx.moveTo(XYF(x_left), XYF(y_top));
+        ctx.lineTo(XYF(x_right), XYF(y_top));
 
-        ctx.moveTo(x_right, y_bottom);
-        ctx.lineTo(x_right, y_top);
+        ctx.moveTo(XYF(x_right), XYF(y_bottom));
+        ctx.lineTo(XYF(x_right), XYF(y_top));
         ctx.stroke();
 
         ctx.beginPath();

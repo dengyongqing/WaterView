@@ -27,6 +27,7 @@ var watermark = require('chart/watermark');
 /*工具*/
 var common = require('tools/common');
 
+
 var ChartLine = (function() {
 
     // 构造函数
@@ -82,11 +83,8 @@ var ChartLine = (function() {
         // 缩放默认值
         this.options.scale_count = 0;
         // 画布上第一个图表的高度
-        if (this.options.showflag) {
-            this.options.c_1_height = canvas.height * (5 / 9);
-        } else {
-            this.options.c_1_height = canvas.height * (7 / 9);
-        }
+       
+        this.options.c_1_height = canvas.height * (8 / 9) - 10;
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
@@ -121,7 +119,7 @@ var ChartLine = (function() {
         this.options.data.min = maxAndMin.min;
         
         // 画布内容偏移的距离
-        this.options.padding_left = ctx.measureText("+9000万").width + 20;
+        this.options.padding_left = ctx.measureText("+9000万").width + 10;
         // this.options.padding_left = ctx.measureText(common.format_unit(this.options.data.max)).width + 20;
         this.options.drawWidth = ctx.canvas.width - this.options.padding_left;
 

@@ -138,8 +138,7 @@ var ChartLine = (function() {
         //锚点半径
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
 
-        // 加水印
-        watermark.apply(this, [ctx, 110 + this.options.padding_left, 10, 82, 20]);
+      
     }
 
     // 绘图
@@ -164,8 +163,17 @@ var ChartLine = (function() {
         this.options.data.step = maxAndMin.step;
 
         // 画布内容偏移的距离
-        this.options.padding_left = maxAndMin.maxPaddingLeftWidth + 20;
-        this.options.drawWidth = ctx.canvas.width - this.options.padding_left;
+        this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 20);
+        if(this.options.series2){
+            this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
+            // 加水印
+            watermark.apply(this, [ctx, 100 + this.options.padding_left, 10, 82, 20]);
+        }else{
+            this.options.drawWidth = Math.round(ctx.canvas.width - 10);
+            // 加水印
+            watermark.apply(this, [ctx, 100, 10, 82, 20]);
+        }
+       
 
         // 第二坐标轴折线数据
         if (this.options.series2) {
@@ -343,6 +351,7 @@ var ChartLine = (function() {
                     if(tipArr[j].data == ""){
                         children[j + 1].style.display = "none";
                     }else{
+                        flag = true;
                         children[j + 1].style.display = "block";
                         children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
                         children[j + 1].children[1].innerHTML = tipArr[j].data;
@@ -357,7 +366,10 @@ var ChartLine = (function() {
                         circles[k].style.left = (left - radius) + "px";
                         circles[k].style.borderColor = tipArr[k].color;
                     }
-                    
+                }
+                if(!flag){
+                    that.options.interOption.tips.style.display = "block";
+                    yLine.style.display = "block";
                 }
             }
 
