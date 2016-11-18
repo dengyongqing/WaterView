@@ -6,6 +6,8 @@ var extend = require('tools/extend');
 var theme = require('theme/default');
 /*绘制虚线*/
 var DrawDashLine = require('chart/web/common/draw_dash_line');
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -61,8 +63,8 @@ var DrawXY = (function(){
             
             if(i == 1){
                 ctx.strokeStyle = '#e5e5e5';
-                ctx.moveTo(x,0);
-                ctx.lineTo(x,this.options.c_1_height);
+                ctx.moveTo(XYF(x),0.5);
+                ctx.lineTo(XYF(x),XYF(this.options.c_1_height));
                 ctx.stroke();
             }else{
                 ctx.strokeStyle = '#efefef';
@@ -89,8 +91,8 @@ var DrawXY = (function(){
 
             if(i == 2){
                 ctx.strokeStyle = '#e5e5e5';
-                ctx.moveTo(0, Math.round(item.y));
-                ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+                ctx.moveTo(0.5, XYF(item.y));
+                ctx.lineTo(XYF(ctx.canvas.width), XYF(item.y));
                 ctx.stroke();
             }else if(i != 0 && i != (line_list_array.length - 1)){
                 ctx.strokeStyle = '#efefef';
