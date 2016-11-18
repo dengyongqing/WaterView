@@ -134,7 +134,7 @@ var DrawV = (function(){
 	function markVMax(ctx,v_max,y_v_end){
 		ctx.beginPath();
 		ctx.fillStyle = '#999';
-		ctx.fillText(common.format_unit(v_max),0,y_v_end + 10);
+		ctx.fillText(common.format_unit(v_max),5,y_v_end + 25);
 		ctx.stroke();
 	}
 	// 获取最大成交量
