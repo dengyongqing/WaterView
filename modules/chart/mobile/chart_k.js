@@ -315,6 +315,9 @@ var ChartK = (function() {
             var rect_unit = common.get_rect.apply(this,[canvas,data.data.length]);
             this.options.rect_unit = rect_unit;
 
+            // 绘制坐标轴
+            var drawXY = new DrawXY(this.options);
+
             if(data && data.data && data.data.length > 0){
                 // 绘制K线图
                 new DrawK(this.options);
@@ -326,9 +329,9 @@ var ChartK = (function() {
                 new DrawV(this.options);
             }
 
-            // 绘制坐标轴
-            new DrawXY(this.options);
-
+            // 绘制K线图Y轴标识
+            drawXY.drawYMark();
+           
             // 上榜日标识点
             if(this.options.interactive.options.pointsContainer){
                 var points =  this.options.interactive.options.pointsContainer.children;

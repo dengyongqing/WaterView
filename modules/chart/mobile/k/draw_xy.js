@@ -39,6 +39,7 @@ var DrawXY = (function(){
         var k_height = this.options.c_1_height;
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
+        this.options.y_mark_list = line_list_array;
 
         drawXYK.apply(this,[ctx,y_max,y_min,line_list_array]);
 
@@ -52,6 +53,7 @@ var DrawXY = (function(){
     //绘制K线图坐标轴
     function drawXYK(ctx,y_max,y_min,line_list_array){
         var sepe_num = line_list_array.length;
+        ctx.beginPath();
         ctx.fillStyle = '#333333';
         ctx.strokeStyle = '#e5e5e5';
         ctx.rect(1,0,this.options.canvas.width - 2,this.options.c_1_height);
@@ -100,6 +102,29 @@ var DrawXY = (function(){
             }
             
             
+            // // 绘制纵坐标刻度
+            // if(isNaN(item.num)){
+            //     ctx.fillText("0.00", 0, item.y - 10);
+            // }else if(i==0){
+            //     ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y - 10);
+            // }else if(i == (line_list_array.length - 1)){
+            //     ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 25);
+            // }else{
+            //     ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y + 10);
+            // }
+            
+        }
+
+    }
+    /*绘制纵坐标涨跌幅*/
+    DrawXY.prototype.drawYMark = function(){
+        var ctx = this.options.context;
+        ctx.beginPath();
+        ctx.fillStyle = '#333333';
+        ctx.strokeStyle = '#e5e5e5';
+        var line_list_array = this.options.y_mark_list;
+        for (var i = 0,item; item = line_list_array[i]; i++) {
+            ctx.beginPath();
             // 绘制纵坐标刻度
             if(isNaN(item.num)){
                 ctx.fillText("0.00", 0, item.y - 10);
@@ -112,23 +137,6 @@ var DrawXY = (function(){
             }
             
         }
-
-    }
-    /*绘制纵坐标涨跌幅*/
-    function drawYPercent(ctx,y_max, y_min, obj){
-        /*纵坐标中间值*/
-        var y_middle = (y_max + y_min)/2;
-        /*画布宽度*/
-        var k_width = ctx.canvas.width;
-        /*纵坐标刻度涨跌幅*/
-        if(y_middle){
-            var percent = ((obj.num - y_middle)/y_middle * 100).toFixed(2) + "%";
-        }else{
-            var percent = "0.00%";
-        }
-        /*绘制纵坐标刻度百分比*/
-        ctx.fillText(percent, k_width - ctx.measureText(percent).width, obj.y - 10);
-        ctx.stroke();
     }
     /*绘制横坐标刻度值*/
     function drawXMark(ctx,k_height,oc_time_arr){

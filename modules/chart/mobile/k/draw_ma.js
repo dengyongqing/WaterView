@@ -4,6 +4,8 @@ var extend = require('tools/extend');
 var common = require('common');
 /*主题*/
 var theme = require('theme/default');
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawMA = (function(){
 	function DrawMA(options){
 		/*设置默认参数*/
@@ -45,7 +47,7 @@ var DrawMA = (function(){
 				 //横坐标和均线数据
 				 ma_data.push(item);
 
-				 if(i == 0 || y > (this.options.c_1_height - ctx.canvas.height/8/2)  || y < 0){
+				 if(i == 0 || y > (this.options.c_1_height)  || y < 0){
 				 	ctx.moveTo(x,y);
 				 	flag = true;
 				 }else{
@@ -61,6 +63,7 @@ var DrawMA = (function(){
 			 
 		}
 		ctx.stroke();
+		ctx.beginPath();
 		return ma_data;
     }
     
