@@ -19,7 +19,6 @@ var DrawXY = (function() {
     DrawXY.prototype.draw = function() {
         var data = this.options.data;
         var ctx = this.options.context;
-        var type = this.options.type;
         // var dpr = this.options.dpr;
 
         /*Y轴上的最大值*/
@@ -29,7 +28,7 @@ var DrawXY = (function() {
 
         /*Y轴上分隔线数量*/
         var sepe_num = this.options.y_sep
-        /*开盘收盘时间数组*/
+            /*开盘收盘时间数组*/
         var oc_time_arr = data.timeStrs;
 
         /*K线图的高度*/
@@ -37,7 +36,9 @@ var DrawXY = (function() {
         /*Y轴标识线列表*/
         var line_list_array = getLineList(y_max, y_min, sepe_num, k_height);
 
-        drawXYTime.call(this, ctx, y_max, y_min, line_list_array);
+        this.options.line_list_array = line_list_array;
+
+        drawXY.call(this, ctx, y_max, y_min, line_list_array);
 
 
         // 绘制横坐标刻度
@@ -47,8 +48,19 @@ var DrawXY = (function() {
 
     };
 
-    // 绘制分时图坐标轴
-    function drawXYTime(ctx, y_max, y_min, line_list_array) {
+    DrawXY.prototype.drawYMark = function() {
+        var data = this.options.data;
+        var ctx = this.options.context;
+
+        /*Y轴上的最大值*/
+        var y_max = data.max;
+        /*Y轴上的最小值*/
+        var y_min = data.min;
+        var line_list_array = this.options.line_list_array;
+        drawYMark.call(this, ctx, y_max, y_min, line_list_array);
+    }
+
+    function drawYMark(ctx, y_max, y_min, line_list_array) {
         var _this = this;
         var padding_left = _this.options.padding_left,
             k_height = this.options.c_1_height,
@@ -74,13 +86,6 @@ var DrawXY = (function() {
             } else if (i == sepe_num - 1) {
                 ctx.textBaseline = "top";
             } else {
-                if (i % 2 == 1) {
-                    draw_dash(ctx, 0, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 5);
-                } else {
-                    ctx.moveTo(0, Math.round(item.y));
-                    ctx.lineTo(ctx.canvas.width, Math.round(item.y));
-                    ctx.stroke();
-                }
                 ctx.textBaseline = "middle";
             }
             // 绘制纵坐标刻度
@@ -90,11 +95,35 @@ var DrawXY = (function() {
                 ctx.fillText((item.num).toFixed(this.options.pricedigit), 5, item.y);
             }
 
-
             // 绘制纵坐标涨跌幅
             drawYPercent.call(_this, ctx, y_max, y_min, item);
         }
-        ctx.rect(1, 0, k_width-2, k_height);
+        ctx.restore();
+    }
+
+    // 绘制分时图坐标轴
+    function drawXY(ctx, y_max, y_min, line_list_array) {
+        var _this = this;
+        var padding_left = _this.options.padding_left,
+            k_height = this.options.c_1_height,
+            k_width = ctx.canvas.width - padding_left;
+        var sepe_num = line_list_array.length;
+        ctx.save();
+        ctx.strokeStyle = "#e5e5e5";
+
+        for (var i = 0, item; item = line_list_array[i]; i++) {
+            ctx.beginPath();
+
+
+            if (i % 2 == 1) {
+                draw_dash(ctx, 0, Math.round(item.y), ctx.canvas.width, Math.round(item.y), 5);
+            } else {
+                ctx.moveTo(0, Math.round(item.y));
+                ctx.lineTo(ctx.canvas.width, Math.round(item.y));
+                ctx.stroke();
+            }
+        }
+        ctx.rect(1, 0, k_width - 2, k_height);
         ctx.stroke();
         ctx.restore();
     }

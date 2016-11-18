@@ -195,16 +195,16 @@ var ChartTime = (function() {
             var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
             this.options.rect_unit = rect_unit;
 
-
+            // 绘制坐标轴
+            var drawxy = new DrawXY(this.options);
             if(data && data.data && data.data.length > 0){
                 // 绘制分时折线图
                 new DrawLine(this.options);
                 // 绘制分时折线图平均线
                 new DrawAvgCost(this.options);
-            }
+            }debugger;
+            drawxy.drawYMark();
             
-            // 绘制坐标轴
-            new DrawXY(this.options);
             // 绘制分时图成交量
             if(this.options.showV){
                 new DrawV(this.options);
