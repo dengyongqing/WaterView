@@ -69,7 +69,7 @@
         ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
         ctx.textAlign = 'right';
         ctx.lineWidth = 1;
-
+debugger;
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             
@@ -88,10 +88,10 @@
             if(this.options.series2 && flag){
                 // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
                 ctx.textAlign = 'left';
-                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), XYF(this.options.drawWidth + 10), XYF(item.y + 5));
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.drawWidth + 10), XYF(item.y + 5));
             }else{
                 ctx.textAlign = 'right';
-                ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), XYF(this.options.padding_left - 10), XYF(item.y + 5));
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.padding_left - 10), XYF(item.y + 5));
             }
         }
          ctx.restore();
@@ -187,6 +187,16 @@
             });
         }
         return result;
+    }
+
+    
+    function roundFloat(f, stepHeight){
+        var precise = 1;
+        if(stepHeight.toString().indexOf(".") !== -1){
+            precise = stepHeight.toString().length - stepHeight.toString().indexOf(".")-1;
+        }
+        var m = Math.pow(10, precise);
+        return Math.ceil(f * m)/ m;
     }
 
     return DrawXY;
