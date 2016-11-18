@@ -106,7 +106,7 @@ var ChartK = (function() {
         ctx.translate("0",this.options.canvas_offset_top);
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
-        ctx.lineWidth = 1 * this.options.dpr + 0.5;
+        ctx.lineWidth = 1 * this.options.dpr;
 
         // 复权方式
         this.options.authorityType = EMcookie.getCookie("emcharts-authorityType") == null ? "" : EMcookie.getCookie("emcharts-authorityType");
