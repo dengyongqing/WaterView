@@ -79,7 +79,7 @@ var ChartLine = (function() {
 
         // 画布向下偏移的距离
         this.options.canvas_offset_top = 15;
-        
+
 
         // 缩放默认值
         this.options.scale_count = 0;
@@ -91,7 +91,7 @@ var ChartLine = (function() {
         // }else{
         //     this.options.c_1_height = canvas.height * (7/9);
         // }
-        if(this.options.showname === undefined){
+        if (this.options.showname === undefined) {
             this.options.showname = true;
         }
         this.options.sepeNum = this.options.sepeNum == undefined ? 4 : this.options.sepeNum;
@@ -99,13 +99,6 @@ var ChartLine = (function() {
             this.options.sepeNum = 2;
         }
 
-        
-
-        // if(this.options.series2){
-        //     this.options.drawWidth = canvas.width - this.options.padding_left * 2;
-        // }else{
-        //     this.options.drawWidth = canvas.width;
-        // }
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
@@ -140,7 +133,7 @@ var ChartLine = (function() {
         //锚点半径
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
 
-      
+
     }
 
     // 绘图
@@ -166,16 +159,16 @@ var ChartLine = (function() {
 
         // 画布内容偏移的距离
         this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 20);
-        if(this.options.series2){
+        if (this.options.series2) {
             this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
             // 加水印
             watermark.apply(this, [ctx, 100 + this.options.padding_left, 10, 82, 20]);
-        }else{
+        } else {
             this.options.drawWidth = Math.round(ctx.canvas.width - 10);
             // 加水印
             watermark.apply(this, [ctx, 100, 10, 82, 20]);
         }
-       
+
 
         // 第二坐标轴折线数据
         if (this.options.series2) {
@@ -191,9 +184,6 @@ var ChartLine = (function() {
         // 绘制分时折线图
         new DrawLine(this.options);
         this.addInteractive();
-
-        // 加水印
-        // watermark.apply(this, [ctx, 190, 20]);
 
     };
 
@@ -220,6 +210,19 @@ var ChartLine = (function() {
         var y_min2 = this.options.data.min2;
         var c_1_height = this.options.c_1_height;
         var radius = this.options.pointRadius;
+        common.addEvent.call(that, canvas, "touchmove", function(e) {
+            var winX, winY;
+            //浏览器检测，获取到相对元素的x和y
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
+            }
+
+            aaa.call(that, winX, winY);
+        });
         //添加交互事件
         common.addEvent.call(that, canvas, "mousemove", function(e) {
             var winX, winY;
@@ -232,7 +235,11 @@ var ChartLine = (function() {
                 winY = e.y;
             }
 
+            aaa.call(that, winX, winY);
 
+        });
+
+        function aaa(winX, winY) {
             var canvasX = winX * dpr - padding_left; //转换为canvas中的坐标
             var canvasY = winY * dpr - padding_top;
 
@@ -274,7 +281,8 @@ var ChartLine = (function() {
                 return a.y - b.y;
             });
 
-            var left = 0, flag = false;
+            var left = 0,
+                flag = false;
             if (dateArr.length == 1) {
                 left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left);
             } else {
@@ -318,7 +326,7 @@ var ChartLine = (function() {
                     color.style.backgroundColor = tipArr[i].color;
                     lineTip.appendChild(color);
                     var content = document.createElement("span");
-                    content.innerHTML = (that.options.showname ? tipArr[i].name : "" )+  tipArr[i].data
+                    content.innerHTML = (that.options.showname ? tipArr[i].name : "") + tipArr[i].data
                     lineTip.appendChild(content);
                     tips.appendChild(lineTip);
                     //圆圈
@@ -338,22 +346,22 @@ var ChartLine = (function() {
                 that.options.interOption.circles = circles;
             } else {
                 var tips = that.options.interOption.tips;
-                
+
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
-                    if(tipArr[j].data == ""){
+                    if (tipArr[j].data == "") {
                         children[j + 1].style.display = "none";
-                    }else{
+                    } else {
                         flag = true;
                         children[j + 1].style.display = "block";
                         children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
-                        children[j + 1].children[1].innerHTML = (that.options.showname ? tipArr[j].name : "" ) + " " +  tipArr[j].data
+                        children[j + 1].children[1].innerHTML = (that.options.showname ? tipArr[j].name : "") + " " + tipArr[j].data
                     }
                 }
-                if(flag){
+                if (flag) {
                     tips.style.display = "block";
-                }else{
+                } else {
                     tips.style.display = "none";
                 }
                 if ((cursor * unit / dpr + padding_left / dpr) >= canvas.width / dpr / 2) {
@@ -366,16 +374,16 @@ var ChartLine = (function() {
                 yLine.style.left = left + "px";
                 var circles = that.options.interOption.circles;
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                    if(tipArr[k].data == ""){
+                    if (tipArr[k].data == "") {
                         circles[k].style.display = "none";
-                    }else{
+                    } else {
                         circles[k].style.display = "block";
                         circles[k].style.top = tipArr[k].y / dpr - radius + "px";
                         circles[k].style.left = (left - radius) + "px";
                         circles[k].style.borderColor = tipArr[k].color;
                     }
                 }
-                if(!flag){
+                if (!flag) {
                     that.options.interOption.tips.style.display = "block";
                     yLine.style.display = "block";
                 }
@@ -395,7 +403,7 @@ var ChartLine = (function() {
                 }
                 yLine.style.display = "none";
             }
-        });
+        }
     }
 
 
@@ -421,7 +429,7 @@ var ChartLine = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(series) {
-        
+
         var seriesLength = series.length;
         var arr = [];
         for (var i = 0; i < seriesLength; i++) {
@@ -433,14 +441,14 @@ var ChartLine = (function() {
         var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
         var frontMaxWidth = ctx.measureText(common.format_unit(parseInt(tempObj.max))).width;
         var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
-        var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth:frontMinWidth;
+        var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
         var maxPaddingLeftWidth = frontWidth + backWidth;
 
         return {
             max: tempObj.max,
             min: tempObj.min,
             step: tempObj.stepHeight,
-            maxPaddingLeftWidth:maxPaddingLeftWidth
+            maxPaddingLeftWidth: maxPaddingLeftWidth
         };
     }
 
