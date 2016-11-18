@@ -202,7 +202,7 @@ var ChartTime = (function() {
                 new DrawLine(this.options);
                 // 绘制分时折线图平均线
                 new DrawAvgCost(this.options);
-            }debugger;
+            }
             drawxy.drawYMark();
             
             // 绘制分时图成交量

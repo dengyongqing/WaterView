@@ -439,7 +439,11 @@ var ChartLine = (function() {
         var tempObj = divide(this.options.sepeNum, arr);
 
         var ctx = this.options.context;
-        var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
+        if(tempObj.stepHeight >= 10000){
+            var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
+        }else{
+            var backWidth = ctx.measureText(tempObj.stepHeight).width - ctx.measureText(parseInt(tempObj.stepHeight)).width;
+        }
         var frontMaxWidth = ctx.measureText(common.format_unit(parseInt(tempObj.max))).width;
         var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
         var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
