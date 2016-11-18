@@ -390,8 +390,7 @@ var ChartLine = (function() {
             }
 
             //当超出坐标系框就不显示交互
-            if (canvasX >= 0 && canvasX < (canvas.width - padding_left) && canvasY >= 0 && canvasY <= c_1_height && flag) {
-                that.options.interOption.tips.style.display = "block";
+            if (canvasX >= 0 && canvasX < canvas.width && canvasY >= 0 && canvasY <= c_1_height && flag) {                that.options.interOption.tips.style.display = "block";
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
                     circles[k].style.display = "block";
                 }
