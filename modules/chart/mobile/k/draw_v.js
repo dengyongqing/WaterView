@@ -6,6 +6,8 @@ var common = require('common');
 var theme = require('theme/default');
 /*绘制虚线*/
 var DrawDashLine = require('chart/web/common/draw_dash_line');
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawV = (function(){
 	function DrawV(options){
 		/*设置默认参数*/
@@ -43,7 +45,7 @@ var DrawV = (function(){
 			ctx.fillStyle = '#999';
 			ctx.strokeStyle = 'rgba(230,230,230, 1)';
 			ctx.fillText(0,0,y_v_top + 10);
-			ctx.rect(this.options.padding_left,y_v_top,ctx.canvas.width - this.options.padding_left -2,v_height);
+			ctx.rect(XYF(this.options.padding_left),XYF(y_v_top),ctx.canvas.width - this.options.padding_left -2,v_height);
 			ctx.stroke();
 			return;
 		}
@@ -79,10 +81,10 @@ var DrawV = (function(){
 		ctx.fillStyle = '#333333';
         ctx.strokeStyle = '#e5e5e5';
 		ctx.lineWidth = this.options.dpr;
-		ctx.rect(this.options.padding_left,y_v_top,ctx.canvas.width - this.options.padding_left -2,v_height);
+		ctx.rect(XYF(this.options.padding_left),XYF(y_v_top),ctx.canvas.width - this.options.padding_left -2,v_height);
 		
-		ctx.moveTo(this.options.padding_left,y_v_top + v_height/2);
-		ctx.lineTo(ctx.canvas.width - this.options.padding_left,y_v_top + v_height/2);
+		ctx.moveTo(XYF(this.options.padding_left),XYF(y_v_top + v_height/2));
+		ctx.lineTo(XYF(ctx.canvas.width - this.options.padding_left),XYF(y_v_top + v_height/2));
 		ctx.stroke();
 
 		// ctx.lineWidth = 1;
@@ -92,8 +94,8 @@ var DrawV = (function(){
 			
 			if(i == 1){
 				ctx.strokeStyle = '#e5e5e5';
-				ctx.moveTo(x,y_v_top);
-				ctx.lineTo(x,y_v_bottom);
+				ctx.moveTo(XYF(x),XYF(y_v_top));
+				ctx.lineTo(XYF(x),XYF(y_v_bottom));
 				ctx.stroke();
 			}else{
 				ctx.strokeStyle = '#efefef';
@@ -112,7 +114,7 @@ var DrawV = (function(){
 			var y = y_v_bottom - bar_height;
 
 			ctx.beginPath();
-			ctx.moveTo(x,y);
+			ctx.moveTo(XYF(x),XYF(y));
 
 			if(is_up){
 				ctx.fillStyle = up_color;
@@ -122,7 +124,7 @@ var DrawV = (function(){
 				ctx.strokeStyle = down_color;
 			}
 
-			ctx.rect(x - bar_w/2,y,bar_w,bar_height);
+			ctx.rect(XYF(x - bar_w/2),XYF(y),bar_w,bar_height);
 			ctx.stroke();
 			ctx.fill();
 		}
