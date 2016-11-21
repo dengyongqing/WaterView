@@ -74,7 +74,7 @@ var DrawV = (function(){
 		var down_color =this.options.down_color
 
 		//标识最大成交量
-		if(this.options.showVMark){
+		if(this.options.showV && this.options.showVMark){
 			markVMax.apply(this,[ctx,v_max,y_v_top]);
 		}
 		
