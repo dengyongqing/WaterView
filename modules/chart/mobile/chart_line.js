@@ -72,21 +72,22 @@ var ChartLine = (function() {
         canvas.width = dpr;
         canvas.height = this.options.height * dpr;
 
-        // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / (9 * 2);
-        // 画布内容向坐偏移的距离
-        this.options.padding_left = canvas.width / 6;
+       // 画布分割区域
+        this.options.sepeNum = 7;
 
+        // 画布向下偏移的距离
+        this.options.canvas_offset_top = canvas.height / this.options.sepeNum /2;
+        // 画布内容向坐偏移的距离
+        this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距
-        this.options.k_v_away = canvas.height / (9 * 2);
+        this.options.k_v_away = canvas.height / this.options.sepeNum;
         // 缩放默认值
-        this.options.scale_count = 0;
-        this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
+        this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
         // 画布上第一个图表的高度
-        if (this.options.showflag) {
-            this.options.c_1_height = canvas.height * (5 / 9);
-        } else {
-            this.options.c_1_height = canvas.height * (7 / 9);
+        if(this.options.showV){
+            this.options.c_1_height = canvas.height * 4/this.options.sepeNum;
+        }else{
+            this.options.c_1_height = canvas.height - 90 * dpr;
         }
 
         canvas.style.width = this.options.width + "px";

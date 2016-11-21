@@ -32,9 +32,9 @@ var DrawV = (function() {
         /*成交量数组*/
         var data_arr = data.data;
         var padding_left = this.options.padding_left;
-        var v_height = ctx.canvas.height / 4;
+        var v_height = this.options.unit.unitHeight * 2;
         var v_base_height = v_height * 0.9;
-        var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top - this.options.unit.unitHeight/3;
+        var y_v_bottom = ctx.canvas.height - this.options.canvas_offset_top;
         var y_v_top = y_v_bottom - v_height;
         var y_v_width = ctx.canvas.width - this.options.padding_left;
         var x_sep = this.options.x_sep;
@@ -65,9 +65,13 @@ var DrawV = (function() {
         var bar_w = rect_unit.bar_w;
         /*K线柱体的颜色*/
         var up_color = this.options.up_color;
-        var down_color = this.options.down_color
+        var down_color = this.options.down_color;
+        if(this.options.showVMax === true){
+            markVMax(ctx, v_max, y_v_top);
+        }
 
         /*绘制边框和分割线*/
+        ctx.beginPath();
         ctx.strokeStyle = '#efefef';
         ctx.lineWidth = this.options.dpr;
         ctx.rect(this.options.padding_left, y_v_top, y_v_width, v_height);
@@ -124,6 +128,7 @@ var DrawV = (function() {
     function markVMax(ctx, v_max, y_v_end) {
         ctx.beginPath();
         ctx.fillStyle = '#999';
+        ctx.textBaseline = "top";
         ctx.fillText(common.format_unit(v_max), 0, y_v_end + 10);
         ctx.stroke();
     }
