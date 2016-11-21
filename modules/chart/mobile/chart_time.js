@@ -85,7 +85,7 @@ var ChartTime = (function() {
         this.options.sepeNum = 7;
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / this.options.sepeNum;
+        this.options.canvas_offset_top = canvas.height / this.options.sepeNum /2;
         // 画布内容向坐偏移的距离
         this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距
@@ -202,7 +202,7 @@ var ChartTime = (function() {
                 new DrawLine(this.options);
                 // 绘制分时折线图平均线
                 new DrawAvgCost(this.options);
-            }debugger;
+            }
             drawxy.drawYMark();
             
             // 绘制分时图成交量
