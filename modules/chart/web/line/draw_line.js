@@ -83,7 +83,7 @@ var DrawLine = (function(){
 
 		for(var i = 0;i < arr_length; i++){
 			var item = arr[i];
-			if(item){
+			if(item != null && item !== "" && item != undefined){
 				 var x = ((this.options.drawWidth - this.options.padding_left)/(arr_length-1)) * (i) + this.options.padding_left;
 				 if(flag){
 				 	var y = get_y.call(this,item);
