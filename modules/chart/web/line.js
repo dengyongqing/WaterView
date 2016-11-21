@@ -350,7 +350,7 @@ var ChartLine = (function() {
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
-                    if (tipArr[j].data == "") {
+                    if (tipArr[j].data === "") {
                         children[j + 1].style.display = "none";
                     } else {
                         flag = true;
@@ -374,7 +374,7 @@ var ChartLine = (function() {
                 yLine.style.left = left + "px";
                 var circles = that.options.interOption.circles;
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                    if (tipArr[k].data == "") {
+                    if (tipArr[k].data === "") {
                         circles[k].style.display = "none";
                     } else {
                         circles[k].style.display = "block";
