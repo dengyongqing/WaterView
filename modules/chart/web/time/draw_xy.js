@@ -9,7 +9,8 @@ var extend = require('tools/extend2');
 var common = require('chart/web/common/common');
 /*主题*/
 var theme = require('theme/default');
-
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawXY = (function() {
     //构造方法
     function DrawXY(options) {
@@ -58,28 +59,28 @@ var DrawXY = (function() {
             if (i < (sepe_num - 1) / 2) {
                 if (i == 0) {
                     ctx.strokeStyle = '#e1e1e1';
-                    ctx.moveTo(padding_left, Math.round(item.y));
-                    ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
+                    ctx.moveTo(XYF(padding_left), XYF(item.y));
+                    ctx.lineTo(XYF(ctx.canvas.width - padding_right), XYF(item.y));
                 }else{
                     ctx.strokeStyle = '#eeeeee';
-                    draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width - padding_right+4, Math.round(item.y), 5);
+                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right+4, item.y, 5);
                 }
                 ctx.fillStyle = '#007F24';
             } else if (i > (sepe_num - 1) / 2) {
                 if (i == (sepe_num - 1)) {
                     ctx.strokeStyle = 'e1e1e1';
-                    ctx.moveTo(padding_left, Math.round(item.y));
-                    ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
+                    ctx.moveTo(XYF(padding_left), XYF(item.y));
+                    ctx.lineTo(XYF(ctx.canvas.width - padding_right), XYF(item.y));
                 }else{
                     ctx.strokeStyle = '#eeeeee';
-                    draw_dash(ctx, padding_left, Math.round(item.y), ctx.canvas.width - padding_right+4, Math.round(item.y), 5);
+                    draw_dash(ctx, padding_left, item.y, ctx.canvas.width - padding_right+4, item.y, 5);
                 }
                 ctx.fillStyle = '#FF0A16';
             } else {
                 ctx.fillStyle = '#333333';
                 ctx.strokeStyle = '#cadef8';
-                ctx.moveTo(padding_left, Math.round(item.y));
-                ctx.lineTo(ctx.canvas.width - padding_right, Math.round(item.y));
+                ctx.moveTo(XYF(padding_left), XYF(item.y));
+                ctx.lineTo(XYF(ctx.canvas.width - padding_right), XYF(item.y));
             }
 
             // 绘制纵坐标刻度
@@ -195,8 +196,8 @@ var DrawXY = (function() {
                 draw_dash(ctx, x, y_v_bottom, x, y_v_top - 10, 5);
             } else {
                 ctx.strokeStyle = "#e1e1e1";
-                ctx.moveTo(Math.round(padding_left + i * itemWidth)-0.5, y_min);
-                ctx.lineTo(Math.round(padding_left + i * itemWidth)-0.5, 0);
+                ctx.moveTo(XYF(padding_left + i * itemWidth), XYF(y_min));
+                ctx.lineTo(XYF(padding_left + i * itemWidth), XYF(0));
                 ctx.stroke();
             }
 

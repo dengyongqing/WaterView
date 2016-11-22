@@ -86,7 +86,7 @@ var ChartTime = (function() {
         canvas.style.border = "0";
 
         // 画布上部内间距
-        ctx.translate("0", this.options.canvas_offset_top);
+        ctx.translate("0", Math.round(this.options.canvas_offset_top));
         // 画笔参数设置
         this.options.color = {};
         this.options.color.strokeStyle = 'rgba(230,230,230, 1)';
