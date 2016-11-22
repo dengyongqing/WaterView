@@ -69,7 +69,7 @@
         ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
         ctx.textAlign = 'right';
         ctx.lineWidth = 1;
-debugger;
+
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             

@@ -319,7 +319,11 @@ var Interactive = (function() {
             for(i = 0; i < dataObj.length; i++){
                 var span = document.createElement('span');
                 var temp = dataObj[i].value.length-1;
-                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + (dataObj[i].value[index].value == null ? "-" : dataObj[i].value[index].value);
+                var avgValue = "-";
+                if(dataObj[i].value[index] !== undefined && dataObj[i].value[index].value !== null){
+                    avgValue = dataObj[i].value[index].value;
+                }
+                span.innerHTML = dataObj[i].name.toUpperCase() + ": " + avgValue;
                 span.style.color = colors[i];
                 frag.appendChild(span);
             }
@@ -633,12 +637,16 @@ var Interactive = (function() {
         }
 
         if(this.options.markMAContainer){
-            this.options.markMAContainer.innerHTML = this.options[this.options.markUPTType].defaultMaHtml;
-                }
+            if(this.options[this.options.markUPTType] !== undefined){
+                this.options.markMAContainer.innerHTML = this.options[this.options.markUPTType].defaultMaHtml;
+            }
+        }
 
         if(this.options.markTContainer){
-            this.options.markTContainer.innerHTML = this.options[this.options.markTType].defaultTHtml;
-                }
+            if(this.options[this.options.markTType] !== undefined){
+                this.options.markTContainer.innerHTML = this.options[this.options.markTType].defaultTHtml;
+            }
+        }
 
         if (this.options.mark_v_ma) {
 
