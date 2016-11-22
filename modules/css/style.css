@@ -709,6 +709,12 @@
 }
 
 .emcharts-container .fu-quan-select{
+
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+
 	position: absolute;
 	z-index: 100;
 	right:0px;

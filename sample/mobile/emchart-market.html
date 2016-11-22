@@ -81,7 +81,8 @@
 				        current_tab = k1 = new EmchartsMobileK({
 							dpr: 2,
 							type: "DK",
-							showV:true,
+							// showV:true,
+							// showVMark:true,
 							code: code == "" ? "3000592":code,
 				        	container : target_id,
 					        "width" : document.body.offsetWidth - 20,
@@ -94,8 +95,8 @@
 				        current_tab = k2 = new EmchartsMobileK({
 							dpr: 2,
 							type: "WK",
-							showV:true,
-							showVMark:false,
+							// showV:true,
+							// showVMark:true,
 							code: code == "" ? "3000592":code,
 				        	container : target_id,
 					        "width" : document.body.offsetWidth - 20,
@@ -108,7 +109,8 @@
 				        current_tab = k3 = new EmchartsMobileK({
 							dpr: 2,
 							type: "MK",
-							showV:true,
+							// showV:true,
+							// showVMark:true,
 							code: code == "" ? "3000592":code,
 				        	container : target_id,
 					        "width" : document.body.offsetWidth - 20,
@@ -150,7 +152,8 @@
 	        	container : "emchart-0",
 	        	delaytouch : true,
 		        "width" : document.body.offsetWidth - 20,
-		        "height" : document.body.offsetWidth
+		        "height" : document.body.offsetWidth,
+		        "showV" : true
 	        });
 	        k0.draw();
 
