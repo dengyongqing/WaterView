@@ -132,6 +132,26 @@ var common = {
         }
         
         return parseFloat((temp_value/1).toFixed(num)) + unit;
+    },//格式化数据
+    translate:function(str){
+        var len = (str + "").length;
+        if (len <= 4) {
+            return str;
+        } else if (len < 9) {
+            return simT(str * 1 / 10000) + "万";
+        } else if (len < 13) {
+            return simT(str * 1 / Math.pow(10, 8)) + "亿";
+        } else if (len <= 16) {
+            return simT(str * 1 / Math.pow(10, 12)) + "万亿";
+        }
+
+        function simT(num) {
+            if (num < 100) {
+                return num.toFixed(2);
+            } else {
+                return Math.round(num);
+            }
+        }
     },
     /**
      * 兼容性的事件添加

@@ -280,7 +280,7 @@ var Interactive = (function() {
             if (type == "DK" || type == "WK" || type == "MK") {
                 close_data.innerText = obj.close;
                 percent.innerText = obj.percent + '%';
-                count.innerText = translate(volume);
+                count.innerText = common.translate(volume);
                 time.innerText = obj.data_time;
                 div_tip.style.top = -div_tip.clientHeight + "px";
 
@@ -289,7 +289,7 @@ var Interactive = (function() {
             } else if (type == "TL") {
                 close_data.innerText = obj.price;
                 percent.innerText = obj.percent + '%';
-                count.innerText = translate(volume);
+                count.innerText = common.translate(volume);
                 time.innerText = obj.time;
                 div_tip.style.top = -div_tip.clientHeight + "px";
                 div_tip.className = div_tip.className + " " + "time-tip"
@@ -311,13 +311,13 @@ var Interactive = (function() {
             if (type == "DK" || type == "WK" || type == "MK") {
                 tip_obj.close.innerText = obj.close;
                 tip_obj.percent.innerText = obj.percent + '%';
-                tip_obj.count.innerText = translate(volume);
+                tip_obj.count.innerText = common.translate(volume);
                 tip_obj.time.innerText = obj.data_time.replace(/-/g, "/");
             } else if (type == "TL") {
                 tip_obj.close.innerText = obj.price;
                 tip_obj.percent.innerText = obj.percent + '%';
 
-                tip_obj.count.innerText = translate(volume);
+                tip_obj.count.innerText = common.translate(volume);
                 tip_obj.time.innerText = obj.time;
             }
         }
@@ -517,27 +517,6 @@ var Interactive = (function() {
             noData_container.appendChild(noData_notice);
         }
 
-    }
-
-    function translate(str) {
-        var len = (str + "").length;
-        if (len <= 4) {
-            return str;
-        } else if (len <= 9) {
-            return simT(str * 1 / 10000) + "万";
-        } else if (len <= 13) {
-            return simT(str * 1 / Math.pow(10, 8)) + "亿";
-        } else if (len <= 16) {
-            return simT(str * 1 / Math.pow(10, 12)) + "万亿";
-        }
-    }
-
-    function simT(num) {
-        if (num < 100) {
-            return num.toFixed(2);
-        } else {
-            return Math.round(num);
-        }
     }
 
     return Interactive;
