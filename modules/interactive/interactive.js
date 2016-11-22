@@ -276,11 +276,11 @@ var Interactive = (function() {
 	        div_tip.appendChild(frag);
 	        document.getElementById(this.options.container).appendChild(div_tip);
 
-	        var volume = obj.volume;
+	        var volume = Math.round(obj.volume);
 	        if(type == "DK" || type == "WK" || type == "MK"){
 	            close_data.innerText = obj.close;
 	            percent.innerText = obj.percent+'%';
-            	count.innerText = common.format_unit(volume);
+            	count.innerText = common.translate(volume);
 	            time.innerText = obj.data_time;
 	            div_tip.style.top = - div_tip.clientHeight + "px";
 
@@ -289,7 +289,7 @@ var Interactive = (function() {
 	        }else if(type == "TL"){
 	            close_data.innerText = obj.price;
 	            percent.innerText = obj.percent+'%';
-            	count.innerText = common.format_unit(volume);
+            	count.innerText = common.translate(volume);
 	            time.innerText = obj.time;
 	            div_tip.style.top = - div_tip.clientHeight + "px";
 	            div_tip.className = div_tip.className + " " + "time-tip" 
@@ -306,18 +306,18 @@ var Interactive = (function() {
 	    }else{
 	        var tip_obj = this.options.tip;
 	        var div_tip = this.options.tip.tip;
-	        var volume = obj.volume;
+	        var volume = Math.round(obj.volume);
 	       
 	        if(type == "DK" || type == "WK" || type == "MK"){
 	            tip_obj.close.innerText = obj.close;
 	            tip_obj.percent.innerText = obj.percent+'%';
-	            tip_obj.count.innerText = common.format_unit(volume);
+	            tip_obj.count.innerText = common.translate(volume);
 	            tip_obj.time.innerText = obj.data_time.replace(/-/g,"/");
 	        }else if(type == "TL"){
 	            tip_obj.close.innerText = obj.price;
 	            tip_obj.percent.innerText = obj.percent+'%';
 
-	            tip_obj.count.innerText = common.format_unit(volume);
+	            tip_obj.count.innerText = common.translate(volume);
 	            tip_obj.time.innerText = obj.time;
 	        }
 	    }

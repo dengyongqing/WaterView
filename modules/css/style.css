@@ -727,3 +727,8 @@
 	 -webkit-appearance: none;
 	 padding-left: 3px;
 }
+
+.emcharts-container canvas{
+	*display: inline-block;
+	*zoom:1;
+}
