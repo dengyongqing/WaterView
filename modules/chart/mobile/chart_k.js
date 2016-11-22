@@ -85,6 +85,10 @@ var ChartK = (function() {
         this.options.k_v_away = canvas.height / this.options.sepeNum;
         // 缩放默认值
         this.options.scale_count = this.options.scale_count == undefined ? 0 : this.options.scale_count;
+
+        this.options.showV = this.options.showV == undefined ? true : this.options.showV;
+        this.options.showVMark = this.options.showVMark == undefined ? false : this.options.showVMark;
+
         // 画布上第一个图表的高度
         if(this.options.showV){
             this.options.c_1_height = canvas.height * 4/this.options.sepeNum;
@@ -110,7 +114,7 @@ var ChartK = (function() {
 
         // 复权方式
         this.options.authorityType = EMcookie.getCookie("emcharts-authorityType") == null ? "" : EMcookie.getCookie("emcharts-authorityType");
-       
+        
         // 容器中添加画布
         this.container.appendChild(canvas);
        
@@ -604,7 +608,9 @@ var ChartK = (function() {
                 EMcookie.setCookie("emcharts-authorityType", v, exp, "/");
 
                 _this.draw();
-               
+
+                event.preventDefault(); 
+                event.stopPropagation();
                 // current.options.beforeBackRight = v;
                 // if(v == "before"){
                 //     current.beforeBackRight(1);
