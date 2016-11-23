@@ -260,7 +260,7 @@ var ChartLine = (function() {
             for (var i = 0, len = series.length; i < len; i++) {
                 tipArr.push({
                     color: series[i].color,
-                    data: series[i].data[cursor],
+                    data: series[i].data[cursor] + (series[i].suffix || ""),
                     name: series[i].name,
                     y: padding_top + common.get_y.call(that, series[i].data[cursor])
                 });
@@ -269,7 +269,7 @@ var ChartLine = (function() {
                 for (i = 0, len = series2.length; i < len; i++) {
                     tipArr.push({
                         color: series2[i].color,
-                        data: series2[i].data[cursor],
+                        data: series2[i].data[cursor] + (series2[i].suffix || ""),
                         name: series2[i].name,
                         y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2))
                     });
