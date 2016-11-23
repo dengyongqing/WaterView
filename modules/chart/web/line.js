@@ -53,8 +53,10 @@ var ChartLine = (function() {
     ChartLine.prototype.init = function() {
 
         this.options.type = "line";
+        var flag = false;
         if(!this.options.canvas){
             var canvas = document.createElement("canvas");
+            flag = true;
         }else{
             var canvas = this.options.canvas; 
         }
@@ -109,8 +111,16 @@ var ChartLine = (function() {
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
 
+        var isIE8 = !+'\v1';
         // 画布上部内间距
-        ctx.translate("0", this.options.canvas_offset_top);
+        if(isIE8){
+            if(flag){
+                ctx.translate("0", this.options.canvas_offset_top);
+            }
+        }else{
+            ctx.translate("0", this.options.canvas_offset_top);
+        }
+        
         // 画笔参数设置
         var font = "";
         var fontSize = "";
