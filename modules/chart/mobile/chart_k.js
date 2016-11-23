@@ -112,9 +112,6 @@ var ChartK = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
 
-        // 复权方式
-        this.options.authorityType = EMcookie.getCookie("emcharts-authorityType") == null ? "" : EMcookie.getCookie("emcharts-authorityType");
-        
         // 容器中添加画布
         this.container.appendChild(canvas);
        
@@ -134,6 +131,7 @@ var ChartK = (function() {
         inter.showLoading();
 
         var type = _this.options.type;
+        addFuQuan.call(this);
         try{
             if(type == "DK"){
                 GetDataDay(getParamsObj.call(_this),function(data){
@@ -195,7 +193,6 @@ var ChartK = (function() {
             // 隐藏loading效果
             inter.hideLoading();
         }
-        addFuQuan.call(this);
     };
     // 重绘
     ChartK.prototype.reDraw = function() {
@@ -569,59 +566,21 @@ var ChartK = (function() {
 
     }
 
-    function addFuQuan(){
-        var _this = this;
-        var select = document.createElement("select");
-        var option1 = document.createElement("option");
-        option1.value = "";
-        option1.innerHTML = "不复权";
-        var option2 = document.createElement("option");
-        option2.value = "fa";
-        option2.innerHTML = "前复权";
-        var option3 = document.createElement("option");
-        option3.value = "ba";
-        option3.innerHTML = "后复权";
-        select.appendChild(option1);
-        select.appendChild(option2);
-        select.appendChild(option3);
-        select.className = "fu-quan-select";
-        this.container.appendChild(select);
-
+    function addFuQuan() {
         var authorityType = EMcookie.getCookie("emcharts-authorityType") == null ? "" : EMcookie.getCookie("emcharts-authorityType");
 
-        if(authorityType == ""){
-            option1.selected = "selected";
-        }else if(authorityType == "fa"){
-            option2.selected = "selected";
-        }else if(authorityType == "ba"){
-            option3.selected = "selected";
-        }
-
-        common.addEvent(select,"change",function(event){
-                var v = event.target.value;
-                
-                _this.options.authorityType = v;
-
+        if(this.options.authorityType === undefined){
+            this.options.authorityType = authorityType;
+        }else{
+            if(authorityType !== this.options.authorityType){
                 var Days = 1000000;
-                var exp = new Date(); 
-                exp.setTime(exp.getTime() + Days*24*60*60*1000);
-                EMcookie.setCookie("emcharts-authorityType", v, exp, "/");
-
-                _this.draw();
-
-                event.preventDefault(); 
-                event.stopPropagation();
-                // current.options.beforeBackRight = v;
-                // if(v == "before"){
-                //     current.beforeBackRight(1);
-                // }else if(v == "back"){
-                //     current.beforeBackRight(2);
-                // }else{
-                //     current.beforeBackRight(0);
-                // }
-                    
-            });
+                var exp = new Date();
+                exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+                EMcookie.setCookie("emcharts-authorityType", this.options.authorityType, exp, "/");
+            }
+        }
     }
+
 
     return ChartK;
 })();
