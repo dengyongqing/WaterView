@@ -103,7 +103,7 @@ var ChartBarQuarter = (function() {
         this.options.data.step = getMaxMinValue.step;
 
         // this.options.padding_left = this.options.context.measureText("+9000万").width;
-        this.options.padding_left = getMaxMinValue.maxPaddingLeftWidth * dpr + 20;
+        this.options.padding_left = getMaxMinValue.maxPaddingLeftWidth * dpr + 30;
         this.options.drawWidth = canvas.width - 10;
 
         // 画布上部内间距

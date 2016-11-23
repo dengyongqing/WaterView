@@ -53,7 +53,12 @@ var ChartLine = (function() {
     ChartLine.prototype.init = function() {
 
         this.options.type = "line";
-        var canvas = document.createElement("canvas");
+        if(!this.options.canvas){
+            var canvas = document.createElement("canvas");
+        }else{
+            var canvas = this.options.canvas; 
+        }
+        
         // 去除画布上粘贴效果
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
@@ -158,7 +163,7 @@ var ChartLine = (function() {
         this.options.data.step = maxAndMin.step;
 
         // 画布内容偏移的距离
-        this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 20);
+        this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 30);
         if (this.options.series2) {
             this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
             // 加水印
@@ -211,29 +216,37 @@ var ChartLine = (function() {
         var c_1_height = this.options.c_1_height;
         var radius = this.options.pointRadius;
         common.addEvent.call(that, canvas, "touchmove", function(e) {
-            var winX, winY;
-            //浏览器检测，获取到相对元素的x和y
-            if (e.layerX) {
-                winX = e.layerX;
-                winY = e.layerY;
-            } else if (e.x) {
-                winX = e.x;
-                winY = e.y;
-            }
+
+            var winX = e.offsetX || (e.clientX - that.container.getBoundingClientRect().left);
+            var winY = e.offsetY || (e.clientY - that.container.getBoundingClientRect().top);
+
+            // var winX, winY;
+            // //浏览器检测，获取到相对元素的x和y
+            // if (e.layerX) {
+            //     winX = e.layerX;
+            //     winY = e.layerY;
+            // } else if (e.x) {
+            //     winX = e.x;
+            //     winY = e.y;
+            // }
 
             eventHanlder.call(that, winX, winY);
         });
         //添加交互事件
         common.addEvent.call(that, canvas, "mousemove", function(e) {
-            var winX, winY;
-            //浏览器检测，获取到相对元素的x和y
-            if (e.layerX) {
-                winX = e.layerX;
-                winY = e.layerY;
-            } else if (e.x) {
-                winX = e.x;
-                winY = e.y;
-            }
+
+            var winX = e.offsetX || (e.clientX - that.container.getBoundingClientRect().left);
+            var winY = e.offsetY || (e.clientY - that.container.getBoundingClientRect().top);
+
+            // var winX, winY;
+            // //浏览器检测，获取到相对元素的x和y
+            // if (e.layerX) {
+            //     winX = e.layerX;
+            //     winY = e.layerY;
+            // } else if (e.x) {
+            //     winX = e.x;
+            //     winY = e.y;
+            // }
 
             eventHanlder.call(that, winX, winY);
 
@@ -418,10 +431,11 @@ var ChartLine = (function() {
         }
         // 删除canvas画布
     ChartLine.prototype.clear = function(cb) {
-        if (this.container) {
+        try{
+            var ctx = this.options.context;
+            ctx.clearRect(0,-this.options.canvas_offset_top,this.options.canvas.width + this.options.drawWidth,this.options.canvas.height);
+        }catch(e){
             this.container.innerHTML = "";
-        } else {
-            document.getElementById(this.options.container).innerHTML = "";
         }
         if (cb) {
             cb();

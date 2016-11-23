@@ -10,6 +10,25 @@
 		    margin: 0;
 		    padding: 0;
 		}
+
+		.fu-quan-select{
+			-webkit-user-select:none;
+		    -moz-user-select:none;
+		    -ms-user-select:none;
+		    user-select:none;
+
+			position: absolute;
+			z-index: 1000;
+			right:10px;
+			top:191px;
+			width:70px;
+			height:20px;
+			font-size: 12px;
+			font-family: simsun;
+
+			-webkit-appearance: none;
+			padding-left: 3px;
+		}
 	</style>
 	
 </head>
@@ -38,6 +57,12 @@
 					<div id="tab-3" target="emchart-3" class="tab">月K</div>
 				</div>
 				<div class="emchart">
+					<select name="" id="selector" class="fu-quan-select">
+						<option value="">不复权</option>
+						<option value="fa">前复权</option>
+						<option value="ba">后复权</option>
+					</select>
+
 					<div id="emchart-0" class="em-tab" >
 					</div>
 					<div id="emchart-1" class="em-tab">
@@ -138,9 +163,7 @@
 			})
 		});
 		
-		window.resize = function(){
-			alert(window.innerHeight);
-		}
+		
 		window.onload = function(){
 			
 			current_tab = k0 = new EmchartsMobileTime({
@@ -153,6 +176,23 @@
 		        "showV" : true
 	        });
 	        k0.draw();
+
+	        selector = document.getElementById("selector");
+			var authorityType = current_tab.options.authorityType;
+			if(authorityType == ""){
+				selector.children[0].selected = selected;
+			}else if(authorityType == "fa"){
+				selector.children[1].selected = selected;
+			}else if(authorityType == "ba"){
+				selector.children[2].selected = selected;
+			}
+
+	    	selector.addEventListener("change", function(event){
+				var v = event.target.value;
+	            current_tab.options.authorityType = v;
+	            current_tab.draw();
+	            event.preventDefault(); 
+			}, false);
 
 		}
 
@@ -185,8 +225,11 @@
 		        });
 		        current_tab.draw();
         	}
+
         	
         });
+		
+
 
 	</script>
 	

@@ -53,7 +53,7 @@
 	<script type="text/javascript">
 		
 		window.onload = function(){
-			var k0 = new EmchartsWebLine({
+			current = k0 = new EmchartsWebLine({
 	        	container : "emchart-0",
 		        "width" : 800,
 		        "height" : 500,
@@ -106,7 +106,7 @@
 						color:"#ff5000",
 						suffix:"万",
 						showpoint:true,
-						data:[500,200,500,200,-100,-400,-100,-400,-100]
+						data:[30000,60000,30000,60000,-30000,-30000,-60000,-60000,-60000]
 					}
 				],
 				series2:[
@@ -120,6 +120,10 @@
 	        });
 	        k0.draw();
 		}
+
+		setInterval(function(){
+			current.draw();
+		},3000)
 	</script>
 	
 </body>
