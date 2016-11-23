@@ -277,6 +277,7 @@ var Interactive = (function() {
                 time_x_bottom.style.display = 'none';
             }
             // debugger;
+            var code = this.options.code;
             var itemData = this.options.lastItemData;
             var map = ['周日','周一', '周二', '周三', '周四','周五', '周六' ];
             var time_x_top = this.options.webTimeTips.time_x_top;
