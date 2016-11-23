@@ -7,11 +7,11 @@ function divide(num, parmarr) {
             arr.push(parmarr[i]);
         }
     }
-    var max = arr[0],
-        min = 0;
-    if(arr.length === 1){
+    if(arr.length <= 1){
         arr.push(0);
     }
+    var max = arr[0],
+        min = arr[0];
     var len = arr.length;
     var result = {};
     var flag = 1;
@@ -25,6 +25,15 @@ function divide(num, parmarr) {
         min = Math.abs(max);
         flag = -1;
     }
+
+    if(max === min && max === 0){
+        return {
+            max:0,
+            min:0,
+            stepHeight: 0
+        }
+    }
+
     // 对最大最小值情况判断，进行不同求值过程
     var stepHeight = getStepLength(num, max, min);
     var base = getBase(stepHeight);
