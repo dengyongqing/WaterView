@@ -76,7 +76,7 @@ var ChartTime = (function() {
         canvas.height = this.options.height * dpr;
 
         // 画布分割区域
-        this.options.sepeNum = 7;
+        this.options.sepeNum = 6.5;
 
         if(this.options.showV === undefined){
             this.options.showV = true;

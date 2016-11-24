@@ -43,6 +43,7 @@ var Interactive = (function() {
 	        if(this.options.showV){
 	        	y_line.style.height = (this.options.canvas.height/dpr) + "px";
 	        }else{
+	        	
 	        	y_line.style.height = (this.options.c_1_height + this.options.canvas_offset_top)/dpr + "px";
 	        }
 	        
