@@ -114,6 +114,8 @@ var ChartK = (function() {
 
         // 容器中添加画布
         this.container.appendChild(canvas);
+
+        addFuQuan.call(this);
        
     };
 
@@ -131,7 +133,7 @@ var ChartK = (function() {
         inter.showLoading();
 
         var type = _this.options.type;
-        addFuQuan.call(this);
+        
         try{
             if(type == "DK"){
                 GetDataDay(getParamsObj.call(_this),function(data){
