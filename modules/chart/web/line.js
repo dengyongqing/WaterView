@@ -285,7 +285,8 @@ var ChartLine = (function() {
                     color: series[i].color,
                     data: series[i].data[cursor] + (series[i].suffix || ""),
                     name: series[i].name,
-                    y: padding_top + common.get_y.call(that, series[i].data[cursor])
+                    y: padding_top + common.get_y.call(that, series[i].data[cursor]),
+                    suffix:(series[i].suffix || "")
                 });
             }
             if (that.options.series2) {
@@ -294,7 +295,8 @@ var ChartLine = (function() {
                         color: series2[i].color,
                         data: series2[i].data[cursor] + (series2[i].suffix || ""),
                         name: series2[i].name,
-                        y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2))
+                        y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
+                        suffix:(series2[i].suffix || "")
                     });
                 }
             }
@@ -373,7 +375,7 @@ var ChartLine = (function() {
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
-                    if (tipArr[j].data === "") {
+                    if (tipArr[j].data ===tipArr[j].suffix) {
                         children[j + 1].style.display = "none";
                     } else {
                         flag = true;
@@ -397,7 +399,7 @@ var ChartLine = (function() {
                 yLine.style.left = left + "px";
                 var circles = that.options.interOption.circles;
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                    if (tipArr[k].data === "") {
+                    if (tipArr[k].data === tipArr[k].suffix) {
                         circles[k].style.display = "none";
                     } else {
                         circles[k].style.display = "block";
