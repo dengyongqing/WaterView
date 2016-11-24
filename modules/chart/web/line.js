@@ -76,7 +76,7 @@ var ChartLine = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr = 1;
+        var dpr = this.options.dpr = 2;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -227,8 +227,10 @@ var ChartLine = (function() {
         var radius = this.options.pointRadius;
         common.addEvent.call(that, canvas, "touchmove", function(e) {
 
-            var winX = e.offsetX || (e.clientX - that.container.getBoundingClientRect().left);
-            var winY = e.offsetY || (e.clientY - that.container.getBoundingClientRect().top);
+            var touchEvent = e.changedTouches[0];
+
+            var winX = touchEvent.offsetX || (touchEvent.clientX - that.container.getBoundingClientRect().left);
+            var winY = touchEvent.offsetY || (touchEvent.clientY - that.container.getBoundingClientRect().top);
 
             // var winX, winY;
             // //浏览器检测，获取到相对元素的x和y
