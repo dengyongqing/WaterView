@@ -211,6 +211,7 @@ var ChartLine = (function() {
         var ctx = this.options.context;
         var padding_left = this.options.padding_left;
         var padding_top = this.options.canvas_offset_top;
+        var dpr = this.options.dpr;
         var unit; //单位宽度
         if (dateArr.length === 1) {
             unit = this.options.drawWidth - padding_left;
@@ -218,13 +219,12 @@ var ChartLine = (function() {
             unit = (this.options.drawWidth - padding_left) / (dateArr.length - 1); //单位宽度
         }
         var that = this;
-        var dpr = this.options.dpr;
         var y_max = this.options.data.max;
         var y_min = this.options.data.min;
         var y_max2 = this.options.data.max2;
         var y_min2 = this.options.data.min2;
         var c_1_height = this.options.c_1_height;
-        var radius = this.options.pointRadius;
+        var radius = this.options.pointRadius/dpr;
         common.addEvent.call(that, canvas, "touchmove", function(e) {
 
             var touchEvent = e.changedTouches[0];
@@ -267,7 +267,7 @@ var ChartLine = (function() {
         function eventHanlder(winX, winY) {
             var canvasX = winX * dpr - padding_left; //转换为canvas中的坐标
             var canvasY = winY * dpr - padding_top;
-
+            
             //下标
             var cursor = 0;
             //用来显示tips的一组数据
@@ -311,9 +311,9 @@ var ChartLine = (function() {
             var left = 0,
                 flag = false;
             if (dateArr.length == 1) {
-                left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left);
+                left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left/dpr);
             } else {
-                left = (cursor * unit / dpr + padding_left);
+                left = (cursor * unit / dpr + padding_left/dpr);
             }
 
             //添加交互
