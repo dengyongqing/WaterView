@@ -330,11 +330,7 @@ var ChartLine = (function() {
                 title.className = "chart_line_tips_title";
                 title.innerHTML = dateArr[cursor].value;
                 tips.appendChild(title);
-                if ((cursor * unit / dpr + padding_left / dpr) > canvas.width / 2) {
-                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
-                } else {
-                    tips.style.left = (left + padding_left / 2) + "px";
-                }
+                
                 //交互的竖线
                 var yLine = document.createElement("div");
                 yLine.className = "chart_line_yline";
@@ -367,7 +363,11 @@ var ChartLine = (function() {
                     that.container.appendChild(cir);
                     circles.push(cir);
                 }
-
+                if ((cursor * unit / dpr + padding_left / dpr) > canvas.width / 2) {
+                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
+                } else {
+                    tips.style.left = (left + padding_left / 2) + "px";
+                }
                 that.options.interOption.tips = tips;
                 that.options.interOption.yLine = yLine;
                 that.options.interOption.circles = circles;
