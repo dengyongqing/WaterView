@@ -51,7 +51,6 @@
         ctx.fillStyle = '#b1b1b1';
         ctx.strokeStyle = '#ccc';
         ctx.textAlign = 'right';
-
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             ctx.moveTo(this.options.padding_left, Math.round(item.y));
