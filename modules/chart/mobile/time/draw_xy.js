@@ -149,6 +149,7 @@ var DrawXY = (function() {
         ctx.save();
         ctx.beginPath();
         ctx.fillStyle = '#A0A0A0';
+        ctx.textBaseline = "middle";
         /*画布宽度*/
         var k_width = ctx.canvas.width - padding_left;
         var y_date = k_height + (ctx.canvas.height / 8) * 1 / 3;

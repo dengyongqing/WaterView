@@ -72,9 +72,9 @@ var DrawV = (function() {
 
         /*绘制边框和分割线*/
         ctx.beginPath();
-        ctx.strokeStyle = '#efefef';
+        ctx.strokeStyle = '#e5e5e5';
         ctx.lineWidth = this.options.dpr;
-        ctx.rect(this.options.padding_left, y_v_top, y_v_width, v_height);
+        ctx.rect(this.options.padding_left+1, y_v_top, y_v_width-2, v_height);
         ctx.moveTo(padding_left, y_v_top + v_height/2);
         ctx.lineTo(y_v_width, y_v_top + v_height/2);
         ctx.stroke();
