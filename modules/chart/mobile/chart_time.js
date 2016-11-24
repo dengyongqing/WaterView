@@ -10,12 +10,6 @@
  *     type:    "TL"(分时图),"DK"(日K线图),"WK"(周K线图),"MK"(月K线图)
  *     canvas:  画布对象
  *     ctx:     画布上下文
- *     canvas_offset_top:   画布中坐标轴向下偏移量
- *     padding_left:    画布左侧边距
- *     k_v_away:    行情图表（分时图或K线图）和成交量图表的间距
- *     scale_count:     缩放默认值
- *     c_1_height:  行情图表（分时图或K线图）的高度
- *     rect_unit:   分时图或K线图单位绘制区域
  * }
  *
  */
@@ -82,14 +76,14 @@ var ChartTime = (function() {
         canvas.height = this.options.height * dpr;
 
         // 画布分割区域
-        this.options.sepeNum = 7;
+        this.options.sepeNum = 6.5;
 
         if(this.options.showV === undefined){
             this.options.showV = true;
         }
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = canvas.height / this.options.sepeNum /2;
+        this.options.canvas_offset_top = 2;
         // 画布内容向坐偏移的距离
         this.options.padding_left = 0;
         // 行情图表（分时图或K线图）和成交量图表的间距

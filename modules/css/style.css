@@ -54,7 +54,7 @@
 	position:absolute;z-index:100;
 }
 .emcharts-container .mark-ma{
-	position:absolute;top:0px;left:0px;z-index:97;border:0;height:30px;line-height:30px;font-family:Arial;font-weight:lighter;
+	position:absolute;top:0px;left:0px;z-index:97;border:0;font-family:Arial;font-weight:lighter;
 }
 .emcharts-container .mark-ma span {
 	display:inline-block;padding-right:10px;font-size:12px;text-align:left;color:#ffba42;
