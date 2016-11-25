@@ -43,7 +43,7 @@ var Interactive = (function() {
 	        if(this.options.showV){
 	        	y_line.style.height = (this.options.canvas.height/dpr) + "px";
 	        }else{
-	        	
+
 	        	y_line.style.height = (this.options.c_1_height + this.options.canvas_offset_top)/dpr + "px";
 	        }
 	        
@@ -96,6 +96,7 @@ var Interactive = (function() {
 	Interactive.prototype.markMA = function (canvas,obj_5,obj_10,obj_20){
 	    // var c_box = canvas.getBoundingClientRect();
 	    // var dpr = this.options.dpr;
+
 	    if(!this.options.mark_ma){
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div"); 
@@ -110,10 +111,10 @@ var Interactive = (function() {
 	        var ma_5_data = document.createElement('span');
 	        ma_5_data.className = "span-m5";
 	        if(obj_5){
-	            ma_5_data.innerText = "MA5: " + obj_5.value;
+	            ma_5_data.innerText = "MA5:" + (obj_5.value/1).toFixed(this.options.pricedigit);
 	        }else{
 	        	if(this.default_m5){
-	        		ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        		ma_5_data.innerText = "MA5:" +  (this.default_m5.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		ma_5_data.innerText = "MA5: -";
 	        	}
@@ -125,10 +126,10 @@ var Interactive = (function() {
 	        ma_10_data.id = "ma_10_data";
 	        ma_10_data.className = "span-m10";
 	        if(obj_10){
-	            ma_10_data.innerText = "MA10: " + obj_10.value;
+	            ma_10_data.innerText = "MA10:" + (obj_10.value/1).toFixed(this.options.pricedigit);
 	        }else{
 	        	if(this.default_m10){
-					ma_10_data.innerText = "MA10: " + this.default_m10.value;
+					ma_10_data.innerText = "MA10:" + (this.default_m10.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		ma_10_data.innerText = "MA10: -";
 	        	}
@@ -140,10 +141,10 @@ var Interactive = (function() {
 	        ma_20_data.id = "ma_20_data";
 	        ma_20_data.className = "span-m20";
 	        if(obj_20){
-	            ma_20_data.innerText = "MA20: " + obj_20.value;
+	            ma_20_data.innerText = "MA20:" +  (obj_20.value/1).toFixed(this.options.pricedigit);
 	        }else{
 	        	if(this.default_m20){
-	        		ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        		ma_20_data.innerText = "MA20:" + (this.default_m20.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		ma_20_data.innerText = "MA20: -";
 	        	}
@@ -157,38 +158,38 @@ var Interactive = (function() {
 	        document.getElementById(this.options.container).appendChild(div_mark);
 
 	        if(document.body.clientWidth <= 320){
-	        	ma_5_data.style.fontSize = "12px";
-	        	ma_10_data.style.fontSize = "12px";
-	        	ma_20_data.style.fontSize = "12px";
+	        	ma_5_data.style.fontSize = "10px";
+	        	ma_10_data.style.fontSize = "10px";
+	        	ma_20_data.style.fontSize = "10px";
 	        }
 	        // div_tip.style.left = w_pos.x - 300 + "px";
 	    }else{
 	        var div_mark = this.options.mark_ma.mark_ma; 
 	        if(obj_5){
-	           this.options.mark_ma.ma_5_data.innerText = "MA5: " + obj_5.value;
+	           this.options.mark_ma.ma_5_data.innerText = "MA5:" + (obj_5.value/1).toFixed(this.options.pricedigit);
 	        }else{
 	        	if(this.default_m5){
-	        		this.options.mark_ma.ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        		this.options.mark_ma.ma_5_data.innerText = "MA5:" + (this.default_m5.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		this.options.mark_ma.ma_5_data.innerText = "MA5: -";
 	        	}
 	        }
 
 	        if(obj_10){
-	            this.options.mark_ma.ma_10_data.innerText = "MA10: " + obj_10.value;
+	            this.options.mark_ma.ma_10_data.innerText = "MA10:" + (obj_10.value/1).toFixed(this.options.pricedigit);
 	        }else{
 	        	if(this.default_m10){
-					this.options.mark_ma.ma_10_data.innerText = "MA10: " + this.default_m10.value;
+					this.options.mark_ma.ma_10_data.innerText = "MA10:" + (this.default_m10.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		this.options.mark_ma.ma_10_data.innerText = "MA10: -";
 	        	}
 	        }
 
 	        if(obj_20){
-	            this.options.mark_ma.ma_20_data.innerText = "MA20: " + obj_20.value;
+	            this.options.mark_ma.ma_20_data.innerText = "MA20:" +  (obj_20.value/1).toFixed(this.options.pricedigit);
 	        }else{
 	        	if(this.default_m20){
-	        		this.options.mark_ma.ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        		this.options.mark_ma.ma_20_data.innerText = "MA20:" + (this.default_m20.value/1).toFixed(this.options.pricedigit);;
 	        	}else{
 	        		this.options.mark_ma.ma_20_data.innerText = "MA20: -";
 	        	}
@@ -433,7 +434,7 @@ var Interactive = (function() {
             var ma_5_data = this.options.mark_ma.ma_5_data;
             if(ma_5_data){
             	if(this.default_m5){
-	        		ma_5_data.innerText = "MA5: " + this.default_m5.value;
+	        		ma_5_data.innerText = "MA5:" + (this.default_m5.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		ma_5_data.innerText = "MA5: -";
 	        	}
@@ -441,7 +442,7 @@ var Interactive = (function() {
             var ma_10_data = this.options.mark_ma.ma_10_data;
             if(ma_10_data){
             	if(this.default_m10){
-	        		ma_10_data.innerText = "MA10: " + this.default_m10.value;
+	        		ma_10_data.innerText = "MA10:" + (this.default_m10.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		ma_10_data.innerText = "MA10: -";
 	        	}
@@ -449,7 +450,7 @@ var Interactive = (function() {
             var ma_20_data = this.options.mark_ma.ma_20_data;
             if(ma_20_data){
             	if(this.default_m20){
-	        		ma_20_data.innerText = "MA20: " + this.default_m20.value;
+	        		ma_20_data.innerText = "MA20:" + (this.default_m20.value/1).toFixed(this.options.pricedigit);
 	        	}else{
 	        		ma_20_data.innerText = "MA20: -";
 	        	}

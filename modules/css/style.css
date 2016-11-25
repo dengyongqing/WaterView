@@ -9,7 +9,7 @@
     border-radius: 7px;
     background-color: #17b03e;
     color: #fff;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: lighter;
     font-family: 'Microsoft Yahei';
    
@@ -57,7 +57,7 @@
 	position:absolute;top:0px;left:0px;z-index:97;border:0;font-family:Arial;font-weight:lighter;
 }
 .emcharts-container .mark-ma span {
-	display:inline-block;padding-right:10px;font-size:12px;text-align:left;color:#ffba42;
+	display:inline-block;padding-right:3px;font-size:12px;text-align:left;color:#ffba42;
 }
 
 .emcharts-container .mark-ma .span-m5{
@@ -720,7 +720,7 @@
 	z-index: 100;
 	right:0px;
 	top:5px;
-	width:70px;
+	width:50px;
 	height:20px;
 	font-size: 12px;
 	font-family: simsun;

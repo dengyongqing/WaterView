@@ -8,7 +8,7 @@ var defaultopions = {
 		padding_left:30,//画布的左内边距
 		k_v_away:30,//K线图表和成交量之间的间距
 		canvas_offset_top:40,//画布的上内边距
-		point_width:2,
+		point_width:6,
 		font_size:12,//默认字体大小
 		point_color:"#8f8f8f",//鼠标指示线交点颜色
 		up_color:"#ff0000",

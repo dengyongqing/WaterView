@@ -98,7 +98,6 @@ var ChartLine = (function() {
 
     // 绘图
     ChartLine.prototype.draw = function(callback) {
-        debugger;
         // 删除canvas画布
         this.clear();
         // 初始化

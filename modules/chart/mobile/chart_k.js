@@ -305,6 +305,7 @@ var ChartK = (function() {
 
             // 保留的小数位
             this.options.pricedigit = data.pricedigit || 2;
+            inter.options.pricedigit = this.options.pricedigit;
 
             // 默认显示均线数据
             var five_average = data.five_average;

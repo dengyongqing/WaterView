@@ -477,6 +477,12 @@ var ChartLine = (function() {
         var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
         var maxPaddingLeftWidth = frontWidth + backWidth;
 
+        if(tempObj.max == 0 && tempObj.min == 0){
+            tempObj.max = 1;
+            tempObj.min = -1;
+            tempObj.stepHeight = 1;
+            this.options.sepeNum = 2;
+        }
         return {
             max: tempObj.max,
             min: tempObj.min,
