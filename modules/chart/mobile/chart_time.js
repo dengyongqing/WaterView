@@ -347,7 +347,7 @@ var ChartTime = (function() {
         // 当前点在数组中的下标
         var index = Math.floor((c_x - this.options.padding_left)/rect_w);
 
-        if(time_data[index]){
+        if(time_data && time_data[index]){
             // Tip显示行情数据
             inter.showTip(canvas,w_x,time_data[index]);
 

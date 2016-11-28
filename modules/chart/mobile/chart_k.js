@@ -551,7 +551,7 @@ var ChartK = (function() {
         // 当前K线在数组中的下标
         var index = Math.floor((c_x - this.options.padding_left)/rect_w);
 
-        if(k_data[index]){
+        if(k_data && k_data[index]){
             // 显示行情数据
             inter.showTip(canvas,w_x,k_data[index]);
             
@@ -562,7 +562,7 @@ var ChartK = (function() {
             inter.cross(canvas,cross_w_x,cross_w_y);
         }
 
-        if(ma_5_data[index]){
+        if(ma_5_data && ma_5_data[index]){
              // 标识均线数据
              inter.markMA(canvas,ma_5_data[index],ma_10_data[index],ma_20_data[index]);
         }

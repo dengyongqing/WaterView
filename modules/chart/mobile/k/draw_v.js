@@ -44,7 +44,7 @@ var DrawV = (function(){
 			ctx.beginPath();
 			ctx.fillStyle = '#999';
 			ctx.strokeStyle = 'rgba(230,230,230, 1)';
-			ctx.fillText(0,0,y_v_top + 10);
+			// ctx.fillText(0,0,y_v_top + 10);
 			ctx.rect(XYF(this.options.padding_left),XYF(y_v_top),ctx.canvas.width - this.options.padding_left -2,v_height);
 			ctx.stroke();
 			return;
