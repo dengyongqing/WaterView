@@ -112,6 +112,8 @@ var ChartK = (function() {
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
 
+        this.options.enableHandle = this.options.enableHandle == undefined ? true : this.options.enableHandle;
+
         // 容器中添加画布
         this.container.appendChild(canvas);
 
@@ -142,7 +144,7 @@ var ChartK = (function() {
                     inter.markMA(_this.options.canvas);
                     // 缩放
                     inter.scale(_this.options.canvas);
-                    if(flag){
+                    if(flag && _this.options.enableHandle){
                         // 绑定事件
                         bindEvent.call(_this,_this.options.context);
                     }
@@ -160,7 +162,7 @@ var ChartK = (function() {
                     inter.markMA(_this.options.canvas);
                     // 缩放
                     inter.scale(_this.options.canvas);
-                    if(flag){
+                    if(flag && _this.options.enableHandle){
                         // 绑定事件
                         bindEvent.call(_this,_this.options.context);
                     }
@@ -177,7 +179,7 @@ var ChartK = (function() {
                     inter.markMA(_this.options.canvas);
                     // 缩放
                     inter.scale(_this.options.canvas);
-                    if(flag){
+                    if(flag && _this.options.enableHandle){
                         // 绑定事件
                         bindEvent.call(_this,_this.options.context);
                     }
