@@ -76,7 +76,7 @@ var ChartLine = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr = 1;
+        var dpr = this.options.dpr = 2;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -146,7 +146,7 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
 
         //锚点半径
-        this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
+        this.options.pointRadius = this.options.pointRadius == undefined ? 4 : this.options.pointRadius;
 
 
     }
@@ -287,7 +287,7 @@ var ChartLine = (function() {
                     color: series[i].color,
                     data: ((series[i].data[cursor] === undefined || series[i].data[cursor] === null) ? "" : series[i].data[cursor]) + (series[i].suffix || ""),
                     name: series[i].name,
-                    y: padding_top + common.get_y.call(that, series[i].data[cursor]),
+                    y: series[i].data[cursor] === undefined ? padding_top+ common.get_y.call(that, 0) : padding_top + common.get_y.call(that, series[i].data[cursor]),
                     suffix:(series[i].suffix || "")
                 });
             }
@@ -297,7 +297,7 @@ var ChartLine = (function() {
                         color: series2[i].color,
                         data: ((series2[i].data[cursor] === undefined || series2[i].data[cursor] === null) ? "" : series2[i].data[cursor]) + (series2[i].suffix || ""),
                         name: series2[i].name,
-                        y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
+                        y:series2[i].data[cursor] === undefined ? padding_top + c_1_height/2 : padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
                         suffix:(series2[i].suffix || "")
                     });
                 }
@@ -307,13 +307,12 @@ var ChartLine = (function() {
             tipArr.sort(function(a, b) {
                 return a.y - b.y;
             });
-
             var left = 0,
                 flag = false;
             if (dateArr.length == 1) {
-                left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left/dpr);
+                left = (Math.floor((cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left/dpr)/dpr)-0.5)*dpr;
             } else {
-                left = (cursor * unit / dpr + padding_left/dpr);
+                left = (Math.floor((cursor * unit / dpr + padding_left/dpr)/dpr)-0.5)*dpr;
             }
 
             //添加交互
@@ -357,9 +356,16 @@ var ChartLine = (function() {
                     cir.className = "chart_line_cir";
                     cir.style.width = 2 * radius + "px";
                     cir.style.height = 2 * radius + "px";
+                    cir.style.borderRadius = 2*radius + "px";
                     cir.style.top = (tipArr[i].y / dpr - radius) + "px";
                     cir.style.left = (left - radius) + "px";
                     cir.style.borderColor = tipArr[i].color;
+                    if(tipArr[i].data === tipArr[i].suffix){
+                        cir.style.display =  "none";
+                        lineTip.style.display =  "none";
+                    }else{
+                        flag = true;
+                    }
                     that.container.appendChild(cir);
                     circles.push(cir);
                 }
@@ -377,7 +383,7 @@ var ChartLine = (function() {
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
-                    if (tipArr[j].data ===tipArr[j].suffix) {
+                    if (tipArr[j].data === tipArr[j].suffix) {
                         children[j + 1].style.display = "none";
                     } else {
                         flag = true;
@@ -410,7 +416,7 @@ var ChartLine = (function() {
                         circles[k].style.borderColor = tipArr[k].color;
                     }
                 }
-                if (!flag) {
+                if (flag) {
                     that.options.interOption.tips.style.display = "block";
                     yLine.style.display = "block";
                 }
@@ -419,9 +425,14 @@ var ChartLine = (function() {
             var padding_right = this.options.series2 ? padding_left : 10;
 
             //当超出坐标系框就不显示交互
-            if (canvasX >= 0 && canvasX < (canvas.width - padding_left - padding_right + 3) && canvasY >= 0 && canvasY <= c_1_height && flag) {                that.options.interOption.tips.style.display = "block";
+            if (canvasX >= 0 && canvasX < (canvas.width - padding_left - padding_right + 3) && canvasY >= 0 && canvasY <= c_1_height && flag) {                
+                that.options.interOption.tips.style.display = "block";
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                    circles[k].style.display = "block";
+                    if(tipArr[k].data === tipArr[k].suffix){
+                        circles[k].style.display =  "none";
+                    }else{
+                        circles[k].style.display = "block";
+                    }
                 }
                 yLine.style.display = "block";
             } else {

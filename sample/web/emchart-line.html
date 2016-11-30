@@ -48,16 +48,17 @@
 		</div>
 
 	</div>
-	<script src="http://emcharts.dfcfw.com/ec/2.2.5/emcharts.min.js"  charset="UTF-8"></script>
+	<script src="../../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
 		
 		window.onload = function(){
 			current = k0 = new EmchartsWebLine({
 	        	container : "emchart-0",
-		        "width" : 800,
-		        "height" : 500,
+		        "width" : document.body.offsetWidth - 20,
+		        "height" :  document.body.offsetWidth - 70,
 		        showflag: true,
+		        dpr:2,
 		        font:{
 		        	fontFamily:'Microsoft Yahei',
 		        	fontSize:"12",
