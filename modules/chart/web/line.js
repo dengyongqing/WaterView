@@ -225,6 +225,7 @@ var ChartLine = (function() {
         var y_min2 = this.options.data.min2;
         var c_1_height = this.options.c_1_height;
         var radius = this.options.pointRadius/dpr;
+
         common.addEvent.call(that, canvas, "touchmove", function(e) {
 
             var touchEvent = e.changedTouches[0];
