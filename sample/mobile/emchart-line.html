@@ -47,30 +47,35 @@
 		</div>
 
 	</div>
-	<script src="../../bundle/mobile_emcharts.js"></script>
+	<script src="../../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
 		
 
 		window.onload = function(){
-			current_tab = k0 = new EmchartsMobiLine({
-				dpr: 2,
+			current = k0 = new EmchartsWebLine({
 	        	container : "emchart-0",
-		        "width" : document.body.offsetWidth - 20,
-		        "height" : document.body.offsetWidth,
+		        "width" : 800,
+		        "height" : 500,
+		        dpr:1,
 		        showflag: true,
+		        font:{
+		        	fontFamily:'Microsoft Yahei',
+		        	fontSize:"12",
+		        	color:"#000"
+		        },
 		        xaxis: [{
 			        	value:"2016-03-01",
 			        	showline:true,
 			        	show:true
 			        },{
 			        	value:"2016-03-02",
-			        	showline:true,
+			        	showline:false,
 			        	show:false
 			        },{
 			        	value:"2016-03-03",
 			        	showline:true,
-			        	show:true
+			        	show:false
 			        },{
 			        	value:"2016-03-04",
 			        	showline:true,
@@ -86,7 +91,7 @@
 			        },{
 			        	value:"2016-03-07",
 			        	showline:true,
-			        	show:true
+			        	show:false
 			        },{
 			        	value:"2016-03-08",
 			        	showline:true,
@@ -100,26 +105,17 @@
 					{	
 						name:"5日均线",
 						color:"#ff5000",
-						showpoint:false,
-						data:[6000000,6000000,6000000,7000000,5000000,7000000,4000000,3000000,6000000]
-					},
+						suffix:"万",
+						showpoint:true,
+						data:[30000,60000,30000,60000,-30000,-30000,-60000,-60000,-60000]
+					}
+				],
+				series2:[
 					{	
-						name:"10日均线",
-						color:"#b9d1f4",
-						showpoint:false,
-						data:[8000000,7000000,10000000,11000000,9000000,11000000,8000000,7000000,10000000]
-					},
-					{	
-						name:"20日均线",
-						color:"#0068b7",
-						showpoint:false,
-						data:[12000000,11000000,14000000,15000000,13000000,15000001,12000000,11000000,14000000]
-					},
-					{	
-						name:"60日均线",
-						color:"#7e0043",
-						showpoint:false,
-						data:[16000000,15000000,18000000,19000001,17000001,19000001,16000000,15000000,18000000]
+						name:"分时均线",
+						color:"blue",
+						showpoint:true,
+						data:[-5,-2,-5,-2,1,4,1,4,1]
 					}
 				]
 	        });
