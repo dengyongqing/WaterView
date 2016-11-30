@@ -133,14 +133,14 @@ var ChartLine = (function() {
             }
 
             if (this.options.font.fontSize) {
-                fontSize = this.options.font.fontSize;
+                fontSize = this.options.font.fontSize * this.options.dpr;
             } else {
-                fontSize = 12;
+                fontSize = 12 * this.options.dpr;
             }
 
             font = fontSize + "px " + fontFamily;
         } else {
-            font = "12px Arial";
+            font = 12 * this.options.dpr + "px Arial";
         }
         ctx.font = font;
         ctx.lineWidth = 1 * this.options.dpr;
