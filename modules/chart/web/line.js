@@ -76,7 +76,7 @@ var ChartLine = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr = 2;
+        var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -146,7 +146,7 @@ var ChartLine = (function() {
         ctx.lineWidth = 1 * this.options.dpr;
 
         //锚点半径
-        this.options.pointRadius = this.options.pointRadius == undefined ? 4 : this.options.pointRadius;
+        this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
 
 
     }
