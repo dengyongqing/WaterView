@@ -22,7 +22,7 @@ gulp.task("webpack", function(callback) {
 gulp.task('ftp', function () {
     return gulp.src('./{sample,bundle}/**')
         .pipe(ftp({
-            host: '172.16.89.148',
+            host: '172.16.58.153',
             port: 21,
             user: 'localtest',
             pass: 'localtest'
