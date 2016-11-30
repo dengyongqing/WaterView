@@ -76,7 +76,7 @@ var ChartLine = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
         // 设备像素比
-        var dpr = this.options.dpr = 1;
+        var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -285,7 +285,7 @@ var ChartLine = (function() {
             for (var i = 0, len = series.length; i < len; i++) {
                 tipArr.push({
                     color: series[i].color,
-                    data: ((series[i].data[cursor] === undefined || series[i].data[cursor] === null) ? "" : series[i].data[cursor]) + (series[i].suffix || ""),
+                    data: series[i].data[cursor] + (series[i].suffix || ""),
                     name: series[i].name,
                     y: padding_top + common.get_y.call(that, series[i].data[cursor]),
                     suffix:(series[i].suffix || "")
@@ -295,7 +295,7 @@ var ChartLine = (function() {
                 for (i = 0, len = series2.length; i < len; i++) {
                     tipArr.push({
                         color: series2[i].color,
-                        data: ((series2[i].data[cursor] === undefined || series2[i].data[cursor] === null) ? "" : series2[i].data[cursor]) + (series2[i].suffix || ""),
+                        data: series2[i].data[cursor] + (series2[i].suffix || ""),
                         name: series2[i].name,
                         y: padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
                         suffix:(series2[i].suffix || "")
@@ -312,7 +312,7 @@ var ChartLine = (function() {
                 flag = false;
             if (dateArr.length == 1) {
                 left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left/dpr);
-            } else {
+            }else {
                 left = (cursor * unit / dpr + padding_left/dpr);
             }
 
