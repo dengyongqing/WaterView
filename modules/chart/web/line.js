@@ -54,13 +54,13 @@ var ChartLine = (function() {
 
         this.options.type = "line";
         var flag = false;
-        if(!this.options.canvas){
+        if (!this.options.canvas) {
             var canvas = document.createElement("canvas");
             flag = true;
-        }else{
-            var canvas = this.options.canvas; 
+        } else {
+            var canvas = this.options.canvas;
         }
-        
+
         // 去除画布上粘贴效果
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
@@ -113,14 +113,14 @@ var ChartLine = (function() {
 
         var isIE8 = !+'\v1';
         // 画布上部内间距
-        if(isIE8){
-            if(flag){
+        if (isIE8) {
+            if (flag) {
                 ctx.translate("0", this.options.canvas_offset_top);
             }
-        }else{
+        } else {
             ctx.translate("0", this.options.canvas_offset_top);
         }
-        
+
         // 画笔参数设置
         var font = "";
         var fontSize = "";
@@ -224,7 +224,8 @@ var ChartLine = (function() {
         var y_max2 = this.options.data.max2;
         var y_min2 = this.options.data.min2;
         var c_1_height = this.options.c_1_height;
-        var radius = this.options.pointRadius/dpr;
+        var radius = this.options.pointRadius / dpr;
+
 
         common.addEvent.call(that, canvas, "touchmove", function(e) {
 
@@ -245,6 +246,7 @@ var ChartLine = (function() {
 
             eventHanlder.call(that, winX, winY);
         });
+
         //添加交互事件
         common.addEvent.call(that, canvas, "mousemove", function(e) {
 
@@ -265,10 +267,22 @@ var ChartLine = (function() {
 
         });
 
+        common.addEvent.call(that, canvas, "touchend", function(e) {
+            if (that.options.interOption) {
+                var circles = that.options.interOption.circles;
+                that.options.interOption.tips.style.display = "none";
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.display = "none";
+                }
+                that.options.interOption.yLine.style.display = "none";
+            }
+            e.preventDefault();
+        });
+
         function eventHanlder(winX, winY) {
             var canvasX = winX * dpr - padding_left; //转换为canvas中的坐标
             var canvasY = winY * dpr - padding_top;
-            
+
             //下标
             var cursor = 0;
             //用来显示tips的一组数据
@@ -288,8 +302,8 @@ var ChartLine = (function() {
                     color: series[i].color,
                     data: ((series[i].data[cursor] === undefined || series[i].data[cursor] === null) ? "" : series[i].data[cursor]) + (series[i].suffix || ""),
                     name: series[i].name,
-                    y: series[i].data[cursor] === undefined ? padding_top+ common.get_y.call(that, 0) : padding_top + common.get_y.call(that, series[i].data[cursor]),
-                    suffix:(series[i].suffix || "")
+                    y: series[i].data[cursor] === undefined ? padding_top + common.get_y.call(that, 0) : padding_top + common.get_y.call(that, series[i].data[cursor]),
+                    suffix: (series[i].suffix || "")
                 });
             }
             if (that.options.series2) {
@@ -298,8 +312,8 @@ var ChartLine = (function() {
                         color: series2[i].color,
                         data: ((series2[i].data[cursor] === undefined || series2[i].data[cursor] === null) ? "" : series2[i].data[cursor]) + (series2[i].suffix || ""),
                         name: series2[i].name,
-                        y:series2[i].data[cursor] === undefined ? padding_top + c_1_height/2 : padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
-                        suffix:(series2[i].suffix || "")
+                        y: series2[i].data[cursor] === undefined ? padding_top + c_1_height / 2 : padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
+                        suffix: (series2[i].suffix || "")
                     });
                 }
             }
@@ -311,9 +325,9 @@ var ChartLine = (function() {
             var left = 0,
                 flag = false;
             if (dateArr.length == 1) {
-                left = (Math.floor((cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left/dpr)/dpr)-0.5)*dpr;
+                left = (Math.floor((cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left / dpr) / dpr) - 0.5) * dpr;
             } else {
-                left = (Math.floor((cursor * unit / dpr + padding_left/dpr)/dpr)-0.5)*dpr;
+                left = (Math.floor((cursor * unit / dpr + padding_left / dpr) / dpr) - 0.5) * dpr;
             }
 
             //添加交互
@@ -330,7 +344,7 @@ var ChartLine = (function() {
                 title.className = "chart_line_tips_title";
                 title.innerHTML = dateArr[cursor].value;
                 tips.appendChild(title);
-                
+
                 //交互的竖线
                 var yLine = document.createElement("div");
                 yLine.className = "chart_line_yline";
@@ -357,14 +371,14 @@ var ChartLine = (function() {
                     cir.className = "chart_line_cir";
                     cir.style.width = 2 * radius + "px";
                     cir.style.height = 2 * radius + "px";
-                    cir.style.borderRadius = 2*radius + "px";
+                    cir.style.borderRadius = 2 * radius + "px";
                     cir.style.top = (tipArr[i].y / dpr - radius) + "px";
                     cir.style.left = (left - radius) + "px";
                     cir.style.borderColor = tipArr[i].color;
-                    if(tipArr[i].data === tipArr[i].suffix){
-                        cir.style.display =  "none";
-                        lineTip.style.display =  "none";
-                    }else{
+                    if (tipArr[i].data === tipArr[i].suffix) {
+                        cir.style.display = "none";
+                        lineTip.style.display = "none";
+                    } else {
                         flag = true;
                     }
                     that.container.appendChild(cir);
@@ -426,12 +440,12 @@ var ChartLine = (function() {
             var padding_right = this.options.series2 ? padding_left : 10;
 
             //当超出坐标系框就不显示交互
-            if (canvasX >= 0 && canvasX < (canvas.width - padding_left - padding_right + 3) && canvasY >= 0 && canvasY <= c_1_height && flag) {                
+            if (canvasX >= 0 && canvasX < (canvas.width - padding_left - padding_right + 3) && canvasY >= 0 && canvasY <= c_1_height && flag) {
                 that.options.interOption.tips.style.display = "block";
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                    if(tipArr[k].data === tipArr[k].suffix){
-                        circles[k].style.display =  "none";
-                    }else{
+                    if (tipArr[k].data === tipArr[k].suffix) {
+                        circles[k].style.display = "none";
+                    } else {
                         circles[k].style.display = "block";
                     }
                 }
@@ -457,10 +471,10 @@ var ChartLine = (function() {
         }
         // 删除canvas画布
     ChartLine.prototype.clear = function(cb) {
-        try{
+        try {
             var ctx = this.options.context;
-            ctx.clearRect(0,-this.options.canvas_offset_top,this.options.canvas.width + this.options.drawWidth,this.options.canvas.height);
-        }catch(e){
+            ctx.clearRect(0, -this.options.canvas_offset_top, this.options.canvas.width + this.options.drawWidth, this.options.canvas.height);
+        } catch (e) {
             this.container.innerHTML = "";
         }
         if (cb) {
@@ -479,9 +493,9 @@ var ChartLine = (function() {
         var tempObj = divide(this.options.sepeNum, arr);
 
         var ctx = this.options.context;
-        if(tempObj.stepHeight >= 10000){
+        if (tempObj.stepHeight >= 10000) {
             var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
-        }else{
+        } else {
             var backWidth = ctx.measureText(tempObj.stepHeight).width - ctx.measureText(parseInt(tempObj.stepHeight)).width;
         }
         var frontMaxWidth = ctx.measureText(common.format_unit(parseInt(tempObj.max))).width;
@@ -489,7 +503,7 @@ var ChartLine = (function() {
         var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
         var maxPaddingLeftWidth = frontWidth + backWidth;
 
-        if(tempObj.max == 0 && tempObj.min == 0){
+        if (tempObj.max == 0 && tempObj.min == 0) {
             tempObj.max = 1;
             tempObj.min = -1;
             tempObj.stepHeight = 1;
