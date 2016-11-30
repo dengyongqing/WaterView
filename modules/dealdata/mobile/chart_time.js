@@ -28,16 +28,16 @@ var dealData = function(json, yc) {
             max = min = Number(items[1]);
         }
 
-        // if(items[1] >= items[3]){
-        //     var _max = items[1];
-        //     var _min = items[3];
-        // }else{
-        //     var _min = items[1];
-        //     var _max = items[3];
-        // }
+        if(items[1] >= items[3]){
+            var _max = items[1];
+            var _min = items[3];
+        }else{
+            var _min = items[1];
+            var _max = items[3];
+        }
         
-        max = Math.max(max,items[1]);
-        min = Math.min(min,items[1]);
+        max = Math.max(max,_max);
+        min = Math.min(min,_min);
 
         var point = {};
         point.time = items[0].split(" ")[1];

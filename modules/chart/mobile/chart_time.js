@@ -115,6 +115,8 @@ var ChartTime = (function() {
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;
+
+        this.options.enableHandle = this.options.enableHandle == undefined ? true : this.options.enableHandle;
         
         // 容器中添加画布
         this.container.appendChild(canvas);
@@ -142,7 +144,9 @@ var ChartTime = (function() {
                         dataCallback.apply(_this,[[]]);
                     }
                     /*绑定事件*/
-                    bindEvent.call(_this,_this.options.context);
+                    if(_this.options.enableHandle){
+                        bindEvent.call(_this,_this.options.context);
+                    }
                     // 传入的回调函数
                     if(callback){
                         callback();
@@ -347,7 +351,7 @@ var ChartTime = (function() {
         // 当前点在数组中的下标
         var index = Math.floor((c_x - this.options.padding_left)/rect_w);
 
-        if(time_data[index]){
+        if(time_data && time_data[index]){
             // Tip显示行情数据
             inter.showTip(canvas,w_x,time_data[index]);
 
