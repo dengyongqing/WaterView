@@ -49,7 +49,10 @@ var ChartPie = (function() {
         this.options.canvas2 = canvas2;
         this.options.context2 = ctx2;
         // 设备像素比
-        var dpr = this.options.dpr = 2;
+        if(this.options.dpr === undefined){
+           this.options.dpr = 2; 
+        }
+        var dpr = this.options.dpr;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
