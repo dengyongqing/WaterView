@@ -243,6 +243,7 @@ var ChartLine = (function() {
             //     winX = e.x;
             //     winY = e.y;
             // }
+            e.preventDefault();
 
             eventHanlder.call(that, winX, winY);
         });
@@ -263,11 +264,12 @@ var ChartLine = (function() {
             //     winY = e.y;
             // }
 
+            e.preventDefault();
             eventHanlder.call(that, winX, winY);
 
         });
 
-        common.addEvent.call(that, canvas, "touchend", function(e) {
+        common.addEvent.call(that, that.container, "touchend", function(e) {
             if (that.options.interOption) {
                 var circles = that.options.interOption.circles;
                 that.options.interOption.tips.style.display = "none";
@@ -325,9 +327,9 @@ var ChartLine = (function() {
             var left = 0,
                 flag = false;
             if (dateArr.length == 1) {
-                left = (Math.floor((cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left / dpr) / dpr) - 0.5) * dpr;
+                left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left / dpr);
             } else {
-                left = (Math.floor((cursor * unit / dpr + padding_left / dpr) / dpr) - 0.5) * dpr;
+                left = (cursor * unit / dpr + padding_left / dpr);
             }
 
             //添加交互
