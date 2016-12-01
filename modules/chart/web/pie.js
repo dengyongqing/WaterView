@@ -49,7 +49,7 @@ var ChartPie = (function() {
         this.options.canvas2 = canvas2;
         this.options.context2 = ctx2;
         // 设备像素比
-        var dpr = this.options.dpr = 1;
+        var dpr = this.options.dpr = 2;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -76,8 +76,9 @@ var ChartPie = (function() {
         if (!this.options.font) {
             this.options.font = "12px Arial";
         }
-        ctx.font = this.options.font;
-        ctx2.font = this.options.font;
+        var font = this.options.font.split("px ")[0]*dpr + "px "+this.options.font.split("px ")[1];
+        ctx.font = font;
+        ctx2.font = font;
         this.options.startOffset = this.options.startOffset || Math.PI / 2;
         var ySpace = this.options.font.split("px ")[0];
         //每条触角文字的高度
@@ -85,7 +86,7 @@ var ChartPie = (function() {
         this.options.onPie = this.options.onPie || false;
 
         // 加水印
-        watermark.apply(this, [ctx, 130, 20, 82, 20]);
+        watermark.apply(this, [ctx, 130*dpr, 20*dpr, 82*dpr, 20*dpr]);
     }
 
     // 绘图
@@ -94,14 +95,16 @@ var ChartPie = (function() {
 
         var startOffset = this.options.startOffset,
             ctx = this.options.context,
+            dpr = this.options.dpr,
             ctx2 = this.options.context2,
             current = startOffset,
             total = 0,
+            that = this,
             data = this.options.data,
             ySpace = this.options.ySpace,
-            point = this.options.point,
-            radius = this.options.radius,
-            fontSize = ctx2.font.split("px ")[0]*1,
+            point = {x: that.options.point.x*dpr, y:that.options.point.y*dpr},
+            radius = this.options.radius*dpr,
+            fontSize = ctx2.font.split("px ")[0],
             onPie = this.options.onPie;
 
         var pies = [];
@@ -171,7 +174,8 @@ var ChartPie = (function() {
         var container = this.container;
         var that = this;
         var pies = this.options.pies;
-        var point = this.options.point;
+        var dpr = this.options.dpr;
+        var point = {x: that.options.point.x, y:that.options.point.y};
         var radius = this.options.radius;
         var startOffset = this.options.startOffset;
         //添加交互事件

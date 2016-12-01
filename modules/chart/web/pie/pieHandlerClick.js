@@ -3,8 +3,10 @@ var pieOut = require('./pieOut');
 
 module.exports = function (obj) {
 	//对点击进行处理，并且记录前一个点击对象
-    var point = this.options.point;
-    var radius = this.options.radius;
+    var dpr = this.options.dpr;
+    var that = this;
+    var point ={x: that.options.point.x*dpr, y:that.options.point.y*dpr};
+    var radius = this.options.radius*dpr;
     var ctx = this.options.context;
     var ctx2 = this.options.context2;
     var ySpace = this.options.ySpace;
