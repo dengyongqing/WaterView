@@ -70,6 +70,8 @@
         ctx.textAlign = 'right';
         ctx.lineWidth = 1;
 
+        var dpr = this.options.dpr;
+        
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             
@@ -88,10 +90,10 @@
             if(this.options.series2 && flag){
                 // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
                 ctx.textAlign = 'left';
-                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.drawWidth + 10), XYF(item.y + 5));
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.drawWidth + 10), XYF(item.y + 5*dpr));
             }else{
                 ctx.textAlign = 'right';
-                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.padding_left - 10), XYF(item.y + 5));
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.padding_left - 10), XYF(item.y + 5*dpr));
             }
         }
          ctx.restore();
@@ -101,7 +103,7 @@
     function drawXMark(ctx,k_height,oc_time_arr){
         ctx.save();
         ctx.lineWidth = 1;
-        // var dpr = this.options.dpr;
+        var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.textAlign = 'center';
         if(this.options.font){
@@ -123,7 +125,7 @@
 
                 if(arr_length == 1){
                     var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
-                    ctx.fillText(tempDate.value, XYF(x) , XYF(this.options.c_1_height+20));
+                    ctx.fillText(tempDate.value, XYF(x) , XYF(this.options.c_1_height+20*dpr));
                 }else{
                     // if(this.options.series2){
                      
@@ -147,11 +149,11 @@
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
                     if(i == 0){
-                        ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20));
+                        ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
                     }else if(i == arr_length - 1){
-                        ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20));
+                        ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
                     }else{
-                        ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20));   
+                        ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
                     }
                 }
             }

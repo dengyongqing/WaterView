@@ -85,14 +85,14 @@ var ChartLine = (function() {
         this.container.appendChild(canvas);
 
         // 画布向下偏移的距离
-        this.options.canvas_offset_top = 15;
+        this.options.canvas_offset_top = 15 * dpr;
 
 
         // 缩放默认值
         this.options.scale_count = 0;
         this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height - 40;
+        this.options.c_1_height = canvas.height - 40 * dpr;
         // if(this.options.showflag){
         //     this.options.c_1_height = canvas.height * (5/9);
         // }else{

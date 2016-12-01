@@ -21,6 +21,8 @@ var extend = require('tools/extend2');
 var theme = require('theme/default');
 /*工具*/
 var common = require('common');
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawLine = (function(){
 	function DrawLine(options){
 		// 设置默认参数
@@ -140,10 +142,10 @@ var DrawLine = (function(){
 				 }
 				 
 				 if(i == 0){
-				 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
+				 	ctx.arc(XYF(x), XYF(y), pointRadius, 0, Math.PI * 2, true); 
 				 	ctx.fill();
 				 }else{
-				 	ctx.arc(x, y, pointRadius, 0, Math.PI * 2, true); 
+				 	ctx.arc(XYF(x), XYF(y), pointRadius, 0, Math.PI * 2, true); 
 				 	ctx.fill();
 				 }
 		 	 
