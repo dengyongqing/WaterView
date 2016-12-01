@@ -71,7 +71,7 @@
         ctx.lineWidth = 1;
 
         var dpr = this.options.dpr;
-        
+
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
             
@@ -167,7 +167,7 @@
                     // ctx.stroke();
                 }else{
                     ctx.strokeStyle = '#e6e6e6';
-                    DrawDashLine(ctx,i * (k_width - padding_left) / (arr_length-1) + padding_left,0, i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height,3);
+                    DrawDashLine(ctx,i * (k_width - padding_left) / (arr_length-1) + padding_left,0, i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height + 2,3);
                 }
                 
             }
