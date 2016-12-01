@@ -281,6 +281,18 @@ var ChartLine = (function() {
             e.preventDefault();
         });
 
+        common.addEvent.call(that, that.container, "mouseleave", function(e) {
+            if (that.options.interOption) {
+                var circles = that.options.interOption.circles;
+                that.options.interOption.tips.style.display = "none";
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.display = "none";
+                }
+                that.options.interOption.yLine.style.display = "none";
+            }
+            e.preventDefault();
+        });
+
         function eventHanlder(winX, winY) {
             var canvasX = winX * dpr - padding_left; //转换为canvas中的坐标
             var canvasY = winY * dpr - padding_top;
@@ -329,7 +341,7 @@ var ChartLine = (function() {
             if (dateArr.length == 1) {
                 left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left / dpr);
             } else {
-                left = (cursor * unit / dpr + padding_left / dpr);
+                left =(cursor * unit / dpr + padding_left / dpr);
             }
 
             //添加交互
@@ -413,6 +425,7 @@ var ChartLine = (function() {
                     tips.style.display = "block";
                 } else {
                     tips.style.display = "none";
+                    tips.style.left = "-10000px";
                 }
                 if ((cursor * unit / dpr + padding_left / dpr) >= canvas.width / dpr / 2) {
                     tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
@@ -454,6 +467,7 @@ var ChartLine = (function() {
                 yLine.style.display = "block";
             } else {
                 that.options.interOption.tips.style.display = "none";
+                that.options.interOption.tips.style.left = "-10000px";
                 for (var k = 0, kLen = circles.length; k < kLen; k++) {
                     circles[k].style.display = "none";
                 }
