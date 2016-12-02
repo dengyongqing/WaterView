@@ -436,7 +436,7 @@ var ChartLine = (function() {
                 var yLine = that.options.interOption.yLine;
                 yLine.style.left = left + "px";
                 var circles = that.options.interOption.circles;
-                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
                     if (tipArr[k].data === tipArr[k].suffix) {
                         circles[k].style.display = "none";
                     } else {
@@ -457,7 +457,7 @@ var ChartLine = (function() {
             //当超出坐标系框就不显示交互
             if (canvasX >= 0 && canvasX < (canvas.width - padding_left - padding_right + 3) && canvasY >= 0 && canvasY <= c_1_height && flag) {
                 that.options.interOption.tips.style.display = "block";
-                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
                     if (tipArr[k].data === tipArr[k].suffix) {
                         circles[k].style.display = "none";
                     } else {
@@ -490,6 +490,9 @@ var ChartLine = (function() {
         try {
             var ctx = this.options.context;
             ctx.clearRect(0, -this.options.canvas_offset_top, this.options.canvas.width + this.options.drawWidth, this.options.canvas.height);
+            if(this.options.interOption !== undefined){
+                this.options.interOption = null;
+            }
         } catch (e) {
             this.container.innerHTML = "";
         }
