@@ -198,7 +198,7 @@
             precise = stepHeight.toString().length - stepHeight.toString().indexOf(".")-1;
         }
         var m = Math.pow(10, precise);
-        return Math.ceil(f * m)/ m;
+        return Math.round(f * m)/ m;
     }
 
     return DrawXY;
