@@ -490,7 +490,7 @@ var ChartLine = (function() {
         try {
             var ctx = this.options.context;
             ctx.clearRect(0, -this.options.canvas_offset_top, this.options.canvas.width + this.options.drawWidth, this.options.canvas.height);
-            if(this.options.interOption !== undefined){
+            if(this.options.interOption !== undefined || this.options.interOption !== null){
                 this.options.interOption = null;
             }
         } catch (e) {
