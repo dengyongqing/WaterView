@@ -25,20 +25,37 @@
 
 		window.onload = function(){
 			k0 = new EmchartsWebBar({
-	        	container : "container",
-		        "width" : 500,
-		        "height" : 500,
-		        sepeNum:6,
-		        xaxis: {
-		        	value:["2014-06-30","2014-09-30","2014-12-30","2015-03-30","2015-06-30","2015-09-30","2015-12-30",]
-		        },
-		        series:[
-					{
-						color:"#FF7200",
-						hoverColor:"#FF9A4A",	
-						data:[2,1,1,1, 1, 2, 2]
-					}
-				]
+	        	container: "container",
+	            "width": 500,
+	            "height": 500,
+	            sepeNum: 6,
+	            xaxis: [{
+	                value: "2014-06-30",
+	                show: true
+	            }, {
+	                value: "2014-09-30",
+	                show: false
+	            }, {
+	                value: "2014-12-30",
+	                show: true
+	            }, {
+	                value: "2015-03-30",
+	                show: false
+	            }, {
+	                value: "2015-06-30",
+	                show: true
+	            }, {
+	                value: "2015-09-30",
+	                show: false
+	            }, {
+	                value: "2015-12-30",
+	                show: true
+	            }],
+	            series: {
+	                color: "#FF7200",
+	                hoverColor: "#FF9A4A",
+	                data: [2, -1, 1, 1, 1, -2, 2]
+	            }
 	        });
 	        k0.draw();
 		}

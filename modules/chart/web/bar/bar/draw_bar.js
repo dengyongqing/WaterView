@@ -21,15 +21,13 @@ function drawBar(){
     ctx.beginPath();
     ctx.save();
     ctx.lineWidth = this.options.dpr;
-    ctx.fillStyle = this.options.series[0].color;
-	for(var i = 0, len = series.length; i < len; i++){
-		for(var j = 0, dataLen = series[i].data.length; j < dataLen; j++){
-			var width = unit_w_kind;
-			var height = totalHeight*(series[i].data[j]/(maxY-minY));
-			var x = j*unit_w_len + paddingLeft + unit_w_kind + 2*i*unit_w_kind;
-			var y = baseLine - height;
-			ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
-		}
+    ctx.fillStyle = this.options.series.color;
+	for(var i = 0, len = series.data.length; i < len; i++){
+		var width = unit_w_kind;
+		var height = totalHeight*(series.data[i]/(maxY-minY));
+		var x = i*unit_w_len + paddingLeft + unit_w_kind;
+		var y = baseLine - height;
+		ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
 	}
 	ctx.restore()
 }
