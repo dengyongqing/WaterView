@@ -243,7 +243,13 @@ var ChartLine = (function() {
             //     winX = e.x;
             //     winY = e.y;
             // }
-            e.preventDefault();
+            try{
+                e.preventDefault();
+            }
+            catch(error){
+
+            }
+            
 
             eventHanlder.call(that, winX, winY);
         });
@@ -264,7 +270,12 @@ var ChartLine = (function() {
             //     winY = e.y;
             // }
 
-            e.preventDefault();
+            try{
+                e.preventDefault();
+            }
+            catch(error){
+                
+            }
             eventHanlder.call(that, winX, winY);
 
         });
@@ -278,7 +289,12 @@ var ChartLine = (function() {
                 }
                 that.options.interOption.yLine.style.display = "none";
             }
-            e.preventDefault();
+            try{
+                e.preventDefault();
+            }
+            catch(error){
+                
+            }
         });
 
         common.addEvent.call(that, that.container, "mouseleave", function(e) {
@@ -290,7 +306,12 @@ var ChartLine = (function() {
                 }
                 that.options.interOption.yLine.style.display = "none";
             }
-            e.preventDefault();
+            try{
+                e.preventDefault();
+            }
+            catch(error){
+                
+            }
         });
 
         function eventHanlder(winX, winY) {
