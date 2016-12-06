@@ -1,6 +1,8 @@
 /*绘制xy轴*/
 var extend = require("tools/extend2");
 var draw_dash = require("chart/mobile/common/draw_dash_line");
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 var DrawXY = (function() {
     function DrawXY(options) {
         this.options = {};
@@ -45,10 +47,10 @@ var DrawXY = (function() {
 
         /*开始进行绘制*/
         ctx.save();
-        var y_bottom = toOdd(Math.round(canvas.height - paddingBottom))+0.5;
-        var y_top = toOdd(Math.round(paddingTop))+0.5;
-        var x_left = toOdd(Math.round(paddingLeft))+0.5;
-        var x_right = toOdd(Math.round(canvas.width - paddingRight))+0.5;
+        var y_bottom = XYF(Math.round(canvas.height - paddingBottom));
+        var y_top = XYF(Math.round(paddingTop));
+        var x_left = XYF(Math.round(paddingLeft));
+        var x_right = XYF(Math.round(canvas.width - paddingRight));
         /*框*/
         ctx.strokeStyle = "#C9C9C9";
         ctx.beginPath();
@@ -81,8 +83,8 @@ var DrawXY = (function() {
             var round = dpr / 2;
             if (i == maxY / stepHeight) {
                 ctx.beginPath();
-                ctx.moveTo(x_left, Math.round(stepY * i + paddingTop) + 0.5);
-                ctx.lineTo(x_right,  Math.round(stepY * i + paddingTop) + 0.5);
+                ctx.moveTo(x_left, XYF(stepY * i + paddingTop));
+                ctx.lineTo(x_right,  XYF(stepY * i + paddingTop));
                 ctx.stroke();
             } else {
                 ctx.beginPath();
@@ -107,13 +109,6 @@ var DrawXY = (function() {
         }
     }
 
-    function toOdd(num) {
-        if (num % 2 === 0) {
-            return num + 1;
-        } else {
-            return num;
-        }
-    }
 
     function roundFloat(f, stepHeight) {
         var precise = 1;

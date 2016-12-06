@@ -82,7 +82,7 @@ function handleEvent(winX, winY) {
                 tipPanel.style.top = top + offSetY + "px";
             }
             /*左右区分*/
-            if ((left + tipPanel.clientWidth) * dpr > (canvas.width - paddingRight)/2) {
+            if ((left) * dpr > (canvas.width - paddingRight)/2) {
                 tipPanel.style.left = rectX / dpr + unit_w_kind / dpr / 2 - tipPanel.clientWidth + "px";
             } else {
                 tipPanel.style.left = rectX / dpr + unit_w_kind / dpr / 2 + "px";
@@ -104,7 +104,7 @@ function handleEvent(winX, winY) {
                 targetY = top + offSetY;
             }
             /*左右区分*/
-            if ((left + tipPanel.clientWidth) * dpr > (canvas.width - paddingRight)/2) {
+            if ((left) * dpr > (canvas.width - paddingRight)/2) {
                 targetX = rectX / dpr + unit_w_kind / dpr / 2 - tipPanel.clientWidth;
             } else {
                 targetX = rectX / dpr + unit_w_kind / dpr / 2 ;
@@ -133,19 +133,8 @@ function handleEvent(winX, winY) {
         var y = height > 0 ? (baseLine - height) : baseLine;
         var width = unit_w_kind;
         height = Math.abs(height);
-        ctx.clearRect(toEven(x), toEven(y), toEven(width), toEven(height));
-        ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
-    }
-}
-
-
-
-function toEven(n){
-    var num = Math.round(n);
-    if(num % 2 === 0){
-        return num;
-    }else{
-        return num + 1;
+        ctx.clearRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
+        ctx.fillRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
     }
 }
 

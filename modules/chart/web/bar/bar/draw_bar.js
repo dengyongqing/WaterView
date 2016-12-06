@@ -1,3 +1,5 @@
+// 格式化坐标
+var XYF = require('chart/web/common/xyf');
 /*绘制每个柱体*/
 function drawBar(){
 	var series = this.options.series;
@@ -27,19 +29,11 @@ function drawBar(){
 		var height = totalHeight*(series.data[i]/(maxY-minY));
 		var x = i*unit_w_len + paddingLeft + unit_w_kind;
 		var y = baseLine - height;
-		ctx.fillRect(toEven(x), toEven(y), toEven(width), toEven(height));
+		ctx.fillRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
 	}
 	ctx.restore()
 }
 
-function toEven(n){
-	var num = Math.round(n);
-	if(num % 2 === 0){
-		return num;
-	}else{
-		return num + 1;
-	}
-}
 
 
 module.exports = drawBar;

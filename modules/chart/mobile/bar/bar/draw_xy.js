@@ -45,10 +45,10 @@ var DrawXY = (function() {
 
         /*开始进行绘制*/
         ctx.save();
-        var y_bottom = toOdd(Math.round(canvas.height - paddingBottom));
-        var y_top = toOdd(Math.round(paddingTop));
-        var x_left = toOdd(Math.round(paddingLeft));
-        var x_right = toOdd(Math.round(canvas.width - paddingRight));
+        var y_bottom = Math.round(canvas.height - paddingBottom);
+        var y_top = Math.round(paddingTop);
+        var x_left = Math.round(paddingLeft);
+        var x_right = Math.round(canvas.width - paddingRight);
         /*框*/
         ctx.strokeStyle = "#C9C9C9";
         ctx.beginPath();
@@ -103,14 +103,6 @@ var DrawXY = (function() {
                 ctx.textBaseline = "middle";
             }
             ctx.fillText(roundFloat(minY + i * stepHeight, stepHeight), paddingLeft - 10, stepY * (sepeNum - i) + paddingTop);
-        }
-    }
-
-    function toOdd(num) {
-        if (num % 2 === 0) {
-            return num + 1;
-        } else {
-            return num;
         }
     }
 
