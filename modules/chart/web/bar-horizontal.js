@@ -19,7 +19,7 @@ var ChartMobileBar = (function() {
     ChartMobileBar.prototype.init = function() {
         /*默认和初始化*/
         this.container.style.position = "relative";
-        if(this.options.dpr === undefined){
+        if (this.options.dpr === undefined) {
             this.options.dpr = 1;
         }
         var dpr = this.options.dpr;
@@ -34,16 +34,16 @@ var ChartMobileBar = (function() {
         try {
             var ctx = canvas.getContext('2d');
         } catch (error) {
-            canvas=window.G_vmlCanvasManager.initElement(canvas);
+            canvas = window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
         }
 
         var ctx = canvas.getContext("2d");
-        if(this.options.font_size === undefined){
+        if (this.options.font_size === undefined) {
             this.options.font_size = 12;
         }
         ctx.font = (this.options.font_size * dpr) + "px Arial";
-        ctx.lineWidth = dpr*1;
+        ctx.lineWidth = dpr * 1;
         this.options.dpr = dpr;
         this.options.canvas = canvas;
         this.options.context = ctx;
@@ -51,7 +51,7 @@ var ChartMobileBar = (function() {
 
         this.options.defaultColor = "#FF7200";
         this.options.defaultHoverColor = "#FF9A4A";
-        if(!this.options.sepeNum){
+        if (!this.options.sepeNum) {
             this.options.sepeNum = 4;
         }
         var yaxis = this.options.yaxis;
@@ -61,24 +61,24 @@ var ChartMobileBar = (function() {
         this.options.padding = {};
         //取得paddingleft
         var paddingLeft = 0;
-        for(var i = 0, len = yaxis.length; i < len; i++){
+        for (var i = 0, len = yaxis.length; i < len; i++) {
             paddingLeft = Math.max(ctx.measureText(yaxis[i].value).width, paddingLeft);
         }
-        this.options.padding.left = (paddingLeft+10) * dpr;
+        this.options.padding.left = (paddingLeft + 10) * dpr;
         //取得paddingRight
         var paddingRight = ctx.measureText(coordinate.max).width;
-        this.options.padding.right = (paddingRight+10)*dpr;
+        this.options.padding.right = (paddingRight + 10) * dpr;
         this.options.padding.top = this.options.font_size * 2 * dpr;
         this.options.padding.bottom = 50 * dpr;
 
         /*单位宽度*/
-        var unitHeight = (canvas.height - this.options.padding.top - this.options.padding.bottom) /(yaxis.length);
+        var unitHeight = (canvas.height - this.options.padding.top - this.options.padding.bottom) / (yaxis.length);
         this.options.unitHeight = unitHeight;
 
         // 加水印
-        watermark.apply(this,[this.options.context,110+paddingRight,40,82,20]);
+        watermark.apply(this, [this.options.context, 110 + paddingRight, 40, 82, 20]);
 
-    };  
+    };
 
     ChartMobileBar.prototype.draw = function(cb) {
         this.clear();
@@ -86,13 +86,20 @@ var ChartMobileBar = (function() {
         var _this = this;
         new DrawXY(this.options);
         drawBar.call(this);
-        common.addEvent(_this.container, "mousemove", function(e){
+        common.addEvent(_this.container, "mousemove", function(e) {
             var winX, winY;
             winX = e.offsetX || (e.clientX - _this.container.getBoundingClientRect().left);
             winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
             handleEvent.call(_this, winX, winY);
+
+            try{
+                e.preventDefault();
+            }
+            catch(error){
+                e.returnValue = false;
+            }
         })
-        if(cb){
+        if (cb) {
             cb();
         }
     };

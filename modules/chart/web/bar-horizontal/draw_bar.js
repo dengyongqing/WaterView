@@ -24,11 +24,11 @@ module.exports = function(){
 	ctx.strokeStyle = color;
 	ctx.beginPath();
 	for(var i = 0, len = datas.length; i < len; i++){
-		if(datas[i]<0){
+		if(datas[i]<0){/*柱体占的比例为1/3*/
 			var barWidth = Math.round(datas[i]/coordinate.min*(totalWidth-paddingLeft - baseLine));
-			ctx.fillRect(baseLine-barWidth, XYF(paddingTop + unitHeight*(i+1/3)), barWidth, Math.round(unitHeight/3));
+			ctx.fillRect(baseLine-barWidth, XYF(paddingTop + unitHeight*(i+1/4)), barWidth, Math.round(unitHeight/2));
 		}else{
-			ctx.fillRect(baseLine, XYF(paddingTop + unitHeight*(i+1/3)), Math.round(datas[i]/coordinate.max*(totalWidth-paddingLeft - baseLine)), Math.round(unitHeight/3));
+			ctx.fillRect(baseLine, XYF(paddingTop + unitHeight*(i+1/4)), Math.round(datas[i]/coordinate.max*(totalWidth-paddingLeft - baseLine)), Math.round(unitHeight/2));
 		}
 	}
 
