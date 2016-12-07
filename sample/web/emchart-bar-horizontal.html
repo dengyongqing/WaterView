@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta charset="UTF-8">
+	<title>手机图表</title>
+	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+	<style type="text/css">
+		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
+		    margin: 0;
+		    padding: 0;
+		}
+		#container > canvas{
+			border:solid 1px #aaa;
+		}
+		
+	</style>
+	
+</head>
+<body>
+	<div id="container"></div>
+	<script src="../../bundle/emcharts.js"></script>
+	
+	<script type="text/javascript">
+		
+		var quarter_color = "#ffc962";
+		var container = document.getElementById("container");
+
+		window.onload = function(){
+			k0 = new EmchartsWebHorizontalBar({
+	        	container: "container",
+	            "width": 600,
+	            "height": 500,
+	            sepeNum: 6,
+	            color:"#6890D5",
+	            yaxis: [{
+	                value: "北京市",
+	                show: true
+	            }, {
+	                value: "天津市",
+	                show: true
+	            }, {
+	                value: "河北省",
+	                show: true
+	            }, {
+	                value: "山西省",
+	                show: true
+	            }, {
+	                value: "内蒙古自治区",
+	                show: true
+	            }, {
+	                value: "辽宁省",
+	                show: true
+	            }, {
+	                value: "吉林省",
+	                show: true
+	            }, {
+	                value: "黑龙江省",
+	                show: true
+	            }, {
+	                value: "上海市",
+	                show: true
+	            }, {
+	                value: "江苏省",
+	                show: true
+	            }, {
+	                value: "浙江省",
+	                show: true
+	            }, {
+	                value: "安徽省",
+	                show: true
+	            }, {
+	                value: "福建省",
+	                show: true
+	            }, {
+	                value: "江西省",
+	                show: true
+	            }, {
+	                value: "山东省",
+	                show: true
+	            }, {
+	                value: "河南省",
+	                show: true
+	            }, {
+	                value: "湖北省",
+	                show: true
+	            }, {
+	                value: "湖南省",
+	                show: true
+	            }, {
+	                value: "广东省",
+	                show: true
+	            }, {
+	                value: "广西壮族自治区",
+	                show: true
+	            }, {
+	                value: "海南省",
+	                show: true
+	            }, {
+	                value: "重庆市",
+	                show: true
+	            }, {
+	                value: "四川省",
+	                show: true
+	            }, {
+	                value: "贵州省",
+	                show: true
+	            }, {
+	                value: "云南省",
+	                show: true
+	            }, {
+	                value: "西藏自治区",
+	                show: true
+	            }, {
+	                value: "陕西省",
+	                show: true
+	            }, {
+	                value: "甘肃省",
+	                show: true
+	            }, {
+	                value: "青海省",
+	                show: true
+	            }],
+	            series: {
+	                data: [19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368,19612368]
+	            }
+	        });
+	        k0.draw();
+		}
+	</script>
+	
+</body>
+</html>
