@@ -438,7 +438,6 @@ var Interactive = (function() {
             var time = document.createElement('span');
             this.options.tip.time = time;
 
-
             frag.appendChild(date_data);
             //添加各项数据
             frag.appendChild(tipsLine.call(this, "open", "开盘"));
@@ -449,6 +448,7 @@ var Interactive = (function() {
             frag.appendChild(tipsLine.call(this, "priceChange", "涨跌额"));
             frag.appendChild(tipsLine.call(this, "count", "成交量"));
             frag.appendChild(tipsLine.call(this, "volumeMoney", "成交金额"));
+            frag.appendChild(tipsLine.call(this, "amplitude", "振幅"));
             div_tip.appendChild(frag);
             document.getElementById(this.options.container).appendChild(div_tip);
             this.options.tip.div_tip_width = div_tip.clientWidth;
@@ -505,6 +505,8 @@ var Interactive = (function() {
             }else{
                 mark = "-"; color = this.options.down_color;
             }
+
+            tip_obj.amplitude.innerText = obj.amplitude;
 
             tip_obj.percent.innerText = mark + obj.percent + '%';
             tip_obj.percent.style.color = color;

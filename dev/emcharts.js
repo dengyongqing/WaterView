@@ -27,8 +27,10 @@ var EmchartsWebBar = require('chart/web/bar/bar');
 var EmchartsWebGroupBar = require('chart/web/bar/group-bar');
 /*绘制web的饼状图*/
 var ChartPie = require('chart/web/pie');
-/*绘制横向的柱状图*/
+/*绘制web横向的柱状图*/
 var EmchartsWebHorizontalBar = require('chart/web/bar-horizontal');
+/*绘制web柱状折线图*/
+var EmchartsBarLine = require('chart/web/bar-line');
 
 /*加载样式文件*/
 require('css/style.css');
@@ -64,3 +66,5 @@ window.EmchartsWebGroupBar = EmchartsWebGroupBar;
 window.EmchartsPie = ChartPie;
 // web横向柱状图
 window.EmchartsWebHorizontalBar = EmchartsWebHorizontalBar;
+// web柱状折线图
+window.EmchartsBarLine = EmchartsBarLine;

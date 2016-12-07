@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta charset="UTF-8">
+	<title>手机图表</title>
+	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+	<style type="text/css">
+		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
+		    margin: 0;
+		    padding: 0;
+		}
+	</style>
+	
+</head>
+<body>
+	<div class="main-wrap">
+		<div class="main">
+			<div class="header">
+				<div class="tool-bar">
+					
+				
+				</div>
+				
+			</div>
+
+			<div class="content">
+				<div class="tabs">
+					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">分组柱状图</div>
+					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
+					<div id="tab-2" target="emchart-2" class="tab">周K</div>
+					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
+				</div>
+				<div class="emchart">
+					<div id="emchart-0" class="em-tab" >
+					</div>
+					<div id="emchart-1" class="em-tab">
+					</div>
+					<div id="emchart-2" class="em-tab">
+					</div>
+					<div id="emchart-3" class="em-tab">
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+
+	</div>
+	<script src="../../bundle/emcharts.js"></script>
+	
+	<script type="text/javascript">
+		
+		var one_quarter = "#ffc962";
+		var two_quarter = "#ffb527";
+		var three_quarter = "#ff9c00";
+		var four_quarter = "#ff7e00";
+
+		var colors = [one_quarter,two_quarter,three_quarter,four_quarter];
+
+		window.onload = function(){
+
+			k0 = new EmchartsWebGroupBar({
+	        	container : "emchart-0",
+		        "width" : 600,
+	        	"height" : 500,
+		        sepeNum:5,
+		        // groupSpacing:0.2,
+		        // groupUnitSpacing0.2,
+		        xaxis: [{
+			        	value:"2010",
+			        	colors:colors
+			        }
+			        ,{
+			        	value:"2011",
+			        	colors:colors,
+			        	show:false
+			        },{
+			        	value:"2012",
+			        	colors:["#a9f392","#8be96f","#5ad834","#44ca1b"]
+			        },{
+			        	value:"2013",
+			        	colors:colors,
+			        	show:false
+			        },{
+			        	value:"2014",
+			        	colors:colors
+			        },{
+			        	value:"2015",
+			        	colors:colors,
+			        	show:false	
+			        },{
+			        	value:"2016",
+			        	colors:colors
+			        }
+			        
+			        ],
+		        series:[
+					{	
+						data:[300,500,700]
+					}
+					,{	
+						data:[300,500,700]
+					},{	
+						data:[-300,-500,-700]
+					},{	
+						data:[300,500,700]
+					},{	
+						data:[300,500,700]
+					},{	
+						data:[300,500,700]
+					},{	
+						data:[300,500,700]
+					}
+				]
+	        });
+	        k0.draw();
+		}
+
+	</script>
+	
+</body>
+</html>

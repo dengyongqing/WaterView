@@ -22,6 +22,9 @@ function dealData(json,  extendType) {
         //分割data中的字符串
         var items = datas[result.total - i - 1].split(/\[|\]/);
         var itemBase = datas[result.total - i - 1].split(/\[|\]/)[0].split(",");
+        var temp_arr = datas[result.total - i - 1].split(",");
+        var temp_arr_length = temp_arr.length;
+
         var yc;
         if(!datas[result.total - i - 2]){
             yc = itemBase[1];
@@ -37,6 +40,7 @@ function dealData(json,  extendType) {
         rect.open = itemBase[1];
         rect.close = itemBase[2];
         rect.volume = itemBase[5];
+        rect.amplitude = temp_arr[temp_arr_length-1];
         if(itemBase[6]){
             rect.volumeMoney = itemBase[6];
         }else{

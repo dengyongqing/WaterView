@@ -64,9 +64,59 @@
 		        	fontSize:"12",
 		        	color:"#000"
 		        },
-		        xaxis: [],
+		        xaxis: [{
+			        	value:"2016-03-01",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-02",
+			        	showline:false,
+			        	show:false
+			        },{
+			        	value:"2016-03-03",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-04",
+			        	showline:true,
+			        	show:false
+			        },{
+			        	value:"2016-03-05",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-06",
+			        	showline:true,
+			        	show:false
+			        },{
+			        	value:"2016-03-07",
+			        	showline:true,
+			        	show:true
+			        },{
+			        	value:"2016-03-08",
+			        	showline:true,
+			        	show:false
+			        },{
+			        	value:"2016-03-09",
+			        	showline:true,
+			        	show:true
+		        	}],
 		        series:[
-					
+					{	
+						name:"5日均线",
+						color:"#ff5000",
+						suffix:"万",
+						showpoint:true,
+						data:[30000,60000,30000,60000,-30000,-30000,-60000,-60000,-60000]
+					}
+				],
+				series2:[
+					{	
+						name:"分时均线",
+						color:"blue",
+						showpoint:true,
+						data:[-5,-2,-5,-2,1,4,1,4,1]
+					}
 				]
 	        });
 	        k0.draw();
