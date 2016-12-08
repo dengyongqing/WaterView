@@ -254,8 +254,11 @@ var DrawXY = (function(){
 
         var XMark_length = XMark.length;
         ctx.font="12px Arial,Helvetica,San-serif";
-        
-        for(var j = 0;j < XMark_length;j++){
+        var step = 1;
+        if(ctx.measureText(XMark[0]).width >= this.options.drawWidth/6 + 16){
+            step = 2;
+        }
+        for(var j = 0;j < XMark_length;j+=step){
             if(j == 0){
                 ctx.fillText(XMark[j],  j / 4 * this.options.drawWidth + this.options.padding.left, this.options.c_k_height + this.options.unit_height/2);
             }else if(j == XMark_length - 1){
