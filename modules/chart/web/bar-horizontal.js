@@ -30,15 +30,15 @@ var ChartMobileBar = (function() {
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0px";
-
         try {
             var ctx = canvas.getContext('2d');
         } catch (error) {
             canvas = window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
         }
-
         var ctx = canvas.getContext("2d");
+
+        /*一些如果不存在，就进行的默认设定*/
         if (this.options.font_size === undefined) {
             this.options.font_size = 12;
         }
@@ -49,8 +49,12 @@ var ChartMobileBar = (function() {
         this.options.context = ctx;
         this.container.appendChild(canvas);
 
-        this.options.defaultColor = "#FF7200";
-        this.options.defaultHoverColor = "#FF9A4A";
+        if(this.options.color === undefined){
+            this.options.color = "#6890D5";
+        }
+        if(this.options.hoverColor === undefined){
+            this.options.hoverColor = "#7EA1DA";
+        }
         if (!this.options.sepeNum) {
             this.options.sepeNum = 4;
         }
@@ -99,6 +103,12 @@ var ChartMobileBar = (function() {
                 e.returnValue = false;
             }
         })
+        common.addEvent(_this.container, "mouseleave", function(e){
+            if(_this.options.tips !== undefined){
+                _this.options.tips.style.display = "none";
+                _this.options.tips.style.left = "-10000";
+            }
+        });
         if (cb) {
             cb();
         }
