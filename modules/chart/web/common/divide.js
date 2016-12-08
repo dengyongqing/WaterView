@@ -33,13 +33,19 @@ function divide(num, parmarr) {
             stepHeight: 0
         }
     }
-
+    // debugger;
     // 对最大最小值情况判断，进行不同求值过程
     var stepHeight = getStepLength(num, max, min);
     var base = getBase(stepHeight);
     var intStepHeight = stepHeight * Math.pow(10, Math.abs(base) + 1);
     // 正数的分割个数
     var integerStepNum = Math.floor(max / stepHeight + 1);
+    if(min >= 0){
+        integerStepNum = num;
+    }else{
+        integerStepNum = num - Math.floor(Math.abs(min) / stepHeight + 1);
+    }
+
     if(flag === 1){
         result.max = moveDot((integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0;
         result.min = -moveDot((num - integerStepNum) * intStepHeight, -Math.abs(base) - 1) * 1.0;
@@ -107,7 +113,7 @@ function selfRound(n) {
     }
     var str = str.replace(/\./g, "");
     var first, second;
-    first = (str + "").match(/[1-9]/g)[0];
+    first = (str + "").charAt(0);
     if (str.indexOf(first + "") + 1 > str.length) {
         second = "0";
     } else {
