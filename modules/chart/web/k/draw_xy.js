@@ -255,7 +255,7 @@ var DrawXY = (function(){
         var XMark_length = XMark.length;
         ctx.font="12px Arial,Helvetica,San-serif";
         var step = 1;
-        if(ctx.measureText(XMark[0]).width >= this.options.drawWidth/6 + 16){
+        if(ctx.measureText(XMark[0]).width+4 >= this.options.drawWidth/6){
             step = 2;
         }
         for(var j = 0;j < XMark_length;j+=step){
