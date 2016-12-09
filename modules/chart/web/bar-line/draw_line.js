@@ -89,7 +89,12 @@ var DrawLine = (function(){
 		ctx.save();
 		var arr = line.data;
         var arr_length = arr.length;
-        var start_y = common.get_y.call(this,0);
+        if(flag){
+        	var start_y = get_y.call(this,0);
+        }else{
+        	var start_y = common.get_y.call(this,0);
+        }
+        
         var groupBarWidth = this.options.unit.groupBarWidth;
         var bar_w = groupBarWidth/this.options.unit.groupBarCount;
         var groupBarCount = this.options.groupBarCount;
