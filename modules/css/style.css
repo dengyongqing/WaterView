@@ -141,7 +141,7 @@
 	position: absolute;
 	font-family: 'Microsoft Yahei';
 	font-weight: lighter;
-	font-size: 14px;
+	font-size: 12px;
 }
 .emcharts-container .markTContainer span{
 	margin-right: 20px;
@@ -549,7 +549,6 @@
 	position: absolute;
 	z-index: 103;
 	background-color: #fff;
-	margin-left: 100px;
 	width:280px;
 	height:220px;
 }

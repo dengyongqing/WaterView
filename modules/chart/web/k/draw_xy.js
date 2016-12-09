@@ -133,11 +133,10 @@ var DrawXY = (function(){
         ctx.strokeStyle = this.options.color.strokeStyle;
         ctx.font="12px Arial,Helvetica,San-serif";
         ctx.textBaseline = "middle";
-        ctx.fillText(common.format_unit(data.v_max/1,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1,2)).width, this.options.c2_y_top + 10);
-        ctx.fillText(common.format_unit(data.v_max/1 * 2/3,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 2/3,2)).width, this.options.c2_y_top + 10 + this.options.v_base_height * 1/3);
-        ctx.fillText(common.format_unit(data.v_max/1 * 1/3,2),  this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 1/3,2)).width, this.options.c2_y_top + 10 + this.options.v_base_height * 2/3);
-        ctx.fillText(0, this.options.padding.left - 5 - ctx.measureText("0").width, this.options.c2_y_top + 10 + this.options.v_base_height * 3/3);
-        ctx.stroke();
+        ctx.fillText(common.format_unit(data.v_max/1,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1,2)).width, this.options.c2_y_top);
+        ctx.fillText(common.format_unit(data.v_max/1 * 2/3,2), this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 2/3,2)).width, this.options.c2_y_top + 3 + this.options.v_base_height * 1/3);
+        ctx.fillText(common.format_unit(data.v_max/1 * 1/3,2),  this.options.padding.left - 5 - ctx.measureText(common.format_unit(data.v_max/1 * 1/3,2)).width, this.options.c2_y_top + 5 + this.options.v_base_height * 2/3);
+        ctx.fillText(0, this.options.padding.left - 5 - ctx.measureText("0").width, this.options.c2_y_top + 7 + this.options.v_base_height * 3/3);
 
         ctx.beginPath();
         /*画布宽度*/
@@ -204,7 +203,7 @@ var DrawXY = (function(){
             // 绘制纵坐标刻度
             ctx.moveTo(0.5, XYF(item.y + 5));
             var text = (item.num/1).toFixed(this.options.pricedigit);
-            ctx.fillText(text, this.options.padding.left - 5 - ctx.measureText(text).width, item.y + 5);
+            ctx.fillText(text, this.options.padding.left - 5 - ctx.measureText(text).width, item.y + 1);
         }
 
         /*K线图的高度*/

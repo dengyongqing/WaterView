@@ -13,185 +13,197 @@
     //构造方法
     function DrawXY(options){
         /*设置默认参数*/
-        this.defaultoptions = theme.draw_xy;
-        this.options = extend(this.defaultoptions, options);
-        
+        this.options = extend(theme.defaulttheme, options);
         /*绘图*/
         this.draw();
     };
     /*绘图*/
     DrawXY.prototype.draw = function(){
+
         // var xAxisData = this.options.xaxis;
         // var yAxisData = this.options.series;
         // var type = this.options.type;
         // var dpr = this.options.dpr;
         var ctx = this.options.context;
+
         /*Y轴上的最大值*/
         var y_max = this.options.data.max;
+        var y_max2 = this.options.data.max2;
+        var step = this.options.data.step;
         /*Y轴上的最小值*/
-        var y_min = this.options.data.min; 
+        var y_min = this.options.data.min;
+        var y_min2 = this.options.data.min2;
+        var step2 = this.options.data.step2;
 
         /*Y轴上分隔线数量*/
-        var sepe_num = this.options.sepeNum;
+        var sepe_num = this.options.sepeNum || 4;
         /*开盘收盘时间数组*/
         var oc_time_arr = this.options.xaxis;
 
         /*K线图的高度*/
         var k_height = this.options.c_1_height;
-        /*Y轴标识线列表*/
-        var line_list_array = getLineList.apply(this,[y_max, y_min, sepe_num, k_height]);
-        // if(this.options.type == 'quarter-line') {
-            // addGradient.call(this);
-        // }
 
-        drawXYLine.call(this,ctx,y_max,y_min,line_list_array);
+        ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#ccc';
+
+        ctx.rect(XYF(this.options.padding_left),0.5,Math.round(this.options.drawWidth - this.options.padding_left),Math.round(k_height));
+        ctx.stroke();
+
+        /*Y轴标识线列表*/
+        var line_list_array = getLineList(y_max, y_min, sepe_num, k_height,step);
+        drawYMark.call(this,ctx,y_max,y_min,line_list_array,false);
+
+        if(this.options.series2){
+            var line_list_array2 = getLineList(y_max2, y_min2, sepe_num, k_height,step2);
+            drawYMark.call(this,ctx,y_max,y_min,line_list_array2,true);
+        }
 
         // 绘制横坐标刻度
         drawXMark.apply(this,[ctx,k_height,oc_time_arr]);
     };
-    // 绘制Y轴最左边刻度
-    function drawXYLine(ctx,y_max,y_min,line_list_array){
+    // 绘制坐标轴左侧刻度
+    function drawYMark(ctx,y_max,y_min,line_list_array,flag){
         ctx.save();
         // var sepe_num = line_list_array.length;
-        var _this = this;
-        var list_length = line_list_array.length;
-        ctx.fillStyle = '#979797';
-        
+        ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
         ctx.textAlign = 'right';
+        ctx.lineWidth = 1;
+
+        var dpr = this.options.dpr;
+
         for (var i = 0,item; item = line_list_array[i]; i++) {
             ctx.beginPath();
-            // ctx.moveTo(this.options.padding_left, Math.round(item.y));
-            // ctx.lineTo(ctx.canvas.width, Math.round(item.y));
             
-            // var absPoint = Math.max(this.options.data.max,Math.abs(this.options.data.min));
-            // absPoint = absPoint.toFixed(3);
-            // 绘制纵坐标刻度
-            var dashFlag = true;
-            if(this.options.data.min < 0) {
-                if(this.options.data.min + this.options.data.step * i < 0){
-                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 10), XYF(item.y + 5));
-                }else if(this.options.data.min + this.options.data.step * i == 0){
-                    ctx.fillText(0, XYF(this.options.padding_left - 10), XYF(item.y + 5));
-                    dashFlag = false;
-                    ctx.strokeStyle = '#c9c9c9';
-                    ctx.moveTo(XYF(this.options.padding_left), XYF(item.y));
-                    ctx.lineTo(XYF(this.options.drawWidth), XYF(item.y));
-                    ctx.stroke();
-                }else {
-                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 10), XYF(item.y + 5));
-                }
-            }
-            else {
-                ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 10), XYF(item.y + 5));
-            }
-
-            if(i != 0 && i != list_length -1 && dashFlag){
-                ctx.save();
-                ctx.beginPath();
+            if(i == 0 || i == line_list_array.length - 1){
+                // ctx.strokeStyle = '#ccc';
+                // ctx.moveTo(this.options.padding_left, Math.round(item.y));
+                // ctx.lineTo(this.options.drawWidth, Math.round(item.y));
+                // ctx.stroke();
+            }else{
                 ctx.strokeStyle = '#e6e6e6';
-                DrawDashLine(ctx,this.options.padding_left, Math.round(item.y), this.options.drawWidth, Math.round(item.y),3);
-                ctx.restore();
+                DrawDashLine(ctx,this.options.padding_left, item.y, this.options.drawWidth, item.y,3);
             }
             
-        }
-
-
-        function dealFloat(data){
-            if(data){
-                data = parseFloat((data).toFixed(_this.options.maxDot));
+            // 绘制纵坐标刻度
+            // ctx.textAlign = 'left';
+            if(this.options.series2 && flag){
+                // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
+                ctx.textAlign = 'left';
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.drawWidth + 10), XYF(item.y + 5*dpr));
+            }else{
+                ctx.textAlign = 'right';
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.padding_left - 10), XYF(item.y + 5*dpr));
             }
-            return data;
         }
-        ctx.restore();
+         ctx.restore();
     }
 
-/*绘制横坐标刻度值*/
-function drawXMark(ctx,k_height,oc_time_arr){
-        // var dpr = this.options.dpr;
+    /*绘制横坐标刻度值*/
+    function drawXMark(ctx,k_height,oc_time_arr){
         ctx.save();
-        var padding_left = this.options.padding_left;
+        ctx.lineWidth = 1;
         var dpr = this.options.dpr;
-        ctx.beginPath();
-        ctx.strokeStyle = "#c9c9c9";
-        ctx.rect(XYF(padding_left),0.5,Math.round(this.options.drawWidth -padding_left),Math.round(this.options.c_1_height));
-        ctx.stroke();
-        
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#979797';
+        var padding_left = this.options.padding_left;
+        ctx.textAlign = 'center';
+        if(this.options.font){
+            ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
+        }else{
+            ctx.fillStyle = '#000';
+        }
+
         /*画布宽度*/
         var k_width = this.options.drawWidth;
+        // var y_date = this.options.c_1_height;
         var tempDate;
+        // var timeSpacing = (this.options.width * dpr - padding_left) / oc_time_arr.length + padding_left;
         var arr_length = oc_time_arr.length;
         for(var i = 0;i<arr_length;i++) {
             ctx.beginPath();
-            tempDate = oc_time_arr[i].value;
-            var x = i * (k_width - padding_left) / (arr_length) +padding_left;
-            var isShow = oc_time_arr[i].show == undefined ? true : false;
+            tempDate = oc_time_arr[i];
+            if(tempDate.show == undefined ? true : tempDate.show){
 
-            if(oc_time_arr[i].show == undefined || oc_time_arr[i].show){
+                if(arr_length == 1){
+                    var x = (this.options.drawWidth - this.options.padding_left)/2 + this.options.padding_left;
+                    ctx.fillText(tempDate.value, XYF(x) , XYF(this.options.c_1_height+20*dpr));
+                }else{
+                    // if(this.options.series2){
+                     
+                    //     var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                    //     ctx.fillText(tempDate.value, x, this.options.c_1_height+20);
+                    // }else{
+                        
+                    //     var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                    //     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
-                ctx.fillText(tempDate, XYF(x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2)), XYF(this.options.c_1_height+20*dpr)); 
-                // if(i == (arr_length-1)){
-                //     ctx.fillText(tempDate, ((this.options.drawWidth - ctx.measureText(tempDate).width - 2)), this.options.c_1_height+20*dpr); 
-                // }else{
-                //     ctx.fillText(tempDate, x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2), this.options.c_1_height+20*dpr); 
-                // }
+                    //     if(i == 0){
+                    //         ctx.fillText(tempDate.value, i * (k_width - padding_left) / (arr_length-1) + padding_left + ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                    //     }else if(i == arr_length - 1){
+                    //         ctx.fillText(tempDate.value, this.options.drawWidth - ctx.measureText(tempDate.value).width/2, this.options.c_1_height+20);
+                    //     }else{
+                    //         ctx.fillText(tempDate.value, x, this.options.c_1_height+20);   
+                    //     }
+                    // }
+
+                    var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                    // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
+
+                    if(i == 0){
+                        ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                    }else if(i == arr_length - 1){
+                        ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                    }else{
+                        ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                    }
+                }
             }
 
-            if(i == (arr_length-1)){
-                ctx.moveTo(XYF(x),XYF(this.options.c_1_height));   
-                ctx.lineTo(XYF(x),XYF(this.options.c_1_height + 5*dpr));
+            if(tempDate.showline == undefined ? true : tempDate.showline){
+               
+                if(i == 0 || i == arr_length - 1){
+                    // ctx.strokeStyle = '#ccc';
+                    // ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
+                    // ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
+                    // ctx.stroke();
+                }else{
+                    ctx.strokeStyle = '#e6e6e6';
+                    var x = this.options.unit.unitWidth * (i) + this.options.unit.unitWidth/2 + this.options.padding_left;
 
-                var x = (i+1) * (k_width - padding_left) / (arr_length) +padding_left;
-                ctx.moveTo(XYF(x),XYF(this.options.c_1_height));   
-                ctx.lineTo(XYF(x),XYF(this.options.c_1_height + 5*dpr));
-            }else{
-                ctx.moveTo(XYF(x),XYF(this.options.c_1_height));   
-                ctx.lineTo(XYF(x),XYF(this.options.c_1_height + 5*dpr));
+                    DrawDashLine(ctx,x,0,x,this.options.c_1_height + 2,3);
+                }
+                
             }
-            
-            ctx.stroke();
         }
-        ctx.stroke();
+
+        // 绘制坐标刻度
         ctx.restore();
     }
-
-    function addGradient(){
-        ctx.save();
-        var sepGradientLen = (this.options.canvas.width - this.options.padding_left) / this.options.series.length;
-        var ctx = this.options.context;
-        for(var i = 0;i < this.options.series.length;i++) {
-            if(i % 2 == 0) {
-             ctx.beginPath();
-             var grad  = ctx.createLinearGradient(0,0,0,this.options.c_1_height);
-             grad.addColorStop(0,'rgba(255,255,255,0)');
-             grad.addColorStop(1,'rgba(245,245,245,1)');
-             ctx.fillStyle = grad;
-             ctx.rect(this.options.padding_left + i * sepGradientLen,0,sepGradientLen,this.options.c_1_height);
-             ctx.fill();
-             ctx.closePath();
-         }
-
-     }
-      ctx.restore();
- }
-
- /*Y轴标识线列表*/
- function getLineList(y_max, y_min, sepe_num, k_height) {
-    // var ratio = (y_max - y_min) / (sepe_num);
-    var ratio = this.options.data.step;
-    var result = [];
-    for (var i = 0; i <= sepe_num; i++) {
-        result.push({
-            num: (y_min + i * ratio),
-            x: 0,
-            y: k_height - (i / (sepe_num)) * k_height
-        });
+    
+    /*Y轴标识线列表*/
+    function getLineList(y_max, y_min, sepe_num, k_height,step) {
+        var ratio = step;
+        var result = [];
+        for (var i = 0; i <= sepe_num; i++) {
+            result.push({
+                num:  (y_min + i * ratio),
+                x: 0,
+                y: k_height - (i / (sepe_num)) * k_height
+            });
+        }
+        return result;
     }
-    return result;
-}
 
-return DrawXY;
+    
+    function roundFloat(f, stepHeight){
+        var precise = 1;
+        if(stepHeight.toString().indexOf(".") !== -1){
+            precise = stepHeight.toString().length - stepHeight.toString().indexOf(".")-1;
+        }
+        var m = Math.pow(10, precise);
+        return Math.round(f * m)/ m;
+    }
+
+    return DrawXY;
 })();
 
 module.exports = DrawXY;

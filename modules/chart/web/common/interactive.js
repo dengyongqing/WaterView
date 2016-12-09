@@ -134,7 +134,7 @@ var Interactive = (function() {
             var markMAContainer = this.options.markMAContainer;
             markMAContainer.innerHTML = "";
             markMAContainer.className = "markTContainer";
-            markMAContainer.style.top = 0 + "px";
+            markMAContainer.style.top = 3 + "px";
             markMAContainer.style.left = this.options.padding.left + 10 + "px";
 
             /*创建文档碎片*/

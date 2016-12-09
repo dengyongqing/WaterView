@@ -1,5 +1,5 @@
 /**
- * 绘制季度柱状图
+ * 绘制手机分时图
  *
  * this:{
  *     container:画布的容器
@@ -10,18 +10,21 @@
  *     type:    "TL"(分时图),"DK"(日K线图),"WK"(周K线图),"MK"(月K线图)
  *     canvas:  画布对象
  *     ctx:     画布上下文
+ *    
  * }
  *
  */
 
 // 绘制坐标轴
-var DrawXY = require('chart/web/bar/group-bar/draw_xy');
+var DrawXY = require('chart/web/bar-line/draw_xy');
 // 主题
 var theme = require('theme/default');
-// 绘制季度柱状图
-var DrawBar = require('chart/web/bar/group-bar/draw_bar');
+// 绘制分时折线图
+var DrawLine = require('chart/web/bar-line/draw_line');
 // 拓展，合并，复制
 var extend = require('tools/extend2');
+// 交互效果
+var Interactive = require('interactive/interactive');
 // 水印
 var watermark = require('chart/watermark');
 // 添加通用工具
@@ -29,16 +32,15 @@ var common = require('tools/common');
 // 获取步长，最大值，最小值
 var divide = require('chart/web/common/divide');
 
-
-var ChartBarQuarter = (function() {
+var ChartLine = (function() {
 
     // 构造函数
-    function ChartBarQuarter(options) {
-        this.defaultoptions = theme.defaulttheme;
-        this.options = extend(this.defaultoptions, options);
-        
+    function ChartLine(options) {
+        this.options = {};
+        this.options = extend(theme.defaulttheme, options);
         // 图表容器
         this.container = document.getElementById(options.container);
+
         this.container.className = this.container.className + " emcharts-container";
         // 图表加载完成事件
         this.onChartLoaded = options.onChartLoaded == undefined ? function(op) {
@@ -48,303 +50,478 @@ var ChartBarQuarter = (function() {
     }
 
     // 初始化
-    ChartBarQuarter.prototype.init = function() {
+    ChartLine.prototype.init = function() {
 
-        this.options.type = "group-bar";
-        var canvas = document.createElement("canvas");
-        
+        this.options.type = "line";
+        var flag = false;
+        if (!this.options.canvas) {
+            var canvas = document.createElement("canvas");
+            flag = true;
+        } else {
+            var canvas = this.options.canvas;
+        }
+
         // 去除画布上粘贴效果
-        //this.container.style = "-moz-user-select:none;-webkit-lauser-select:none;";
-        // this.container.setAttribute("unselectable", "on");
+        // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
+        // this.container.setAttribute("unselectable","on");
         this.container.style.position = "relative";
-        // 画布
+        // 兼容IE6-IE9
         try {
             var ctx = canvas.getContext('2d');
         } catch (error) {
-            canvas=window.G_vmlCanvasManager.initElement(canvas);
-	        var ctx = canvas.getContext('2d');
+            canvas = window.G_vmlCanvasManager.initElement(canvas);
+            var ctx = canvas.getContext('2d');
         }
-
 
         this.options.canvas = canvas;
         this.options.context = ctx;
-
-        this.options.sepeNum = this.options.sepeNum == undefined ? 4 : this.options.sepeNum;
-        if(this.options.sepeNum < 2){
-            this.options.sepeNum = 2;
-        }
-
-        // 容器中添加画布
-        this.container.appendChild(canvas);
-
         // 设备像素比
-        var dpr = this.options.dpr = 1;
+        var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
+        // 容器中添加画布
+        this.container.appendChild(canvas);
+
         // 画布向下偏移的距离
         this.options.canvas_offset_top = 15 * dpr;
-        // 画布内容向坐偏移的距离
-        this.options.c_1_height = canvas.height - 50 * dpr;
+
+
+        // 缩放默认值
+        this.options.scale_count = 0;
+        this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
+        // 画布上第一个图表的高度
+        this.options.c_1_height = canvas.height - 40 * dpr;
+        // if(this.options.showflag){
+        //     this.options.c_1_height = canvas.height * (5/9);
+        // }else{
+        //     this.options.c_1_height = canvas.height * (7/9);
+        // }
+        if (this.options.showname === undefined) {
+            this.options.showname = true;
+        }
+        this.options.sepeNum = this.options.sepeNum == undefined ? 4 : this.options.sepeNum;
+        if (this.options.sepeNum < 2) {
+            this.options.sepeNum = 2;
+        }
+
+
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
 
-        // 折线数据
-        var series = this.options.series;
-        var getMaxMinValue = getMaxMark.apply(this,[series]);
-        if (getMaxMinValue.min < 0) {
-            this.options.isLessZero = true;
-        }
-        this.options.data = {};
-        this.options.data.max = getMaxMinValue.max;
-        this.options.data.min = getMaxMinValue.min;
-        this.options.data.step = getMaxMinValue.step;
-
-        // this.options.padding_left = ctx.measureText("+9000万").width + 20;
-        this.options.padding_left = getMaxMinValue.maxPaddingLeftWidth * dpr + 30;
-        this.options.drawWidth = canvas.width - 10;
-
+        var isIE8 = !+'\v1';
         // 画布上部内间距
-        ctx.translate("0", this.options.canvas_offset_top);
-        // 画笔参数设置
-        ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
-        ctx.lineWidth = 1 * this.options.dpr;
-        this.options.groupSpacing = this.options.groupSpacing == undefined ? "0.2" : this.options.groupSpacing;
-        this.options.groupUnitSpacing =  this.options.groupUnitSpacing == undefined ? "0.2" : this.options.groupUnitSpacing;;
+        if (isIE8) {
+            if (flag) {
+                ctx.translate("0", this.options.canvas_offset_top);
+            }
+        } else {
+            ctx.translate("0", this.options.canvas_offset_top);
+        }
 
-        // 加水印
-        watermark.apply(this,[this.options.context,this.options.padding_left + 95 * dpr,10 * dpr,82 * dpr,20 * dpr]);
-    };
+        // 画笔参数设置
+        var font = "";
+        var fontSize = "";
+        var fontFamily = "";
+        if (this.options.font) {
+            if (this.options.font.fontFamily) {
+                fontFamily = this.options.font.fontFamily;
+            } else {
+                fontFamily = "Arial";
+            }
+
+            if (this.options.font.fontSize) {
+                fontSize = this.options.font.fontSize * this.options.dpr;
+            } else {
+                fontSize = 12 * this.options.dpr;
+            }
+
+            font = fontSize + "px " + fontFamily;
+        } else {
+            font = 12 * this.options.dpr + "px Arial";
+        }
+        ctx.font = font;
+        ctx.lineWidth = 1 * this.options.dpr;
+
+        this.options.spacing = 0.2;
+
+        //锚点半径
+        this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
+
+
+    }
 
     // 绘图
-    ChartBarQuarter.prototype.draw = function(callback) {
+    ChartLine.prototype.draw = function(callback) {
         // 删除canvas画布
         this.clear();
         // 初始化
         this.init();
+        // 初始化交互
+        this.options.interactive = new Interactive(this.options);
+        var ctx = this.options.context;
         // 显示loading效果
         // inter.showLoading();
         // var _this = this;
 
+        // 第一坐标轴折线数据
+        var series = this.options.series;
+        this.options.data = {};
+        var maxAndMin = getMaxMark.call(this, series);
+        this.options.data.max = maxAndMin.max;
+        this.options.data.min = maxAndMin.min;
+        this.options.data.step = maxAndMin.step;
 
-        this.options.group = getYearRect.call(this, this.options.drawWidth - this.options.padding_left, this.options.series.length);
-        this.options.groupUnit = getQuarterRect.call(this, this.options.group.bar_w, this.options.series[0].data.length);
+        // 画布内容偏移的距离
+        this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 30);
+        if (this.options.series2) {
+            this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
+            // 加水印
+            watermark.apply(this, [ctx, 100 + this.options.padding_left, 10, 82, 20]);
+        } else {
+            this.options.drawWidth = Math.round(ctx.canvas.width - 10);
+            // 加水印
+            watermark.apply(this, [ctx, 100, 10, 82, 20]);
+        }
 
+        // 第二坐标轴折线数据
+        if (this.options.series2) {
+            var series2 = this.options.series2;
+            var maxAndMin2 = getMaxMark.call(this, series2);
+            this.options.data.max2 = maxAndMin2.max;
+            this.options.data.min2 = maxAndMin2.min;
+            this.options.data.step2 = maxAndMin2.step;
+        }
+
+        // 单位绘制区域
+        this.options.unit = {};
+        var xaxis_length = this.options.xaxis.length;
+        this.options.unit.unitWidth = (this.options.drawWidth - this.options.padding_left)/xaxis_length;
+        this.options.unit.groupBarWidth = this.options.unit.unitWidth * (1-this.options.spacing);
+        
+        var group_bar_count = 0;
+        for(var i = 0,item;item = series[i]; i++){
+            if(item.type == "bar"){
+                group_bar_count++;
+            }
+        }
+
+        for(var i = 0,item;item = series2[i]; i++){
+            if(item.type == "bar"){
+                group_bar_count++;
+            }
+        }
+
+        this.options.unit.groupBarCount = group_bar_count;
         // 绘制坐标轴
         new DrawXY(this.options);
-        // 绘制季度柱状图
-        new DrawBar(this.options);
-        //添加交互
+        // 绘制分时折线图
+        new DrawLine(this.options);
         this.addInteractive();
 
     };
-    // 单位绘制区域
-    function getYearRect(width, num) {
-        var rect_w = width / num;
-        var bar_w = rect_w * (1 - this.options.groupSpacing);
-        return {
-            rect_w: rect_w,
-            bar_w: bar_w
-        };
-    }
 
-    // 单位绘制区域
-    function getQuarterRect(width, num) {
-        var rect_w = width / num;
-        var bar_w = rect_w * (1 - this.options.groupUnitSpacing);
-        return {
-            rect_w: rect_w,
-            bar_w: bar_w
-        };
-    }
-
-
-    // 图表y轴坐标计算
-    function get_y(y) {
-        var sepe_max_min = this.options.data.max - this.options.data.min;
-        if(y >= 0 && this.options.data.min < 0){
-            var up_height = this.options.c_1_height * (this.options.data.max)/sepe_max_min;
-            return up_height - this.options.c_1_height * y/sepe_max_min;
-        }else if(y >= 0 && this.options.data.min >= 0){
-            var up_height = this.options.c_1_height;
-            return up_height - this.options.c_1_height * (y - this.options.data.min)/sepe_max_min;
-        }else if(y < 0 && this.options.data.max >= 0){
-            var sepe_y = this.options.c_1_height * (this.options.data.max)/sepe_max_min;
-            // var down_height = sepe_y + this.options.c_1_height * Math.abs(this.options.data.min)/sepe_max_min;
-            return this.options.c_1_height * Math.abs(y)/sepe_max_min + sepe_y;        
-        }else if(y < 0 && this.options.data.max < 0){
-            return this.options.c_1_height * Math.abs(y)/sepe_max_min + 0;        
-        }
-    }
-    // 图表x轴坐标计算
-    function get_x(year_num,quarter_num) {
-        var group = this.options.group;
-        var groupUnit = this.options.groupUnit;
-        var padding_left = this.options.padding_left;
-        var year_sepe = this.options.group.rect_w - this.options.group.bar_w;
-        var quarter_sepe = this.options.groupUnit.rect_w - this.options.groupUnit.bar_w;
-        return group.rect_w * year_num + padding_left + groupUnit.rect_w * quarter_num + year_sepe/2 + quarter_sepe/2;
-    }
-
-    //通过clientX获得交互需要的tips的坐标和虚线中x坐标
-    function getCoordinateByClient(clientX) {
-        var canvasX = clientX * this.options.dpr;
-        //被返回的两个数据
-        var result = {};
-
-        //需要用到的参数
-        var paddingLeft = this.options.padding_left,
-            group = this.options.group,
-            groupUnit = this.options.groupUnit,
-            canvas = this.options.canvas,
-            series = this.options.series;
-
-        // 求得鼠标所指的位置属于哪一年的哪一个季度
-        var numYear = Math.floor((canvasX - paddingLeft) / group.rect_w);
-        if (numYear < 0) {
-            numYear = 0;
-        }
-        var numQuarter = Math.floor((canvasX - paddingLeft - numYear * group.rect_w - (group.rect_w - group.bar_w) / 2) / groupUnit.rect_w);
-        if (numQuarter < 0) {
-            numQuarter = 0;
-        } else if (numQuarter > 3) {
-            numQuarter = 3;
-        }
-        // 绘制的虚线的x坐标
-        result.midddleLine = get_x.call(this, numYear, numQuarter) + groupUnit.bar_w / 2;
-        //绘制tips的坐标
-        result.tipsX = this.options.padding_left*this.options.dpr + group.rect_w * numYear;
-        result.tipsY = get_y.call(this, series[numYear].data[0]) + this.options.canvas_offset_top*this.options.dpr;
-
-        result.midddleLineHeight = result.tipsY;
-
-        result.content = {};
-        result.content.series = this.options.series[numYear].data;
-        result.content.colors = this.options.xaxis[numYear];
-
-        result.arr = numYear + ":" + numQuarter;
-
-        return result;
-    }
-
-    ChartBarQuarter.prototype.addInteractive = function() {
+    //添加交互
+    ChartLine.prototype.addInteractive = function() {
         var canvas = this.options.canvas;
-        var group = this.options.group;
-        var _that = this;
-        var tips = document.createElement("div");
-        var middleLine = document.createElement("div");
-        var coordinateCanvas, coordinateWindow = {};
-        //用于状态记录
-        var status = "x:x";
-        //用于canvas与windows相互转化
-        var dpr = this.options.dpr;
+        var dateArr = this.options.xaxis;
+        var series = this.options.series;
+        var series2 = this.options.series2;
+        var ctx = this.options.context;
         var padding_left = this.options.padding_left;
-        var offSetTop = this.options.canvas_offset_top;
-        var yHeight = this.options.c_1_height;
+        var padding_top = this.options.canvas_offset_top;
+        var dpr = this.options.dpr;
+        
+        var that = this;
+        var y_max = this.options.data.max;
+        var y_min = this.options.data.min;
+        var y_max2 = this.options.data.max2;
+        var y_min2 = this.options.data.min2;
+        var c_1_height = this.options.c_1_height;
+        var radius = this.options.pointRadius / dpr;
 
-        // tips.setAttribute("class", "web-tips");
-        tips.className = "web-tips";
-        middleLine.className = "group-bar-mark";
-        middleLine.style.width = group.rect_w/dpr + "px";
-        middleLine.style.backgroundColor = "#333";
-        // middleLine.setAttribute("class", "web-middleLine");
-        _that.container.appendChild(tips);
-        _that.container.appendChild(middleLine);
 
-        common.addEvent.call(_that, canvas, 'mousemove', function(e) {
+        common.addEvent.call(that, canvas, "touchmove", function(e) {
 
-            var winX, winY;
-            //浏览器检测，获取到相对元素的x和y
-            if (e.layerX) {
-                winX = e.layerX;
-                winY = e.layerY;
-            } else if (e.x) {
-                winX = e.x;
-                winY = e.y;
+            var touchEvent = e.changedTouches[0];
+
+            var winX = touchEvent.offsetX || (touchEvent.clientX - that.container.getBoundingClientRect().left);
+            var winY = touchEvent.offsetY || (touchEvent.clientY - that.container.getBoundingClientRect().top);
+
+            // var winX, winY;
+            // //浏览器检测，获取到相对元素的x和y
+            // if (e.layerX) {
+            //     winX = e.layerX;
+            //     winY = e.layerY;
+            // } else if (e.x) {
+            //     winX = e.x;
+            //     winY = e.y;
+            // }
+            try{
+                e.preventDefault();
             }
+            catch(error){
 
-            //当超出坐标系框就不显示交互
-            if (winX >= padding_left/dpr && winX*dpr < _that.options.drawWidth && (winY >= offSetTop/dpr && winY < (offSetTop + yHeight)/dpr)) {
-                tips.style.display = "inline-block";
-                middleLine.style.display = "inline-block";
-            } else {
-                tips.style.display = "none";
-                middleLine.style.display = "none";
-            }
-            //canvas中是坐标与屏幕坐标之间的相互转换
-            if(winX*dpr < _that.options.drawWidth){
-                coordinateCanvas = getCoordinateByClient.call(_that, winX);
             }
             
-            if (status !== coordinateCanvas.arr) {
-                coordinateWindow.midddleLine = common.canvasToWindow.call(_that, canvas, coordinateCanvas.midddleLine, 0);
-                coordinateWindow.tips = common.canvasToWindow.call(_that, canvas, coordinateCanvas.tipsX, coordinateCanvas.tipsY);
-                
-                //绘制tips
-                var series = coordinateCanvas.content.series;
-                var colors = coordinateCanvas.content.colors;
 
-                tips.innerHTML = "";
-                var title = document.createElement("div");
-                title.innerHTML = colors.value;
-                tips.appendChild(title);
-                for(var i=0,item;item=series[i]; i++){
-                    
-                    var color_span = document.createElement("span");
-                    color_span.className = "bar-color-span";
-                    color_span.style.backgroundColor = colors.colors[i];
+            eventHanlder.call(that, winX, winY);
+        });
 
-                    var value_span = document.createElement("span");
-                    value_span.className = "bar-value-span";
-                    value_span.innerHTML = item;
+        //添加交互事件
+        common.addEvent.call(that, canvas, "mousemove", function(e) {
 
-                    var span_container = document.createElement("div");
-                    span_container.className = "";
-                    span_container.appendChild(color_span);
-                    span_container.appendChild(value_span);
+            var winX = e.offsetX || (e.clientX - that.container.getBoundingClientRect().left);
+            var winY = e.offsetY || (e.clientY - that.container.getBoundingClientRect().top);
 
-                    tips.appendChild(span_container);
-                }
+            // var winX, winY;
+            // //浏览器检测，获取到相对元素的x和y
+            // if (e.layerX) {
+            //     winX = e.layerX;
+            //     winY = e.layerY;
+            // } else if (e.x) {
+            //     winX = e.x;
+            //     winY = e.y;
+            // }
 
-                // tips.innerHTML = coordinateCanvas.content;
-                var w_x = e.offsetX || (e.clientX - _that.container.getBoundingClientRect().left);
-                var w_y = e.offsetY || (e.clientY - _that.container.getBoundingClientRect().top);
-
-                if (w_x > canvas.width / 2 / dpr) {
-                    tips.style.left = (coordinateCanvas.tipsX/dpr - tips.clientWidth) + "px";
-                } else {
-                    tips.style.left = (coordinateCanvas.tipsX  + _that.options.group.rect_w)/dpr + "px";
-                }
-                // alert(coordinateWindow.tips.y);
-                tips.style.top = (coordinateCanvas.tipsY)/dpr - tips.clientHeight/2 + "px";
-                // var text = createTextNode(coordinateCanvas.content);
-                // tips.appendChild(text);
-
-               
-
-                // 鼠标在画布中的坐标
-                var c_pos = common.windowToCanvas.apply(_that,[canvas,w_x,w_y]);
-                var c_x = (c_pos.x).toFixed(0);
-
-                if(c_x - _that.options.padding_left > 0){
-                    var index = Math.floor((c_x - _that.options.padding_left) / group.rect_w);
-                    //绘制中线
-                    middleLine.style.height = yHeight/_that.options.dpr + "px";
-                    middleLine.style.left = (index * group.rect_w + _that.options.padding_left)/dpr + "px";
-                    middleLine.style.top = offSetTop/dpr + "px";
-                }
-                
-                status = coordinateCanvas.arr;
+            try{
+                e.preventDefault();
             }
+            catch(error){
+                
+            }
+            eventHanlder.call(that, winX, winY);
 
         });
 
-    };
+        common.addEvent.call(that, that.container, "touchend", function(e) {
+            if (that.options.interOption) {
+                var circles = that.options.interOption.circles;
+                that.options.interOption.tips.style.display = "none";
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.display = "none";
+                }
+                that.options.interOption.yLine.style.display = "none";
+            }
+            try{
+                e.preventDefault();
+            }
+            catch(error){
+                
+            }
+        });
+
+        common.addEvent.call(that, that.container, "mouseleave", function(e) {
+            if (that.options.interOption) {
+                var circles = that.options.interOption.circles;
+                that.options.interOption.tips.style.display = "none";
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.display = "none";
+                }
+                that.options.interOption.yLine.style.display = "none";
+            }
+            try{
+                e.preventDefault();
+            }
+            catch(error){
+                
+            }
+        });
+
+        function eventHanlder(winX, winY) {
+            var canvasX = winX * dpr - padding_left; //转换为canvas中的坐标
+            var canvasY = winY * dpr - padding_top;
+
+            //下标
+            var cursor = 0;
+            //用来显示tips的一组数据
+            var tipArr = [];
+            //获取交互需要的坐标数据
+            var unit = that.options.unit.unitWidth;
+            if (canvasX % unit < unit / 2) {
+                cursor = Math.floor(canvasX / unit);
+            } else {
+                cursor = Math.ceil(canvasX / unit);
+            }
+
+            if (cursor < 0) { cursor = 0; }
+            if (cursor > dateArr.length - 1) { cursor = dateArr.length - 1; }
+
+            for (var i = 0, len = series.length; i < len; i++) {
+                tipArr.push({
+                    color: series[i].color,
+                    data: ((series[i].data[cursor] === undefined || series[i].data[cursor] === null) ? "" : series[i].data[cursor]) + (series[i].suffix || ""),
+                    name: series[i].name,
+                    y: series[i].data[cursor] === undefined ? padding_top + common.get_y.call(that, 0) : padding_top + common.get_y.call(that, series[i].data[cursor]),
+                    suffix: (series[i].suffix || ""),
+                    type:series[i].type
+                });
+            }
+            if (that.options.series2) {
+                for (i = 0, len = series2.length; i < len; i++) {
+                    tipArr.push({
+                        color: series2[i].color,
+                        data: ((series2[i].data[cursor] === undefined || series2[i].data[cursor] === null) ? "" : series2[i].data[cursor]) + (series2[i].suffix || ""),
+                        name: series2[i].name,
+                        y: series2[i].data[cursor] === undefined ? padding_top + c_1_height / 2 : padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
+                        suffix: (series2[i].suffix || ""),
+                        type:series2[i].type
+                    });
+                }
+            }
+
+            //排序
+            tipArr.sort(function(a, b) {
+                return a.y - b.y;
+            });
+            var left = 0,
+                flag = false;
+            if (dateArr.length == 1) {
+                left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left / dpr);
+            } else {
+                left =(cursor * unit / dpr + padding_left / dpr) + unit / dpr * (1 / 2);
+            }
+
+            //添加交互
+            if (!that.options.interOption) {
+                that.options.interOption = {};
+                //提示
+                var tips = document.createElement("div");
+                tips.className = "chart_line_tips";
+
+                that.container.appendChild(tips);
+
+                tips.style.top = (tipArr[0].y + tipArr[tipArr.length - 1].y) / 2 / dpr + "px";
+                var title = document.createElement("div");
+                title.className = "chart_line_tips_title";
+                title.innerHTML = dateArr[cursor].value;
+                tips.appendChild(title);
+
+                //交互的竖线
+                var yLine = document.createElement("div");
+                yLine.className = "chart_line_yline";
+                //交互的竖线
+                yLine.style.left = left + "px";
+                yLine.style.top = padding_top / dpr + "px";
+                yLine.style.height = c_1_height / dpr + "px";
+                that.container.appendChild(yLine);
+                var circles = [];
+                for (i = 0, len = tipArr.length; i < len; i++) {
+                    //tips内容
+                    var lineTip = document.createElement("div");
+                    lineTip.className = "chart_line_tips_line";
+                    var color = document.createElement("span");
+                    color.className = "chart_line_tips_color";
+                    color.style.backgroundColor = tipArr[i].color;
+                    lineTip.appendChild(color);
+                    var content = document.createElement("span");
+                    content.innerHTML = (that.options.showname ? tipArr[i].name : "") + tipArr[i].data
+                    lineTip.appendChild(content);
+                    tips.appendChild(lineTip);
+                    //圆圈
+                    var cir = document.createElement("div");
+                    cir.className = "chart_line_cir";
+                    cir.style.width = 2 * radius + "px";
+                    cir.style.height = 2 * radius + "px";
+                    cir.style.borderRadius = 2 * radius + "px";
+                    cir.style.top = (tipArr[i].y / dpr - radius) + "px";
+                    cir.style.left = (left - radius) + "px";
+                    cir.style.borderColor = tipArr[i].color;
+                    if (tipArr[i].data === tipArr[i].suffix) {
+                        cir.style.display = "none";
+                        lineTip.style.display = "none";
+                    } else {
+                        flag = true;
+                    }
+
+                    if(tipArr[i].type == "line"){
+                        that.container.appendChild(cir);
+                    }
+                    circles.push(cir);
+                }
+                if ((cursor * unit / dpr + padding_left / dpr) > canvas.width / 2) {
+                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
+                } else {
+                    tips.style.left = (left + padding_left / 2) + "px";
+                }
+                that.options.interOption.tips = tips;
+                that.options.interOption.yLine = yLine;
+                that.options.interOption.circles = circles;
+            } else {
+                var tips = that.options.interOption.tips;
+
+                var children = tips.children;
+                children[0].innerHTML = dateArr[cursor].value;
+                for (var j = 0, len = tipArr.length; j < len; j++) {
+                    if (tipArr[j].data === tipArr[j].suffix) {
+                        children[j + 1].style.display = "none";
+                    } else {
+                        flag = true;
+                        children[j + 1].style.display = "block";
+                        children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
+                        children[j + 1].children[1].innerHTML = (that.options.showname ? tipArr[j].name : "") + " " + tipArr[j].data
+                    }
+                }
+                if (flag) {
+                    tips.style.display = "block";
+                } else {
+                    tips.style.display = "none";
+                    tips.style.left = "-10000px";
+                }
+                if ((cursor * unit / dpr + padding_left / dpr) >= canvas.width / dpr / 2) {
+                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
+                } else {
+                    tips.style.left = (left + padding_left / 2) + "px";
+                }
+                tips.style.top = (tipArr[0].y + tipArr[tipArr.length - 1].y) / 2 / dpr - 50 + "px";
+                var yLine = that.options.interOption.yLine;
+                yLine.style.left = left + "px";
+                var circles = that.options.interOption.circles;
+                for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
+                    if (tipArr[k].data === tipArr[k].suffix) {
+                        circles[k].style.display = "none";
+                    } else {
+                        circles[k].style.display = "block";
+                        circles[k].style.top = tipArr[k].y / dpr - radius + "px";
+                        circles[k].style.left = (left - radius) + "px";
+                        circles[k].style.borderColor = tipArr[k].color;
+                    }
+                }
+                if (flag) {
+                    that.options.interOption.tips.style.display = "block";
+                    yLine.style.display = "block";
+                }
+            }
+
+            var padding_right = this.options.series2 ? padding_left : 10;
+
+            //当超出坐标系框就不显示交互
+            if (canvasX >= 0 && canvasX < (canvas.width - padding_left - padding_right + 3) && canvasY >= 0 && canvasY <= c_1_height && flag) {
+                that.options.interOption.tips.style.display = "block";
+                for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
+                    if (tipArr[k].data === tipArr[k].suffix) {
+                        circles[k].style.display = "none";
+                    } else {
+                        circles[k].style.display = "block";
+                    }
+                }
+                yLine.style.display = "block";
+            } else {
+                that.options.interOption.tips.style.display = "none";
+                that.options.interOption.tips.style.left = "-10000px";
+                for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                    circles[k].style.display = "none";
+                }
+                yLine.style.display = "none";
+            }
+        }
+    }
+
 
     // 重绘
-    ChartBarQuarter.prototype.reDraw = function() {
+    ChartLine.prototype.reDraw = function() {
             // 删除canvas画布
             this.clear();
             // 初始化
@@ -352,11 +529,24 @@ var ChartBarQuarter = (function() {
             this.draw();
         }
         // 删除canvas画布
-    ChartBarQuarter.prototype.clear = function(cb) {
-        if (this.container) {
+    ChartLine.prototype.clear = function(cb) {
+        try {
+            var ctx = this.options.context;
+            ctx.clearRect(0, -this.options.canvas_offset_top, this.options.canvas.width + this.options.drawWidth, this.options.canvas.height);
+            var interOption = this.options.interOption;
+            var yLine = interOption.yLine , 
+                circles = interOption.circles,
+                tips = interOption.tips;
+            for (var k = 0, kLen = circles.length; k < kLen; k++) {
+                this.container.removeChild(circles[k]);
+            }
+            this.container.removeChild(yLine);
+            this.container.removeChild(tips);
+            if(this.options.interOption !== undefined || this.options.interOption !== null){
+                this.options.interOption = null;
+            }
+        } catch (e) {
             this.container.innerHTML = "";
-        } else {
-            document.getElementById(this.options.container).innerHTML = "";
         }
         if (cb) {
             cb();
@@ -365,30 +555,40 @@ var ChartBarQuarter = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(series) {
-        var  seriesLength = series.length;
+
+        var seriesLength = series.length;
         var arr = [];
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
+        var tempObj = divide(this.options.sepeNum, arr);
 
-        var tempObj = divide(this.options.sepeNum,arr);
-        
         var ctx = this.options.context;
-        var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
+        if (tempObj.stepHeight >= 10000) {
+            var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
+        } else {
+            var backWidth = ctx.measureText(tempObj.stepHeight).width - ctx.measureText(parseInt(tempObj.stepHeight)).width;
+        }
         var frontMaxWidth = ctx.measureText(common.format_unit(parseInt(tempObj.max))).width;
         var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
-        var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth:frontMinWidth;
+        var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
         var maxPaddingLeftWidth = frontWidth + backWidth;
 
+        if (tempObj.max == 0 && tempObj.min == 0) {
+            tempObj.max = 1;
+            tempObj.min = -1;
+            tempObj.stepHeight = 1;
+            this.options.sepeNum = 2;
+        }
         return {
             max: tempObj.max,
             min: tempObj.min,
             step: tempObj.stepHeight,
-            maxPaddingLeftWidth:maxPaddingLeftWidth
+            maxPaddingLeftWidth: maxPaddingLeftWidth
         };
     }
 
-    return ChartBarQuarter;
+    return ChartLine;
 })();
 
-module.exports = ChartBarQuarter;
+module.exports = ChartLine;

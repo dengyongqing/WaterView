@@ -216,8 +216,7 @@ var ChartK = (function() {
 
                     // 缩放
                     // inter.scale(_this.options.canvas);
-                    // 绑定事件
-                    bindEvent.call(_this,_this.options.context);
+        
                 }
                 // 传入的回调函数
                 if(callback){
@@ -766,6 +765,9 @@ var ChartK = (function() {
                 _this.options.interactive.options.markMAContainer = null;
             }
 
+            // 绑定事件
+            bindEvent.call(_this,_this.options.context);
+
             inter.markMA(_this.options.canvas, "junxian", _this.options["junxian"], _this.options.start, _this.options.end, "",_this.options.maColor);
             inter.markT(_this.options.canvas, "rsi", _this.options["rsi"], _this.options.start, _this.options.end, 59);
         });
@@ -905,6 +907,7 @@ var ChartK = (function() {
                 _this.options.junxian["ma"+j4] = data.thirty_average;
 
                 temp_ma.apply(_this,[]);
+
             });
         }
 

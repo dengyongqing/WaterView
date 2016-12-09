@@ -39,8 +39,7 @@ var dealData = require('../../dealdata/web/chart_k');
  * @param  {Function} callback 返回得到的数据
  */
 function getData(options, callback){
-	// var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
-	var url = "http://139.224.18.89:8011/em_ubg_pdti_fast/api/js";
+	var url = "http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js";
 	var callbackStr = "fsData" + (new Date()).getTime().toString();
 	if(options.type.toLowerCase() == "dk"){
 		options.type = 'k';
