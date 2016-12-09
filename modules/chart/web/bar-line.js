@@ -441,7 +441,7 @@ var ChartLine = (function() {
                     } else {
                         flag = true;
                     }
-                    if(tipArr[i].type == "line"){
+                    if(tipArr[i].type == "line" && this.options.unit.groupBarCount == 0){
                         that.container.appendChild(cir);
                     }
                     circles.push(cir);
