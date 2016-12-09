@@ -92,8 +92,16 @@ var ChartMobileBar = (function() {
         drawBar.call(this);
         common.addEvent(_this.container, "mousemove", function(e) {
             var winX, winY;
-            winX = e.offsetX || (e.clientX - _this.container.getBoundingClientRect().left);
-            winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
+            //浏览器检测，获取到相对元素的x和y
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
+            }
+            // winX = e.offsetX || (e.clientX - _this.container.getBoundingClientRect().left);
+            // winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
             handleEvent.call(_this, winX, winY);
 
             try{
