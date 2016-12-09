@@ -129,7 +129,7 @@
 }
 .emcharts-container .chart_line_ybar{
 	position: absolute;
-	background-color: #000;	
+	background-color: rgb(51,51,51);	
 	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
 	opacity: 0.5;
 }
