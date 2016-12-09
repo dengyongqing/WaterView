@@ -67,10 +67,10 @@ function drawIcon(container, x, y, imgUrl, info, currentPrice, isUp, persent) {
 
         timeChangePositionPad.innerHTML = '<div class="timeChangeTriangle"></div>' +
             '<table class="timeChangeTable"><caption class="timeChangeHeader">' + changeType + '</caption>' +
-            '<tr><td>时：<span>' + changeTime + '</span></td>' +
-            '<td>量：<span>' + changeNum + '</span></td></tr>' +
-            '<tr><td>价：<span style=" color: ' + priceColor + '">' + currentPrice + '</span></td>' +
-            '<td>涨：<span style=" color: ' + priceColor + '">' + persentStr + '</span></td></tr></table>';
+            '<tr><td>时:<span>' + changeTime + '</span></td>' +
+            '<td>量:<span>' + changeNum + '</span></td></tr>' +
+            '<tr><td>价:<span style=" color: ' + priceColor + '">' + currentPrice + '</span></td>' +
+            '<td>涨:<span style=" color: ' + priceColor + '">' + persentStr + '</span></td></tr></table>';
     });
 
     common.addEvent(img, 'mouseout', function(e) {

@@ -93,7 +93,6 @@ var DrawLine = (function(){
         var groupBarWidth = this.options.unit.groupBarWidth;
         var bar_w = groupBarWidth/this.options.unit.groupBarCount;
         var groupBarCount = this.options.groupBarCount;
-        debugger;
 
 		ctx.beginPath();
 
