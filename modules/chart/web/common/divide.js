@@ -113,7 +113,7 @@ function selfRound(n) {
     }
     var str = str.replace(/\./g, "");
     var first, second;
-    first = (str + "").charAt(0);
+    first = (str + "").match(/[1-9]/g)[0];
     if (str.indexOf(first + "") + 1 > str.length) {
         second = "0";
     } else {
