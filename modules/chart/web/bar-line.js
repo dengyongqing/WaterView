@@ -383,7 +383,7 @@ var ChartLine = (function() {
             } else {
                 left =(cursor * unit / dpr + padding_left / dpr) + unit / dpr * (1 / 2);
             }
-
+            
             //添加交互
             if (!that.options.interOption) {
                 that.options.interOption = {};
@@ -401,11 +401,17 @@ var ChartLine = (function() {
 
                 //交互的竖线
                 var yLine = document.createElement("div");
+                
                 yLine.className = "chart_line_yline";
                 //交互的竖线
                 yLine.style.left = left + "px";
                 yLine.style.top = padding_top / dpr + "px";
                 yLine.style.height = c_1_height / dpr + "px";
+                if(that.options.unit.groupBarCount !== 0){
+                    yLine.className = "chart_line_ybar";
+                    yLine.style.width = that.options.unit.unitWidth + "px";
+                    yLine.style.left = left - that.options.unit.unitWidth/2 + "px";
+                }
                 that.container.appendChild(yLine);
                 var circles = [];
                 for (i = 0, len = tipArr.length; i < len; i++) {
@@ -435,23 +441,22 @@ var ChartLine = (function() {
                     } else {
                         flag = true;
                     }
-
                     if(tipArr[i].type == "line"){
                         that.container.appendChild(cir);
                     }
                     circles.push(cir);
                 }
                 if ((cursor * unit / dpr + padding_left / dpr) > canvas.width / 2) {
-                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
+                    tips.style.left = (left - unit / 2 - tips.clientWidth) + "px";
                 } else {
-                    tips.style.left = (left + padding_left / 2) + "px";
+                    tips.style.left = (left + unit / 2) + "px";
                 }
                 that.options.interOption.tips = tips;
                 that.options.interOption.yLine = yLine;
                 that.options.interOption.circles = circles;
             } else {
                 var tips = that.options.interOption.tips;
-
+                
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
@@ -471,13 +476,16 @@ var ChartLine = (function() {
                     tips.style.left = "-10000px";
                 }
                 if ((cursor * unit / dpr + padding_left / dpr) >= canvas.width / dpr / 2) {
-                    tips.style.left = (left - padding_left / 2 - tips.clientWidth) + "px";
+                    tips.style.left = (left - unit / 2 - tips.clientWidth) + "px";
                 } else {
-                    tips.style.left = (left + padding_left / 2) + "px";
+                    tips.style.left = (left + unit / 2) + "px";
                 }
                 tips.style.top = (tipArr[0].y + tipArr[tipArr.length - 1].y) / 2 / dpr - 50 + "px";
                 var yLine = that.options.interOption.yLine;
                 yLine.style.left = left + "px";
+                if(that.options.unit.groupBarCount !== 0){
+                    yLine.style.left = left - unit/2 + "px";
+                }
                 var circles = that.options.interOption.circles;
                 for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
                     if (tipArr[k].data === tipArr[k].suffix) {
