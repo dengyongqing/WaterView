@@ -46,19 +46,45 @@ var DrawLine = (function(){
 			ctx.fillStyle = item.color == undefined ? "#333" : item.color;
 			// 画笔颜色
 	        ctx.strokeStyle = item.color == undefined ? "#333" : item.color;
-        	if(item.type == "line"){
+	        if(item.type == "bar"){
+	        	this.options.groupBarCount++;
+	        	drawBar.apply(this,[ctx,item,false]);
+	        }
+        	
+		}
+
+		for(var i = 0,item;item = series[i]; i++){
+			// 填充颜色
+			ctx.fillStyle = item.color == undefined ? "#333" : item.color;
+			// 画笔颜色
+	        ctx.strokeStyle = item.color == undefined ? "#333" : item.color;
+	        if(item.type == "line"){
 	        	drawLine.apply(this,[ctx,item,false]);
 	        	if(item.showpoint){
 					drawPoint.apply(this,[ctx,item,false]);
 				}else if(item.data.length == 1){
 					drawPoint.apply(this,[ctx,item,false]);
 				}
-	        }else if(item.type == "bar"){
-	        	this.options.groupBarCount++;
-	        	drawBar.apply(this,[ctx,item,false]);
 	        }
+        	
 		}
+
 		// 第二个坐标轴折线数据
+		if(this.options.series2){
+			var series2 = this.options.series2;
+			for(var i = 0,item;item = series2[i]; i++){
+				// 填充颜色
+				ctx.fillStyle = item.color == undefined ? "#333" : item.color;
+				// 画笔颜色
+		        ctx.strokeStyle = item.color == undefined ? "#333" : item.color;
+	        	if(item.type == "bar"){
+		        	this.options.groupBarCount++;
+		        	drawBar.apply(this,[ctx,item,true]);
+		        }
+				
+			}
+		}
+
 		if(this.options.series2){
 			var series2 = this.options.series2;
 			for(var i = 0,item;item = series2[i]; i++){
@@ -73,9 +99,6 @@ var DrawLine = (function(){
 					}else if(item.data.length == 1){
 						drawPoint.apply(this,[ctx,item,true]);
 					}
-		        }else if(item.type == "bar"){
-		        	this.options.groupBarCount++;
-		        	drawBar.apply(this,[ctx,item,true]);
 		        }
 				
 			}
