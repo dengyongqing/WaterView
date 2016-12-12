@@ -36,12 +36,15 @@ var DrawLine = (function(){
 
 		var ctx = this.options.context;
 		ctx.lineWidth = 1;
-		// 第一个坐标轴折线数据
+		// 坐标轴折线数据
 		var series = this.options.series;
+		var series2 = this.options.series2;
 		this.options.groupBarCount = 0;
+		var seriesLength = series.length;
 		// 横坐标数据
 		// var xaxis = this.options.xaxis;
-		for(var i = 0,item;item = series[i]; i++){
+		for(var i = 0;i<seriesLength;i++){
+			var item = series[i];
 			// 填充颜色
 			ctx.fillStyle = item.color == undefined ? "#333" : item.color;
 			// 画笔颜色
@@ -57,25 +60,49 @@ var DrawLine = (function(){
 	        	this.options.groupBarCount++;
 	        	drawBar.apply(this,[ctx,item,false]);
 	        }
+
+	        var item2 = series2[i];
+
+	        // 填充颜色
+			ctx.fillStyle = item2.color == undefined ? "#333" : item2.color;
+			// 画笔颜色
+	        ctx.strokeStyle = item2.color == undefined ? "#333" : item2.color;
+        	if(item2.type == "bar"){
+	        	this.options.groupBarCount++;
+	        	drawBar.apply(this,[ctx,item2,true]);
+	        }
 		}
 		// 第二个坐标轴折线数据
 		if(this.options.series2){
 			var series2 = this.options.series2;
-			for(var i = 0,item;item = series2[i]; i++){
+			for(var i = 0;i<seriesLength;i++){
+				var item = series[i];
 				// 填充颜色
 				ctx.fillStyle = item.color == undefined ? "#333" : item.color;
 				// 画笔颜色
 		        ctx.strokeStyle = item.color == undefined ? "#333" : item.color;
-	        	if(item.type == "line"){
-		        		drawLine.apply(this,[ctx,item,true]);
+		        if(item.type == "line"){
+		        	drawLine.apply(this,[ctx,item,false]);
 		        	if(item.showpoint){
-						drawPoint.apply(this,[ctx,item,true]);
+						drawPoint.apply(this,[ctx,item,false]);
 					}else if(item.data.length == 1){
-						drawPoint.apply(this,[ctx,item,true]);
+						drawPoint.apply(this,[ctx,item,false]);
 					}
-		        }else if(item.type == "bar"){
-		        	this.options.groupBarCount++;
-		        	drawBar.apply(this,[ctx,item,true]);
+		        }
+
+
+		        var item2 = series2[i];
+		        // 填充颜色
+				ctx.fillStyle = item2.color == undefined ? "#333" : item2.color;
+				// 画笔颜色
+		        ctx.strokeStyle = item2.color == undefined ? "#333" : item2.color;
+	        	if(item2.type == "line"){
+		        		drawLine.apply(this,[ctx,item2,true]);
+		        	if(item2.showpoint){
+						drawPoint.apply(this,[ctx,item2,true]);
+					}else if(item2.data.length == 1){
+						drawPoint.apply(this,[ctx,item2,true]);
+					}
 		        }
 				
 			}

@@ -144,12 +144,12 @@
                     //         ctx.fillText(tempDate.value, x, this.options.c_1_height+20);   
                     //     }
                     // }
-
-                    var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+                    var x = this.options.unit.unitWidth * (i) + this.options.unit.unitWidth/2 + this.options.padding_left;
+                    // var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
                     if(i == 0){
-                        ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                        ctx.fillText(tempDate.value, XYF(this.options.padding_left + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
                     }else if(i == arr_length - 1){
                         ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
                     }else{
@@ -167,7 +167,7 @@
                     // ctx.stroke();
                 }else{
                     ctx.strokeStyle = '#e6e6e6';
-                    var x = this.options.unit.unitWidth * (i) + this.options.unit.unitWidth/2 + this.options.padding_left;
+                    var x = this.options.unit.unitWidth * (i) + this.options.padding_left;
 
                     DrawDashLine(ctx,x,0,x,this.options.c_1_height + 2,3);
                 }
