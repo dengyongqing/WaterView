@@ -101,8 +101,41 @@
 			        	showline:true,
 			        	show:true
 		        	}],
-		        series:[],
-				series2:undefined
+		        series:[
+					{	
+						name:"5日均线",
+						type:"line",
+						color:"#ff5000",
+						suffix:"万",
+						showpoint:true,
+						data:[30000,60000,30000,60000,30000,-30000,-60000,-60000,-60000]
+					},
+					{	
+						name:"10日均线",
+						type:"bar",
+						color:"#ff5000",
+						suffix:"万",
+						showpoint:true,
+						data:[20000,50000,20000,50000,20000,-20000,-50000,-50000,-50000]
+					}
+				],
+				series2:[
+					{	
+						name:"5日量比均线",
+						color:"blue",
+						type:"line",
+						showpoint:true,
+						data:[-5,-2,-5,-2,1,4,1,4,1]
+					}
+					,
+					{	
+						name:"10日量比均线",
+						color:"blue",
+						type:"bar",
+						showpoint:true,
+						data:[1,1,1,1,1,1,1,1,1]
+					}
+				]
 	        });
 	        k0.draw();
 		}
