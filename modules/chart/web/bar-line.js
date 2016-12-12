@@ -218,6 +218,8 @@ var ChartLine = (function() {
             }
         }
 
+        
+
         this.options.unit.groupBarCount = group_bar_count;
         // 绘制坐标轴
         new DrawXY(this.options);
