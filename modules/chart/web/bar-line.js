@@ -202,22 +202,18 @@ var ChartLine = (function() {
         this.options.unit.groupBarWidth = this.options.unit.unitWidth * (1-this.options.spacing);
         
         var group_bar_count = 0;
-
-        if(this.options.series){
-            for(var i = 0,item;item = series[i]; i++){
-                if(item.type == "bar"){
-                    group_bar_count++;
-                }
+        for(var i = 0,item;item = series[i]; i++){
+            if(item.type == "bar"){
+                group_bar_count++;
             }
         }
 
-        if(this.options.series2){
-            for(var i = 0,item;item = series2[i]; i++){
-                if(item.type == "bar"){
-                    group_bar_count++;
-                }
+        for(var i = 0,item;item = series2[i]; i++){
+            if(item.type == "bar"){
+                group_bar_count++;
             }
         }
+
         this.options.unit.groupBarCount = group_bar_count;
         // 绘制坐标轴
         new DrawXY(this.options);
