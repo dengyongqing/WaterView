@@ -202,15 +202,19 @@ var ChartLine = (function() {
         this.options.unit.groupBarWidth = this.options.unit.unitWidth * (1-this.options.spacing);
         
         var group_bar_count = 0;
-        for(var i = 0,item;item = series[i]; i++){
-            if(item.type == "bar"){
-                group_bar_count++;
+        if(this.options.series){
+            for(var i = 0,item;item = series[i]; i++){
+                if(item.type == "bar"){
+                    group_bar_count++;
+                }
             }
         }
-
-        for(var i = 0,item;item = series2[i]; i++){
-            if(item.type == "bar"){
-                group_bar_count++;
+        
+        if(this.options.series2){
+            for(var i = 0,item;item = series2[i]; i++){
+                if(item.type == "bar"){
+                    group_bar_count++;
+                }
             }
         }
 
@@ -333,6 +337,8 @@ var ChartLine = (function() {
         function eventHanlder(winX, winY) {
             var canvasX = winX * dpr - padding_left; //转换为canvas中的坐标
             var canvasY = winY * dpr - padding_top;
+            var series = this.options.series;
+            var series2 = this.options.series2;
 
             //下标
             var cursor = 0;
@@ -546,7 +552,9 @@ var ChartLine = (function() {
                 circles = interOption.circles,
                 tips = interOption.tips;
             for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                this.container.removeChild(circles[k]);
+                if([].slice.call(this.container.children, 0).some(function(el){return el === circles[k];})){
+                    this.container.removeChild(circles[k]);
+                }
             }
             this.container.removeChild(yLine);
             this.container.removeChild(tips);

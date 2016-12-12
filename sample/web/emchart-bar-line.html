@@ -1,146 +1,274 @@
 <!-- <!DOCTYPE html> -->
 <html lang="en">
+
 <head>
-	<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-	<meta charset="UTF-8">
-	<title>手机图表</title>
-	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
-	<style type="text/css">
-		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
-		    margin: 0;
-		    padding: 0;
-		}
-	</style>
-	
+    <!-- <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>手机图表</title>
+    <link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+    <style type="text/css">
+    body,
+    form,
+    ul,
+    li,
+    dl,
+    dt,
+    dd,
+    p,
+    table,
+    tr,
+    td,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    li,
+    form {
+        margin: 0;
+        padding: 0;
+    }
+    
+    #emchart-1 {
+        text-align: center;
+        margin-top: 20px;
+        width: 800px;
+    }
+    
+    .choice {
+        display: inline-block;
+        height: 20px;
+    }
+    
+    .choice input {
+        width: 30px;
+        line-height: 20px;
+        padding-left: 10px;
+    }
+    
+    .choice i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        background-color: black;
+        margin-right: 10px;
+    }
+    </style>
 </head>
+
 <body>
-	<div class="main-wrap">
-		<div class="main">
-			<div class="header">
-				<div class="tool-bar">
-					
-				
-				</div>
-				
-			</div>
+    <div class="main-wrap">
+        <div class="main">
+            <div class="header">
+                <div class="tool-bar">
+                </div>
+            </div>
+            <div class="content">
+                <div class="tabs">
+                    <div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">折线图</div>
+                    <!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
+                    <div id="tab-2" target="emchart-2" class="tab">周K</div>
+                    <div id="tab-3" target="emchart-3" class="tab">月K</div> -->
+                </div>
+                <div class="emchart">
+                    <div id="emchart-0" class="em-tab">
+                    </div>
+                    <div id="emchart-1" class="em-tab">
+                        <div class="choice" id="onlyBar">
+                            <label for="bar">柱状图数目(0,1,2):</label>
+                            </span>
+                            <input id="bar" type="text">
+                        </div>
+                        <div class="choice" id="onlyLine">
+                            <label for="line">折线图数目(0,1,2):</label>
+                            </span>
+                            <input id="line" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../bundle/emcharts.js" charset="UTF-8"></script>
+    <script type="text/javascript">
+    window.onload = function() {
+        current = k0 = new EmchartsBarLine({
+            container: "emchart-0",
+            "width": 800,
+            "height": 500,
+            dpr: 1,
+            showflag: true,
+            font: {
+                fontFamily: 'Microsoft Yahei',
+                fontSize: "12",
+                color: "#000"
+            },
+            xaxis: [{
+                value: "1月",
+                showline: true,
+                show: true
+            }, {
+                value: "2月",
+                showline: true,
+                show: true
+            }, {
+                value: "3月",
+                showline: true,
+                show: true
+            }, {
+                value: "4月",
+                showline: true,
+                show: true
+            }, {
+                value: "5月",
+                showline: true,
+                show: true
+            }, {
+                value: "6月",
+                showline: true,
+                show: true
+            }, {
+                value: "7月",
+                showline: true,
+                show: true
+            }, {
+                value: "8月",
+                showline: true,
+                show: true
+            }, {
+                value: "9月",
+                showline: true,
+                show: true
+            }, {
+                value: "10月",
+                showline: true,
+                show: true
+            }, {
+                value: "11月",
+                showline: true,
+                show: true
+            }, {
+                value: "12月",
+                showline: true,
+                show: true
+            }],
+            series: [{
+                name: "蒸发量",
+                type: "bar",
+                color: "#B6A2DE",
+                suffix: "ml",
+                showpoint: true,
+                data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+            }, {
+                name: "降水量",
+                type: "bar",
+                color: "#2EC7C9",
+                suffix: "ml",
+                showpoint: true,
+                data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+            }],
+            series2: [{
+                name: "最高温度",
+                color: "#D87A80",
+                type: "line",
+                showpoint: true,
+                suffix: "度",
+                data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
+            }, {
+                name: "平均温度",
+                color: "#5AB1EF",
+                type: "line",
+                showpoint: true,
+                suffix: "度",
+                data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            }]
+        });
+        k0.draw();
 
-			<div class="content">
-				<div class="tabs">
-					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">折线图</div>
-					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
-					<div id="tab-2" target="emchart-2" class="tab">周K</div>
-					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
-				</div>
-				<div class="emchart">
-					<div id="emchart-0" class="em-tab">
-					</div>
-					<div id="emchart-1" class="em-tab">
-					</div>
-					<div id="emchart-2" class="em-tab">
-					</div>
-					<div id="emchart-3" class="em-tab">
-					</div>
-				</div>
-				
-			</div>
+        var bar = document.getElementById("bar");
+        var line = document.getElementById("line");
 
-		</div>
+        bar.addEventListener("change", function(e) {
+            var number = e.target.value;
+            if (number >= 3 || number < 0) {
+                alert("输入应该为0，1，2");
+            } else {
+                if (number == 0) {
+                    k0.options.series = k0.options.series2;
+                    k0.options.series2 = undefined;
+                } else if (number == 1) {
+                    k0.options.series = [{
+                        name: "蒸发量",
+                        type: "bar",
+                        color: "#B6A2DE",
+                        suffix: "ml",
+                        showpoint: true,
+                        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                    }];
+                } else {
+                    k0.options.series = [{
+                        name: "蒸发量",
+                        type: "bar",
+                        color: "#B6A2DE",
+                        suffix: "ml",
+                        showpoint: true,
+                        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                    }, {
+                        name: "降水量",
+                        type: "bar",
+                        color: "#2EC7C9",
+                        suffix: "ml",
+                        showpoint: true,
+                        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+                    }];
+                }
 
-	</div>
-	<script src="../../bundle/emcharts.js"  charset="UTF-8"></script>
-	
-	<script type="text/javascript">
-		
-		window.onload = function(){
-			current = k0 = new EmchartsBarLine({
-	        	container : "emchart-0",
-		        "width" : 800,
-		        "height" : 500,
-		        dpr:1,
-		        showflag: true,
-		        font:{
-		        	fontFamily:'Microsoft Yahei',
-		        	fontSize:"12",
-		        	color:"#000"
-		        },
-		        xaxis: [{
-			        	value:"2016-03-01",
-			        	showline:true,
-			        	show:true
-			        },{
-			        	value:"2016-03-02",
-			        	showline:true,
-			        	show:false
-			        },{
-			        	value:"2016-03-03",
-			        	showline:true,
-			        	show:true
-			        },{
-			        	value:"2016-03-04",
-			        	showline:true,
-			        	show:false
-			        },{
-			        	value:"2016-03-05",
-			        	showline:true,
-			        	show:true
-			        },{
-			        	value:"2016-03-06",
-			        	showline:true,
-			        	show:false
-			        },{
-			        	value:"2016-03-07",
-			        	showline:true,
-			        	show:true
-			        },{
-			        	value:"2016-03-08",
-			        	showline:true,
-			        	show:false
-			        },{
-			        	value:"2016-03-09",
-			        	showline:true,
-			        	show:true
-		        	}],
-		        series:[
-					{	
-						name:"5日均线",
-						type:"line",
-						color:"#ff5000",
-						suffix:"万",
-						showpoint:true,
-						data:[30000,60000,30000,60000,30000,-30000,-60000,-60000,-60000]
-					},
-					{	
-						name:"10日均线",
-						type:"bar",
-						color:"#ff5000",
-						suffix:"万",
-						showpoint:true,
-						data:[20000,50000,20000,50000,20000,-20000,-50000,-50000,-50000]
-					}
-				],
-				series2:[
-					{	
-						name:"5日量比均线",
-						color:"blue",
-						type:"line",
-						showpoint:true,
-						data:[-5,-2,-5,-2,1,4,1,4,1]
-					}
-					,
-					{	
-						name:"10日量比均线",
-						color:"blue",
-						type:"bar",
-						showpoint:true,
-						data:[1,1,1,1,1,1,1,1,1]
-					}
-				]
-	        });
-	        k0.draw();
-		}
+                k0.draw();
+            }
+        }, false);
 
-	</script>
-	
+        line.addEventListener("change", function(e) {
+            var number = e.target.value;
+            if (number >= 3 || number < 0) {
+                alert("输入应该为0，1，2");
+            } else {
+                if (number == 0) {
+                    k0.options.series2 = undefined;
+                } else if (number == 1) {
+                    k0.options.series2 = [{
+                        name: "最高温度",
+                        color: "#D87A80",
+                        type: "line",
+                        showpoint: true,
+                        suffix: "度",
+                        data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
+                    }];
+                } else {
+                    k0.options.series2 = [{
+                        name: "最高温度",
+                        color: "#D87A80",
+                        type: "line",
+                        showpoint: true,
+                        suffix: "度",
+                        data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
+                    }, {
+                        name: "平均温度",
+                        color: "#5AB1EF",
+                        type: "line",
+                        showpoint: true,
+                        suffix: "度",
+                        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+                    }];
+                }
+
+                k0.draw();
+            }
+        }, false);
+    }
+    </script>
 </body>
+
 </html>
