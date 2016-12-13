@@ -420,6 +420,7 @@
 	*display: none;
 }
 .emcharts-container .timeChangeTable{
+	*width: 170px;
 	min-width: 100px;
 	height: 50px;
 	border-spacing: 0px;
@@ -428,6 +429,7 @@
 .emcharts-container .timeChangeHeader{
 	background-color: #D1E7FF;
   	text-align: center;
+  	*width: 170px;
     min-width: 100px;
 	padding: 7px 0px 5px 0px;
 	font-size: 14px;          
