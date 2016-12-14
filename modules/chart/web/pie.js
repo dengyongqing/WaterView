@@ -65,9 +65,6 @@ var ChartPie = (function() {
         canvas2.width = this.options.width * dpr;
         canvas2.height = this.options.height * dpr;
 
-
-
-
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";

@@ -49,6 +49,9 @@ var ChartBarQuarter = (function() {
 
         this.options.type = "bar-quarter";
         var canvas = document.createElement("canvas");
+
+        // 容器中添加画布
+        this.container.appendChild(canvas);
         
         // 去除画布上粘贴效果
         //this.container.style = "-moz-user-select:none;-webkit-lauser-select:none;";
@@ -66,9 +69,6 @@ var ChartBarQuarter = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
 
-
-        // 容器中添加画布
-        this.container.appendChild(canvas);
 
         // 设备像素比
         var dpr = this.options.dpr = 1;

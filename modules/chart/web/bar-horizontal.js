@@ -25,6 +25,8 @@ var ChartMobileBar = (function() {
         var dpr = this.options.dpr;
         /*canvas属性*/
         var canvas = document.createElement("canvas");
+        this.container.appendChild(canvas);
+        
         canvas.width = dpr * this.options.width;
         canvas.height = dpr * this.options.height;
         canvas.style.width = this.options.width + "px";
@@ -47,7 +49,6 @@ var ChartMobileBar = (function() {
         this.options.dpr = dpr;
         this.options.canvas = canvas;
         this.options.context = ctx;
-        this.container.appendChild(canvas);
 
         if(this.options.color === undefined){
             this.options.color = "#6890D5";

@@ -77,12 +77,12 @@ var ChartLine = (function() {
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
+        // 容器中添加画布
+        this.container.appendChild(canvas);
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
 
-        // 容器中添加画布
-        this.container.appendChild(canvas);
 
         // 画布向下偏移的距离
         this.options.canvas_offset_top = 15 * dpr;
