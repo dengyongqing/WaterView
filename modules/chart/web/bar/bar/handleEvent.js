@@ -118,7 +118,7 @@ function handleEvent(winX, winY) {
             }
         }
     }else{
-        if (this.options.preColume) {
+        if (this.options.preColume !== undefined ) {
             tempCurrent = this.options.preColume;
             changeRect(tempCurrent, series.color);
         }
