@@ -405,8 +405,9 @@
     z-index: 1000;
 }
 .emcharts-container .timeChangeTriangle{
+	*display: none;
 	position: absolute;
-    left: 70px;
+    left: 55px;
     top: -6px;
 	width: 10px;
 	height: 10px;
@@ -417,7 +418,6 @@
 	-moz-transform: rotate(45deg);       /* for Firefox */
 	-ms-transform: rotate(45deg);        /* for IE */
 	o-transform: rotate(45deg);         /* for Opera */
-	*display: none;
 }
 .emcharts-container .timeChangeTable{
 	*width: 170px;
