@@ -127,13 +127,15 @@ function handleEvent(winX, winY) {
         }
     }
     function changeRect(i, color) {
-        ctx.fillStyle = color;
+        
         var height = totalHeight * (series.data[i] / (maxY - minY));
         var x = i * unit_w_len + unit_w_kind + paddingLeft;
         var y = height > 0 ? (baseLine - height) : baseLine;
         var width = unit_w_kind;
         height = Math.abs(height);
-        ctx.clearRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
+        ctx.fillStyle = "white";
+        ctx.fillRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
+        ctx.fillStyle = color;
         ctx.fillRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
     }
 }
