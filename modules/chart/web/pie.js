@@ -54,8 +54,11 @@ var ChartPie = (function() {
         this.options.canvas2 = canvas2;
         this.options.context2 = ctx2;
         // 设备像素比
-        if(this.options.dpr === undefined){
-           this.options.dpr = 1; 
+        if (this.options.dpr === undefined) {
+            this.options.dpr = 2;
+        }
+        if (!+'\v1') {
+            this.options.dpr = 1;
         }
         var dpr = this.options.dpr;
         // 画布的宽和高
@@ -79,7 +82,7 @@ var ChartPie = (function() {
         if (!this.options.font) {
             this.options.font = "12px Arial";
         }
-        var font = this.options.font.split("px ")[0]*dpr + "px "+this.options.font.split("px ")[1];
+        var font = this.options.font.split("px ")[0] * dpr + "px " + this.options.font.split("px ")[1];
         ctx.font = font;
         ctx2.font = font;
         this.options.startOffset = this.options.startOffset || Math.PI / 2;
@@ -89,7 +92,7 @@ var ChartPie = (function() {
         this.options.onPie = this.options.onPie || false;
 
         // 加水印
-        watermark.apply(this, [ctx, 130*dpr, 20*dpr, 82*dpr, 20*dpr]);
+        watermark.apply(this, [ctx, 130 * dpr, 20 * dpr, 82 * dpr, 20 * dpr]);
     }
 
     // 绘图
@@ -105,8 +108,8 @@ var ChartPie = (function() {
             that = this,
             data = this.options.data,
             ySpace = this.options.ySpace,
-            point = {x: that.options.point.x*dpr, y:that.options.point.y*dpr},
-            radius = this.options.radius*dpr,
+            point = { x: that.options.point.x * dpr, y: that.options.point.y * dpr },
+            radius = this.options.radius * dpr,
             fontSize = ctx2.font.split("px ")[0],
             onPie = this.options.onPie;
 
@@ -141,8 +144,8 @@ var ChartPie = (function() {
 
         }
 
-        var yBottom = point.y - radius - radius/10;
-        var yTop = point.y + radius + radius/10;
+        var yBottom = point.y - radius - radius / 10;
+        var yTop = point.y + radius + radius / 10;
 
         //获得触角分布情况
         pies = methods.getSpaceArry(pies, Math.floor((yTop - yBottom) / ySpace), ySpace, radius, point, yBottom);
@@ -178,26 +181,29 @@ var ChartPie = (function() {
         var that = this;
         var pies = this.options.pies;
         var dpr = this.options.dpr;
-        var point = {x: that.options.point.x, y:that.options.point.y};
+        var point = { x: that.options.point.x, y: that.options.point.y };
         var radius = this.options.radius;
         var startOffset = this.options.startOffset;
         //添加交互事件
         common.addEvent.call(that, canvas2, 'click', function(e) {
             // 事件处理
-            var winX, winY;
+            /*var winX, winY;
             if (e.layerX) {
                 winX = e.layerX;
                 winY = e.layerY;
             } else if (e.x) {
                 winX = e.x;
                 winY = e.y;
-            }
+            }*/
+            var winX = e.offsetX || (e.clientX - that.container.getBoundingClientRect().left);
+            var winY = e.offsetY || (e.clientY - that.container.getBoundingClientRect().top);
+
             var x = winX - point.x;
             var y = winY - point.y;
             var theta = 0; //点击处的弧度
 
             theta = methods.getTheta(x, y, startOffset);
-            //弹出后依然尽行点击判断
+            //弹出后依然进行点击判断
             if (!that.options.prePieClick) {
                 if (x * x + y * y > radius * radius) {
                     return;
@@ -221,6 +227,11 @@ var ChartPie = (function() {
                     methods.pieHandlerClick.call(that, pie);
                     break;
                 }
+            }
+            try{
+                e.preventDefault();
+            }catch(err){
+                e.returnValue =false;
             }
         });
         common.addEvent.call(that, canvas2, "mousemove", function(e) { //浮动交互(显示tips)
@@ -248,6 +259,11 @@ var ChartPie = (function() {
                     methods.pieHandlerMove.call(that, pie, winX, winY, inPie);
                     break;
                 }
+            }
+            try{
+                e.preventDefault();
+            }catch(err){
+                e.returnValue =false;
             }
         });
     }
