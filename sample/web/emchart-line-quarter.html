@@ -1,106 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-	<meta charset="UTF-8">
-	<title>手机图表</title>
-	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
-	<style type="text/css">
-		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
-		    margin: 0;
-		    padding: 0;
-		}
-	</style>
-	
-</head>
-<body>
-	<div class="main-wrap">
-		<div class="main">
-			<div class="header">
-				<div class="tool-bar">
-					
-				
-				</div>
-				
-			</div>
 
-			<div class="content">
-				<div class="tabs">
-					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">港股图</div>
-					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>手机图表</title>
+    <link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+    <style type="text/css">
+    body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form { margin: 0; padding: 0; }
+
+    
+    .header .tool-bar {
+        background: -webkit-linear-gradient(top, #4d74ae, #2e5186);
+        Safari 5.1 - 6.0 background: -o-linear-gradient(bottom, #4d74ae, #2e5186);
+        Opera 11.1 - 12.0 background: -moz-linear-gradient(bottom, #4d74ae, #2e5186);
+        Firefox 3.6 - 15 background: linear-gradient(to bottom, #4d74ae, #2e5186);
+        标准的语法 background: #2e5186;
+        height: 70px;
+    }
+    
+    .header .sepe {
+        height: 50px;
+        background-color: #d1e1f9;
+    }
+    
+    .content {
+        background-color: #f2f2f2;
+    }
+    
+    .content .emchart {
+        background-color: #fff;
+        padding: 0px 10px;
+    }
+    
+    .tabs {
+        background-color: #fff;
+        height: 50px;
+        font-size: 18px;
+        color: #000;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+    
+    .tabs .tab {
+        float: left;
+        width: 25%;
+        height: 47px;
+        line-height: 47px;
+        text-align: center;
+    }
+    
+    .tabs .tab.current {
+        color: #2f5895;
+        border-bottom: 3px solid #2f5895;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrap">
+        <div class="main">
+            <div class="header">
+                <div class="tool-bar">
+                </div>
+            </div>
+            <div class="content">
+                <div class="tabs">
+                    <div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">港股图</div>
+                    <!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
-				</div>
-				<div class="emchart">
-					<div id="emchart-0" class="em-tab" >
-					</div>
-					<div id="emchart-1" class="em-tab">
-					</div>
-					<div id="emchart-2" class="em-tab">
-					</div>
-					<div id="emchart-3" class="em-tab">
-					</div>
-				</div>
-				
-			</div>
-
-		</div>
-
-	</div>
-	<script src="../../bundle/emcharts.js"></script>
-	
-	<script type="text/javascript">
-
-		window.onload = function(){
-			current_tab = k0 = new EmchartsWebLineQuarter({
-	        	container : "emchart-0",
-		        "width" : 500,
-		        "height" : 500,
-		        line:{
-		        	color:"#c9c9c9"
-		        },
-		        point:{
-	        		show:true,
-	        		pointradius:5,
-					color:"#ff7e00"
-				},
-		        xaxis: [{
-			        	value:"2010"
-			        },{
-			        	value:"2011"
-			        },{
-			        	value:"2012"
-			        },{
-			        	value:"2013"
-			        },{
-			        	value:"2014"
-			        },{
-			        	value:"2015"
-			        },{
-			        	value:"2016"
-			        }],
-		        series:[
-					{	
-						data:[500,600,1000,1100]
-					},{	
-						data:[500,600,1000,1100]
-					},{	
-						data:[500,600,-1000,-1100]
-					},{	
-						data:[500,600,1000,1100]
-					},{	
-						data:[500,600,1000,1100]
-					},{	
-						data:[500,600,1000,1100]
-					},{	
-						data:[500,600,1000,1100]
-					}
-				]
-	        });
-	        k0.draw();
-		}
-
-	</script>
-	
+                </div>
+                <div class="emchart">
+                    <div id="emchart-0" class="em-tab">
+                    </div>
+                    <div id="emchart-1" class="em-tab">
+                    </div>
+                    <div id="emchart-2" class="em-tab">
+                    </div>
+                    <div id="emchart-3" class="em-tab">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../bundle/emcharts.js"></script>
+    <script type="text/javascript">
+    window.onload = function() {
+        current_tab = k0 = new EmchartsWebLineQuarter({
+            container: "emchart-0",
+            "width": 500,
+            "height": 500,
+            line: {
+                color: "#c9c9c9"
+            },
+            point: {
+                show: true,
+                pointradius: 5,
+                color: "#ff7e00"
+            },
+            xaxis: [{
+                value: "2010"
+            }, {
+                value: "2011"
+            }, {
+                value: "2012"
+            }, {
+                value: "2013"
+            }, {
+                value: "2014"
+            }, {
+                value: "2015"
+            }, {
+                value: "2016"
+            }],
+            series: [{
+                data: [500, 600, 1000, 1100]
+            }, {
+                data: [500, 600, 1000, 1100]
+            }, {
+                data: [500, 600, -1000, -1100]
+            }, {
+                data: [500, 600, 1000, 1100]
+            }, {
+                data: [500, 600, 1000, 1100]
+            }, {
+                data: [500, 600, 1000, 1100]
+            }, {
+                data: [500, 600, 1000, 1100]
+            }]
+        });
+        k0.draw();
+    }
+    </script>
 </body>
+
 </html>

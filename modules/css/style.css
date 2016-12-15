@@ -174,47 +174,6 @@
 	opacity:0.3;
 }
 
-.header .tool-bar{
-    background: -webkit-linear-gradient(top, #4d74ae, #2e5186); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(bottom, #4d74ae, #2e5186); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(bottom, #4d74ae, #2e5186); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to bottom, #4d74ae, #2e5186); /* 标准的语法 */
-	background:#2e5186;
-	height:70px;
-}
-.header .sepe{
-	height:50px;
-	background-color: #d1e1f9;
-}
-.content{
-	background-color: #f2f2f2;
-}
-
-.content .emchart{
-	background-color: #fff;
-	padding:0px 10px;
-}
-
-.tabs{
-	background-color: #fff;
-	height:50px;
-	font-size: 18px;
-	color:#000;
-	border-bottom: 1px solid #ccc;
-	margin-bottom: 15px;
-}
-.tabs .tab{
-	float:left;
-	width: 25%;
-	height: 47px;
-	line-height: 47px;
-	text-align: center;
-}
-.tabs .tab.current{
-	color: #2f5895;
-	border-bottom: 3px solid #2f5895;
-}
-
 .emcharts-container .loading-chart {
 	position: absolute;
 	left:0;
@@ -504,7 +463,7 @@
 }
 .emcharts-container .containerBar:hover{cursor: move;}
 
-.preference-container{
+.emcharts-container .preference-container{
 	position: absolute;
 	z-index: 101;
 }

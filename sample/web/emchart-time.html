@@ -1,174 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-	<meta charset="UTF-8">
-	<title>web图表</title>
-	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
-	<style type="text/css">
-		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
-		    margin: 0;
-		    padding: 0;
-		}
-		 .tab-list{
-			position: absolute;
-			top: 150px;
-			left: 65px;
-			z-index: 100;
-			border: solid 1px #4267A0;
-			border-right: 0;
-		} 
-		.tab-item{
-			float: left;
-			display: inline-block;
-			border-right: solid 1px #4267A0;
-			padding: 2px 5px;
-			cursor: pointer;
-		}
-		.choose{
-			background-color: #4267A0;
-			color: white;
-		}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>web图表</title>
+    <link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+    <style type="text/css">
+    body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form { margin: 0; padding: 0; }
 
-		.main{
-			width:800px;
-			margin-left: 50px;
-		}
-		
-	</style>
-	
+    
+    .header .tool-bar {
+        background: -webkit-linear-gradient(top, #4d74ae, #2e5186);
+        Safari 5.1 - 6.0 background: -o-linear-gradient(bottom, #4d74ae, #2e5186);
+        Opera 11.1 - 12.0 background: -moz-linear-gradient(bottom, #4d74ae, #2e5186);
+        Firefox 3.6 - 15 background: linear-gradient(to bottom, #4d74ae, #2e5186);
+        标准的语法 background: #2e5186;
+        height: 70px;
+    }
+    
+    .header .sepe {
+        height: 50px;
+        background-color: #d1e1f9;
+    }
+    
+    .content {
+        background-color: #f2f2f2;
+    }
+    
+    .content .emchart {
+        background-color: #fff;
+        padding: 0px 10px;
+    }
+    
+    .tabs {
+        background-color: #fff;
+        height: 50px;
+        font-size: 18px;
+        color: #000;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+    
+    .tabs .tab {
+        float: left;
+        width: 25%;
+        height: 47px;
+        line-height: 47px;
+        text-align: center;
+    }
+    
+    .tabs .tab.current {
+        color: #2f5895;
+        border-bottom: 3px solid #2f5895;
+    }
+    
+    .tab-list {
+        position: absolute;
+        top: 150px;
+        left: 65px;
+        z-index: 100;
+        border: solid 1px #4267A0;
+        border-right: 0;
+    }
+    
+    .tab-item {
+        float: left;
+        display: inline-block;
+        border-right: solid 1px #4267A0;
+        padding: 2px 5px;
+        cursor: pointer;
+    }
+    
+    .choose {
+        background-color: #4267A0;
+        color: white;
+    }
+    
+    .main {
+        width: 800px;
+        margin-left: 50px;
+    }
+    </style>
 </head>
-<body>
-	<div class="main-wrap">
-		<div class="main">
-			<div class="header">
-				<div class="tool-bar">
-					<div class="">
-						<div class="search" style="height:50px;line-height:50px;">
-							<input type="text" id="stock-code" class=""  style="margin-left:30px;padding-left:5px;width:200px;height:20px;" value="请输入股票代码加市场号" onfocus="if(this.value == '请输入股票代码加市场号')  this.value = '';" onblur="if(this.value == '') this.value = '请输入股票代码加市场号';" autocomplete="off">
-							<input type="button" id="search-btn" style="margin-left:10px;width:50px;height:25px;" value="查询">
-						</div>
-						
-					</div>
-				
-				</div>
-				
-			</div>
 
-			<div class="content">
-				<div class="tabs">
-					<div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">web分时图</div>
-					<!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
+<body>
+    <div class="main-wrap">
+        <div class="main">
+            <div class="header">
+                <div class="tool-bar">
+                    <div class="">
+                        <div class="search" style="height:50px;line-height:50px;">
+                            <input type="text" id="stock-code" class="" style="margin-left:30px;padding-left:5px;width:200px;height:20px;" value="请输入股票代码加市场号" onfocus="if(this.value == '请输入股票代码加市场号')  this.value = '';" onblur="if(this.value == '') this.value = '请输入股票代码加市场号';" autocomplete="off">
+                            <input type="button" id="search-btn" style="margin-left:10px;width:50px;height:25px;" value="查询">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content">
+                <div class="tabs">
+                    <div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">web分时图</div>
+                    <!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
 					<div id="tab-2" target="emchart-2" class="tab">周K</div>
 					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
-				</div>
+                </div>
+                <ul class="tab-list" id="tab_list">
+                    <li class="tab-item" id="before">盘前</li>
+                    <li class="tab-item choose" id="one">一天</li>
+                    <li class="tab-item" id="two">二天</li>
+                    <li class="tab-item" id="three">三天</li>
+                    <li class="tab-item" id="four">四天</li>
+                    <li class="tab-item" id="five">五天</li>
+                </ul>
+                <div class="emchart" style="padding-top:40px;">
+                    <div id="emchart-0" class="em-tab">
+                    </div>
+                    <div id="emchart-1" class="em-tab">
+                    </div>
+                    <div id="emchart-2" class="em-tab">
+                    </div>
+                    <div id="emchart-3" class="em-tab">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../bundle/emcharts.js"></script>
+    <script type="text/javascript">
+    var code = "3000592";
+    window.onload = function() {
+        var k0 = new EmchartsWebTime({
+            dpr: 1,
+            code: code,
+            container: "emchart-0",
+            "width": 800,
+            "height": 500,
+            "type": "r"
+        });
+        k0.draw();
 
-				<ul class="tab-list" id="tab_list">
-						<li class="tab-item" id="before">盘前</li>
-						<li class="tab-item choose" id="one">一天</li>
-						<li class="tab-item" id="two">二天</li>
-						<li class="tab-item" id="three">三天</li>
-						<li class="tab-item" id="four">四天</li>
-						<li class="tab-item" id="five">五天</li>
-					</ul>
-				
+        var list = document.getElementsByTagName("li");
+        var tabUrl = document.getElementById("tab_list");
+        tabUrl.onclick = function(e) {
+            for (var i = 0; i < list.length; i++) {
+                list[i].className = "tab-item";
+            }
+            var target;
+            if (!window.event) {
+                target = e.target;
+            } else {
+                target = window.event.srcElement;
+            }
+            target.className = "tab-item choose";
+            var params = {
+                dpr: 1,
+                code: code,
+                container: "emchart-0",
+                "width": 800,
+                "height": 500
+            };
+            switch (target.getAttribute("id")) {
+                case "before":
+                    params.isCR = true;
+                    params.type = "r";
+                    break;
+                case "one":
+                    params.type = "r";
+                    break;
+                case "two":
+                    params.type = "t2";
+                    break;
+                case "three":
+                    params.type = "t3";
+                    break;
+                case "four":
+                    params.type = "t4";
+                    break;
+                case "five":
+                    params.type = "t5";
+                    break;
+            }
+            document.getElementById('emchart-0').innerHTML = "";
 
-				<div class="emchart" style="padding-top:40px;">
-					<div id="emchart-0" class="em-tab" >
-					</div>
-					<div id="emchart-1" class="em-tab">
-					</div>
-					<div id="emchart-2" class="em-tab">
-					</div>
-					<div id="emchart-3" class="em-tab">
-					</div>
-				</div>
-				
-			</div>
+            k0 = new EmchartsWebTime(params);
 
-		</div>
+            k0.draw();
+        };
 
-	</div>
-	<script src="../../bundle/emcharts.js"></script>
-	
-	<script type="text/javascript">
-		var code = "3000592";
-		window.onload = function(){
-			var k0 = new EmchartsWebTime({
-				dpr: 1,
-				code: code,
-	        	container : "emchart-0",
-		        "width" : 800,
-		        "height" : 500,
-		        "type":"r"
-	        });
-	        k0.draw();
+        addEvent(document.getElementById("search-btn"), "click", function() {
+            var temp = document.getElementById("stock-code").value;
+            if (temp == "请输入股票代码加市场号" || temp == "") {
+                alert("请输入股票代码加市场号");
+                return;
+            } else {
+                code = temp;
+            }
+            k0.options.code = code;
+            k0.draw();
+        });
 
-	        var list = document.getElementsByTagName("li");
-	        var tabUrl = document.getElementById("tab_list");
-	        tabUrl.onclick = function(e){
-	        	for(var i = 0; i < list.length; i++){
-	        		list[i].className = "tab-item";
-	        	}
-	        	var target;
-	        	if(!window.event){
-	        		target = e.target;
-	        	}else{
-	        		target = window.event.srcElement;
-	        	}
-	        	target.className = "tab-item choose";
-	        	var params = {
-	        		dpr: 1,
-					code: code,
-		        	container : "emchart-0",
-			        "width" : 800,
-			        "height" : 500
-	        	};
-	        	switch(target.getAttribute("id")){
-	        		case "before":
-	        			params.isCR = true;
-	        			params.type = "r";
-	        			break;
-	        		case "one":
-	        			params.type = "r";
-	        			break;
-	        		case "two":
-	        			params.type = "t2";
-	        			break;
-	        		case "three":
-	        			params.type = "t3";
-	        			break;
-	        		case "four":
-	        			params.type = "t4";
-	        			break;
-	        		case "five":
-	        			params.type = "t5";
-	        			break;
-	        	}
-	        	document.getElementById('emchart-0').innerHTML = "";
-
-	        	k0 = new EmchartsWebTime(params);
-
-	        	k0.draw();
-	        };
-
-	        addEvent(document.getElementById("search-btn"),"click",function(){
-	        	var temp = document.getElementById("stock-code").value;
-	        	if(temp == "请输入股票代码加市场号" || temp == ""){
-					alert("请输入股票代码加市场号");
-					return;
-				}else{
-					code = temp;
-				}
-	        	k0.options.code = code;
-	        	k0.draw();
-	        });
-
-		}
+    }
 
 
-			/**
+    /**
      * 兼容性的事件添加
      * @param {[type]}   obj  对哪个元素添加
      * @param {[type]}   type 事件类型
@@ -177,13 +212,14 @@
     function addEvent(obj, type, fn) {
         if (obj.attachEvent) {
             obj['e' + type + fn] = fn;
-            obj[type + fn] = function() { obj['e' + type + fn](window.event); }
+            obj[type + fn] = function() {
+                obj['e' + type + fn](window.event);
+            }
             obj.attachEvent('on' + type, obj[type + fn]);
         } else
             obj.addEventListener(type, fn, false);
     }
-
-	</script>
-	
+    </script>
 </body>
+
 </html>
