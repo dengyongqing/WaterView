@@ -148,13 +148,8 @@
                     // var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
-                    if(i == 0){
-                        ctx.fillText(tempDate.value, XYF(this.options.padding_left + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
-                    }else if(i == arr_length - 1){
-                        ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
-                    }else{
-                        ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
-                    }
+                    ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                    
                 }
             }
 
