@@ -45,8 +45,8 @@ var dealData = function(json, type) {
         var items = arryData[i].split(",");
         if (tempDate !== items[0].split(" ")[0]) {
             var dateArr = items[0].split(" ")[0].split("-");
-            tempDate = dateArr[1]+"/"+dateArr[2];
-            dateStrs.push(tempDate);
+            tempDate = items[0].split(" ")[0];
+            dateStrs.push(dateArr[1]+"/"+dateArr[2]);
         }
 
         v_max = v_max > Number(items[2]) ? v_max : Number(items[2]);
@@ -97,9 +97,9 @@ var dealData = function(json, type) {
         var afternoon_end_hour = Math.floor(ticks[1] / 3600) > 24 ? (Math.floor(ticks[1] / 3600) - 24) : Math.floor(ticks[1] / 3600);
         result.timeStrs.push(fix(afternoon_end_hour, 2) + ":" + fix((ticks[1] / 60) % 60, 2));
     }
-
+    
     if (ticks.length === 7) {
-        if (dateStrs.length !== 1) {
+        if (dateStrs.length >= 2) {
             result.timeStrs = dateStrs;
         }
     } else {
