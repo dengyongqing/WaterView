@@ -83,7 +83,8 @@
 
 .emcharts-container .bar-value-span{
 	display: inline-block;
-	width: 50px;
+	min-width: 50px;
+	padding: 0px 5px;
 	height: 20px;
 	line-height: 20px;
 	vertical-align: middle;

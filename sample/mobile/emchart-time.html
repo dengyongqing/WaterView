@@ -62,7 +62,7 @@
     
     .tabs .tab {
         float: left;
-        width: 12%;
+        width: 20%;
         height: 47px;
         line-height: 47px;
         text-align: center;
@@ -91,21 +91,13 @@
             <div class="content">
                 <div id="tabs" class="tabs">
                     <div id="tab-0" target="emchart-0" class="tab current">分时</div>
-                    <div id="tab-1" target="emchart-1" class="tab">日K</div>
-                    <div id="tab-2" target="emchart-2" class="tab">周K</div>
-                    <div id="tab-3" target="emchart-3" class="tab">月K</div>
+                    <div id="tab-1" target="emchart-1" class="tab">2日</div>
+                    <div id="tab-2" target="emchart-2" class="tab">3日</div>
+                    <div id="tab-3" target="emchart-3" class="tab">4日</div>
+                    <div id="tab-4" target="emchart-4" class="tab">5日</div>
 
-                    <div id="tab-4" target="emchart-4" class="tab">5分钟</div>
-                    <div id="tab-5" target="emchart-5" class="tab">15分钟</div>
-                    <div id="tab-6" target="emchart-6" class="tab">30分钟</div>
-                    <div id="tab-7" target="emchart-7" class="tab">60分钟</div>
                 </div>
                 <div class="emchart">
-                    <select name="" id="selector" class="fu-quan-select">
-                        <option value="">不复权</option>
-                        <option value="fa">前复权</option>
-                        <option value="ba">后复权</option>
-                    </select>
                     <div id="emchart-0" class="em-tab">
                     </div>
                     <div id="emchart-1" class="em-tab">
@@ -114,15 +106,9 @@
                     </div>
                     <div id="emchart-3" class="em-tab">
                     </div>
-
                     <div id="emchart-4" class="em-tab">
                     </div>
-                    <div id="emchart-5" class="em-tab">
-                    </div>
-                    <div id="emchart-6" class="em-tab">
-                    </div>
-                    <div id="emchart-7" class="em-tab">
-                    </div>
+                   
                 </div>
             </div>
         </div>
@@ -153,7 +139,6 @@
 
             var params = {
                 dpr: 2,
-                type: "DK",
                 code: code == "" ? "3000592" : code,
                 container: target_id,
                 "width": document.body.offsetWidth - 20,
@@ -161,95 +146,49 @@
             };
 
             if (target_id == "emchart-1") {
-                params.type = "DK";
-                current_tab = k1 = new EmchartsMobileK(params);
+                params.type = "T2";
+                current_tab = k1 = new EmchartsMobileTime(params);
                 k1.draw();
-                fuQuan();
             }
 
             if (target_id == "emchart-2") {
-                params.type = "WK";
-                current_tab = k2 = new EmchartsMobileK(params);
+                params.type = "T3";
+                current_tab = k2 = new EmchartsMobileTime(params);
                 k2.draw();
-                fuQuan();
             }
 
             if (target_id == "emchart-3") {
-                params.type = "MK";
-                current_tab = k3 = new EmchartsMobileK(params);
+                params.type = "T4";
+                current_tab = k3 = new EmchartsMobileTime(params);
                 k3.draw();
-                fuQuan();
             }
 
             if (target_id == "emchart-4") {
-                params.type = "M5K";
-                current_tab = k4 = new EmchartsMobileK(params);
+                params.type = "T5";
+                current_tab = k4 = new EmchartsMobileTime(params);
                 k4.draw();
-                fuQuan();
             }
-
-            if (target_id == "emchart-5") {
-                params.type = "M15K";
-                current_tab = k5 = new EmchartsMobileK(params);
-                k5.draw();
-                fuQuan();
-            }
-
-            if (target_id == "emchart-6") {
-                params.type = "M30K";
-                current_tab = k6 = new EmchartsMobileK(params);
-                k6.draw();
-                fuQuan();
-            }
-
-            if (target_id == "emchart-7") {
-                params.type = "M60K";
-                current_tab = k7 = new EmchartsMobileK(params);
-                k7.draw();
-                fuQuan();
-            }
-
 
         } else {
 
             if (target_id == "emchart-0") {
                 current_tab = k0;
-                document.getElementById("selector").style.display = "none";
             }
 
             if (target_id == "emchart-1") {
                 current_tab = k1;
-                fuQuan();
             }
 
             if (target_id == "emchart-2") {
                 current_tab = k2;
-                fuQuan();
             }
 
             if (target_id == "emchart-3") {
                 current_tab = k3;
-                fuQuan();
             }
 
             if (target_id == "emchart-4") {
                 current_tab = k4;
-                fuQuan();
-            }
-
-            if (target_id == "emchart-5") {
-                current_tab = k5;
-                fuQuan();
-            }
-
-            if (target_id == "emchart-6") {
-                current_tab = k6;
-                fuQuan();
-            }
-
-            if (target_id == "emchart-7") {
-                current_tab = k7;
-                fuQuan();
             }
         }
 
@@ -261,21 +200,12 @@
         current_tab = k0 = new EmchartsMobileTime({
             dpr: 2,
             code: "3000592",
+            type: "T1",
             container: "emchart-0",
-            delaytouch: true,
             "width": document.body.offsetWidth - 20,
-            "height": 300,
-            "showV": true
+            "height": 300
         });
         k0.draw();
-        var selector = document.getElementById("selector");
-        selector.style.display = "none";
-        selector.addEventListener("change", function(event) {
-            var v = event.target.value;
-            current_tab.options.authorityType = v;
-            current_tab.draw();
-            event.preventDefault();
-        }, false);
     }
 
     /*触摸事件*/
@@ -287,44 +217,18 @@
             return;
         }
         // document.getElementById(current_tab.options.container).innerHTML = "";
-        if (current_tab.options.type == "TL") {
-            current_tab = new EmchartsMobileTime({
-                dpr: 2,
-                code: code == "" ? "3000592" : code,
-                container: current_tab.options.container,
-                "width": document.body.offsetWidth - 20,
-                "height": 300
-            });
-            current_tab.draw();
-        } else {
-            current_tab = new EmchartsMobileK({
-                dpr: 2,
-                type: current_tab.options.type,
-                code: code == "" ? "3000592" : code,
-                container: current_tab.options.container,
-                "width": document.body.offsetWidth - 20,
-                "height": 300
-            });
-            current_tab.draw();
-        }
-
-
+        current_tab = new EmchartsMobileTime({
+            dpr: 2,
+            code: code == "" ? "3000592" : code,
+            container: current_tab.options.container,
+            "width": document.body.offsetWidth - 20,
+            "height": 300
+        });
+        current_tab.draw();
+       
     });
 
 
-    function fuQuan() {
-        var selector = document.getElementById("selector");
-        selector.style.display = "block";
-        var authorityType = current_tab.options.authorityType;
-        if (authorityType == "") {
-            selector.children[0].selected = "selected";
-        } else if (authorityType == "fa") {
-            selector.children[1].selected = "selected";
-        } else if (authorityType == "ba") {
-            selector.children[2].selected = "selected";
-        }
-
-    }
     </script>
 </body>
 

@@ -48,6 +48,7 @@ var ChartTime = (function() {
         // 图表容器
         this.container = document.getElementById(options.container);
 
+        this.container.className = this.container.className.replace(/emcharts-container/g, "").trim();
         this.container.className = this.container.className + " emcharts-container";
         // 图表加载完成事件
         this.onChartLoaded = options.onChartLoaded == undefined ? function(op){
@@ -59,7 +60,9 @@ var ChartTime = (function() {
     // 初始化
     ChartTime.prototype.init = function() {
 
-        this.options.type = "TL";
+        if(!this.options.type){
+            this.options.type = "T1";
+        }
         var canvas = document.createElement("canvas");
         // 去除画布上粘贴效果
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -135,8 +138,10 @@ var ChartTime = (function() {
         inter.showLoading();
         var _this = this;
         try{
-            
-            GetDataTime(this.options.code,
+            GetDataTime({
+                id:this.options.code,
+                type:this.options.type
+            },
                 function(data){
                     if(data){
                         dataCallback.apply(_this,[data]);

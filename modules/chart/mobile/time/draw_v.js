@@ -51,9 +51,7 @@ var DrawV = (function() {
             return;
         }
 
-        if (this.options.type == "TL") {
-            this.options.data.v_max = getVMax(this.options.data);
-        }
+        this.options.data.v_max = getVMax(this.options.data);
 
         /*Y轴上的最大值*/
         var v_max = (data.v_max).toFixed(0);

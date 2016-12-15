@@ -153,16 +153,24 @@ var DrawXY = (function() {
         /*画布宽度*/
         var k_width = ctx.canvas.width - padding_left;
         var y_date = k_height + (ctx.canvas.height / 8) * 1 / 3;
-
-        for (var i = 0, len = oc_time_arr.length; i < len; i++) {
-            if (i == 0) {
-                ctx.fillText(oc_time_arr[i], padding_left, y_date);
-            } else if (i == len - 1) {
-                ctx.fillText(oc_time_arr[i], k_width - ctx.measureText(oc_time_arr[i]).width, y_date);
-            } else {
-                ctx.fillText(oc_time_arr[i], (k_width - padding_left) / 2 + padding_left - ctx.measureText(oc_time_arr[i]).width / 2, y_date);
+        var oc_length = oc_time_arr.length;
+        if(this.options.type.toLowerCase() == "t1"){
+            for (var i = 0; i < oc_length; i++) {
+                if (i == 0) {
+                    ctx.fillText(oc_time_arr[i], padding_left, y_date);
+                } else if (i == oc_length - 1) {
+                    ctx.fillText(oc_time_arr[i], k_width - ctx.measureText(oc_time_arr[i]).width, y_date);
+                } else {
+                    ctx.fillText(oc_time_arr[i], (k_width - padding_left) / 2 + padding_left - ctx.measureText(oc_time_arr[i]).width / 2, y_date);
+                }
+            }
+        }else{
+            var unit = (k_width - padding_left)/oc_length;
+            for(var j = 0; j < oc_length; j++){
+                ctx.fillText(oc_time_arr[j],  (j+1) * unit - unit/2 - ctx.measureText(oc_time_arr[j]).width/2, y_date);
             }
         }
+
         var x_sep = this.options.x_sep;
         /*绘制x轴上的竖直分割线*/
         var itemWidth = k_width / x_sep;
