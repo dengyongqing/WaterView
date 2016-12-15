@@ -61,16 +61,18 @@ function drawIcon(container, x, y, imgUrl, info, currentPrice, isUp, persent) {
     common.addEvent(img, 'mouseover', function(e) {
         // console.log("hehe");
         timeChangePositionPad.className = "timeChangeMainPad";
-        timeChangePositionPad.style.left = x - 75 + "px";
-        timeChangePositionPad.style.top = y + 50 + "px";
-        timeChangePositionPad.style.display = "block";
+        var isIE8 = (!+'\v1' ? 'style="display: none"' : "");
 
-        timeChangePositionPad.innerHTML = '<div class="timeChangeTriangle"></div>' +
+        timeChangePositionPad.innerHTML = '<div class="timeChangeTriangle" '+isIE8+' ></div>' +
             '<table class="timeChangeTable"><caption class="timeChangeHeader">' + changeType + '</caption>' +
             '<tr><td>时:<span>' + changeTime + '</span></td>' +
             '<td>量:<span>' + changeNum + '</span></td></tr>' +
             '<tr><td>价:<span style=" color: ' + priceColor + '">' + currentPrice + '</span></td>' +
             '<td>涨:<span style=" color: ' + priceColor + '">' + persentStr + '</span></td></tr></table>';
+        
+        timeChangePositionPad.style.display = "block";
+        timeChangePositionPad.style.left = x - timeChangePositionPad.clientWidth/2+ 5 + "px";
+        timeChangePositionPad.style.top = y + 50 + "px";
     });
 
     common.addEvent(img, 'mouseout', function(e) {

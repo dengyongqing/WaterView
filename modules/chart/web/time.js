@@ -98,7 +98,7 @@ var ChartTime = (function() {
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("10000").width + 20;
-        this.options.padding.right = ctx.measureText("1000000").width;
+        this.options.padding.right = ctx.measureText("+10.00%").width;
         this.options.padding.top = 0;
         this.options.padding.bottom = 0;
     };

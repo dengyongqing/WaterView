@@ -60,6 +60,8 @@ var ChartLine = (function() {
         } else {
             var canvas = this.options.canvas;
         }
+        // 容器中添加画布
+        this.container.appendChild(canvas);
 
         // 去除画布上粘贴效果
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -80,9 +82,6 @@ var ChartLine = (function() {
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
-
-        // 容器中添加画布
-        this.container.appendChild(canvas);
 
         // 画布向下偏移的距离
         this.options.canvas_offset_top = 15 * dpr;
@@ -105,7 +104,6 @@ var ChartLine = (function() {
         if (this.options.sepeNum < 2) {
             this.options.sepeNum = 2;
         }
-
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";

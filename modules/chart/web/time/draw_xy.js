@@ -68,7 +68,7 @@ var DrawXY = (function() {
                 ctx.fillStyle = '#007F24';
             } else if (i > (sepe_num - 1) / 2) {
                 if (i == (sepe_num - 1)) {
-                    ctx.strokeStyle = 'e1e1e1';
+                    ctx.strokeStyle = '#e1e1e1';
                     ctx.moveTo(XYF(padding_left), XYF(item.y));
                     ctx.lineTo(XYF(ctx.canvas.width - padding_right), XYF(item.y));
                 }else{

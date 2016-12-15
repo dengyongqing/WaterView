@@ -30,6 +30,11 @@ var ChartPie = (function() {
 
         var canvas = document.createElement("canvas");
         var canvas2 = document.createElement("canvas"); //用于解决写在扇形上的文字被覆盖的问题
+
+        // 容器中添加画布
+        this.container.appendChild(canvas);
+        this.container.appendChild(canvas2);
+
         this.container.style.position = "relative";
         // 兼容IE6-IE9
         try {
@@ -50,7 +55,7 @@ var ChartPie = (function() {
         this.options.context2 = ctx2;
         // 设备像素比
         if(this.options.dpr === undefined){
-           this.options.dpr = 2; 
+           this.options.dpr = 1; 
         }
         var dpr = this.options.dpr;
         // 画布的宽和高
@@ -59,11 +64,6 @@ var ChartPie = (function() {
 
         canvas2.width = this.options.width * dpr;
         canvas2.height = this.options.height * dpr;
-
-        // 容器中添加画布
-        this.container.appendChild(canvas);
-        this.container.appendChild(canvas2);
-
 
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
