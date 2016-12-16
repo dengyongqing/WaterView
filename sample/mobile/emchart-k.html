@@ -90,7 +90,7 @@
             </div>
             <div class="content">
                 <div id="tabs" class="tabs">
-                    <div id="tab-1" target="emchart-1" class="tab">日K</div>
+                    <div id="tab-1" target="emchart-1" class="tab current">日K</div>
                     <div id="tab-2" target="emchart-2" class="tab">周K</div>
                     <div id="tab-3" target="emchart-3" class="tab">月K</div>
 
@@ -210,11 +210,6 @@
 
         } else {
 
-            if (target_id == "emchart-0") {
-                current_tab = k0;
-                document.getElementById("selector").style.display = "none";
-            }
-
             if (target_id == "emchart-1") {
                 current_tab = k1;
                 fuQuan();
@@ -256,8 +251,9 @@
 
     window.onload = function() {
 
-        current_tab = k0 = new EmchartsMobileK({
+        current_tab = k1 = new EmchartsMobileK({
             dpr: 2,
+            type: "DK",
             code: "3000592",
             container: "emchart-1",
             delaytouch: true,
@@ -265,14 +261,15 @@
             "height": 300,
             "showV": true
         });
-        k0.draw();
+        k1.draw();
         var selector = document.getElementById("selector");
-        selector.style.display = "none";
+        // selector.style.display = "none";
         selector.addEventListener("change", function(event) {
             var v = event.target.value;
             current_tab.options.authorityType = v;
             current_tab.draw();
             event.preventDefault();
+            alert(current_tab.options.type);
         }, false);
     }
 
@@ -285,28 +282,15 @@
             return;
         }
         // document.getElementById(current_tab.options.container).innerHTML = "";
-        if (current_tab.options.type == "TL") {
-            current_tab = new EmchartsMobileTime({
-                dpr: 2,
-                code: code == "" ? "3000592" : code,
-                container: current_tab.options.container,
-                "width": document.body.offsetWidth - 20,
-                "height": 300
-            });
-            current_tab.draw();
-        } else {
-            current_tab = new EmchartsMobileK({
-                dpr: 2,
-                type: current_tab.options.type,
-                code: code == "" ? "3000592" : code,
-                container: current_tab.options.container,
-                "width": document.body.offsetWidth - 20,
-                "height": 300
-            });
-            current_tab.draw();
-        }
-
-
+        current_tab = new EmchartsMobileK({
+            dpr: 2,
+            type: current_tab.options.type,
+            code: code == "" ? "3000592" : code,
+            container: current_tab.options.container,
+            "width": document.body.offsetWidth - 20,
+            "height": 300
+        });
+        current_tab.draw();
     });
 
 

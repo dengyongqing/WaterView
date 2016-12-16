@@ -5,6 +5,7 @@ var common = require('common');
 var draw_dash = require("chart/mobile/common/draw_dash_line");
 /*主题*/
 var theme = require('theme/default');
+var coordinate = require('chart/mobile/time/coordinate'); 
 var DrawV = (function() {
     function DrawV(options) {
         /*设置默认参数*/
@@ -93,7 +94,7 @@ var DrawV = (function() {
             var volume = item.volume;
             var is_up = item.up;
             var bar_height = volume / v_max * v_base_height;
-            var x = common.get_x.call(this, i + 1);
+            var x = coordinate.get_x.call(this, i + 1);
             var y = y_v_bottom - bar_height;
 
             ctx.beginPath();

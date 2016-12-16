@@ -219,6 +219,7 @@
         // document.getElementById(current_tab.options.container).innerHTML = "";
         current_tab = new EmchartsMobileTime({
             dpr: 2,
+            type: current_tab.options.type,
             code: code == "" ? "3000592" : code,
             container: current_tab.options.container,
             "width": document.body.offsetWidth - 20,
