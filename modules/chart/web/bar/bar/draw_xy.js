@@ -84,12 +84,12 @@ var DrawXY = (function() {
             if (i == maxY / stepHeight) {
                 ctx.beginPath();
                 ctx.moveTo(x_left, XYF(stepY * i + paddingTop));
-                ctx.lineTo(x_right,  XYF(stepY * i + paddingTop));
+                ctx.lineTo(x_right, XYF(stepY * i + paddingTop));
                 ctx.stroke();
             } else {
                 ctx.beginPath();
                 draw_dash(ctx, x_left, Math.round(stepY * i + paddingTop),
-                    x_right, Math.round(stepY * i + paddingTop), 3,2 );
+                    x_right, Math.round(stepY * i + paddingTop), 3, 2);
             }
         }
         /*纵标刻度*/
@@ -98,13 +98,7 @@ var DrawXY = (function() {
         var markStep = yMax / sepeNum;
         for (i = 0; i <= sepeNum; i++) {
             ctx.beginPath();
-            if (i === 0) {
-                ctx.textBaseline = "bottom";
-            } else if (i === sepeNum) {
-                ctx.textBaseline = "top";
-            } else {
-                ctx.textBaseline = "middle";
-            }
+            ctx.textBaseline = "middle";
             ctx.fillText(roundFloat(minY + i * stepHeight, stepHeight), paddingLeft - 10, stepY * (sepeNum - i) + paddingTop);
         }
     }
@@ -116,7 +110,7 @@ var DrawXY = (function() {
             precise = stepHeight.toString().length - stepHeight.toString().indexOf(".") - 1;
         }
         var m = Math.pow(10, precise);
-        return Math.round(f * m) / m;        
+        return Math.round(f * m) / m;
     }
 
     return DrawXY;
