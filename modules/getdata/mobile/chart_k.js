@@ -96,7 +96,7 @@ function getdata(option, callback, interactive) {
                 }else{
                     var result = dealData(json,num);
                 }
-                
+
                 result.name = json.name;
                 result.total = info.total;
                 result.count = num-20;
