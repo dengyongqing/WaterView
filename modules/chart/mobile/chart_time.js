@@ -19,7 +19,6 @@ var DrawXY = require('chart/mobile/time/draw_xy');
 // 主题
 var theme = require('theme/default');
 var common = require('tools/common'); 
-
 // 获取分时图数据
 var GetDataTime = require('getdata/mobile/chart_time'); 
 // 绘制分时折线图
@@ -140,8 +139,8 @@ var ChartTime = (function() {
         var _this = this;
         try{
             GetDataTime({
-                id:"007005",
-                type:"t2"
+                id:this.options.code,
+                type:this.options.type
             },
                 function(data){
                     if(data){
@@ -200,8 +199,9 @@ var ChartTime = (function() {
             // 保留的小数位
             this.options.pricedigit = data.pricedigit || 2;
             // 获取单位绘制区域
-            var rect_unit = get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
+            var rect_unit = common.get_rect.apply(this,[this.options.context.canvas,this.options.data.total]);
             this.options.rect_unit = rect_unit;
+
             // 绘制坐标轴
             var drawxy = new DrawXY(this.options);
             if(data && data.data && data.data.length > 0){
@@ -367,16 +367,6 @@ var ChartTime = (function() {
             inter.cross(canvas,cross_w_x,cross_w_y);
         }
 
-    }
-
-    // 图表x轴坐标计算
-    function get_rect(canvas,num) {
-        var rect_w = (canvas.width-this.options.padding_left) / num;
-        var bar_w = rect_w * (1 - this.options.spacing);
-        return {
-            rect_w:rect_w,
-            bar_w:bar_w
-        };
     }
 
     return ChartTime;
