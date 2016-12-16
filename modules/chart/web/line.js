@@ -541,9 +541,9 @@ var ChartLine = (function() {
             arr = arr.concat(series[i].data);
         }
 
-        arr.sort(function(a, b){return a - b;});
-        var min  = arr[0];
-        var max = arr[arr.length-1];
+        arr.sort(function(a, b){return a*1 - b*1;});
+        var min  = arr[0]*1;
+        var max = arr[arr.length-1]*1;
         var middle = (max+min)/2;
 
 
