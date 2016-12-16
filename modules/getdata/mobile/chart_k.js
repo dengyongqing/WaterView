@@ -43,6 +43,10 @@ function getdata(option, callback, interactive) {
     var url = 'http://pdfm.eastmoney.com/EM_UBG_PDTI_Fast/api/js';
     var callbackstring = 'fsdata' + (new Date()).getTime().toString().substring(0, 10);
     var id = option.code || option; //如果只传入了一个参数，就把那个参数当股票代码；如果传入两个，则id代表股票代码
+    var type = "k";
+    if(option.type.toLowerCase() !== "dk"){
+        type = option.type;
+    }
     var count = 0 | option.count;
     var num = 60;
     //判断count进行相应的根数变化
@@ -59,7 +63,7 @@ function getdata(option, callback, interactive) {
     var QuerySpan = today_number_str + ','+(num+20);
     var urldata = {
         id: id,
-        TYPE: option.type,
+        TYPE: type,
         js: callbackstring + '((x))',
         'rtntype': 5,
         "QueryStyle": "2.2",
