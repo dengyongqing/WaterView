@@ -140,8 +140,8 @@ var ChartTime = (function() {
         var _this = this;
         try{
             GetDataTime({
-                id:this.options.code,
-                type:this.options.type
+                id:"007005",
+                type:"t2"
             },
                 function(data){
                     if(data){

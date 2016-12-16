@@ -16,7 +16,9 @@
 var coordinate = require('../../dealdata/time_coordinate_range'); //处理数据
 var fix = require('common').fixed;
 
-var dealData = function(json, type) {
+var dealData = function(json, type, id) {
+    /*归属地（美股，港股，内地）*/
+    var blongTo = id.charAt(id.length-1);
     var info = json.info;
     var ticks = info.ticks.split('|');
     var yc = info.yc;
@@ -106,6 +108,14 @@ var dealData = function(json, type) {
         if (dateStrs.length > 2) {
             result.timeStrs = dateStrs.slice(1);
         }
+    }
+
+    if(blongTo === "7"){
+        result.total = Math.ceil(result.total/391)*391;
+    }else if(blongTo === "5"){
+        result.total = Math.ceil(result.total/351)*351;
+    }else{
+        result.total = Math.ceil(result.total/241)*241;
     }
 
     result.max = coordinate(max, min, yc).max;
