@@ -139,7 +139,7 @@ var ChartK = (function() {
         
         try{
             if(type == "DK"){
-                this.options.type = "K";
+                this.options.type = "DK";
             }else if(type == "WK"){
                 this.options.type = "WK";
             }else if(type == "MK"){
