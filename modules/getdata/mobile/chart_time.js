@@ -45,7 +45,7 @@ function getdata(option, callback, interactive) {
             if (!json) {
                 callback(null);
             } else {
-                var result = dealdata(json, type);
+                var result = dealdata(json, type, option.id);
                 callback(result);
             }
 
