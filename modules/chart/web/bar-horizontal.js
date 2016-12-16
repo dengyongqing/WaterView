@@ -13,6 +13,8 @@ var ChartMobileBar = (function() {
         this.options = extend(this.options, options);
         // 图表容器
         this.container = document.getElementById(options.container);
+
+        this.container.className = this.container.className.replace(/emcharts-container/g, "").trim();
         this.container.className = this.container.className + " canvas-container";
     }
 

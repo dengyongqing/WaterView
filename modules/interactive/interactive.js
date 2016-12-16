@@ -96,7 +96,6 @@ var Interactive = (function() {
 	Interactive.prototype.markMA = function (canvas,obj_5,obj_10,obj_20){
 	    // var c_box = canvas.getBoundingClientRect();
 	    // var dpr = this.options.dpr;
-
 	    if(!this.options.mark_ma){
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div"); 
@@ -234,7 +233,7 @@ var Interactive = (function() {
 	// Tip显示行情数据
 	Interactive.prototype.showTip = function(canvas,x,obj){
 		// var c_box = canvas.getBoundingClientRect();
-	    var type = this.options.type;
+	    var type = (this.options.type).toUpperCase();
 	    if(!this.options.tip){
 	        this.options.tip = {};
 	        // 创建外部包裹元素
@@ -279,7 +278,8 @@ var Interactive = (function() {
 	        document.getElementById(this.options.container).appendChild(div_tip);
 
 	        var volume = Math.round(obj.volume);
-	        if(type == "DK" || type == "WK" || type == "MK"){
+	        if(type == "DK" || type == "WK" || type == "MK" || type == "M5K"
+	         || type == "M15K" || type == "M30K" || type == "M60K"){
 	            close_data.innerText = obj.close;
 	            percent.innerText = obj.percent+'%';
             	count.innerText = common.translate(volume);
@@ -288,7 +288,7 @@ var Interactive = (function() {
 
 	            var c1 = "span-k-c1";
 	            var c2 = "span-k-c2";
-	        }else if(type == "TL"){
+	        }else if(type == "T1" || type == "T2" || type == "T3" || type == "T4" || type == "T5"){
 	            close_data.innerText = obj.price;
 	            percent.innerText = obj.percent+'%';
             	count.innerText = common.translate(volume);
@@ -310,12 +310,13 @@ var Interactive = (function() {
 	        var div_tip = this.options.tip.tip;
 	        var volume = Math.round(obj.volume);
 	       
-	        if(type == "DK" || type == "WK" || type == "MK"){
+	        if(type == "DK" || type == "WK" || type == "MK" || type == "M5K"
+	         || type == "M15K" || type == "M30K" || type == "M60K"){
 	            tip_obj.close.innerText = obj.close;
 	            tip_obj.percent.innerText = obj.percent+'%';
 	            tip_obj.count.innerText = common.translate(volume);
 	            tip_obj.time.innerText = obj.data_time.replace(/-/g,"/");
-	        }else if(type == "TL"){
+	        }else if(type == "T1" || type == "T2" || type == "T3" || type == "T4" || type == "T5"){
 	            tip_obj.close.innerText = obj.price;
 	            tip_obj.percent.innerText = obj.percent+'%';
 

@@ -19,7 +19,7 @@ var DrawXY = require('chart/mobile/k/draw_xy');
 // 主题
 var theme = require('theme/default');
 // 获取K线图数据
-var GetDataDay = require('getdata/mobile/chart_day'); 
+var GetDataK = require('getdata/mobile/chart_k'); 
 var GetDataWeek = require('getdata/mobile/chart_week'); 
 var GetDataMonth = require('getdata/mobile/chart_month'); 
 // 绘制K线图
@@ -49,6 +49,7 @@ var ChartK = (function() {
         // 图表容器
         this.container = document.getElementById(options.container);
 
+        this.container.className = this.container.className.replace(/emcharts-container/g, "").trim();
         this.container.className = this.container.className + " emcharts-container";
         // 图表加载完成事件
         this.options.onChartLoaded = options.onChartLoaded == undefined ? function(op){
@@ -138,7 +139,22 @@ var ChartK = (function() {
         
         try{
             if(type == "DK"){
-                GetDataDay(getParamsObj.call(_this),function(data){
+                this.options.type = "K";
+            }else if(type == "WK"){
+                this.options.type = "WK";
+            }else if(type == "MK"){
+                this.options.type = "MK";
+            }else if(type == "M5K"){
+                this.options.type = "M5K";
+            }else if(type == "M15K"){
+                this.options.type = "M15K";
+            }else if(type == "M30K"){
+                this.options.type = "M30K";
+            }else if(type == "M60K"){
+                this.options.type = "M60K";
+            }
+
+            GetDataK(getParamsObj.call(_this),function(data){
                     var flag = dataCallback.apply(_this,[data]);
                     // 均线数据标识
                     inter.markMA(_this.options.canvas);
@@ -155,41 +171,6 @@ var ChartK = (function() {
 
                     
                 },inter);
-            }else if(type == "WK"){
-                GetDataWeek(getParamsObj.call(_this),function(data){
-                    var flag = dataCallback.apply(_this,[data]);
-                    // 均线数据标识
-                    inter.markMA(_this.options.canvas);
-                    // 缩放
-                    inter.scale(_this.options.canvas);
-                    if(flag && _this.options.enableHandle){
-                        // 绑定事件
-                        bindEvent.call(_this,_this.options.context);
-                    }
-                    // 传入的回调函数
-                    if(callback){
-                        callback(_this.options);
-                    }
-
-                },inter);
-            }else if(type == "MK"){
-                GetDataMonth(getParamsObj.call(_this),function(data){
-                    var flag = dataCallback.apply(_this,[data]);
-                    // 均线数据标识
-                    inter.markMA(_this.options.canvas);
-                    // 缩放
-                    inter.scale(_this.options.canvas);
-                    if(flag && _this.options.enableHandle){
-                        // 绑定事件
-                        bindEvent.call(_this,_this.options.context);
-                    }
-                    // 传入的回调函数
-                    if(callback){
-                        callback(_this.options);
-                    }
-
-                },inter);
-            }
 
         }catch(e){
             // 暂无数据
@@ -236,25 +217,22 @@ var ChartK = (function() {
 
         try{
             if(type == "DK"){
-                GetDataDay(getParamsObj.call(_this),function(data){
-                    if(data){
-                        dataCallback.apply(_this,[data]);
-                        // 缩放按钮点击有效
-                        _this.options.clickable = true;
-                    }
-
-                },inter);
+                this.options.type = "K";
             }else if(type == "WK"){
-                GetDataWeek(getParamsObj.call(_this),function(data){
-                    if(data){
-                        dataCallback.apply(_this,[data]);
-                        // 缩放按钮点击有效
-                        _this.options.clickable = true;
-                    }
-
-                },inter);
+                this.options.type = "WK";
             }else if(type == "MK"){
-                GetDataMonth(getParamsObj.call(_this),function(data){
+                this.options.type = "WK";
+            }else if(type == "M5K"){
+                this.options.type = "M5K";
+            }else if(type == "M15K"){
+                this.options.type = "M15K";
+            }else if(type == "M30K"){
+                this.options.type = "M30K";
+            }else if(type == "M60K"){
+                this.options.type = "M60K";
+            }
+
+            GetDataK(getParamsObj.call(_this),function(data){
                     if(data){
                         dataCallback.apply(_this,[data]);
                         // 缩放按钮点击有效
@@ -262,7 +240,6 @@ var ChartK = (function() {
                     }
 
                 },inter);
-            }
 
         }catch(e){
             // 缩放按钮点击有效
@@ -279,6 +256,7 @@ var ChartK = (function() {
     // 获取参数对象
     function getParamsObj(){
         var obj = {};
+        obj.type = this.options.type;
         obj.code = this.options.code;
         obj.count = this.options.scale_count;
         obj.authorityType = this.options.authorityType; 
