@@ -1,6 +1,6 @@
 var extend = require('tools/extend2');
 var DrawXY = require('chart/mobile/bar/bar/draw_xy');
-var divide = require('chart/mobile/bar/bar/divide');
+var divide = require('chart/web/common/divide');
 var drawBar = require('chart/mobile/bar/bar/draw_bar');
 var handleEvent = require('chart/mobile/bar/bar/handleEvent');// 水印
 var watermark = require('chart/watermark');
