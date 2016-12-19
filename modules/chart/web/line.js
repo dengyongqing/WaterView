@@ -549,7 +549,7 @@ var ChartLine = (function() {
 
         var tempObj = {};
         /*特殊判断一下*/
-        if(max*min > 0){
+        if(max*min > 0 && min !== max){
             tempObj = divide(this.options.sepeNum, [max-middle, min-middle]);
             if((tempObj.max+middle) * (tempObj.min+middle) < 0 ){
                 var tempOffset = Math.min(Math.abs(tempObj.max+middle), Math.abs(tempObj.min+middle));

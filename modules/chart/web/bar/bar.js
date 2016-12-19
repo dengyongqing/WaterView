@@ -126,46 +126,7 @@ var ChartMobileBar = (function() {
 
     // 获取数组中的最大值
     function getMaxMark(series) {
-
-        var seriesLength = series.length;
-        var arr = [];
-        for (var i = 0; i < seriesLength; i++) {
-            arr = arr.concat(series[i].data);
-        }
-
-        arr.sort(function(a, b) {
-            return a * 1 - b * 1; });
-        var min = arr[0] * 1;
-        var max = arr[arr.length - 1] * 1;
-        var middle = (max + min) / 2;
-
-
-        var tempObj = {};
-        /*特殊判断一下*/
-        if (max * min > 0) {
-            tempObj = divide(this.options.sepeNum, [max - middle, min - middle]);
-            if ((tempObj.max + middle) * (tempObj.min + middle) < 0) {
-                var tempOffset = Math.min(Math.abs(tempObj.max + middle), Math.abs(tempObj.min + middle));
-                tempObj.max = max >= 0 ? (tempObj.max + middle + tempOffset) : 0;
-                tempObj.min = max >= 0 ? 0 : (tempObj.min + middle - tempOffset);
-            } else {
-                tempObj.max += middle;
-                tempObj.min += middle;
-            }
-        } else {
-            tempObj = divide(this.options.sepeNum, arr);
-        }
-
-        var ctx = this.options.context;
-        if (tempObj.stepHeight >= 10000) {
-            var backWidth = ctx.measureText(common.format_unit(tempObj.stepHeight)).width - ctx.measureText(common.format_unit(parseInt(tempObj.stepHeight))).width;
-        } else {
-            var backWidth = ctx.measureText(tempObj.stepHeight).width - ctx.measureText(parseInt(tempObj.stepHeight)).width;
-        }
-        var frontMaxWidth = ctx.measureText(common.format_unit(parseInt(tempObj.max))).width;
-        var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
-        var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
-        var maxPaddingLeftWidth = frontWidth + backWidth;
+        var tempObj = divide(this.options.sepeNum, series);
 
         if (tempObj.max == 0 && tempObj.min == 0) {
             tempObj.max = 1;
@@ -176,8 +137,7 @@ var ChartMobileBar = (function() {
         return {
             max: tempObj.max,
             min: tempObj.min,
-            stepHeight: tempObj.stepHeight,
-            maxPaddingLeftWidth: maxPaddingLeftWidth
+            stepHeight: tempObj.stepHeight
         };
     }
 
