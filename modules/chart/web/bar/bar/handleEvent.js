@@ -42,10 +42,10 @@ function handleEvent(winX, winY) {
     if(inRect){
         /*改变颜色，并且记录*/
         if (this.options.preColume !== undefined) {
-            changeRect(this.options.preColume, series.color);
+            changeRect(this.options.preColume, (series.colors && series.colors[this.options.preColume]) ? series.colors[this.options.preColume] : series.color);
         }
         this.options.preColume = current;
-        changeRect(current, series.hoverColor);
+        changeRect(current, (series.hoverColors && series.hoverColors[this.options.preColume]) ? series.hoverColors[this.options.preColume] : series.hoverColor);
 
         /*tips交互*/
         if (!this.options.tipPanel) {
@@ -120,7 +120,7 @@ function handleEvent(winX, winY) {
     }else{
         if (this.options.preColume !== undefined ) {
             tempCurrent = this.options.preColume;
-            changeRect(tempCurrent, series.color);
+            changeRect(tempCurrent, (series.colors && series.colors[tempCurrent]) ? series.colors[tempCurrent] : series.color);
         }
         if (this.options.tipPanel) {
             this.options.tipPanel.style.visibility = "hidden";
