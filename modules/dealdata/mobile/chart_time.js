@@ -113,9 +113,9 @@ var dealData = function(json, type, id) {
     if(blongTo === "7"){
         result.total = Math.ceil(result.total/391)*391;
     }else if(blongTo === "5"){
-        result.total = Math.ceil(result.total/351)*351;
+        result.total = Math.ceil(result.total/352)*352;
     }else{
-        result.total = Math.ceil(result.total/241)*241;
+        result.total = Math.ceil(result.total/242)*242;
     }
 
     result.max = coordinate(max, min, yc).max;
