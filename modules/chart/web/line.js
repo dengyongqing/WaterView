@@ -61,6 +61,8 @@ var ChartLine = (function() {
         } else {
             var canvas = this.options.canvas;
         }
+        // 容器中添加画布
+        this.container.appendChild(canvas);
 
         // 去除画布上粘贴效果
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -78,8 +80,6 @@ var ChartLine = (function() {
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
-        // 容器中添加画布
-        this.container.appendChild(canvas);
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
