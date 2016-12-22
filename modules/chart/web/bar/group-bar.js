@@ -232,7 +232,8 @@ var ChartBarQuarter = (function() {
         result.content = {};
         result.content.series = this.options.series[numYear].data;
         result.content.colors = this.options.xaxis[numYear];
-
+        result.content.names = this.options.xaxis[numYear].names;
+        result.content.suffixs = this.options.xaxis[numYear].suffixs;
         result.arr = numYear + ":" + numQuarter;
 
         return result;
@@ -294,7 +295,8 @@ var ChartBarQuarter = (function() {
                 //绘制tips
                 var series = coordinateCanvas.content.series;
                 var colors = coordinateCanvas.content.colors;
-
+                var names = coordinateCanvas.content.names;
+                var suffixs = coordinateCanvas.content.suffixs;
                 tips.innerHTML = "";
                 var title = document.createElement("div");
                 title.innerHTML = colors.value;
@@ -307,7 +309,7 @@ var ChartBarQuarter = (function() {
 
                     var value_span = document.createElement("span");
                     value_span.className = "bar-value-span";
-                    value_span.innerHTML = item;
+                    value_span.innerHTML = (names === undefined ? "" : names[i]) + item + (suffixs === undefined ? "" : suffixs[i]);
 
                     var span_container = document.createElement("div");
                     span_container.className = "";

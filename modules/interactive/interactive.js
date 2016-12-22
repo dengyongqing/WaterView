@@ -100,7 +100,7 @@ var Interactive = (function() {
 	        this.options.mark_ma = {};
 	        var div_mark = document.createElement("div"); 
 	        div_mark.className = "mark-ma";
-	        div_mark.style.top = 3 + "px";
+	        div_mark.style.top = -1 + "px";
 	        this.options.mark_ma.mark_ma = div_mark;
 	        
 	        /*创建文档碎片*/

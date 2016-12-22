@@ -25,7 +25,7 @@ function handleEvent(winX, winY) {
 
     var current = Math.floor((cvsX - paddingLeft) / unit_w_len);
     /*判断是否点击到*/
-    var inRect = false;
+    var inRect = false, name = "", suffix = "";
     /*对应的柱体信息*/
     var rectHeight, rectWidth, rectX, rectY;
     if(current < 0 || current >= series.data.length ){
@@ -54,7 +54,8 @@ function handleEvent(winX, winY) {
             var h1 = document.createElement("strong");
             var paragraph = document.createElement("div");
             h1.innerHTML = this.options.xaxis[current].value;
-            paragraph.innerHTML = series.data[current];
+            paragraph.innerHTML = (series.name === undefined ? "" : series.name +":")+ 
+                                    series.data[current] + (series.suffix === undefined ? "" : series.suffix);
             tipPanel.appendChild(h1);
             tipPanel.appendChild(paragraph);
             this.container.appendChild(tipPanel);
@@ -94,7 +95,8 @@ function handleEvent(winX, winY) {
             var targetX, targetY;
             var offSetY = rectHeight > 0 ? (unit_w_kind / dpr / 2 - tipPanel.clientHeight) : -unit_w_kind / dpr / 2;
             tipPanel.children[0].innerHTML = this.options.xaxis[current].value;
-            tipPanel.children[1].innerHTML = series.data[current];
+            tipPanel.children[1].innerHTML = (series.name === undefined ? "" : series.name +":")+ 
+                                    series.data[current] + (series.suffix === undefined ? "" : series.suffix);
             /*顶部过界*/
             if ( (top + offSetY) < paddingTop) {
                 targetY = paddingTop / dpr + 10;
