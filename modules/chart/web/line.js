@@ -61,8 +61,6 @@ var ChartLine = (function() {
         } else {
             var canvas = this.options.canvas;
         }
-        // 容器中添加画布
-        this.container.appendChild(canvas);
 
         // 去除画布上粘贴效果
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
@@ -80,6 +78,8 @@ var ChartLine = (function() {
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
+        // 容器中添加画布
+        this.container.appendChild(canvas);
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -93,7 +93,16 @@ var ChartLine = (function() {
         this.options.scale_count = 0;
         this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height - 40 * dpr;
+        var xaxis = this.options.xaxis;
+        if(this.options.angle){
+            var x_mark_temp = xaxis[0].value;
+            var x_mark_length = x_mark_temp.split("").length;
+            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;
+            this.options.c_1_height = this.options.canvas.height - angle_height * dpr;
+        }else{
+            this.options.c_1_height = canvas.height - 40 * dpr;
+        }
+        
         // if(this.options.showflag){
         //     this.options.c_1_height = canvas.height * (5/9);
         // }else{
@@ -145,11 +154,9 @@ var ChartLine = (function() {
         }
         ctx.font = font;
         ctx.lineWidth = 1 * this.options.dpr;
-
+  
         //锚点半径
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
-
-
     }
 
     // 绘图
@@ -161,6 +168,7 @@ var ChartLine = (function() {
         // 初始化交互
         this.options.interactive = new Interactive(this.options);
         var ctx = this.options.context;
+        var dpr = this.options.dpr;
         // 显示loading效果
         // inter.showLoading();
         // var _this = this;
@@ -172,6 +180,8 @@ var ChartLine = (function() {
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
         this.options.data.step = maxAndMin.step;
+
+        
 
         // 画布内容偏移的距离
         this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 30);
@@ -540,28 +550,7 @@ var ChartLine = (function() {
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
-
-        arr.sort(function(a, b){return a*1 - b*1;});
-        var min  = arr[0]*1;
-        var max = arr[arr.length-1]*1;
-        var middle = (max+min)/2;
-
-
-        var tempObj = {};
-        /*特殊判断一下*/
-        if(max*min > 0 && min !== max){
-            tempObj = divide(this.options.sepeNum, [max-middle, min-middle]);
-            if((tempObj.max+middle) * (tempObj.min+middle) < 0 ){
-                var tempOffset = Math.min(Math.abs(tempObj.max+middle), Math.abs(tempObj.min+middle));
-                tempObj.max = max >= 0 ? (tempObj.max+middle+tempOffset) : 0;
-                tempObj.min = max >= 0 ? 0 : (tempObj.min+middle-tempOffset);
-            }else{
-                tempObj.max += middle;
-                tempObj.min += middle;
-            }
-        }else{
-            tempObj = divide(this.options.sepeNum, arr);
-        }
+        var tempObj = divide(this.options.sepeNum, arr);
 
         var ctx = this.options.context;
         if (tempObj.stepHeight >= 10000) {
@@ -573,7 +562,7 @@ var ChartLine = (function() {
         var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
         var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
         var maxPaddingLeftWidth = frontWidth + backWidth;
-
+        
         if (tempObj.max == 0 && tempObj.min == 0) {
             tempObj.max = 1;
             tempObj.min = -1;

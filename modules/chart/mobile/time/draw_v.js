@@ -78,14 +78,35 @@ var DrawV = (function() {
         ctx.lineTo(y_v_width, y_v_top + v_height/2);
         ctx.stroke();
         for(var j = 1; j <= x_sep-1; j++){
+            var flag = false;
             ctx.beginPath();
-            if(j % 2 != 0){
-                draw_dash(ctx, itemWidth*(j)+padding_left, y_v_top, itemWidth*(j)+padding_left,y_v_bottom);
+
+            if(this.options.type.toLowerCase() == "t2"){
+                this.options.x_sep = 2;
+                if(j == 1){
+                    flag = true;
+                }
+            }else if(this.options.type.toLowerCase() == "t3"){
+                this.options.x_sep = 3;
+            }else if(this.options.type.toLowerCase() == "t4"){
+                this.options.x_sep = 4;
+                if(j == 2){
+                    flag = true;
+                }
+            }else if(this.options.type.toLowerCase() == "t5"){
+                this.options.x_sep = 5;
             }else{
+                flag = false;
+            }
+
+            if(flag){
                 ctx.moveTo(padding_left + y_v_width/2, y_v_top);
                 ctx.lineTo(padding_left + y_v_width/2, y_v_bottom);
                 ctx.stroke();
+            }else{
+                draw_dash(ctx, itemWidth*(j)+padding_left, y_v_top, itemWidth*(j)+padding_left,y_v_bottom);
             }
+
         }
 
         ctx.lineWidth = 1;

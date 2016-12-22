@@ -9,6 +9,8 @@
  var DrawDashLine = require('chart/mobile/common/draw_dash_line');
  // 格式化坐标
  var XYF = require('chart/web/common/xyf');
+ // 自定义X轴标识
+ var self_fillText = require('tools/self_fillText');
  var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -147,8 +149,11 @@
                     var x = this.options.unit.unitWidth * (i) + this.options.unit.unitWidth/2 + this.options.padding_left;
                     // var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
-
-                    ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                    if(this.options.angle){
+                        self_fillText(tempDate.value,ctx,XYF(x),XYF(this.options.c_1_height+20*dpr),this.options.angle);
+                    }else{
+                        ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                    }
                     
                 }
             }

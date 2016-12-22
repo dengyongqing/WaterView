@@ -54,8 +54,16 @@ var ChartMobileBar = (function() {
         this.options.padding.left = ctx.measureText("+10000").width * dpr;
         this.options.padding.right = 10;
         this.options.padding.top = this.options.font_size * 2 * dpr;
-        this.options.padding.bottom = 50 * dpr;
 
+        var xaxis = this.options.xaxis;
+        if(this.options.angle){
+            var x_mark_temp = xaxis[0].value;
+            var x_mark_length = x_mark_temp.split("").length;
+            this.options.padding.bottom = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;
+        }else{
+            this.options.padding.bottom = 50 * dpr;
+        }
+        
         /*单元格的宽度*/
         var unit_w_len = (canvas.width - this.options.padding.left -
             this.options.padding.right) / this.options.series.data.length;

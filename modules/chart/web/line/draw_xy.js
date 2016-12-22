@@ -9,6 +9,8 @@
  var DrawDashLine = require('chart/mobile/common/draw_dash_line');
  // 格式化坐标
  var XYF = require('chart/web/common/xyf');
+ // 自定义X轴标识
+ var self_fillText = require('tools/self_fillText');
  var DrawXY = (function(){
     //构造方法
     function DrawXY(options){
@@ -148,13 +150,18 @@
                     var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
-                    if(i == 0){
-                        ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
-                    }else if(i == arr_length - 1){
-                        ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                    if(this.options.angle){
+                        self_fillText(tempDate.value,ctx,x,XYF(this.options.c_1_height+20*dpr),this.options.angle);
                     }else{
-                        ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                        if(i == 0){
+                            ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                        }else if(i == arr_length - 1){
+                            ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                        }else{
+                            ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                        }
                     }
+                   
                 }
             }
 

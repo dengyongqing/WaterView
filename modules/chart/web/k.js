@@ -158,7 +158,7 @@ var ChartK = (function() {
 
         this.options.padding = {};
         this.options.padding.left = ctx.measureText("+100000万").width;
-        this.options.padding.right = 100;
+        this.options.padding.right = 60;
         this.options.padding.top = 0
         this.options.padding.bottom = 0;
         this.options.drawWidth = canvas.width - this.options.padding.left - this.options.padding.right;
@@ -403,7 +403,7 @@ var ChartK = (function() {
         this.container.appendChild(pad);
         
         pad.style.top = this.options.c1_y_top + "px";
-        pad.style.left = this.options.canvas.width - this.options.padding.right + "px";
+        pad.style.left = this.options.canvas.width - this.options.padding.right - 10 + "px";
         
     }
 

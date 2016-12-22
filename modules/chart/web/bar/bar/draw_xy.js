@@ -3,6 +3,8 @@ var extend = require("tools/extend2");
 var draw_dash = require("chart/mobile/common/draw_dash_line");
 // 格式化坐标
 var XYF = require('chart/web/common/xyf');
+// 自定义X轴标识
+var self_fillText = require('tools/self_fillText');
 var DrawXY = (function() {
     function DrawXY(options) {
         this.options = {};
@@ -74,7 +76,12 @@ var DrawXY = (function() {
         for (var i = 0, len = arr_x.length; i < len; i++) {
             var textWidth = ctx.measureText(arr_x[i].value).width;
             if (arr_x[i].show) {
-                ctx.fillText(arr_x[i].value, x_left + i * unit_w_len + (unit_w_len - textWidth) / 2, y_bottom + 15);
+                if(this.options.angle){
+                    self_fillText(arr_x[i].value,ctx,XYF(x_left + i * unit_w_len + (unit_w_len - textWidth) / 2),XYF(y_bottom + 15),this.options.angle);
+                }else{
+                    ctx.fillText(arr_x[i].value, x_left + i * unit_w_len + (unit_w_len - textWidth) / 2, y_bottom + 15);
+                }
+                
             }
         }
 

@@ -85,7 +85,17 @@ var ChartBarQuarter = (function() {
         // 画布向下偏移的距离
         this.options.canvas_offset_top = 15 * dpr;
         // 画布内容向坐偏移的距离
-        this.options.c_1_height = canvas.height - 50 * dpr;
+
+        var xaxis = this.options.xaxis;
+        if(this.options.angle){
+            var x_mark_temp = xaxis[0].value;
+            var x_mark_length = x_mark_temp.split("").length;
+            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;
+            this.options.c_1_height = this.options.canvas.height - angle_height * dpr;
+        }else{
+            this.options.c_1_height = canvas.height - 50 * dpr;
+        }
+
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";

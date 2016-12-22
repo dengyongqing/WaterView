@@ -92,12 +92,16 @@ var ChartLine = (function() {
         this.options.scale_count = 0;
         this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
-        this.options.c_1_height = canvas.height - 40 * dpr;
-        // if(this.options.showflag){
-        //     this.options.c_1_height = canvas.height * (5/9);
-        // }else{
-        //     this.options.c_1_height = canvas.height * (7/9);
-        // }
+        var xaxis = this.options.xaxis;
+        if(this.options.angle){
+            var x_mark_temp = xaxis[0].value;
+            var x_mark_length = x_mark_temp.split("").length;
+            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;
+            this.options.c_1_height = this.options.canvas.height - angle_height * dpr;
+        }else{
+            this.options.c_1_height = canvas.height - 50 * dpr;
+        }
+        
         if (this.options.showname === undefined) {
             this.options.showname = true;
         }

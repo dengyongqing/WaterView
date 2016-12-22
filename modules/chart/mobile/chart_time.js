@@ -109,6 +109,16 @@ var ChartTime = (function() {
         //x轴分割
         this.options.x_sep = this.options.x_sep || 4;
 
+        if(this.options.type.toLowerCase() == "t2"){
+            this.options.x_sep = 2;
+        }else if(this.options.type.toLowerCase() == "t3"){
+            this.options.x_sep = 3;
+        }else if(this.options.type.toLowerCase() == "t4"){
+            this.options.x_sep = 4;
+        }else if(this.options.type.toLowerCase() == "t5"){
+            this.options.x_sep = 5;
+        }
+
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
