@@ -1,71 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-	<meta charset="UTF-8">
-	<title>手机图表</title>
-	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
-	<style type="text/css">
-		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
-		    margin: 0;
-		    padding: 0;
-		}
-		
-	</style>
-	
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>手机图表</title>
+    <link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+    <style type="text/css">
+    body,
+    form,
+    ul,
+    li,
+    dl,
+    dt,
+    dd,
+    p,
+    table,
+    tr,
+    td,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    li,
+    form {
+        margin: 0;
+        padding: 0;
+    }
+    </style>
 </head>
+
 <body>
-	<div id="container"></div>
-	<script src="excanvas_source.js"></script>
-	<script src="../../bundle/emcharts.js"></script>
+    <div id="container"></div>
+    <script src="excanvas_source.js"></script>
+    <script src="../../bundle/emcharts.js"></script>
+    <script type="text/javascript">
+    var quarter_color = "#ffc962";
+    var container = document.getElementById("container");
 
-	
-	<script type="text/javascript">
-		
-		var quarter_color = "#ffc962";
-		var container = document.getElementById("container");
-
-		window.onload = function(){
-			k0 = new EmchartsWebBar({
-	        	container: "container",
-	            "width": 500,
-	            "height": 500,
-	            sepeNum: 6,
-	            xaxis: [{
-	                value: "2014-06-30",
-	                show: true
-	            }, {
-	                value: "2014-09-30",
-	                show: false
-	            }, {
-	                value: "2014-12-30",
-	                show: true
-	            }, {
-	                value: "2015-03-30",
-	                show: false
-	            }, {
-	                value: "2015-06-30",
-	                show: true
-	            }, {
-	                value: "2015-09-30",
-	                show: false
-	            }, {
-	                value: "2015-12-30",
-	                show: true
-	            }],
-	            series: {
-	            	sufffix:"你好",
-	            	
-	                color: "#FF7200",
-	                hoverColor: "#FF9A4A",
-	                data: [2, -1, 1, 1, 1, -2, 2],
-	                colors:["#66D9EF", "#F8DA3F", "#FF0000", "#6996CF", "#4D79B0","#A6CAEA", "#FF7200"],
-	                hoverColors:["#66D5EF", "#F8DA0F", "#FE0000", "#6896CF", "#4C79B0","#A5CAEA", "#FE7200"]
-	            }
-	        });
-	        k0.draw();
-		}
-	</script>
-	
+    window.onload = function() {
+        k0 = new EmchartsWebBar({
+            container: "container",
+            "width": 500,
+            "height": 500,
+            sepeNum: 6,
+            xaxis: [{
+                value: "2014-06-30",
+                show: true
+            }, {
+                value: "2014-09-30",
+                show: false
+            }, {
+                value: "2014-12-30",
+                show: true
+            }, {
+                value: "2015-03-30",
+                show: false
+            }, {
+                value: "2015-06-30",
+                show: true
+            }, {
+                value: "2015-09-30",
+                show: false
+            }, {
+                value: "2015-12-30",
+                show: true
+            }],
+            series: {
+                name:"盈利",
+                suffix: "万",
+                color: "#FF7200",
+                hoverColor: "#FF9A4A",
+                data: [2, -1, 1, 1, 1, -2, 2],
+                colors: ["#66D9EF", "#F8DA3F", "#FF0000", "#6996CF", "#4D79B0", "#A6CAEA", "#FF7200"],
+                hoverColors: ["#66D5EF", "#F8DA0F", "#FE0000", "#6896CF", "#4C79B0", "#A5CAEA", "#FE7200"]
+            }
+        });
+        k0.draw();
+    }
+    </script>
 </body>
+
 </html>
