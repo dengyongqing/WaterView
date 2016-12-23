@@ -555,10 +555,13 @@ var ChartLine = (function() {
             var interOption = this.options.interOption;
             var yLine = interOption.yLine , 
                 circles = interOption.circles,
-                tips = interOption.tips;
+                tips = interOption.tips,
+                containerChild = this.container.children;
             for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                if([].slice.call(this.container.children, 0).some(function(el){return el === circles[k];})){
-                    this.container.removeChild(circles[k]);
+                for(var j = 0, jLen = containerChild.length; j < jLen; j++ ){
+                    if(containerChild[j] === circles[k]){
+                        this.container.removeChild(circles[k]);
+                    }
                 }
             }
             this.container.removeChild(yLine);
@@ -566,6 +569,7 @@ var ChartLine = (function() {
             if(this.options.interOption !== undefined || this.options.interOption !== null){
                 this.options.interOption = null;
             }
+            this.options.interOption = null;
         } catch (e) {
             this.container.innerHTML = "";
         }

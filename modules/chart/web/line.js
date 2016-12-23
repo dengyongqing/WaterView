@@ -521,6 +521,8 @@ var ChartLine = (function() {
     ChartLine.prototype.clear = function(cb) {
         try {
             var ctx = this.options.context;
+            ctx.save();
+            ctx.fillStyle = "white";
             ctx.clearRect(0, -this.options.canvas_offset_top, this.options.canvas.width + this.options.drawWidth, this.options.canvas.height);
             var interOption = this.options.interOption;
             var yLine = interOption.yLine , 
@@ -534,6 +536,7 @@ var ChartLine = (function() {
             if(this.options.interOption !== undefined || this.options.interOption !== null){
                 this.options.interOption = null;
             }
+            ctx.restore();
         } catch (e) {
             this.container.innerHTML = "";
         }
@@ -555,10 +558,9 @@ var ChartLine = (function() {
         var max = arr[arr.length-1]*1;
         var middle = (max+min)/2;
 
-
         var tempObj = {};
         /*特殊判断一下*/
-        if(max*min > 0 && min !== max){
+        if(max*min > 0 && min !== max && (max - min)/Math.abs(max) <= 0.5){
             tempObj = divide(this.options.sepeNum, [max-middle, min-middle]);
             if((tempObj.max+middle) * (tempObj.min+middle) < 0 ){
                 var tempOffset = Math.min(Math.abs(tempObj.max+middle), Math.abs(tempObj.min+middle));
