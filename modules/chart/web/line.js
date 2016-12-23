@@ -550,7 +550,27 @@ var ChartLine = (function() {
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
-        var tempObj = divide(this.options.sepeNum, arr);
+        arr.sort(function(a, b){return a*1 - b*1;});
+        var min  = arr[0]*1;
+        var max = arr[arr.length-1]*1;
+        var middle = (max+min)/2;
+
+
+        var tempObj = {};
+        /*特殊判断一下*/
+        if(max*min > 0 && min !== max){
+            tempObj = divide(this.options.sepeNum, [max-middle, min-middle]);
+            if((tempObj.max+middle) * (tempObj.min+middle) < 0 ){
+                var tempOffset = Math.min(Math.abs(tempObj.max+middle), Math.abs(tempObj.min+middle));
+                tempObj.max = max >= 0 ? (tempObj.max+middle+tempOffset) : 0;
+                tempObj.min = max >= 0 ? 0 : (tempObj.min+middle-tempOffset);
+            }else{
+                tempObj.max += middle;
+                tempObj.min += middle;
+            }
+        }else{
+            tempObj = divide(this.options.sepeNum, arr);
+        }
 
         var ctx = this.options.context;
         if (tempObj.stepHeight >= 10000) {
