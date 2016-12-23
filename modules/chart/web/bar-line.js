@@ -54,13 +54,12 @@ var ChartLine = (function() {
     ChartLine.prototype.init = function() {
 
         this.options.type = "line";
-        var flag = false;
-        if (!this.options.canvas) {
-            var canvas = document.createElement("canvas");
-            flag = true;
-        } else {
+        var flag = true;
+        /*if (!this.options.canvas) {*/
+        var canvas = document.createElement("canvas");
+        /*} else {
             var canvas = this.options.canvas;
-        }
+        }*/
         // 容器中添加画布
         this.container.appendChild(canvas);
 
@@ -546,7 +545,7 @@ var ChartLine = (function() {
         // 删除canvas画布
     ChartLine.prototype.clear = function(cb) {
         try {
-            var ctx = this.options.context;
+            /*var ctx = this.options.context;
             ctx.clearRect(0, -this.options.canvas_offset_top, this.options.canvas.width + this.options.drawWidth, this.options.canvas.height);
             var interOption = this.options.interOption;
             var yLine = interOption.yLine,
@@ -561,11 +560,11 @@ var ChartLine = (function() {
                 }
             }
             this.container.removeChild(yLine);
-            this.container.removeChild(tips);
+            this.container.removeChild(tips);*/
+            this.container.innerHTML = "";
             if (this.options.interOption !== undefined || this.options.interOption !== null) {
                 this.options.interOption = null;
             }
-            this.options.interOption = null;
         } catch (e) {
             this.container.innerHTML = "";
         }

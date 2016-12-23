@@ -236,6 +236,7 @@
 
         var bar = document.getElementById("bar");
         var line = document.getElementById("line");
+        var flag = true;
 
         function addEvent(obj, type, fn) {
             if (obj.attachEvent) {
@@ -256,7 +257,12 @@
                 if (number == 0) {
                     k0.options.series = k0.options.series2;
                     k0.options.series2 = undefined;
+                    flag = false;
                 } else if (number == 1) {
+                    if (flag === false) {
+                        k0.options.series2 = k0.options.series;
+                        flag = true;
+                    }
                     k0.options.series = [{
                         name: "蒸发量",
                         type: "bar",
@@ -265,7 +271,12 @@
                         showpoint: true,
                         data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
                     }];
+
                 } else {
+                    if (flag === false) {
+                        k0.options.series2 = k0.options.series;
+                        flag = true;
+                    }
                     k0.options.series = [{
                         name: "蒸发量",
                         type: "bar",
@@ -295,30 +306,60 @@
                 if (number == 0) {
                     k0.options.series2 = undefined;
                 } else if (number == 1) {
-                    k0.options.series2 = [{
-                        name: "最高温度",
-                        color: "#D87A80",
-                        type: "line",
-                        showpoint: true,
-                        suffix: "度",
-                        data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
-                    }];
+                    if (flag === false) {
+                        k0.options.series = [{
+                            name: "最高温度",
+                            color: "#D87A80",
+                            type: "line",
+                            showpoint: true,
+                            suffix: "度",
+                            data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
+                        }];
+                    } else {
+                        k0.options.series2 = [{
+                            name: "最高温度",
+                            color: "#D87A80",
+                            type: "line",
+                            showpoint: true,
+                            suffix: "度",
+                            data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
+                        }];
+                    }
                 } else {
-                    k0.options.series2 = [{
-                        name: "最高温度",
-                        color: "#D87A80",
-                        type: "line",
-                        showpoint: true,
-                        suffix: "度",
-                        data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
-                    }, {
-                        name: "平均温度",
-                        color: "#5AB1EF",
-                        type: "line",
-                        showpoint: true,
-                        suffix: "度",
-                        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-                    }];
+                    if (flag === false) {
+                        k0.options.series = [{
+                            name: "最高温度",
+                            color: "#D87A80",
+                            type: "line",
+                            showpoint: true,
+                            suffix: "度",
+                            data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
+                        }, {
+                            name: "平均温度",
+                            color: "#5AB1EF",
+                            type: "line",
+                            showpoint: true,
+                            suffix: "度",
+                            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+                        }];
+                    } else {
+                        k0.options.series2 = [{
+                            name: "最高温度",
+                            color: "#D87A80",
+                            type: "line",
+                            showpoint: true,
+                            suffix: "度",
+                            data: [4.0, 4.2, 5.3, 9.5, 10.3, 15.2, 28.3, 27.4, 27.0, 17.5, 18.0, 10.2]
+                        }, {
+                            name: "平均温度",
+                            color: "#5AB1EF",
+                            type: "line",
+                            showpoint: true,
+                            suffix: "度",
+                            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+                        }];
+                    }
+
                 }
 
                 k0.draw();
