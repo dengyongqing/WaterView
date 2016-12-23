@@ -124,6 +124,7 @@ function drawXMark(ctx,k_height,oc_time_arr){
         var k_width = this.options.drawWidth;
         var tempDate;
         var arr_length = oc_time_arr.length;
+        var unit = (k_width - padding_left) / (arr_length);
         for(var i = 0;i<arr_length;i++) {
             ctx.beginPath();
             tempDate = oc_time_arr[i].value;
@@ -132,8 +133,9 @@ function drawXMark(ctx,k_height,oc_time_arr){
 
             if(oc_time_arr[i].show == undefined || oc_time_arr[i].show){
 
-                if(this.options.angle){
-                    self_fillText(tempDate,ctx,XYF(x),XYF(this.options.c_1_height+20*dpr),this.options.angle);
+                if(this.options.angle || this.options.angle == 0){
+                    var self_x = i * unit +padding_left + unit/2 - this.options.groupUnit.bar_w/2;
+                    self_fillText(tempDate,ctx,XYF(self_x),XYF(this.options.c_1_height+20*dpr),this.options.angle);
                 }else{
                     ctx.fillText(tempDate, XYF(x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2)), XYF(this.options.c_1_height+20*dpr)); 
                 }

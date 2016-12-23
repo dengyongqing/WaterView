@@ -87,7 +87,7 @@ var ChartBarQuarter = (function() {
         // 画布内容向坐偏移的距离
 
         var xaxis = this.options.xaxis;
-        if(this.options.angle){
+        if(this.options.angle || this.options.angle == 0){
             var x_mark_temp = xaxis[0].value;
             var x_mark_length = x_mark_temp.split("").length;
             var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;

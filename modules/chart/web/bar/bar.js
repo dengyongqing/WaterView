@@ -56,7 +56,7 @@ var ChartMobileBar = (function() {
         this.options.padding.top = this.options.font_size * 2 * dpr;
 
         var xaxis = this.options.xaxis;
-        if(this.options.angle){
+        if(this.options.angle || this.options.angle == 0){
             var x_mark_temp = xaxis[0].value;
             var x_mark_length = x_mark_temp.split("").length;
             this.options.padding.bottom = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;

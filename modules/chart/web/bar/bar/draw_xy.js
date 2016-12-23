@@ -76,8 +76,8 @@ var DrawXY = (function() {
         for (var i = 0, len = arr_x.length; i < len; i++) {
             var textWidth = ctx.measureText(arr_x[i].value).width;
             if (arr_x[i].show) {
-                if(this.options.angle){
-                    self_fillText(arr_x[i].value,ctx,XYF(x_left + i * unit_w_len + (unit_w_len - textWidth) / 2),XYF(y_bottom + 15),this.options.angle);
+                if(this.options.angle || this.options.angle == 0){
+                    self_fillText(arr_x[i].value,ctx,XYF(x_left + i * unit_w_len + (unit_w_len) / 2 - this.options.unit_w_kind/2),XYF(y_bottom + 15),this.options.angle);
                 }else{
                     ctx.fillText(arr_x[i].value, x_left + i * unit_w_len + (unit_w_len - textWidth) / 2, y_bottom + 15);
                 }

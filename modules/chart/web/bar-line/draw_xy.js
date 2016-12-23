@@ -149,7 +149,7 @@
                     var x = this.options.unit.unitWidth * (i) + this.options.unit.unitWidth/2 + this.options.padding_left;
                     // var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
-                    if(this.options.angle){
+                    if(this.options.angle || this.options.angle == 0){
                         self_fillText(tempDate.value,ctx,XYF(x),XYF(this.options.c_1_height+20*dpr),this.options.angle);
                     }else{
                         ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
@@ -160,7 +160,7 @@
 
             if(tempDate.showline == undefined ? true : tempDate.showline){
                
-                if(i == 0 || i == arr_length - 1){
+                if(i == 0){
                     // ctx.strokeStyle = '#ccc';
                     // ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
                     // ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
