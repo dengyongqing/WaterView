@@ -172,9 +172,9 @@ var DrawLine = (function(){
 				 }else{
 				 	var y = common.get_y.call(this,item);
 				 }
-				 // if(i == 0){
-				 // 	ctx.moveTo(this.options.padding_left,y);
-				 // }else 
+				 if(i == 0){
+				 	ctx.moveTo(x,y);
+				 }else 
 				 if(i == arr_length - 1){
 				 	ctx.lineTo(x,y);
 				 }else{
@@ -186,6 +186,7 @@ var DrawLine = (function(){
 		
 		// ctx.fill();
 		ctx.stroke();
+		ctx.beginPath();
 		// 恢复画笔状态
 		ctx.restore();
 	}

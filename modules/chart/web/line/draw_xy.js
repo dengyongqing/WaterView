@@ -150,7 +150,7 @@
                     var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
-                    if(this.options.angle){
+                    if(this.options.angle || this.options.angle == 0){
                         self_fillText(tempDate.value,ctx,x,XYF(this.options.c_1_height+20*dpr),this.options.angle);
                     }else{
                         if(i == 0){
