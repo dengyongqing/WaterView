@@ -179,7 +179,9 @@ var DrawXY = (function() {
             var flag = false;
             ctx.beginPath();
 
-            if(this.options.type.toLowerCase() == "t2"){
+            if(this.options.type.toLowerCase() == "t1" && j == x_sep/2 ){
+                flag = true;
+            }else if(this.options.type.toLowerCase() == "t2"){
                 this.options.x_sep = 2;
                 if(j == 1){
                     flag = true;
