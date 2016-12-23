@@ -8,8 +8,29 @@
     <title>手机图表</title>
     <link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
     <style type="text/css">
-    body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form { margin: 0; padding: 0; }
-
+    body,
+    form,
+    ul,
+    li,
+    dl,
+    dt,
+    dd,
+    p,
+    table,
+    tr,
+    td,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul,
+    li,
+    form {
+        margin: 0;
+        padding: 0;
+    }
     
     #emchart-1 {
         text-align: center;
@@ -216,8 +237,19 @@
         var bar = document.getElementById("bar");
         var line = document.getElementById("line");
 
-        bar.addEventListener("change", function(e) {
-            var number = e.target.value;
+        function addEvent(obj, type, fn) {
+            if (obj.attachEvent) {
+                obj['e' + type + fn] = fn;
+                obj[type + fn] = function() {
+                    obj['e' + type + fn](window.event);
+                }
+                obj.attachEvent('on' + type, obj[type + fn]);
+            } else
+                obj.addEventListener(type, fn, false);
+        }
+
+        addEvent(bar, "change", function(e) {
+            var number = (e.target || e.srcElement).value;
             if (number >= 3 || number < 0) {
                 alert("输入应该为0，1，2");
             } else {
@@ -253,10 +285,10 @@
 
                 k0.draw();
             }
-        }, false);
+        });
 
-        line.addEventListener("change", function(e) {
-            var number = e.target.value;
+        addEvent(line, "change", function(e) {
+            var number = (e.target || e.srcElement).value;
             if (number >= 3 || number < 0) {
                 alert("输入应该为0，1，2");
             } else {
@@ -291,7 +323,7 @@
 
                 k0.draw();
             }
-        }, false);
+        });
     }
     </script>
 </body>
