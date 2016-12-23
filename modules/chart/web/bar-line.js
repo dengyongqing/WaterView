@@ -93,15 +93,15 @@ var ChartLine = (function() {
         this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
         var xaxis = this.options.xaxis;
-        if(this.options.angle || this.options.angle == 0){
+        if (this.options.angle || this.options.angle == 0) {
             var x_mark_temp = xaxis[0].value;
             var x_mark_length = x_mark_temp.split("").length;
-            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;
+            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length - 1) * 2 + 20;
             this.options.c_1_height = this.options.canvas.height - angle_height * dpr;
-        }else{
+        } else {
             this.options.c_1_height = canvas.height - 50 * dpr;
         }
-        
+
         if (this.options.showname === undefined) {
             this.options.showname = true;
         }
@@ -201,27 +201,27 @@ var ChartLine = (function() {
         // 单位绘制区域
         this.options.unit = {};
         var xaxis_length = this.options.xaxis.length;
-        this.options.unit.unitWidth = (this.options.drawWidth - this.options.padding_left)/xaxis_length;
-        this.options.unit.groupBarWidth = this.options.unit.unitWidth * (1-this.options.spacing);
-        
+        this.options.unit.unitWidth = (this.options.drawWidth - this.options.padding_left) / xaxis_length;
+        this.options.unit.groupBarWidth = this.options.unit.unitWidth * (1 - this.options.spacing);
+
         var group_bar_count = 0;
-        if(this.options.series){
-            for(var i = 0,item;item = series[i]; i++){
-                if(item.type == "bar"){
-                    group_bar_count++;
-                }
-            }
-        }
-        
-        if(this.options.series2){
-            for(var i = 0,item;item = series2[i]; i++){
-                if(item.type == "bar"){
+        if (this.options.series) {
+            for (var i = 0, item; item = series[i]; i++) {
+                if (item.type == "bar") {
                     group_bar_count++;
                 }
             }
         }
 
-        
+        if (this.options.series2) {
+            for (var i = 0, item; item = series2[i]; i++) {
+                if (item.type == "bar") {
+                    group_bar_count++;
+                }
+            }
+        }
+
+
 
         this.options.unit.groupBarCount = group_bar_count;
         // 绘制坐标轴
@@ -242,7 +242,7 @@ var ChartLine = (function() {
         var padding_left = this.options.padding_left;
         var padding_top = this.options.canvas_offset_top;
         var dpr = this.options.dpr;
-        
+
         var that = this;
         var y_max = this.options.data.max;
         var y_min = this.options.data.min;
@@ -268,13 +268,12 @@ var ChartLine = (function() {
             //     winX = e.x;
             //     winY = e.y;
             // }
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
+            } catch (error) {
 
             }
-            
+
 
             eventHanlder.call(that, winX, winY);
         });
@@ -295,11 +294,10 @@ var ChartLine = (function() {
             //     winY = e.y;
             // }
 
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
-                
+            } catch (error) {
+
             }
             eventHanlder.call(that, winX, winY);
 
@@ -314,11 +312,10 @@ var ChartLine = (function() {
                 }
                 that.options.interOption.yLine.style.display = "none";
             }
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
-                
+            } catch (error) {
+
             }
         });
 
@@ -331,11 +328,10 @@ var ChartLine = (function() {
                 }
                 that.options.interOption.yLine.style.display = "none";
             }
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
-                
+            } catch (error) {
+
             }
         });
 
@@ -367,7 +363,7 @@ var ChartLine = (function() {
                     name: series[i].name,
                     y: series[i].data[cursor] === undefined ? padding_top + common.get_y.call(that, 0) : padding_top + common.get_y.call(that, series[i].data[cursor]),
                     suffix: (series[i].suffix || ""),
-                    type:series[i].type
+                    type: series[i].type
                 });
             }
             if (that.options.series2) {
@@ -378,7 +374,7 @@ var ChartLine = (function() {
                         name: series2[i].name,
                         y: series2[i].data[cursor] === undefined ? padding_top + c_1_height / 2 : padding_top + (c_1_height - c_1_height * (series2[i].data[cursor] - y_min2) / (y_max2 - y_min2)),
                         suffix: (series2[i].suffix || ""),
-                        type:series2[i].type
+                        type: series2[i].type
                     });
                 }
             }
@@ -392,9 +388,9 @@ var ChartLine = (function() {
             if (dateArr.length == 1) {
                 left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left / dpr);
             } else {
-                left =(cursor * unit / dpr + padding_left / dpr) + unit / dpr * (1 / 2);
+                left = (cursor * unit / dpr + padding_left / dpr) + unit / dpr * (1 / 2);
             }
-            
+
             //添加交互
             if (!that.options.interOption) {
                 that.options.interOption = {};
@@ -412,16 +408,16 @@ var ChartLine = (function() {
 
                 //交互的竖线
                 var yLine = document.createElement("div");
-                
+
                 yLine.className = "chart_line_yline";
                 //交互的竖线
                 yLine.style.left = left + "px";
                 yLine.style.top = padding_top / dpr + "px";
                 yLine.style.height = c_1_height / dpr + "px";
-                if(that.options.unit.groupBarCount !== 0){
+                if (that.options.unit.groupBarCount !== 0) {
                     yLine.className = "chart_line_ybar";
                     yLine.style.width = that.options.unit.unitWidth + "px";
-                    yLine.style.left = left - that.options.unit.unitWidth/2 + "px";
+                    yLine.style.left = left - that.options.unit.unitWidth / 2 + "px";
                 }
                 that.container.appendChild(yLine);
                 var circles = [];
@@ -452,7 +448,7 @@ var ChartLine = (function() {
                     } else {
                         flag = true;
                     }
-                    if(tipArr[i].type == "line" && this.options.unit.groupBarCount == 0){
+                    if (tipArr[i].type == "line" && this.options.unit.groupBarCount == 0) {
                         that.container.appendChild(cir);
                     }
                     circles.push(cir);
@@ -467,7 +463,7 @@ var ChartLine = (function() {
                 that.options.interOption.circles = circles;
             } else {
                 var tips = that.options.interOption.tips;
-                
+
                 var children = tips.children;
                 children[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
@@ -494,8 +490,8 @@ var ChartLine = (function() {
                 tips.style.top = (tipArr[0].y + tipArr[tipArr.length - 1].y) / 2 / dpr - 50 + "px";
                 var yLine = that.options.interOption.yLine;
                 yLine.style.left = left + "px";
-                if(that.options.unit.groupBarCount !== 0){
-                    yLine.style.left = left - unit/2 + "px";
+                if (that.options.unit.groupBarCount !== 0) {
+                    yLine.style.left = left - unit / 2 + "px";
                 }
                 var circles = that.options.interOption.circles;
                 for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
@@ -553,19 +549,23 @@ var ChartLine = (function() {
             var ctx = this.options.context;
             ctx.clearRect(0, -this.options.canvas_offset_top, this.options.canvas.width + this.options.drawWidth, this.options.canvas.height);
             var interOption = this.options.interOption;
-            var yLine = interOption.yLine , 
+            var yLine = interOption.yLine,
                 circles = interOption.circles,
-                tips = interOption.tips;
+                tips = interOption.tips,
+                containerChild = this.container.children;
             for (var k = 0, kLen = circles.length; k < kLen; k++) {
-                if([].slice.call(this.container.children, 0).some(function(el){return el === circles[k];})){
-                    this.container.removeChild(circles[k]);
+                for (var j = 0, jLen = containerChild.length; j < jLen; j++) {
+                    if (containerChild[j] === circles[k]) {
+                        this.container.removeChild(circles[k]);
+                    }
                 }
             }
             this.container.removeChild(yLine);
             this.container.removeChild(tips);
-            if(this.options.interOption !== undefined || this.options.interOption !== null){
+            if (this.options.interOption !== undefined || this.options.interOption !== null) {
                 this.options.interOption = null;
             }
+            this.options.interOption = null;
         } catch (e) {
             this.container.innerHTML = "";
         }
@@ -582,7 +582,27 @@ var ChartLine = (function() {
         for (var i = 0; i < seriesLength; i++) {
             arr = arr.concat(series[i].data);
         }
-        var tempObj = divide(this.options.sepeNum, arr);
+        arr.sort(function(a, b) {
+            return a * 1 - b * 1; });
+        var min = arr[0] * 1;
+        var max = arr[arr.length - 1] * 1;
+        var middle = (max + min) / 2;
+
+        var tempObj = {};
+        /*特殊判断一下*/
+        if (max * min > 0 && min !== max && (max - min) / Math.abs(max) <= 0.5) {
+            tempObj = divide(this.options.sepeNum, [max - middle, min - middle]);
+            if ((tempObj.max + middle) * (tempObj.min + middle) < 0) {
+                var tempOffset = Math.min(Math.abs(tempObj.max + middle), Math.abs(tempObj.min + middle));
+                tempObj.max = max >= 0 ? (tempObj.max + middle + tempOffset) : 0;
+                tempObj.min = max >= 0 ? 0 : (tempObj.min + middle - tempOffset);
+            } else {
+                tempObj.max += middle;
+                tempObj.min += middle;
+            }
+        } else {
+            tempObj = divide(this.options.sepeNum, arr);
+        }
 
         var ctx = this.options.context;
         if (tempObj.stepHeight >= 10000) {
