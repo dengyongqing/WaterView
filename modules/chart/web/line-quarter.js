@@ -54,6 +54,8 @@ var ChartBarQuarter = (function() {
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable", "on");
         this.container.style.position = "relative";
+        // 容器中添加画布
+        this.container.appendChild(canvas);
         // 画布
         try {
             var ctx = canvas.getContext('2d');
@@ -67,8 +69,6 @@ var ChartBarQuarter = (function() {
         // 设备像素比
         var dpr = this.options.dpr = 1;
 
-        // 容器中添加画布
-        this.container.appendChild(canvas);
 
         // 画布的宽和高
         canvas.width = this.options.width * dpr;

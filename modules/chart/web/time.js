@@ -49,6 +49,8 @@ var ChartTime = (function() {
         var canvas = document.createElement("canvas");
 
         this.container.style.position = "relative";
+        // 容器中添加画布
+        this.container.appendChild(canvas);
         // 画布
         try {
             var ctx = canvas.getContext('2d');
@@ -61,8 +63,6 @@ var ChartTime = (function() {
         // 设备像素比
         var dpr = this.options.dpr;
 
-        // 容器中添加画布
-        this.container.appendChild(canvas);
 
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
