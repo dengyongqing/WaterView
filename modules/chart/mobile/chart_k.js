@@ -221,7 +221,7 @@ var ChartK = (function() {
             }else if(type == "WK"){
                 this.options.type = "WK";
             }else if(type == "MK"){
-                this.options.type = "WK";
+                this.options.type = "MK";
             }else if(type == "M5K"){
                 this.options.type = "M5K";
             }else if(type == "M15K"){

@@ -65,9 +65,9 @@ var ChartLine = (function() {
         // 去除画布上粘贴效果
         // this.container.style = "-moz-user-select:none;-webkit-user-select:none;";
         // this.container.setAttribute("unselectable","on");
+        this.container.style.position = "relative";
         // 容器中添加画布
         this.container.appendChild(canvas);
-        this.container.style.position = "relative";
         // 兼容IE6-IE9
         try {
             var ctx = canvas.getContext('2d');
@@ -80,6 +80,7 @@ var ChartLine = (function() {
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
+       
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -506,6 +507,8 @@ var ChartLine = (function() {
                 yLine.style.display = "none";
             }
         }
+
+
     }
 
 
