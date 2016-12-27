@@ -267,20 +267,10 @@ var ChartLine = (function() {
         });
 
         //添加交互事件
-        common.addEvent.call(that, canvas, "mousemove", function(e) {
+        common.addEvent.call(that, that.container, "mousemove", function(e) {
 
-            var winX = e.offsetX || (e.clientX - that.container.getBoundingClientRect().left);
-            var winY = e.offsetY || (e.clientY - that.container.getBoundingClientRect().top);
-
-            // var winX, winY;
-            // //浏览器检测，获取到相对元素的x和y
-            // if (e.layerX) {
-            //     winX = e.layerX;
-            //     winY = e.layerY;
-            // } else if (e.x) {
-            //     winX = e.x;
-            //     winY = e.y;
-            // }
+            var winX = e.clientX - that.container.getBoundingClientRect().left;
+            var winY = e.clientY - that.container.getBoundingClientRect().top;
 
             try{
                 e.preventDefault();
