@@ -92,10 +92,10 @@
             if(this.options.series2 && flag){
                 // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
                 ctx.textAlign = 'left';
-                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.drawWidth + 10), XYF(item.y + 5*dpr));
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.drawWidth + 5), XYF(item.y + 5*dpr));
             }else{
                 ctx.textAlign = 'right';
-                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.padding_left - 10), XYF(item.y + 5*dpr));
+                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.padding_left - 5), XYF(item.y + 5*dpr));
             }
         }
          ctx.restore();

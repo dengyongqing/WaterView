@@ -71,20 +71,20 @@
             var dashFlag = true;
             if(this.options.data.min < 0) {
                 if(this.options.data.min + this.options.data.step * i < 0){
-                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 10), XYF(item.y + 5));
+                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 5), XYF(item.y + 5));
                 }else if(this.options.data.min + this.options.data.step * i == 0){
-                    ctx.fillText(0, XYF(this.options.padding_left - 10), XYF(item.y + 5));
+                    ctx.fillText(0, XYF(this.options.padding_left - 5), XYF(item.y + 5));
                     dashFlag = false;
                     ctx.strokeStyle = '#c9c9c9';
                     ctx.moveTo(XYF(this.options.padding_left), XYF(item.y));
                     ctx.lineTo(XYF(this.options.drawWidth), XYF(item.y));
                     ctx.stroke();
                 }else {
-                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 10), XYF(item.y + 5));
+                    ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 5), XYF(item.y + 5));
                 }
             }
             else {
-                ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 10), XYF(item.y + 5));
+                ctx.fillText(this.options.data.min + dealFloat(this.options.data.step * i), XYF(this.options.padding_left - 5), XYF(item.y + 5));
             }
 
             if(i != 0 && i != list_length -1 && dashFlag){

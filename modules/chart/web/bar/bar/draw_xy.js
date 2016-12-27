@@ -106,7 +106,7 @@ var DrawXY = (function() {
         for (i = 0; i <= sepeNum; i++) {
             ctx.beginPath();
             ctx.textBaseline = "middle";
-            ctx.fillText(roundFloat(minY + i * stepHeight, stepHeight), paddingLeft - 10, stepY * (sepeNum - i) + paddingTop);
+            ctx.fillText(roundFloat(minY + i * stepHeight, stepHeight), paddingLeft - 5, stepY * (sepeNum - i) + paddingTop);
         }
     }
 
