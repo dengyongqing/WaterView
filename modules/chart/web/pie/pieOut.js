@@ -30,7 +30,7 @@ module.exports = function(ctx, ctx2, obj, pies, point, radius, ySpace, onPie) {
     if (onPie) {
         drawInfoOn(ctx2, obj, pies, radius, point, fontSize, true);
     } else {
-        drawInfo(ctx, obj, pies, radius, point, ySpace, 3);
+        drawInfo(ctx2, obj, pies, radius, point, ySpace, 3);
     }
     drawPie(ctx, { //3/40
         x: point.x + offSet * Math.cos(pieMiddleDegree),
@@ -50,6 +50,6 @@ module.exports = function(ctx, ctx2, obj, pies, point, radius, ySpace, onPie) {
     if (onPie) {
         drawInfoOn(ctx2, obj, pies, radius + radius / 40, point, fontSize + 4);
     } else { //写字
-        drawInfo(ctx, obj, radius, point, ySpace, 1);
+        drawInfo(ctx2, obj, radius, point, ySpace, 1);
     }
 }

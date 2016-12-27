@@ -16,19 +16,18 @@ module.exports = function(ctx, ctx2, obj, pies, point, radius, ySpace, onPie) {
     var pieEndDegree = obj.end;
     var pieMiddleDegree = (pieStartDegree + pieEndDegree) / 2;
     var fontSize = ctx2.font.split("px ")[0] * 1;
-    drawPie(ctx, point, radius + radius*3/40+1, pieStartDegree, pieEndDegree, "white");
+    drawPie(ctx, point, radius + radius*3/20, pieStartDegree, pieEndDegree, "white");
     if (onPie) {
         drawInfoOn(ctx2, obj, pies, radius, point, fontSize, true);
     } else {
         //清除线条和文字
-        drawInfo(ctx, obj, radius, point, ySpace, 3);
-        drawInfo(ctx, obj, radius, point, ySpace, 4);
+        drawInfo(ctx2, obj, radius, point, ySpace, 3);
     }
 
     drawPie(ctx, point, radius, pieStartDegree, pieEndDegree, obj.color);
     if (onPie) {
         drawInfoOn(ctx2, obj, pies, radius, point, fontSize);
     } else {
-        drawInfo(ctx, obj, radius, point, ySpace);
+        drawInfo(ctx2, obj, radius, point, ySpace);
     }
 }
