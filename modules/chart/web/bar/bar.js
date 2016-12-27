@@ -80,6 +80,7 @@ var ChartMobileBar = (function() {
     };
 
     ChartMobileBar.prototype.draw = function(cb) {
+        this.clear();
         this.init();
         var _this = this;
         new DrawXY(this.options);
