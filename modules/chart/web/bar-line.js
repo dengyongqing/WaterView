@@ -189,12 +189,14 @@ var ChartLine = (function() {
         }
 
         // 第二坐标轴折线数据
-        if (this.options.series2) {
+        if (this.options.series2 && this.options.series2.length !== 0) {
             var series2 = this.options.series2;
             var maxAndMin2 = getMaxMark.call(this, series2);
             this.options.data.max2 = maxAndMin2.max;
             this.options.data.min2 = maxAndMin2.min;
             this.options.data.step2 = maxAndMin2.step;
+        }else{
+            this.options.series2 = undefined;
         }
 
         // 单位绘制区域
@@ -618,7 +620,7 @@ var ChartLine = (function() {
             tempObj.max = 1;
             tempObj.min = -1;
             tempObj.stepHeight = 1;
-            this.options.sepeNum = 2;
+            this.options.sepeNum =  this.options.sepeNum || 2;
         }
         return {
             max: tempObj.max,
