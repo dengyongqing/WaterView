@@ -56,8 +56,8 @@ var ChartLine = (function() {
         this.options.type = "line";
         var flag = true;
         /*if (!this.options.canvas) {*/
-            var canvas = document.createElement("canvas");
-            /*flag = true;
+        var canvas = document.createElement("canvas");
+        /*flag = true;
         } else {
             var canvas = this.options.canvas;
         }*/
@@ -80,7 +80,7 @@ var ChartLine = (function() {
         this.options.context = ctx;
         // 设备像素比
         var dpr = this.options.dpr = this.options.dpr == undefined ? 1 : this.options.dpr;
-       
+
         // 画布的宽和高
         canvas.width = this.options.width * dpr;
         canvas.height = this.options.height * dpr;
@@ -95,15 +95,15 @@ var ChartLine = (function() {
         this.options.decimalCount = this.options.decimalCount == undefined ? 2 : this.options.decimalCount;
         // 画布上第一个图表的高度
         var xaxis = this.options.xaxis;
-        if(this.options.angle || this.options.angle == 0){
+        if (this.options.angle || this.options.angle == 0) {
             var x_mark_temp = xaxis[0].value;
             var x_mark_length = x_mark_temp.split("").length;
-            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;
+            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length - 1) * 2 + 20;
             this.options.c_1_height = this.options.canvas.height - angle_height * dpr;
-        }else{
+        } else {
             this.options.c_1_height = canvas.height - 40 * dpr;
         }
-        
+
         // if(this.options.showflag){
         //     this.options.c_1_height = canvas.height * (5/9);
         // }else{
@@ -155,7 +155,7 @@ var ChartLine = (function() {
         }
         ctx.font = font;
         ctx.lineWidth = 1 * this.options.dpr;
-  
+
         //锚点半径
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
     }
@@ -182,7 +182,7 @@ var ChartLine = (function() {
         this.options.data.min = maxAndMin.min;
         this.options.data.step = maxAndMin.step;
 
-        
+
 
         // 画布内容偏移的距离
         this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 30);
@@ -255,13 +255,12 @@ var ChartLine = (function() {
             //     winX = e.x;
             //     winY = e.y;
             // }
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
+            } catch (error) {
 
             }
-            
+
 
             eventHanlder.call(that, winX, winY);
         });
@@ -272,11 +271,10 @@ var ChartLine = (function() {
             var winX = e.clientX - that.container.getBoundingClientRect().left;
             var winY = e.clientY - that.container.getBoundingClientRect().top;
 
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
-                
+            } catch (error) {
+
             }
             eventHanlder.call(that, winX, winY);
 
@@ -291,11 +289,10 @@ var ChartLine = (function() {
                 }
                 that.options.interOption.yLine.style.display = "none";
             }
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
-                
+            } catch (error) {
+
             }
         });
 
@@ -308,11 +305,10 @@ var ChartLine = (function() {
                 }
                 that.options.interOption.yLine.style.display = "none";
             }
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
-                
+            } catch (error) {
+
             }
         });
 
@@ -364,7 +360,7 @@ var ChartLine = (function() {
             if (dateArr.length == 1) {
                 left = (cursor * unit / dpr + unit / dpr * (1 / 2) + padding_left / dpr);
             } else {
-                left =(cursor * unit / dpr + padding_left / dpr);
+                left = (cursor * unit / dpr + padding_left / dpr);
             }
 
             //添加交互
@@ -527,10 +523,10 @@ var ChartLine = (function() {
             this.container.removeChild(yLine);
             this.container.removeChild(tips);ctx.restore();*/
             this.container.innerHTML = "";
-            if(this.options.interOption !== undefined || this.options.interOption !== null){
+            if (this.options.interOption !== undefined || this.options.interOption !== null) {
                 this.options.interOption = null;
             }
-            
+
         } catch (e) {
             this.container.innerHTML = "";
         }
@@ -543,28 +539,36 @@ var ChartLine = (function() {
     function getMaxMark(series) {
 
         var seriesLength = series.length;
-        var arr = [];
+        var tempArr = [];
         for (var i = 0; i < seriesLength; i++) {
-            arr = arr.concat(series[i].data);
+            tempArr = tempArr.concat(series[i].data);
         }
-        arr.sort(function(a, b){return a*1 - b*1;});
-        var min  = arr[0]*1;
-        var max = arr[arr.length-1]*1;
-        var middle = (max+min)/2;
+        var arr = tempArr.filter(function(a) {
+            return a !== "" && a !== undefined && a !== null;
+        }).sort(function(a, b) {
+            return a * 1 - b * 1; });
+        var min = arr[0] * 1;
+        var max = arr[arr.length - 1] * 1;
+        var middle = (max + min) / 2;
+        /*清除中值产生的小数点*/
+        if(max - min > 1 && (middle - Math.floor(middle) > 0)){
+            min = arr[0] - (middle - Math.floor(middle));
+            middle = Math.floor(middle);
+        }
 
         var tempObj = {};
         /*特殊判断一下*/
-        if(max*min > 0 && min !== max && (max - min)/Math.abs(max) <= 0.5){
-            tempObj = divide(this.options.sepeNum, [max-middle, min-middle]);
-            if((tempObj.max+middle) * (tempObj.min+middle) < 0 ){
-                var tempOffset = Math.min(Math.abs(tempObj.max+middle), Math.abs(tempObj.min+middle));
-                tempObj.max = max >= 0 ? (tempObj.max+middle+tempOffset) : 0;
-                tempObj.min = max >= 0 ? 0 : (tempObj.min+middle-tempOffset);
-            }else{
+        if (max * min > 0 && min !== max && (max - min) / Math.abs(max) <= 0.5) {
+            tempObj = divide(this.options.sepeNum, [max - middle, min - middle]);
+            if ((tempObj.max + middle) * (tempObj.min + middle) < 0) {
+                var tempOffset = Math.min(Math.abs(tempObj.max + middle), Math.abs(tempObj.min + middle));
+                tempObj.max = max >= 0 ? (tempObj.max + middle + tempOffset) : 0;
+                tempObj.min = max >= 0 ? 0 : (tempObj.min + middle - tempOffset);
+            } else {
                 tempObj.max += middle;
                 tempObj.min += middle;
             }
-        }else{
+        } else {
             tempObj = divide(this.options.sepeNum, arr);
         }
 
@@ -578,7 +582,7 @@ var ChartLine = (function() {
         var frontMinWidth = ctx.measureText(common.format_unit(parseInt(tempObj.min))).width;
         var frontWidth = frontMaxWidth > frontMinWidth ? frontMaxWidth : frontMinWidth;
         var maxPaddingLeftWidth = frontWidth + backWidth;
-        
+
         if (tempObj.max == 0 && tempObj.min == 0) {
             tempObj.max = 1;
             tempObj.min = -1;
