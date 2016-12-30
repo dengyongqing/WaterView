@@ -66,6 +66,7 @@
     };
     // 绘制坐标轴左侧刻度
     function drawYMark(ctx,y_max,y_min,line_list_array,flag){
+        var step = flag ? this.options.data.step2 : this.options.data.step;
         ctx.save();
         // var sepe_num = line_list_array.length;
         ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
@@ -78,7 +79,7 @@
             ctx.beginPath();
             
             if(i == 0 || i == line_list_array.length - 1){
-                // ctx.strokeStyle = '#ccc';
+                // ctx.strokeStyle = '#ccc'; 
                 // ctx.moveTo(this.options.padding_left, Math.round(item.y));
                 // ctx.lineTo(this.options.drawWidth, Math.round(item.y));
                 // ctx.stroke();
@@ -92,10 +93,10 @@
             if(this.options.series2 && flag){
                 // ctx.fillText(common.format_unit(item.num/1,this.options.decimalCount), this.options.padding_left - 10, item.y +10);
                 ctx.textAlign = 'left';
-                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.drawWidth + 5), XYF(item.y + 5*dpr));
+                ctx.fillText(roundFloat(item.num/1, step), XYF(this.options.drawWidth + 5), XYF(item.y + 5*dpr));
             }else{
                 ctx.textAlign = 'right';
-                ctx.fillText(roundFloat(item.num/1,this.options.data.step), XYF(this.options.padding_left - 5), XYF(item.y + 5*dpr));
+                ctx.fillText(roundFloat(item.num/1, step), XYF(this.options.padding_left - 5), XYF(item.y + 5*dpr));
             }
         }
          ctx.restore();
