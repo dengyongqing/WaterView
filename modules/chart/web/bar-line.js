@@ -584,15 +584,22 @@ var ChartLine = (function() {
     function getMaxMark(series) {
 
         var seriesLength = series.length;
-        var arr = [];
+        var tempArr = [];
         for (var i = 0; i < seriesLength; i++) {
-            arr = arr.concat(series[i].data);
+            tempArr = tempArr.concat(series[i].data);
         }
-        arr.sort(function(a, b) {
+        var arr = tempArr.filter(function(a) {
+            return a !== "" && a !== undefined && a !== null;
+        }).sort(function(a, b) {
             return a * 1 - b * 1; });
         var min = arr[0] * 1;
         var max = arr[arr.length - 1] * 1;
         var middle = (max + min) / 2;
+        /*清除中值产生的小数点*/
+        if(max - min > 1 && (middle - Math.floor(middle) > 0)){
+            min = arr[0] - (middle - Math.floor(middle));
+            middle = Math.floor(middle);
+        }
 
         var tempObj = {};
         /*特殊判断一下*/

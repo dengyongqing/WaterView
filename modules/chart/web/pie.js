@@ -37,6 +37,11 @@ var ChartPie = (function() {
         this.container.appendChild(canvas2);
 
         this.container.style.position = "relative";
+        // 设备像素比
+        if (this.options.dpr === undefined) {
+            this.options.dpr = 2;
+        }
+            
         // 兼容IE6-IE9
         try {
             var ctx = canvas.getContext('2d');
@@ -47,6 +52,7 @@ var ChartPie = (function() {
 
             canvas2 = window.G_vmlCanvasManager.initElement(canvas2);
             var ctx2 = canvas2.getContext('2d');
+            this.options.dpr = 1;
         }
 
         this.options.canvas = canvas;
@@ -54,13 +60,7 @@ var ChartPie = (function() {
 
         this.options.canvas2 = canvas2;
         this.options.context2 = ctx2;
-        // 设备像素比
-        if (this.options.dpr === undefined) {
-            this.options.dpr = 2;
-        }
-        if (!+'\v1') {
-            this.options.dpr = 1;
-        }
+        
         var dpr = this.options.dpr;
         // 画布的宽和高
         canvas.width = this.options.width * dpr;

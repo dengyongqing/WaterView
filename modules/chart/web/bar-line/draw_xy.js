@@ -66,6 +66,7 @@
     };
     // 绘制坐标轴左侧刻度
     function drawYMark(ctx,y_max,y_min,line_list_array,flag){
+        var step = flag ? this.options.data.step2 : this.options.data.step;
         ctx.save();
         // var sepe_num = line_list_array.length;
         ctx.fillStyle = this.options.font.color == undefined ? '#000' : this.options.font.color;
