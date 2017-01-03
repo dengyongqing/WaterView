@@ -153,29 +153,36 @@
                     if(this.options.angle || this.options.angle == 0){
                         self_fillText(tempDate.value,ctx,x,XYF(this.options.c_1_height+20*dpr),this.options.angle);
                     }else{
-                        if(i == 0){
-                            ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
-                        }else if(i == arr_length - 1){
-                            ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
-                        }else{
-                            ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                        if(this.options.drawWidth > (x + ctx.measureText(tempDate.value).width) || i == (arr_length - 1)){
+                            // if(i == 0){
+                            //     ctx.fillText(tempDate.value, XYF(x + ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                            // }else if(i == (arr_length - 1)){
+                            //     ctx.fillText(tempDate.value, XYF(this.options.drawWidth - ctx.measureText(tempDate.value).width/2), XYF(this.options.c_1_height+20*dpr));
+                            // }else{
+                            //     ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));   
+                            // }
+
+                            ctx.fillText(tempDate.value, XYF(x), XYF(this.options.c_1_height+20*dpr));
                         }
+                        
                     }
                    
                 }
             }
 
             if(tempDate.showline == undefined ? true : tempDate.showline){
-               
-                if(i == 0 || i == arr_length - 1){
-                    // ctx.strokeStyle = '#ccc';
-                    // ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
-                    // ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
-                    // ctx.stroke();
-                }else{
-                    ctx.strokeStyle = '#e6e6e6';
-                    DrawDashLine(ctx,i * (k_width - padding_left) / (arr_length-1) + padding_left,0, i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height + 2,3);
-                }
+               var x = i * (k_width - padding_left) / (arr_length-1) + padding_left;
+               if(this.options.drawWidth > (x + ctx.measureText(tempDate.value).width)){
+                    if(i == 0 || i == (arr_length - 1)){
+                        // ctx.strokeStyle = '#ccc';
+                        // ctx.moveTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,0);
+                        // ctx.lineTo(i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height);
+                        // ctx.stroke();
+                    }else{
+                        ctx.strokeStyle = '#e6e6e6';
+                        DrawDashLine(ctx,x,0, i * (k_width - padding_left) / (arr_length-1) + padding_left,this.options.c_1_height + 2,3);
+                    }
+               }
                 
             }
         }

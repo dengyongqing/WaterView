@@ -178,6 +178,11 @@ var ChartLine = (function() {
 
         // 画布内容偏移的距离
         this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 30);
+        var xaxis = this.options.xaxis;
+        var leftMinWidth = ctx.measureText(xaxis[0].value).width/2+10;
+        if(this.options.padding_left < leftMinWidth){
+            this.options.padding_left = leftMinWidth;
+        }
         if (this.options.series2) {
             this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
             // 加水印
@@ -185,7 +190,7 @@ var ChartLine = (function() {
         } else {
             this.options.drawWidth = Math.round(ctx.canvas.width - 10);
             // 加水印
-            watermark.apply(this, [ctx, 100, 10, 82, 20]);
+            watermark.apply(this, [ctx, 100 + this.options.padding_left, 10, 82, 20]);
         }
 
         // 第二坐标轴折线数据
@@ -564,7 +569,7 @@ var ChartLine = (function() {
             this.container.removeChild(yLine);
             this.container.removeChild(tips);*/
             this.container.innerHTML = "";
-            if (this.options.interOption !== undefined || this.options.interOption !== null) {
+            if (this.options.interOption) {
                 this.options.interOption = null;
             }
         } catch (e) {

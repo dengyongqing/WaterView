@@ -155,6 +155,12 @@ var ChartLine = (function() {
         }
         ctx.font = font;
         ctx.lineWidth = 1 * this.options.dpr;
+
+        // this.options.padding = {};
+        // this.options.padding.left = 0;
+        // this.options.padding.right = 0;
+        // this.options.padding.top = 0
+        // this.options.padding.bottom = 0;
   
         //锚点半径
         this.options.pointRadius = this.options.pointRadius == undefined ? 5 : this.options.pointRadius;
@@ -176,24 +182,29 @@ var ChartLine = (function() {
 
         // 第一坐标轴折线数据
         var series = this.options.series;
+        
         this.options.data = {};
         var maxAndMin = getMaxMark.call(this, series);
         this.options.data.max = maxAndMin.max;
         this.options.data.min = maxAndMin.min;
         this.options.data.step = maxAndMin.step;
 
-        
 
         // 画布内容偏移的距离
         this.options.padding_left = Math.round(maxAndMin.maxPaddingLeftWidth + 30);
+        var xaxis = this.options.xaxis;
+        var leftMinWidth = ctx.measureText(xaxis[0].value).width/2+10;
+        if(this.options.padding_left < leftMinWidth){
+            this.options.padding_left = leftMinWidth;
+        }
         if (this.options.series2) {
             this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
             // 加水印
             watermark.apply(this, [ctx, 100 + this.options.padding_left, 10, 82, 20]);
         } else {
-            this.options.drawWidth = Math.round(ctx.canvas.width - 10);
+            this.options.drawWidth = Math.round(ctx.canvas.width - this.options.padding_left);
             // 加水印
-            watermark.apply(this, [ctx, 100, 10, 82, 20]);
+            watermark.apply(this, [ctx, 100 + this.options.padding_left, 10, 82, 20]);
         }
 
 
@@ -527,7 +538,7 @@ var ChartLine = (function() {
             this.container.removeChild(yLine);
             this.container.removeChild(tips);ctx.restore();*/
             this.container.innerHTML = "";
-            if(this.options.interOption !== undefined || this.options.interOption !== null){
+            if(this.options.interOption){
                 this.options.interOption = null;
             }
             
