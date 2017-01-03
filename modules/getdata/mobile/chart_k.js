@@ -61,8 +61,8 @@ function getdata(option, callback, interactive) {
     //获取当天的时间，成为 20160426 格式,查询从当天开始，往前的80天的数据
     var today_number_str = today.getFullYear().toString() + fixed((today.getMonth() + 1).toString(), 2) + fixed(today.getDate(), 2);
     var QuerySpan = today_number_str + ','+(num+20);
-    if(type.match("M") !== null){
-        QuerySpan = today_number_str+fixed(today.getHours())+fixed(today.getMinutes()) + ','+(num+20);
+    if(type.match("M") !== null && type !== 'MK'){
+        QuerySpan = today_number_str+fixed(today.getHours(), 2)+fixed(today.getMinutes(), 2) + ','+(num+20);
     }
     var urldata = {
         id: id,
