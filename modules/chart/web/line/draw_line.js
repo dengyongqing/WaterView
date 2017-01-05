@@ -98,6 +98,7 @@ var DrawLine = (function(){
 				 	ctx.lineTo(x,y);
 				 }else{
 				 	ctx.lineTo(x,y);
+				 	ctx.moveTo(x,y);
 				 }
 			}
 			 
