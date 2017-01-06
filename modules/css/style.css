@@ -143,6 +143,17 @@
 	position: absolute;
 }
 
+.emcharts-container .event-div{
+	opacity: 1;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+	z-index: 1000;
+}
+
 /* 技术指标的样式 */
 .emcharts-container .markTContainer{
 	position: absolute;

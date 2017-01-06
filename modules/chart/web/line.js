@@ -55,6 +55,11 @@ var ChartLine = (function() {
 
         this.options.type = "line";
         var flag = true;
+        var eventDiv = document.createElement("div");
+        eventDiv.className = "event-div";
+        this.container.appendChild(eventDiv);
+        this.eventDiv = eventDiv;
+
         /*if (!this.options.canvas) {*/
             var canvas = document.createElement("canvas");
             /*flag = true;
@@ -250,7 +255,7 @@ var ChartLine = (function() {
         var radius = this.options.pointRadius / dpr;
 
 
-        common.addEvent.call(that, canvas, "touchmove", function(e) {
+        common.addEvent(that.eventDiv, "touchmove", function(e) {
 
             var touchEvent = e.changedTouches[0];
 
@@ -278,7 +283,7 @@ var ChartLine = (function() {
         });
 
         //添加交互事件
-        common.addEvent.call(that, that.container, "mousemove", function(e) {
+        common.addEvent(that.eventDiv, "mousemove", function(e) {
 
             var winX = e.clientX - that.container.getBoundingClientRect().left;
             var winY = e.clientY - that.container.getBoundingClientRect().top;
@@ -293,7 +298,7 @@ var ChartLine = (function() {
 
         });
 
-        common.addEvent.call(that, that.container, "touchend", function(e) {
+        common.addEvent(that.eventDiv, "touchend", function(e) {
             if (that.options.interOption) {
                 var circles = that.options.interOption.circles;
                 that.options.interOption.tips.style.display = "none";
@@ -310,7 +315,7 @@ var ChartLine = (function() {
             }
         });
 
-        common.addEvent.call(that, that.container, "mouseleave", function(e) {
+        common.addEvent(that.eventDiv, "mouseleave", function(e) {
             if (that.options.interOption) {
                 var circles = that.options.interOption.circles;
                 that.options.interOption.tips.style.display = "none";
@@ -473,6 +478,7 @@ var ChartLine = (function() {
                 for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
                     if (tipArr[k].data === tipArr[k].suffix) {
                         circles[k].style.display = "none";
+                        lineTip.style.display = "none";
                     } else {
                         circles[k].style.display = "block";
                         circles[k].style.top = tipArr[k].y / dpr - radius + "px";
