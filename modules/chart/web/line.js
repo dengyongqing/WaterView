@@ -567,7 +567,11 @@ var ChartLine = (function() {
         arr.sort(function(a, b){return a*1 - b*1;});
         var min  = arr[0]*1;
         var max = arr[arr.length-1]*1;
-        var middle = (max+min)/2;
+        var middle = (max+min)/2;/*清除中值产生的小数点*/
+        if(max - min > 1 && (middle - Math.floor(middle) > 0)){
+            min = arr[0] - (middle - Math.floor(middle));
+            middle = Math.floor(middle);
+        }
 
         var tempObj = {};
         /*特殊判断一下*/

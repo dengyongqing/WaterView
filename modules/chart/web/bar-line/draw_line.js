@@ -109,13 +109,13 @@ var DrawLine = (function(){
 	// 绘制柱状图
 	function drawBar(ctx,line,flag){
 		// 保存画笔状态
-		ctx.save();
+		ctx.save();debugger;
 		var arr = line.data;
         var arr_length = arr.length;
         if(flag){
-        	var start_y = get_y.call(this,0);
+        	var start_y = get_y.call(this,this.options.data.min2);
         }else{
-        	var start_y = common.get_y.call(this,0);
+        	var start_y = common.get_y.call(this,this.options.data.min2);
         }
         
         var groupBarWidth = this.options.unit.groupBarWidth;
