@@ -89,8 +89,7 @@ var ChartBarQuarter = (function() {
         var xaxis = this.options.xaxis;
         if(this.options.angle || this.options.angle == 0){
             var x_mark_temp = xaxis[0].value;
-            var x_mark_length = x_mark_temp.split("").length;
-            var angle_height = ctx.measureText(xaxis[0].value).width + (x_mark_length-1) * 2 + 20;
+            var angle_height = ctx.measureText(x_mark_temp).width *  Math.sin(2*Math.PI/360*this.options.angle) + 40;
             this.options.c_1_height = this.options.canvas.height - angle_height * dpr;
         }else{
             this.options.c_1_height = canvas.height - 50 * dpr;

@@ -124,6 +124,8 @@
         for(var i = 0;i<arr_length;i++) {
             ctx.beginPath();
             tempDate = oc_time_arr[i];
+            var textWidth = ctx.measureText(tempDate).width;
+            var cos_w = Math.cos(2*Math.PI/360*this.options.angle) * textWidth;
             if(tempDate.show == undefined ? true : tempDate.show){
 
                 if(arr_length == 1){
@@ -152,7 +154,7 @@
                     // ctx.fillText(tempDate.value, x , this.options.c_1_height+20);
 
                     if(this.options.angle || this.options.angle == 0){
-                        self_fillText(tempDate.value,ctx,x,XYF(this.options.c_1_height+20*dpr),this.options.angle);
+                        self_fillText(tempDate.value,ctx,XYF(x),XYF(this.options.c_1_height+30*dpr),this.options.angle);
                     }else{
                         if(this.options.drawWidth > (x + ctx.measureText(tempDate.value).width) || i == (arr_length - 1)){
                             // if(i == 0){
