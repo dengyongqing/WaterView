@@ -55,6 +55,11 @@ var ChartLine = (function() {
 
         this.options.type = "line";
         var flag = true;
+        var eventDiv = document.createElement("div");
+        eventDiv.className = "event-div";
+        this.container.appendChild(eventDiv);
+        this.eventDiv = eventDiv;
+
         /*if (!this.options.canvas) {*/
         var canvas = document.createElement("canvas");
         /*} else {
@@ -258,7 +263,7 @@ var ChartLine = (function() {
         var radius = this.options.pointRadius / dpr;
 
 
-        common.addEvent.call(that, canvas, "touchmove", function(e) {
+        common.addEvent(that.eventDiv, "touchmove", function(e) {
 
             var touchEvent = e.changedTouches[0];
 
@@ -285,7 +290,7 @@ var ChartLine = (function() {
         });
 
         //添加交互事件
-        common.addEvent.call(that, canvas, "mousemove", function(e) {
+        common.addEvent(that.eventDiv, "mousemove", function(e) {
 
             var winX = e.offsetX || (e.clientX - that.container.getBoundingClientRect().left);
             var winY = e.offsetY || (e.clientY - that.container.getBoundingClientRect().top);
@@ -309,7 +314,7 @@ var ChartLine = (function() {
 
         });
 
-        common.addEvent.call(that, that.container, "touchend", function(e) {
+        common.addEvent(that.eventDiv, "touchend", function(e) {
             if (that.options.interOption) {
                 var circles = that.options.interOption.circles;
                 that.options.interOption.tips.style.display = "none";
@@ -325,7 +330,7 @@ var ChartLine = (function() {
             }
         });
 
-        common.addEvent.call(that, that.container, "mouseleave", function(e) {
+        common.addEvent(that.eventDiv, "mouseleave", function(e) {
             if (that.options.interOption) {
                 var circles = that.options.interOption.circles;
                 that.options.interOption.tips.style.display = "none";
