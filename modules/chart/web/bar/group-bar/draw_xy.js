@@ -128,16 +128,17 @@ function drawXMark(ctx,k_height,oc_time_arr){
         for(var i = 0;i<arr_length;i++) {
             ctx.beginPath();
             tempDate = oc_time_arr[i].value;
+            var textWidth = ctx.measureText(tempDate).width;
+            var cos_w = Math.cos(2*Math.PI/360*this.options.angle) * textWidth;
             var x = i * (k_width - padding_left) / (arr_length) +padding_left;
             var isShow = oc_time_arr[i].show == undefined ? true : false;
 
             if(oc_time_arr[i].show == undefined || oc_time_arr[i].show){
-
+                var self_x = i * unit +padding_left + unit/2;
                 if(this.options.angle || this.options.angle == 0){
-                    var self_x = i * unit +padding_left + unit/2 - this.options.groupUnit.bar_w/2;
-                    self_fillText(tempDate,ctx,XYF(self_x),XYF(this.options.c_1_height+20*dpr),this.options.angle);
+                    self_fillText(tempDate,ctx,XYF(self_x - cos_w/2),XYF(this.options.c_1_height+20*dpr),this.options.angle);
                 }else{
-                    ctx.fillText(tempDate, XYF(x + (((k_width - padding_left) / (arr_length) - ctx.measureText(tempDate).width)/2)), XYF(this.options.c_1_height+20*dpr)); 
+                    ctx.fillText(tempDate, XYF(self_x - textWidth/2), XYF(this.options.c_1_height+20*dpr)); 
                 }
                 // if(i == (arr_length-1)){
                 //     ctx.fillText(tempDate, ((this.options.drawWidth - ctx.measureText(tempDate).width - 2)), this.options.c_1_height+20*dpr); 
