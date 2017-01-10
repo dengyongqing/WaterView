@@ -428,7 +428,7 @@ var ChartLine = (function() {
                     cir.style.top = (tipArr[i].y / dpr - radius) + "px";
                     cir.style.left = (left - radius) + "px";
                     cir.style.borderColor = tipArr[i].color;
-                    if (tipArr[i].data === tipArr[i].suffix) {
+                    if (tipArr[i] === undefined ||tipArr[i].data === tipArr[i].suffix) {
                         cir.style.display = "none";
                         lineTip.style.display = "none";
                     } else {
@@ -448,16 +448,16 @@ var ChartLine = (function() {
             } else {
                 var tips = that.options.interOption.tips;
 
-                var children = tips.children;
-                children[0].innerHTML = dateArr[cursor].value;
+                var linTips = tips.children;
+                linTips[0].innerHTML = dateArr[cursor].value;
                 for (var j = 0, len = tipArr.length; j < len; j++) {
                     if (tipArr[j].data === tipArr[j].suffix) {
-                        children[j + 1].style.display = "none";
+                        linTips[j + 1].style.display = "none";
                     } else {
                         flag = true;
-                        children[j + 1].style.display = "block";
-                        children[j + 1].children[0].style.backgroundColor = tipArr[j].color;
-                        children[j + 1].children[1].innerHTML = (that.options.showname ? tipArr[j].name : "") + " " + tipArr[j].data
+                        linTips[j + 1].style.display = "block";
+                        linTips[j + 1].children[0].style.backgroundColor = tipArr[j].color;
+                        linTips[j + 1].children[1].innerHTML = (that.options.showname ? tipArr[j].name : "") + " " + tipArr[j].data
                     }
                 }
                 if (flag) {
@@ -478,7 +478,7 @@ var ChartLine = (function() {
                 for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
                     if (tipArr[k].data === tipArr[k].suffix) {
                         circles[k].style.display = "none";
-                        lineTip.style.display = "none";
+                        linTips[k].style.display = "none";
                     } else {
                         circles[k].style.display = "block";
                         circles[k].style.top = tipArr[k].y / dpr - radius + "px";
@@ -499,7 +499,7 @@ var ChartLine = (function() {
                 that.options.interOption.tips.style.display = "block";
                 for (var k = 0, kLen = tipArr.length; k < kLen; k++) {
                     if (tipArr[k].data === tipArr[k].suffix) {
-                        circles[k].style.display = "none";
+                        // circles[k].style.display = "none";
                     } else {
                         circles[k].style.display = "block";
                     }
