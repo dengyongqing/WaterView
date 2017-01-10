@@ -109,7 +109,7 @@ var DrawLine = (function(){
 	// 绘制柱状图
 	function drawBar(ctx,line,flag){
 		// 保存画笔状态
-		ctx.save();debugger;
+		ctx.save();
 		var arr = line.data;
         var arr_length = arr.length;
         if(flag){

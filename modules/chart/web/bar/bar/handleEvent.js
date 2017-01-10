@@ -1,4 +1,3 @@
-var animationEasing = require('chart/mobile/bar/bar/animationEasing');
 /*事件处理程序*/
 function handleEvent(winX, winY) {
     var dpr = this.options.dpr;
@@ -116,7 +115,8 @@ function handleEvent(winX, winY) {
                 tipPanel.style.left = targetX+"px";
                 this.options.tipPanel.style.visibility = "visible";
             }else{
-                animationEasing.fast2slow(tipPanel, targetX, targetY);
+                tipPanel.style.top = targetY+"px";
+                tipPanel.style.left = targetX+"px";
             }
         }
     }else{
