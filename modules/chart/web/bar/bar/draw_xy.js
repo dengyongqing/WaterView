@@ -3,6 +3,7 @@ var extend = require("tools/extend2");
 var draw_dash = require("chart/mobile/common/draw_dash_line");
 // 格式化坐标
 var XYF = require('chart/web/common/xyf');
+var common = require('chart/web/common/common');
 // 自定义X轴标识
 var self_fillText = require('tools/self_fillText');
 var DrawXY = (function() {
@@ -107,7 +108,7 @@ var DrawXY = (function() {
         for (i = 0; i <= sepeNum; i++) {
             ctx.beginPath();
             ctx.textBaseline = "middle";
-            ctx.fillText(roundFloat(minY + i * stepHeight, stepHeight), paddingLeft - 5, stepY * (sepeNum - i) + paddingTop);
+            ctx.fillText(common.format_unit(roundFloat(minY + i * stepHeight, stepHeight),2), paddingLeft - 5, stepY * (sepeNum - i) + paddingTop);
         }
     }
 
