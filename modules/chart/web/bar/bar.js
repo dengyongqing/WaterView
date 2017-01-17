@@ -23,11 +23,6 @@ var ChartMobileBar = (function() {
         /*canvas属性*/
         var canvas = document.createElement("canvas");
         this.container.appendChild(canvas);
-        canvas.width = dpr * this.options.width;
-        canvas.height = dpr * this.options.height;
-        canvas.style.width = this.options.width + "px";
-        canvas.style.height = this.options.height + "px";
-        canvas.style.border = "0";
 
         try {
             var ctx = canvas.getContext('2d');
@@ -35,8 +30,11 @@ var ChartMobileBar = (function() {
             canvas = window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
         }
+        canvas.width = dpr * this.options.width;
+        canvas.height = dpr * this.options.height;
 
-        var ctx = canvas.getContext("2d");
+        canvas.style.width = this.options.width + "px";
+        canvas.style.height = this.options.height + "px";
         this.options.font_size = 12;
         ctx.font = (this.options.font_size * dpr) + "px Arial";
         ctx.lineWidth = dpr * 1;

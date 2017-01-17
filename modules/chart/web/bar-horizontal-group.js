@@ -1,9 +1,9 @@
 var extend = require('tools/extend2');
 var watermark = require('chart/watermark');
 var divide = require('chart/web/common/divide');
-var DrawXY = require('chart/web/bar-horizontal/draw_xy');
-var drawBar = require('chart/web/bar-horizontal/draw_bar');
-var handleEvent = require('chart/web/bar-horizontal/handleEvent');
+var DrawXY = require('chart/web/bar-horizontal-group/draw_xy');
+var drawBar = require('chart/web/bar-horizontal-group/draw_bar');
+var handleEvent = require('chart/web/bar-horizontal-group/handleEvent');
 // 添加公用模块
 var common = require('tools/common');
 
@@ -42,7 +42,7 @@ var ChartMobileBar = (function() {
         }
         var ctx = canvas.getContext("2d");
 
-        /*一些如果不存在，就进行的默认设定*/
+        /*一些如果不存在，就进行默认的设定*/
         if (this.options.font_size === undefined) {
             this.options.font_size = 12;
         }
@@ -55,14 +55,15 @@ var ChartMobileBar = (function() {
         if(this.options.color === undefined){
             this.options.color = "#6890D5";
         }
-        if(this.options.hoverColor === undefined){
-            this.options.hoverColor = "#7EA1DA";
-        }
         if (!this.options.sepeNum) {
             this.options.sepeNum = 4;
         }
         var yaxis = this.options.yaxis;
-        var coordinate = divide(this.options.sepeNum, this.options.series.data);
+        var series = this.options.series;
+        var dataArr = series.reduce(function(pre, cur, index, arr){
+            return pre.concat(cur.data);
+        }, series[0].data);
+        var coordinate = divide(this.options.sepeNum, dataArr);
         this.options.coordinate = coordinate;
 
         this.options.padding = {};
@@ -93,33 +94,33 @@ var ChartMobileBar = (function() {
         var _this = this;
         new DrawXY(this.options);
         drawBar.call(this);
-        common.addEvent(_this.container, "mousemove", function(e) {
-            var winX, winY;
-            //浏览器检测，获取到相对元素的x和y
-            if (e.layerX) {
-                winX = e.layerX;
-                winY = e.layerY;
-            } else if (e.x) {
-                winX = e.x;
-                winY = e.y;
-            }
-            // winX = e.offsetX || (e.clientX - _this.container.getBoundingClientRect().left);
-            // winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
-            handleEvent.call(_this, winX, winY);
+        // common.addEvent(_this.container, "mousemove", function(e) {
+        //     var winX, winY;
+        //     //浏览器检测，获取到相对元素的x和y
+        //     if (e.layerX) {
+        //         winX = e.layerX;
+        //         winY = e.layerY;
+        //     } else if (e.x) {
+        //         winX = e.x;
+        //         winY = e.y;
+        //     }
+        //     // winX = e.offsetX || (e.clientX - _this.container.getBoundingClientRect().left);
+        //     // winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
+        //     handleEvent.call(_this, winX, winY);
 
-            try{
-                e.preventDefault();
-            }
-            catch(error){
-                e.returnValue = false;
-            }
-        })
-        common.addEvent(_this.container, "mouseleave", function(e){
-            if(_this.options.tips !== undefined){
-                _this.options.tips.style.display = "none";
-                _this.options.tips.style.left = "-10000";
-            }
-        });
+        //     try{
+        //         e.preventDefault();
+        //     }
+        //     catch(error){
+        //         e.returnValue = false;
+        //     }
+        // })
+        // common.addEvent(_this.container, "mouseleave", function(e){
+        //     if(_this.options.tips !== undefined){
+        //         _this.options.tips.style.display = "none";
+        //         _this.options.tips.style.left = "-10000";
+        //     }
+        // });
         if (cb) {
             cb();
         }
