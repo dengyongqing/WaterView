@@ -26,6 +26,15 @@ function divide(num, parmarr) {
         flag = -1;
     }
 
+    if(isNaN(max) || isNaN(min)){
+        console.info("传入的数据数组不为数字");
+        return {
+            max:0,
+            min:0,
+            stepHeight: 0
+        }
+    }
+
     if(max === min && max === 0){
         return {
             max:0,
