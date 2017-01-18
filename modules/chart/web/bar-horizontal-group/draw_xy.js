@@ -77,8 +77,8 @@ var DrawXY = (function() {
                 ctx.lineTo(paddingLeft, XYF(y_top + i * unitHeight + unitHeight / 2));
             }
             if(arr_y[i].showline && i !== len -1){
-                draw_dash(ctx, paddingLeft, XYF(y_top + i * unitHeight + unitHeight),
-                    paddingLeft+totalWidth, XYF(y_top + i * unitHeight + unitHeight), 3);
+                draw_dash(ctx, paddingLeft, y_top + i * unitHeight + unitHeight,
+                    paddingLeft+totalWidth, y_top + i * unitHeight + unitHeight, 3);
             }
         }
         ctx.stroke();

@@ -81,6 +81,7 @@ module.exports = function(winX, winY) {
 
             existTitle.innerHTML = title;
             existMask.style.top = (paddingTop + unitHeight*cursor) + "px";
+            existMask.style.left = paddingLeft + "px";
             
             for(var k = 0, kLen = existLines.length; k < kLen-1; k++){
                 existLines[k+1].children[1].innerHTML = tipLines[k].text;
