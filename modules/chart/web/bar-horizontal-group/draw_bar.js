@@ -21,34 +21,22 @@ module.exports = function() {
         hoverColor = this.options.hoverColor;
 
     ctx.save();
-    ctx.fillStyle = color;
-    ctx.strokeStyle = color;
     ctx.beginPath();
     for (var i = 0, len = datas.length; i < len; i++) {
         var dataObj = datas[i];
         var itemHeight = unitHeight / (1.618 * len + 0.618);
         var itemSpace = 0.618 * itemHeight;
-        if(dataObj.color !== undefined || /^#[0-9a-fA-F]{3}/.test(dataObj.color) ){
-
+        var color = "#7CB5EC";
+        if (dataObj.color !== undefined) {
+            color = dataObj.color;
         }
+        ctx.fillStyle = color;
+        ctx.strokeStyle = color;
         for (var j = 0, jLen = dataObj.data.length; j < jLen; j++) {
+            var barWidth = Math.round(dataObj.data[j] / coordinate.min * (baseLine - paddingLeft));
+            ctx.fillRect(baseLine - barWidth, XYF(paddingTop + unitHeight * j + itemSpace * (i + 1) + itemHeight*i), barWidth, itemHeight);
         }
     }
-    // for (var i = 0, len = datas.length; i < len; i++) {
-    //  ctx.save();
-    //  /*单个定制的颜色*/
-    //     if (yaxis[i].color !== undefined) {
-    //         ctx.fillStyle = yaxis[i].color;
-    //         ctx.strokeStyle = yaxis[i].color;
-    //     }
-    //     if (datas[i] < 0) { /*柱体占的比例为1/2*/
-    //         var barWidth = Math.round(datas[i] / coordinate.min * (baseLine - paddingLeft));
-    //         ctx.fillRect(baseLine - barWidth, XYF(paddingTop + unitHeight * (i + 1 / 4)), barWidth, Math.round(unitHeight / 2));
-    //     } else {
-    //         ctx.fillRect(baseLine, XYF(paddingTop + unitHeight * (i + 1 / 4)), Math.round(datas[i] / coordinate.max * (totalWidth - (baseLine - paddingLeft))), Math.round(unitHeight / 2));
-    //     }
-    //     ctx.restore();
-    // }
     ctx.restore();
 
 }

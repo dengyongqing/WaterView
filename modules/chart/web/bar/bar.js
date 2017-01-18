@@ -32,7 +32,6 @@ var ChartMobileBar = (function() {
         }
         canvas.width = dpr * this.options.width;
         canvas.height = dpr * this.options.height;
-
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         this.options.font_size = 12;

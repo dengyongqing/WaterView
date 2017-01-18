@@ -15,7 +15,7 @@ var ChartMobileBar = (function() {
         this.container = document.getElementById(options.container);
 
         this.container.className = this.container.className.replace(/emcharts-container/g, "").trim();
-        this.container.className = this.container.className + " canvas-container";
+        this.container.className = this.container.className + " emcharts-container";
     }
 
     ChartMobileBar.prototype.init = function() {

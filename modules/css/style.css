@@ -711,3 +711,19 @@
 	 -webkit-appearance: none;
 	 padding-left: 3px;
 }
+/* barHorizontal */
+.emcharts-container .horizontal-gmask{
+	position: absolute;
+	background-color: #000;
+	opacity: 0.2;
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+}
+.emcharts-container .horizontal-gpanel{
+	position: absolute;
+	background-color: #000;
+	border-radius: 5px;
+	opacity: 0.8;
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+	color:#ffffff;
+	padding: 5px 10px;
+}

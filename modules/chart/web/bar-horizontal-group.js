@@ -15,7 +15,7 @@ var ChartMobileBar = (function() {
         this.container = document.getElementById(options.container);
 
         this.container.className = this.container.className.replace(/emcharts-container/g, "").trim();
-        this.container.className = this.container.className + " canvas-container";
+        this.container.className = this.container.className + " emcharts-container";
     }
 
     ChartMobileBar.prototype.init = function() {
@@ -25,10 +25,16 @@ var ChartMobileBar = (function() {
             this.options.dpr = 1;
         }
         var dpr = this.options.dpr;
+
+        var eventDiv = document.createElement("div");
+        eventDiv.className = "event-div";
+        this.container.appendChild(eventDiv);
+        this.eventDiv = eventDiv;
+
         /*canvas属性*/
         var canvas = document.createElement("canvas");
         this.container.appendChild(canvas);
-        
+
         canvas.width = dpr * this.options.width;
         canvas.height = dpr * this.options.height;
         canvas.style.width = this.options.width + "px";
@@ -52,7 +58,7 @@ var ChartMobileBar = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
 
-        if(this.options.color === undefined){
+        if (this.options.color === undefined) {
             this.options.color = "#6890D5";
         }
         if (!this.options.sepeNum) {
@@ -60,7 +66,7 @@ var ChartMobileBar = (function() {
         }
         var yaxis = this.options.yaxis;
         var series = this.options.series;
-        var dataArr = series.reduce(function(pre, cur, index, arr){
+        var dataArr = series.reduce(function(pre, cur, index, arr) {
             return pre.concat(cur.data);
         }, series[0].data);
         var coordinate = divide(this.options.sepeNum, dataArr);
@@ -94,33 +100,35 @@ var ChartMobileBar = (function() {
         var _this = this;
         new DrawXY(this.options);
         drawBar.call(this);
-        // common.addEvent(_this.container, "mousemove", function(e) {
-        //     var winX, winY;
-        //     //浏览器检测，获取到相对元素的x和y
-        //     if (e.layerX) {
-        //         winX = e.layerX;
-        //         winY = e.layerY;
-        //     } else if (e.x) {
-        //         winX = e.x;
-        //         winY = e.y;
-        //     }
-        //     // winX = e.offsetX || (e.clientX - _this.container.getBoundingClientRect().left);
-        //     // winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
-        //     handleEvent.call(_this, winX, winY);
+        common.addEvent(_this.eventDiv, "mousemove", function(e) {
+            var winX, winY;
+            //浏览器检测，获取到相对元素的x和y
+            if (e.layerX) {
+                winX = e.layerX;
+                winY = e.layerY;
+            } else if (e.x) {
+                winX = e.x;
+                winY = e.y;
+            }
+            // winX = e.offsetX || (e.clientX - _this.container.getBoundingClientRect().left);
+            // winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
+            handleEvent.call(_this, winX, winY);
 
-        //     try{
-        //         e.preventDefault();
-        //     }
-        //     catch(error){
-        //         e.returnValue = false;
-        //     }
-        // })
-        // common.addEvent(_this.container, "mouseleave", function(e){
-        //     if(_this.options.tips !== undefined){
-        //         _this.options.tips.style.display = "none";
-        //         _this.options.tips.style.left = "-10000";
-        //     }
-        // });
+            try {
+                e.preventDefault();
+            } catch (error) {
+                e.returnValue = false;
+            }
+        })
+        common.addEvent(_this.eventDiv, "mouseleave", function(e) {
+            if (_this.options.tips !== undefined) {
+                _this.options.tips[0].style.display = "none";
+                _this.options.tips[0].style.left = "-10000";
+
+                _this.options.tips[1].style.display = "none";
+                _this.options.tips[1].style.left = "-10000";
+            }
+        });
         if (cb) {
             cb();
         }
@@ -140,6 +148,9 @@ var ChartMobileBar = (function() {
             this.container.innerHTML = "";
         } else {
             document.getElementById(this.options.container).innerHTML = "";
+        }
+        if(this.options.tips){
+            this.options.tips = null;
         }
         if (cb) {
             cb();

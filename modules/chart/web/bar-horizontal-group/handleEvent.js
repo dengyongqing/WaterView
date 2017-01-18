@@ -5,7 +5,7 @@ module.exports = function(winX, winY) {
     var dpr = this.options.dpr,
         cvs = this.options.canvas,
         ctx = this.options.context,
-        datas = this.options.series.data,
+        datas = this.options.series,
         yaxis = this.options.yaxis;
 
     var coordinate = this.options.coordinate,
@@ -19,142 +19,93 @@ module.exports = function(winX, winY) {
         baseLine = XYF(paddingLeft + totalWidth / sepeNum * (-coordinate.min / coordinate.stepHeight));
 
     var color = this.options.color,
-        hoverColor = this.options.hoverColor;
+        hoverColor = this.options.hoverColor,
+        spaceBetween = 10;
 
     /*通过在哪个区间，进行交互显示*/
     var cursor = Math.floor((winY * dpr - paddingTop) / unitHeight);
-    if (cursor >= 0 && cursor < datas.length) {
-        /*需要显示的内容*/
-        var prefix = this.options.series.prefix === undefined ? "" : this.options.series.prefix,
-            suffix = this.options.series.suffix === undefined ? "" : this.options.series.suffix,
-            title = yaxis[cursor].value,
-            value = prefix + datas[cursor] + suffix;
-        /*悬浮的颜色变换*/
-        if (this.options.preCursor === undefined) {
-            this.options.preCursor = cursor;
-            hover(cursor, cursor);
-        } else {
-            var pre = this.options.preCursor;
-            this.options.preCursor = cursor;
-
-            hover(pre, cursor);
+    if (cursor >= 0 && cursor < yaxis.length && (winX > paddingLeft && winX < cvs.width - paddingRight) ) {
+        var title = yaxis[cursor].value,
+            tipLines = [],
+            line = {};
+        for(var i = 0, len = datas.length; i < len; i++){
+            var prefix = datas[i].prefix === undefined ? "" : datas[i].prefix;
+            var suffix = datas[i].suffix === undefined ? "" : datas[i].suffix;
+            tipLines.push({
+                "text": prefix+datas[i].data[cursor]+suffix ,
+                "color": datas[i].color
+            });
         }
-        if (!this.options.tips) {
-            var pad = document.createElement("div");
-            var el_title = document.createElement("div");
-            el_title.innerHTML = title;
-            var el_value = document.createElement("div");
-            var value_point = document.createElement("span");
-            var value_text = document.createElement("span");
-            value_text.innerHTML = value;
+        if(!this.options.tips){
+            var tipMask = document.createElement("div"),
+                tipPanel = document.createElement("div");
+            this.options.tips = [];
+            this.options.tips.push(tipMask);
+            this.container.appendChild(tipMask);
 
-            el_value.appendChild(value_point);
-            el_value.appendChild(value_text)
-            pad.appendChild(el_title);
-            pad.appendChild(el_value);
-            this.container.appendChild(pad);
-
-            this.options.tips = pad;
-            /*样式*/
-            pad.style.position = "absolute";
-            pad.style.font = "12px/150% Simsun,arial,sans-serif";
-            pad.style.padding = "5px";
-            pad.style.backgroundColor = "#000";
-            pad.style.color = "#fff";
-            pad.style.borderRadius = "5px";
-            pad.style.opacity = "0.7";
-            pad.style.filter = "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-
-            value_point.style.display = "inline-block";
-            value_point.style.width = "6px";
-            value_point.style.height = "6px";
-            if (yaxis[cursor].hoverColor !== undefined) {
-                value_point.style.backgroundColor = yaxis[cursor].hoverColor;
-            } else {
-                value_point.style.backgroundColor = hoverColor;
+            tipMask.className = "horizontal-gmask";
+            tipMask.style.width = totalWidth+"px";
+            tipMask.style.height = unitHeight + "px";
+            tipMask.style.top = (paddingTop + unitHeight*cursor) + "px";
+            tipMask.style.left = paddingLeft + "px";
+            this.options.tips.push(tipPanel);
+            this.container.appendChild(tipPanel);
+            tipPanel.className = "horizontal-gpanel";
+            //决定tip是显示在mask的上面还是下面
+            var tipTitle = document.createElement("div");
+            tipTitle.innerHTML = title;
+            tipPanel.appendChild(tipTitle);
+            for(var j = 0, jLen = tipLines.length; j < jLen; j++){
+                var divLine = document.createElement("div");
+                divLine.style.paddingTop = "8px";
+                divLine.innerHTML = '<i style="display: inline-block;margin-right:5px; height: 10px;width: 10px; border-radius: 5px;background-color:'+
+                                    tipLines[j].color+'"></i><span>'+tipLines[j].text+'</span>';
+                tipPanel.appendChild(divLine);
             }
-            value_point.style.borderRadius = "50%";
-            value_point.style.marginRight = "5px";
-
-            value_text.style.display = "inline-block";
-
-            //左右和上下的位置变换处理
-            if (winX * dpr >= paddingLeft + totalWidth / 2) {
-                pad.style.left = (winX - pad.clientWidth - 20) + "px";
-            } else {
-                pad.style.left = (winX + 20) + "px";
-            }
-            if (winY * dpr <= paddingTop + pad.clientHeight * dpr) {
-                pad.style.top = paddingTop + "px";
-            } else {
-                pad.style.top = winY - pad.clientHeight + "px";
-            }
-        } else {
-            var el_pad = this.options.tips;
-            /*先显示，才能计算div宽高*/
-            if (winX * dpr <= paddingLeft || winX * dpr >= paddingLeft + totalWidth) {
-                this.options.tips.style.display = "none";
-                this.options.tips.style.left = "-10000";
-                hover(cursor);
-            } else {
-                el_pad.style.display = "block";
+            if(paddingTop + unitHeight*(2/3+cursor) + tipPanel.clientHeight < cvs.height - paddingBottom){
+                tipPanel.style.top = (paddingTop + unitHeight*(2/3+cursor)) + "px";
+            }else{
+                tipPanel.style.top = (paddingTop + unitHeight*(1/3+cursor) - tipPanel.clientHeight) + "px";
             }
 
-            el_pad.children[0].innerHTML = title;
-            el_pad.children[1].children[1].innerHTML = value;
-            if (yaxis[cursor].hoverColor !== undefined) {
-                el_pad.children[1].children[0].style.backgroundColor = yaxis[cursor].hoverColor;
-            } else {
-                el_pad.children[1].children[0].style.backgroundColor = hoverColor;
+            if(winX + spaceBetween + tipPanel.clientWidth >  totalWidth - paddingRight){
+                tipPanel.style.left = winX-spaceBetween- tipPanel.clientWidth +"px";
+            }else{
+                tipPanel.style.left = winX+spaceBetween+"px";
             }
-            //左右和上下的位置变换处理
-            if (winX * dpr >= paddingLeft + totalWidth / 2) {
-                el_pad.style.left = (winX - el_pad.clientWidth - 20) + "px";
-            } else {
-                el_pad.style.left = (winX + 20) + "px";
+        }else{
+            var existMask = this.options.tips[0],
+                existPanel = this.options.tips[1],
+                existLines = existPanel.children,
+                existTitle = existLines[0];
+
+            existTitle.innerHTML = title;
+            existMask.style.top = (paddingTop + unitHeight*cursor) + "px";
+            
+            for(var k = 0, kLen = existLines.length; k < kLen-1; k++){
+                existLines[k+1].children[1].innerHTML = tipLines[k].text;
             }
-            if (winY * dpr <= paddingTop + el_pad.clientHeight * dpr) {
-                el_pad.style.top = paddingTop + "px";
-            } else {
-                el_pad.style.top = winY - el_pad.clientHeight + "px";
+            existMask.style.display = "block";
+            existPanel.style.display = "block";
+            if(paddingTop + unitHeight*(2/3+cursor) + existPanel.clientHeight < cvs.height - paddingBottom){
+                existPanel.style.top = (paddingTop + unitHeight*(2/3+cursor)) + "px";
+            }else{
+                existPanel.style.top = (paddingTop + unitHeight*(1/3+cursor) - existPanel.clientHeight) + "px";
+            }
+            if(winX + spaceBetween + existPanel.clientWidth >  totalWidth - paddingRight){
+                existPanel.style.left = winX-spaceBetween- existPanel.clientWidth +"px";
+            }else{
+                existPanel.style.left = winX+spaceBetween+"px";
             }
 
         }
     } else {
         if (this.options.tips) {
-            this.options.tips.style.display = "none";
-            this.options.tips.style.left = "-10000";
-            cursor = cursor < 0 ? 0 : datas.length - 1;
-            hover(cursor);
+            this.options.tips[0].style.display = "none";
+            this.options.tips[0].style.left = "-10000";
+
+            this.options.tips[1].style.display = "none";
+            this.options.tips[1].style.left = "-10000";
         }
-    }
-    /*柱体悬浮颜色的变化，不传第二个参数，即为消除*/
-    function hover(pre, cur) {
-        ctx.save();
-        /*原来的柱子颜色恢复*/
-        ctx.fillStyle = color;
-        if (yaxis[pre].color !== undefined) {
-            ctx.fillStyle = yaxis[pre].color;
-        }
-        if (datas[pre] < 0) {
-            var barWidth = Math.round(datas[pre] / coordinate.min * (baseLine - paddingLeft));
-            ctx.fillRect(baseLine - barWidth, XYF(paddingTop + unitHeight * (pre + 1 / 4)), barWidth, Math.round(unitHeight / 2));
-        } else {
-            ctx.fillRect(baseLine, XYF(paddingTop + unitHeight * (pre + 1 / 4)), Math.round(datas[pre] / coordinate.max * (totalWidth - (baseLine - paddingLeft))), Math.round(unitHeight / 2));
-        }
-        /*现在的柱子颜色改变*/
-        if (cur !== undefined) {
-            ctx.fillStyle = hoverColor;
-            if (yaxis[pre].hoverColor !== undefined) {
-                ctx.fillStyle = yaxis[pre].hoverColor;
-            }
-            if (datas[cur] < 0) {
-                var barWidth = Math.round(datas[cur] / coordinate.min * (baseLine - paddingLeft));
-                ctx.fillRect(baseLine - barWidth, XYF(paddingTop + unitHeight * (cur + 1 / 4)), barWidth, Math.round(unitHeight / 2));
-            } else {
-                ctx.fillRect(baseLine, XYF(paddingTop + unitHeight * (cur + 1 / 4)), Math.round(datas[cur] / coordinate.max * (totalWidth - (baseLine - paddingLeft))), Math.round(unitHeight / 2));
-            }
-        }
-        ctx.restore();
     }
 }

@@ -18,7 +18,10 @@
 	
 </head>
 <body>
+	<div style="height: 600px; width: 700px; position: relative; left: 100px;">
+		
 	<div id="container"></div>
+	</div>
 	<script src="../../bundle/emcharts.js"></script>
 	
 	<script type="text/javascript">
@@ -64,12 +67,12 @@
 	            	showline:true
 	            }],
 	            series: [{
-	            	name:'收入',
+	            	prefix:'收入',
 	            	suffix:'元',
 	            	color: '#E22829',
-	            	data:[200, 170, 240, 244, 200, 220, 210]
+	            	data:[200, 170, 240, -244, 200, 220, 210]
 	            },{
-	            	name:'支出',
+	            	prefix:'支出',
 	            	suffix:'元',
 	            	color:'#3C4AC5',
 	            	data:[-320, -302, -341, -374, -390, -450, -420]
