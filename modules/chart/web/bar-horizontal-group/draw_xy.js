@@ -3,6 +3,7 @@ var extend = require("tools/extend2");
 var draw_dash = require("chart/web/common/draw_dash_line");
 // 格式化坐标
 var XYF = require('chart/web/common/xyf');
+var common = require('chart/web/common/common');
 var DrawXY = (function() {
     function DrawXY(options) {
         this.options = {};
@@ -119,7 +120,7 @@ var DrawXY = (function() {
             precise = stepHeight.toString().length - stepHeight.toString().indexOf(".") - 1;
         }
         var m = Math.pow(10, precise);
-        return Math.round(f * m) / m;
+        return common.format_unit(Math.round(f * m) / m, precise);
     }
 
     return DrawXY;

@@ -108,7 +108,7 @@ var DrawXY = (function() {
         for (i = 0; i <= sepeNum; i++) {
             ctx.beginPath();
             ctx.textBaseline = "middle";
-            ctx.fillText(common.format_unit(roundFloat(minY + i * stepHeight, stepHeight),2), paddingLeft - 5, stepY * (sepeNum - i) + paddingTop);
+            ctx.fillText(roundFloat(minY + i * stepHeight, stepHeight), paddingLeft - 5, stepY * (sepeNum - i) + paddingTop);
         }
     }
 
@@ -119,7 +119,7 @@ var DrawXY = (function() {
             precise = stepHeight.toString().length - stepHeight.toString().indexOf(".") - 1;
         }
         var m = Math.pow(10, precise);
-        return Math.round(f * m) / m;
+        return common.format_unit(Math.round(f * m) / m, precise);
     }
 
     return DrawXY;
