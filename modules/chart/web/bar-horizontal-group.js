@@ -1,9 +1,9 @@
 var extend = require('tools/extend2');
 var watermark = require('chart/watermark');
 var divide = require('chart/web/common/divide');
-var DrawXY = require('chart/web/bar-horizontal/draw_xy');
-var drawBar = require('chart/web/bar-horizontal/draw_bar');
-var handleEvent = require('chart/web/bar-horizontal/handleEvent');
+var DrawXY = require('chart/web/bar-horizontal-group/draw_xy');
+var drawBar = require('chart/web/bar-horizontal-group/draw_bar');
+var handleEvent = require('chart/web/bar-horizontal-group/handleEvent');
 // 添加公用模块
 var common = require('tools/common');
 
@@ -25,10 +25,16 @@ var ChartMobileBar = (function() {
             this.options.dpr = 1;
         }
         var dpr = this.options.dpr;
+
+        var eventDiv = document.createElement("div");
+        eventDiv.className = "event-div";
+        this.container.appendChild(eventDiv);
+        this.eventDiv = eventDiv;
+
         /*canvas属性*/
         var canvas = document.createElement("canvas");
         this.container.appendChild(canvas);
-        
+
         canvas.width = dpr * this.options.width;
         canvas.height = dpr * this.options.height;
         canvas.style.width = this.options.width + "px";
@@ -42,7 +48,7 @@ var ChartMobileBar = (function() {
         }
         var ctx = canvas.getContext("2d");
 
-        /*一些如果不存在，就进行的默认设定*/
+        /*一些如果不存在，就进行默认的设定*/
         if (this.options.font_size === undefined) {
             this.options.font_size = 12;
         }
@@ -52,17 +58,18 @@ var ChartMobileBar = (function() {
         this.options.canvas = canvas;
         this.options.context = ctx;
 
-        if(this.options.color === undefined){
+        if (this.options.color === undefined) {
             this.options.color = "#6890D5";
-        }
-        if(this.options.hoverColor === undefined){
-            this.options.hoverColor = "#7EA1DA";
         }
         if (!this.options.sepeNum) {
             this.options.sepeNum = 4;
         }
         var yaxis = this.options.yaxis;
-        var coordinate = divide(this.options.sepeNum, this.options.series.data);
+        var series = this.options.series;
+        var dataArr = series.reduce(function(pre, cur, index, arr) {
+            return pre.concat(cur.data);
+        }, series[0].data);
+        var coordinate = divide(this.options.sepeNum, dataArr);
         this.options.coordinate = coordinate;
 
         this.options.padding = {};
@@ -93,7 +100,7 @@ var ChartMobileBar = (function() {
         var _this = this;
         new DrawXY(this.options);
         drawBar.call(this);
-        common.addEvent(_this.container, "mousemove", function(e) {
+        common.addEvent(_this.eventDiv, "mousemove", function(e) {
             var winX, winY;
             //浏览器检测，获取到相对元素的x和y
             if (e.layerX) {
@@ -107,17 +114,19 @@ var ChartMobileBar = (function() {
             // winY = e.offsetY || (e.clientY - _this.container.getBoundingClientRect().top);
             handleEvent.call(_this, winX, winY);
 
-            try{
+            try {
                 e.preventDefault();
-            }
-            catch(error){
+            } catch (error) {
                 e.returnValue = false;
             }
         })
-        common.addEvent(_this.container, "mouseleave", function(e){
-            if(_this.options.tips !== undefined){
-                _this.options.tips.style.display = "none";
-                _this.options.tips.style.left = "-10000";
+        common.addEvent(_this.eventDiv, "mouseleave", function(e) {
+            if (_this.options.tips !== undefined) {
+                _this.options.tips[0].style.display = "none";
+                _this.options.tips[0].style.left = "-10000";
+
+                _this.options.tips[1].style.display = "none";
+                _this.options.tips[1].style.left = "-10000";
             }
         });
         if (cb) {
@@ -139,6 +148,9 @@ var ChartMobileBar = (function() {
             this.container.innerHTML = "";
         } else {
             document.getElementById(this.options.container).innerHTML = "";
+        }
+        if(this.options.tips){
+            this.options.tips = null;
         }
         if (cb) {
             cb();

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<meta charset="UTF-8">
+	<title>手机图表</title>
+	<link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+	<style type="text/css">
+		body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form {
+		    margin: 0;
+		    padding: 0;
+		}
+		#container > canvas{
+			border:solid 1px #aaa;
+		}
+		
+	</style>
+	
+</head>
+<body>
+	<div style="height: 600px; width: 700px; position: relative; left: 100px;">
+		
+	<div id="container"></div>
+	</div>
+	<script src="../../bundle/emcharts.js"></script>
+	
+	<script type="text/javascript">
+		
+		var quarter_color = "#ffc962";
+		var container = document.getElementById("container");
+
+		window.onload = function(){
+			k0 = new EmchartsWebHorizontalGroupBar({
+	        	container: "container",
+	            "width": 600,
+	            "height": 500,
+	            sepeNum: 6,
+	            color:"#6890D5",
+	            hoverColor:"#7EA1DA",
+	            yaxis: [{
+	            	value:"周一",
+	            	show:true,
+	            	showline:true
+	            },{
+	            	value:"周二",
+	            	show:true,
+	            	showline:true
+	            },{
+	            	value:"周三",
+	            	show:true,
+	            	showline:true
+	            },{
+	            	value:"周四",
+	            	show:true,
+	            	showline:true
+	            },{
+	            	value:"周五",
+	            	show:true,
+	            	showline:true
+	            },{
+	            	value:"周六",
+	            	show:true,
+	            	showline:true
+	            },{
+	            	value:"周日",
+	            	show:true,
+	            	showline:true
+	            }],
+	            series: [{
+	            	prefix:'收入',
+	            	suffix:'元',
+	            	color: '#E22829',
+	            	data:[200, 170, 240, -244, 200, 220, 210]
+	            },{
+	            	prefix:'支出',
+	            	suffix:'元',
+	            	color:'#3C4AC5',
+	            	data:[-320, -302, -341, -374, -390, -450, -420]
+	            }]
+	        });
+	        k0.draw();
+		}
+	</script>
+	
+</body>
+</html>

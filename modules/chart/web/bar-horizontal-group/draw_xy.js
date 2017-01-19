@@ -29,7 +29,7 @@ var DrawXY = (function() {
         var ctx = this.options.context,
             canvas = this.options.canvas,
             arr_y = this.options.yaxis,
-            arr_data = this.options.series.data,
+            arr_data = this.options.series,
             unitHeight = this.options.unitHeight,
             dpr = this.options.dpr;
 
@@ -76,6 +76,10 @@ var DrawXY = (function() {
                 ctx.fillText(arr_y[i].value, paddingLeft - 8 * dpr, y_top + i * unitHeight + unitHeight / 2);
                 ctx.moveTo(paddingLeft - 4 * dpr, XYF(y_top + i * unitHeight + unitHeight / 2));
                 ctx.lineTo(paddingLeft, XYF(y_top + i * unitHeight + unitHeight / 2));
+            }
+            if(arr_y[i].showline && i !== len -1){
+                draw_dash(ctx, paddingLeft, y_top + i * unitHeight + unitHeight,
+                    paddingLeft+totalWidth, y_top + i * unitHeight + unitHeight, 3);
             }
         }
         ctx.stroke();

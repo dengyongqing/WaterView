@@ -23,11 +23,6 @@ var ChartMobileBar = (function() {
         /*canvas属性*/
         var canvas = document.createElement("canvas");
         this.container.appendChild(canvas);
-        canvas.width = dpr * this.options.width;
-        canvas.height = dpr * this.options.height;
-        canvas.style.width = this.options.width + "px";
-        canvas.style.height = this.options.height + "px";
-        canvas.style.border = "0";
 
         try {
             var ctx = canvas.getContext('2d');
@@ -35,8 +30,10 @@ var ChartMobileBar = (function() {
             canvas = window.G_vmlCanvasManager.initElement(canvas);
             var ctx = canvas.getContext('2d');
         }
-
-        var ctx = canvas.getContext("2d");
+        canvas.width = dpr * this.options.width;
+        canvas.height = dpr * this.options.height;
+        canvas.style.width = this.options.width + "px";
+        canvas.style.height = this.options.height + "px";
         this.options.font_size = 12;
         ctx.font = (this.options.font_size * dpr) + "px Arial";
         ctx.lineWidth = dpr * 1;
@@ -51,7 +48,7 @@ var ChartMobileBar = (function() {
             this.options.sepeNum = 4;
         }
         this.options.padding = {};
-        this.options.padding.left = ctx.measureText("+10000").width * dpr;
+        this.options.padding.left = ctx.measureText("+8000万").width * dpr;
         this.options.padding.right = 10;
         this.options.padding.top = this.options.font_size * 2 * dpr;
 

@@ -115,7 +115,7 @@ var DrawLine = (function(){
         if(flag){
         	var start_y = get_y.call(this,this.options.data.min2);
         }else{
-        	var start_y = common.get_y.call(this,this.options.data.min2);
+        	var start_y = common.get_y.call(this,this.options.data.min);
         }
         
         var groupBarWidth = this.options.unit.groupBarWidth;

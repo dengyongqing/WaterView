@@ -43,7 +43,7 @@ var DrawXY = (function() {
 
         // 绘制横坐标刻度
         if (oc_time_arr) {
-            drawXMark.apply(this, [ctx, k_height, oc_time_arr]);
+            drawXMark.apply(this, [ctx, k_height, oc_time_arr, data.total]);
         }
 
     };
@@ -143,7 +143,7 @@ var DrawXY = (function() {
         ctx.fillText(percent, k_width - ctx.measureText(percent).width - 5, obj.y);
     }
     /*绘制横坐标刻度值*/
-    function drawXMark(ctx, k_height, oc_time_arr) {
+    function drawXMark(ctx, k_height, oc_time_arr, total) {
         // var dpr = this.options.dpr;
         var padding_left = this.options.padding_left;
         ctx.save();
@@ -157,11 +157,11 @@ var DrawXY = (function() {
         if(this.options.type.toLowerCase() == "t1"){
             for (var i = 0; i < oc_length; i++) {
                 if (i == 0) {
-                    ctx.fillText(oc_time_arr[i], padding_left, y_date);
+                    ctx.fillText(oc_time_arr[i].str, padding_left, y_date);
                 } else if (i == oc_length - 1) {
-                    ctx.fillText(oc_time_arr[i], k_width - ctx.measureText(oc_time_arr[i]).width, y_date);
+                    ctx.fillText(oc_time_arr[i].str, k_width - ctx.measureText(oc_time_arr[i].str).width, y_date);
                 } else {
-                    ctx.fillText(oc_time_arr[i], (k_width - padding_left) / 2 + padding_left - ctx.measureText(oc_time_arr[i]).width / 2, y_date);
+                    ctx.fillText(oc_time_arr[i].str, k_width*(oc_time_arr[i].tick/total) + padding_left - ctx.measureText(oc_time_arr[i].str).width / 2, y_date);
                 }
             }
         }else{

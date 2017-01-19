@@ -209,13 +209,13 @@
     }
 
     
-    function roundFloat(f, stepHeight){
+    function roundFloat(f, stepHeight) {
         var precise = 1;
-        if(stepHeight.toString().indexOf(".") !== -1){
-            precise = stepHeight.toString().length - stepHeight.toString().indexOf(".")-1;
+        if (stepHeight.toString().indexOf(".") !== -1) {
+            precise = stepHeight.toString().length - stepHeight.toString().indexOf(".") - 1;
         }
         var m = Math.pow(10, precise);
-        return Math.round(f * m)/ m;
+        return common.format_unit(Math.round(f * m) / m, precise);
     }
 
     return DrawXY;
