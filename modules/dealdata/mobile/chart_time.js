@@ -18,7 +18,7 @@ var fix = require('common').fixed;
 
 var dealData = function(json, type, id) {
     /*归属地（美股，港股，内地）*/
-    var blongTo = id.charAt(id.length-1);
+    var blongTo = id.charAt(id.length - 1);
     var info = json.info;
     var ticks = info.ticks.split('|');
     var yc = info.yc;
@@ -48,7 +48,7 @@ var dealData = function(json, type, id) {
         if (tempDate !== items[0].split(" ")[0]) {
             var dateArr = items[0].split(" ")[0].split("-");
             tempDate = items[0].split(" ")[0];
-            dateStrs.push(dateArr[1]+"/"+dateArr[2]);
+            dateStrs.push(dateArr[1] + "/" + dateArr[2]);
         }
 
         v_max = v_max > Number(items[2]) ? v_max : Number(items[2]);
@@ -81,47 +81,52 @@ var dealData = function(json, type, id) {
         result.data.push(point);
     }
 
-    /*对应不同情况返回时间刻度数组*/
-    if (type === "r") {
-        var morning_start_hour = Math.floor(ticks[0] / 3600) > 24 ? (Math.floor(ticks[0] / 3600) - 24) : Math.floor(ticks[0] / 3600);
-
-        result.timeStrs.push(fix(morning_start_hour, 2) + ":" + fix((ticks[0] / 60) % 60, 2));
-
-        var morning_end_hour = Math.floor(ticks[4] / 3600) > 24 ? (Math.floor(ticks[4] / 3600) - 24) : Math.floor(ticks[4] / 3600);
-
-        if (ticks.length <= 5) {
-            result.timeStrs.push("");
+    //一下算出总的时刻数
+    var totalTicks = 0;
+    var te = [];
+    //所有开闭的时间点（成对出现）
+    var changeTicks = ticks.slice(3);
+    for (i = 0, len = changeTicks.length; i < len; i += 2) {
+        var preTicks = totalTicks;
+        totalTicks += (changeTicks[i + 1] - changeTicks[i]) / 60;
+        if (i !== 0) {
+            te.push({ "str": tickToStr(changeTicks[i - 1]) + "/" + tickToStr(changeTicks[i]), "tick": preTicks });
+            if (i === len - 2) {
+                te.push({ "str": tickToStr(changeTicks[i + 1]), "tick": totalTicks});
+            }
         } else {
-            var afternoon_start_hour = Math.floor(ticks[5] / 3600) > 24 ? (Math.floor(ticks[5] / 3600) - 24) : Math.floor(ticks[5] / 3600);
-            result.timeStrs.push(fix(morning_end_hour, 2) + ":" + fix((ticks[4] / 60) % 60, 2) + " / " + fix(afternoon_start_hour) + ":" + fix((ticks[5] / 60) % 60, 2));
+            te.push({ "str": tickToStr(changeTicks[i]), "tick": 0 });
+            if (i === len - 2) {
+                te.push({ "str": tickToStr(changeTicks[i + 1]), "tick": totalTicks });
+            }
         }
 
-        var afternoon_end_hour = Math.floor(ticks[1] / 3600) > 24 ? (Math.floor(ticks[1] / 3600) - 24) : Math.floor(ticks[1] / 3600);
-        result.timeStrs.push(fix(afternoon_end_hour, 2) + ":" + fix((ticks[1] / 60) % 60, 2));
     }
-    
-    if (ticks.length === 7) {
-        if (dateStrs.length >= 2) {
-            result.timeStrs = dateStrs;
-        }
-    } else {
-        if (dateStrs.length > 2) {
+    //获取时间点对应的时间字符串数组 
+
+    if(type === 'r'){
+        result.timeStrs = [].concat(te);
+    }else{
+        result.timeStrs = dateStrs;
+        if(type.match(/[0-9]/)[0] < dateStrs.length){
             result.timeStrs = dateStrs.slice(1);
         }
     }
-
-    if(blongTo === "7"){
-        result.total = Math.ceil(result.total/391)*391;
-    }else if(blongTo === "5"){
-        result.total = Math.ceil(result.total/352)*352;
-    }else{
-        result.total = Math.ceil(result.total/242)*242;
+    result.total = totalTicks;
+    if(type.match(/[0-9]/)){
+        result.total = totalTicks*type.match(/[0-9]/)[0];
     }
-
+    
     result.max = coordinate(max, min, yc).max;
     result.min = coordinate(max, min, yc).min;
     return result;
 
 };
+
+function tickToStr(tick){
+    var hour = Math.floor((tick/60)/60);
+    var minute = (tick/60)%60;
+    return fix(hour%24,2)+":"+fix(minute, 2);
+}
 
 module.exports = dealData;
