@@ -25,5 +25,3 @@ window.EmchartsMobiLine = EmchartsWebLine;
 window.ChartMobiBar = ChartMobiBar;
 // 手机分组柱状图
 window.ChartMobiGroupBar = ChartMobiGroupBar;
-
-
