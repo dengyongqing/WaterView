@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>web图表</title>
+    <link rel="shortcut icon" type="image/ico" href="http://www.eastmoney.com/favicon.ico" />
+    <style type="text/css">
+    body, form, ul, li, dl, dt, dd, p, table, tr, td, h1, h2, h3, h4, h5, h6, ul, li, form { margin: 0; padding: 0; }
+
+    
+    body {
+        height: 1000px;
+    }
+    
+    .header .tool-bar {
+        background: -webkit-linear-gradient(top, #4d74ae, #2e5186);
+        Safari 5.1 - 6.0 background: -o-linear-gradient(bottom, #4d74ae, #2e5186);
+        Opera 11.1 - 12.0 background: -moz-linear-gradient(bottom, #4d74ae, #2e5186);
+        Firefox 3.6 - 15 background: linear-gradient(to bottom, #4d74ae, #2e5186);
+        标准的语法 background: #2e5186;
+        height: 70px;
+    }
+    
+    .header .sepe {
+        height: 50px;
+        background-color: #d1e1f9;
+    }
+    
+    .content {
+        background-color: #f2f2f2;
+    }
+    
+    .content .emchart {
+        background-color: #fff;
+        padding: 0px 10px;
+    }
+    
+    .tabs {
+        background-color: #fff;
+        height: 50px;
+        font-size: 18px;
+        color: #000;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 15px;
+    }
+    
+    .tabs .tab {
+        float: left;
+        width: 25%;
+        height: 47px;
+        line-height: 47px;
+        text-align: center;
+    }
+    
+    .tabs .tab.current {
+        color: #2f5895;
+        border-bottom: 3px solid #2f5895;
+    }
+    
+    .tab-list {
+        position: absolute;
+        top: 150px;
+        left: 100px;
+        z-index: 100;
+        border: solid 1px #4267A0;
+        border-right: 0;
+    }
+    
+    .tab-item {
+        float: left;
+        display: inline-block;
+        border-right: solid 1px #4267A0;
+        padding: 2px 5px;
+        cursor: pointer;
+        height: 20px;
+        line-height: 20px;
+    }
+    
+    .choose {
+        background-color: #4267A0;
+        color: white;
+    }
+    
+    .scale {
+        position: absolute;
+        left: 610px;
+        top: 150px;
+        z-index: 101;
+        height: 25px;
+        line-height: 25px;
+        width: 250px;
+    }
+    
+    .scale-plus,
+    .scale-minus {
+        background-color: #4267A0;
+        display: inline-block;
+        margin-right: 10px;
+        height: 25px;
+        line-height: 25px;
+        width: 60px;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+        *display: inline;
+        *zoom: 1;
+    }
+    
+    .beforeBackRight {
+        /* height: 25px;
+			line-height: 25px; */
+    }
+    
+    .main {
+        width: 800px;
+        margin-left: 50px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="main-wrap">
+        <div class="main">
+            <div class="header">
+                <div class="tool-bar">
+                    <div class="">
+                        <div class="search" style="height:50px;line-height:50px;">
+                            <input type="text" id="stock-code" class="" style="margin-left:30px;padding-left:5px;width:200px;height:20px;" value="请输入股票代码加市场号" onfocus="if(this.value == '请输入股票代码加市场号')  this.value = '';" onblur="if(this.value == '') this.value = '请输入股票代码加市场号';" autocomplete="off">
+                            <input type="button" id="search-btn" style="margin-left:10px;width:50px;height:25px;" value="查询">
+                        </div>
+                    </div>
+                </div>
+                <div class="tabs">
+                    <div id="tab-0" target="emchart-0" class="tab current" style="width:100%;">web的K线图</div>
+                    <!-- <div id="tab-1" target="emchart-1" class="tab">日K</div>
+					<div id="tab-2" target="emchart-2" class="tab">周K</div>
+					<div id="tab-3" target="emchart-3" class="tab">月K</div> -->
+                </div>
+            </div>
+            <div class="content">
+                <ul class="tab-list" id="tab_list">
+                    <li class="tab-item choose" id="one">日K</li>
+                    <li class="tab-item" id="two">周K</li>
+                    <li class="tab-item" id="three">月K</li>
+                    <li class="tab-item" id="m5k">5分钟</li>
+                    <li class="tab-item" id="m15k">15分钟</li>
+                    <li class="tab-item" id="m30k">30分钟</li>
+                    <li class="tab-item" id="m60k">60分钟</li>
+                </ul>
+                <div class="scale">
+                    <div class="scale-minus" id="scale-minus">拉长K线</div>
+                    <div class="scale-plus" id="scale-plus">缩短K线</div>
+                    <select class="beforeBackRight" id="beforeBackRight">
+                        <option value="">不复权</option>
+                        <option value="before" selected>前复权</option>
+                        <option value="back">后复权</option>
+                    </select>
+                </div>
+                <div id="emchart" class="emchart" style="padding-top:50px;">
+                    <div id="emchart-0" class="em-tab">
+                    </div>
+                    <div id="emchart-1" class="em-tab">
+                    </div>
+                    <div id="emchart-2" class="em-tab">
+                    </div>
+                    <div id="emchart-3" class="em-tab">
+                    </div>
+                    <div id="emchart-4" class="em-tab">
+                    </div>
+                    <div id="emchart-5" class="em-tab">
+                    </div>
+                    <div id="emchart-6" class="em-tab">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./bundle/emcharts.js"></script>
+    <script type="text/javascript" defer>
+    var code = "3000592";
+    var current, k0, k1, k2, k3, k4, k5, k6;
+
+    window.onload = function() {
+        current = k0 = new EmchartsWebK({
+            code: code,
+            type: "K",
+            container: "emchart-0",
+            "width": 800,
+            "height": 500
+        });
+
+        var select = document.getElementById("beforeBackRight");
+        var options = select.children;
+        if (current.options.authorityType == "不复权") {
+            options[0].selected = true;
+            k0.options.beforeBackRight = "";
+        } else if (current.options.authorityType == "前复权") {
+            options[1].selected = true;
+            k0.options.beforeBackRight = "before";
+        } else if (current.options.authorityType == "后复权") {
+            options[2].selected = true;
+            k0.options.beforeBackRight = "back";
+        } else {
+            options[1].selected = true;
+            k0.options.beforeBackRight = "before";
+        }
+
+        window.beforeBackRight = k0.options.beforeBackRight;
+
+        current.draw();
+        var list = document.getElementsByTagName("li");
+        var tabUrl = document.getElementById("tab_list");
+        tabUrl.onclick = function(e) {
+
+            for (var i = 0; i < list.length; i++) {
+                list[i].className = "tab-item";
+            }
+            var target;
+            if (!window.event) {
+                target = e.target;
+            } else {
+                target = window.event.srcElement;
+            }
+            target.className = "tab-item choose";
+            var params = {
+                dpr: 1,
+                code: code,
+                container: "emchart-0",
+                "width": 800,
+                "height": 500
+            };
+
+            switch (target.getAttribute("id")) {
+                case "one":
+                    params.type = "k";
+                    params.container = "emchart-0";
+                    current = k0 = tab(k0, params);
+                    break;
+                case "two":
+                    params.type = "wk";
+                    params.container = "emchart-1";
+                    current = k1 = tab(k1, params);
+                    break;
+                case "three":
+                    params.type = "mk";
+                    params.container = "emchart-2";
+                    current = k2 = tab(k2, params);
+                    break;
+                case "m5k":
+                    params.type = "m5k";
+                    params.container = "emchart-3";
+                    current = k3 = tab(k3, params);
+                    break;
+                case "m15k":
+                    params.type = "m15k";
+                    params.container = "emchart-4";
+                    current = k4 = tab(k4, params);
+                    break;
+                case "m30k":
+                    params.type = "m30k";
+                    params.container = "emchart-5";
+                    current = k5 = tab(k5, params);
+                    break;
+                case "m60k":
+                    params.type = "m60k";
+                    params.container = "emchart-6";
+                    current = k6 = tab(k6, params);
+                    break;
+            }
+
+            function tab(k, params) {
+
+                var ems = document.getElementById("emchart").children;
+                [].forEach.call(ems, function(em) {
+                    em.style.display = "none";
+                });
+                document.getElementById(params.container).style.display = "block";
+                if (!k) {
+                    current = k = new EmchartsWebK(params)
+                    current.options.beforeBackRight = document.getElementById("beforeBackRight").value;
+                    current.draw();
+                } else {
+                    var v = k.options.beforeBackRight;
+                    if (window.beforeBackRight == v) {
+                        current = k;
+                    } else {
+                        if (window.beforeBackRight == "before") {
+                            k.options.beforeBackRight = "before";
+                            k.beforeBackRight(1);
+                        } else if (window.beforeBackRight == "back") {
+                            k.options.beforeBackRight = "back";
+                            k.beforeBackRight(2);
+                        } else {
+                            k.options.beforeBackRight = "";
+                            k.beforeBackRight(0);
+                        }
+                    }
+                }
+                return k;
+            }
+            // document.getElementById('emchart-0').innerHTML = "";
+
+            // k0 = new EmchartsWebK(params);
+
+        };
+
+        addEvent(document.getElementById("scale-plus"), "click", function() {
+            current.scalePlus();
+        });
+
+        addEvent(document.getElementById("scale-minus"), "click", function() {
+            current.scaleMinus();
+        });
+
+        addEvent(document.getElementById("beforeBackRight"), "change", function(event) {
+            var v = event.target.value;
+
+            window.beforeBackRight = v;
+            current.options.beforeBackRight = v;
+
+            if (v == "before") {
+                current.beforeBackRight(1);
+            } else if (v == "back") {
+                current.beforeBackRight(2);
+            } else {
+                current.beforeBackRight(0);
+            }
+
+        });
+
+        addEvent(document.getElementById("search-btn"), "click", function() {
+            var temp = document.getElementById("stock-code").value;
+            if (temp == "请输入股票代码加市场号" || temp == "") {
+                alert("请输入股票代码加市场号");
+                return;
+            } else {
+                code = temp;
+            }
+            current.options.code = code;
+            current.draw();
+        });
+
+    }
+
+
+    /**
+     * 兼容性的事件添加
+     * @param {[type]}   obj  对哪个元素添加
+     * @param {[type]}   type 事件类型
+     * @param {Function} fn   事件触发的处理函数
+     */
+    function addEvent(obj, type, fn) {
+        if (obj.attachEvent) {
+            obj['e' + type + fn] = fn;
+            obj[type + fn] = function() {
+                obj['e' + type + fn](window.event);
+            }
+            obj.attachEvent('on' + type, obj[type + fn]);
+        } else
+            obj.addEventListener(type, fn, false);
+    }
+    </script>
+</body>
+
+</html>

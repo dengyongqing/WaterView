@@ -8,6 +8,9 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
     "gulp": "^3.9.1",
@@ -23,8 +26,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "webpack-dev-server",
-    "build:dev": "webpack --mode development",
-    "build:prd": "webpack --mode production"
+    "build:dev": "webpack --mode development"
   },
   "keywords": [
     "东财",

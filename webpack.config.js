@@ -3,7 +3,7 @@ var path = require('path');
 
 module.exports = {
 	entry: {
-        emcharts: ['./modules/tools/es5_shim.js', './modules/excanvas/excanvas.js', './dev/emcharts.js'],
+        emcharts: ['./modules/excanvas/excanvas.js', './dev/emcharts.js'],
 		mobile_emcharts:'./dev/mobile_emcharts.js'
     },
     output:{
@@ -35,14 +35,24 @@ module.exports = {
             // url-loader 当图片较小的时候会把图片BASE64编码，大于limit参数的时候还是使用file-loader 进行拷贝
                 test: /\.(jpg|gif|png|htc)$/,
                 use: 'url-loader'
-			}
+            },
+            {
+                test: /\.(js|jsx)$/,
+                // use: {
+                //     loader: 'babel-loader',
+                //     options: {
+                //         presets: ['@babel/preset-env']
+                //     }
+                // },
+                use: 'babel-loader',
+            }
         ]
     },
     plugins: [
     ],
     devtool: 'source-map', // 指定加source-map的方式
     devServer: {
-        contentBase: path.join(__dirname, "sample"), //静态文件根目录
+        contentBase: path.join(__dirname, "."), //静态文件根目录
         port: 3824, // 端口
         host: 'localhost',
         overlay: true,

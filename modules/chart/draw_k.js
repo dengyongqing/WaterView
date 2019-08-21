@@ -51,6 +51,9 @@ var DrawK = (function(){
 		
 		// 获取单位绘制区域
 		var rect_unit = this.options.rect_unit;
+		const ttt = (aaa) = {
+
+		};
 		// 单位绘制区域的宽度
 		// var rect_w = rect_unit.rect_w;
 		// K线柱体的宽度
@@ -118,7 +121,7 @@ var DrawK = (function(){
 		 	ctx.fill();
 		}
 	};
-
+	
 	return DrawK;
 })();
 
