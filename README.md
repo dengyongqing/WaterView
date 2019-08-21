@@ -6,7 +6,7 @@
 
 0. 打包命令
     ```
-    gulp webpack
+    npm run build:dev
     ```
 
 # 测试demo
