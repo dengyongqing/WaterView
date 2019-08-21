@@ -12,8 +12,9 @@ gulp.task("webpack", function(callback) {
     console.info('webpack开始');
   var myConfig = Object.create(webpackConfig);
   webpack(
-    myConfig
-  , function(err, stats) {
+    myConfig,
+    function(err, stats) {
+    console.info('stats', stats);
     console.info('webpack结束');
     callback();
   });

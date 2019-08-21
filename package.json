@@ -15,13 +15,16 @@
     "gulp-util": "^3.0.7",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0",
+    "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
-    "webpack-dev-server": "^3.8.0"
+    "webpack-dev-server": "^3.8.0",
+    "zrender": "^4.0.7"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server",
+    "build:dev": "webpack --mode development",
+    "build:prd": "webpack --mode production"
   },
   "keywords": [
     "东财",

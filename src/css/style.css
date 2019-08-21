@@ -1,0 +1,729 @@
+
+/*手机版图表样式*/
+.emcharts-container .show-tip {
+    position: absolute;
+    top: 0px;
+    z-index: 999;
+    border: 0;
+    padding: 10px;
+    border-radius: 7px;
+    background-color: #17b03e;
+    color: #fff;
+    font-size: 20px;
+    font-weight: lighter;
+    font-family: 'Microsoft Yahei';
+   
+}
+.emcharts-container .show-tip .span-price{
+	font-size: 22px;
+}
+.emcharts-container .show-tip span{
+	font-size: 14px;height:25px;line-height:25px;
+    white-space: nowrap;
+}
+
+.emcharts-container .tip-line-1,.tip-line-2{
+	height:25px;
+	line-height:25px;
+}
+
+.emcharts-container .show-tip .span-time-c1{
+	text-align: left;
+	margin-right: 10px;
+}
+.emcharts-container .show-tip .span-time-c2{
+	text-align: right;
+}
+
+.emcharts-container .show-tip .span-k-c1{
+	text-align: left;
+	margin-right: 10px;
+}
+.emcharts-container .show-tip .span-k-c2{
+	text-align: right;
+}
+
+
+.emcharts-container .cross-y{
+	position:absolute;top:0px;z-index:98;border-left:1px dashed #8f8f8f;width:0px;background-color:#fff;
+}
+.emcharts-container .cross-x{
+	position:absolute;left:0px;z-index:98;border-top:1px dashed #8f8f8f;height:0px;
+}
+.emcharts-container .cross-p{
+	position:absolute;z-index:100;
+}
+.emcharts-container .mark-ma{
+	position:absolute;top:0px;left:0px;z-index:97;border:0;font-family:Arial;font-weight:lighter;
+}
+.emcharts-container .mark-ma span {
+	display:inline-block;padding-right:3px;font-size:12px;text-align:left;color:#ffba42;
+}
+
+.emcharts-container .mark-ma .span-m5{
+	color:#f4cb15;
+}
+.emcharts-container .mark-ma .span-m10{
+	color:#ff5b10;
+}
+.emcharts-container .mark-ma .span-m20{
+	color:#488ee6;
+}
+.emcharts-container .mark-ma .span-m30{
+	color:#fe59fe;
+}
+
+.emcharts-container .bar-color-span{
+	display: inline-block;
+	margin-left: 10px;
+	width: 10px;
+	height: 10px;
+	vertical-align: middle;
+}
+
+.emcharts-container .bar-value-span{
+	display: inline-block;
+	min-width: 50px;
+	padding: 0px 5px;
+	height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
+	text-align: center;
+}
+
+/* chart_line 的样式 */
+.emcharts-container .chart_line_tips{
+	position: absolute;
+	z-index: 100;
+	background-color: #000;
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+	opacity: 0.7;
+	color:white;
+	min-width: 80px;
+	padding: 10px;
+	border-radius: 5px;
+	font-family: "Microsoft YaHei";
+	font-weight: lighter;
+	-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
+}
+.emcharts-container .chart_line_tips_title{
+	font-size: 16px;
+	font-weight: 400px;
+	padding: 5px 0px;
+}
+.emcharts-container .chart_line_tips_line{
+	padding: 2px 0px;
+	font-size: 12px;
+}
+.emcharts-container .chart_line_tips_color{
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	margin-right: 5px;
+}
+.emcharts-container .chart_line_tips_content{}
+.emcharts-container .chart_line_yline{
+	position: absolute;
+	width: 0px;
+	border-left: solid 1px #898989;
+}
+.emcharts-container .chart_line_ybar{
+	position: absolute;
+	background-color: rgb(51,51,51);	
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=10);
+	opacity: 0.1;
+}
+.emcharts-container .chart_line_cir{
+	background-color: white;
+	width: 10px;
+	height: 10px;
+	border-radius: 10px;
+	border: solid 1px white;
+	position: absolute;
+}
+
+.emcharts-container .event-div{
+	background-color: #fff;
+	opacity: 0;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	z-index: 1000;
+}
+
+/* 技术指标的样式 */
+.emcharts-container .markTContainer{
+	position: absolute;
+	font-family: 'Microsoft Yahei';
+	font-weight: lighter;
+	font-size: 12px;
+}
+.emcharts-container .markTContainer span{
+	margin-right: 20px;
+	display: inline-block;
+	*display: inline;
+	*zoom:1;
+}
+
+.emcharts-container .scale-div{
+	position:absolute;z-index:99;border:0px;width:90px;height:45px;
+	opacity:0.7;
+}
+.emcharts-container .scale-div .span-minus{
+	width: 30px;height: 30px;float: left;border-radius: 6px;
+	background: url(../images/minus.png) no-repeat center center #cccccc;
+	font-size: 14px;
+}
+.emcharts-container .scale-div .span-plus{
+	width: 30px;height: 30px;float: right;border-radius: 6px;
+	background: url(../images/plus.png) no-repeat center center #cccccc;
+	font-size: 14px;
+}
+.emcharts-container .scale-opacity{
+	opacity:0.3;
+}
+
+.emcharts-container .loading-chart {
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 100;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	text-align: center;
+
+    opacity: 0.7;
+    font-size: 20px;
+}
+
+.emcharts-container .delay-div{
+	position: absolute;
+	left:0;
+	top:0;
+	z-index: 10000;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+    opacity: 0;
+}
+
+.emcharts-container .mark-point{
+	position: absolute;
+	z-index: 97;
+	min-width: 15px;
+	min-height: 15px;
+	border-radius: 10px;
+	background: url(../images/bang-26-26.png) no-repeat center center/15px 15px #fff;
+	opacity: 1;
+}
+
+
+/*web港股的样式*/
+.emcharts-container .web-tips{
+	display: none;
+	left: -10000px;
+	top: -10000px;
+	position: absolute;
+	text-align: left;
+	background-color: #898989;
+	border-radius: 2px;
+	z-index: 10000;
+	display: inline-block;
+	color: white;
+	font-size: 12px;
+	text-align: center;
+	padding: 2px;
+	white-space:nowrap;
+}
+.emcharts-container .web-middleLine{
+	display: none;
+	position: absolute;
+	width: 0px;
+	border-right: dashed 1px #898989;
+}
+
+.emcharts-container .group-bar-mark{
+	position: absolute;
+	opacity: 0.1;
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
+}
+
+.emcharts-container .tech-index{
+	position:absolute;
+	z-index: 99;
+}
+
+.emcharts-container .tech-index-item{
+	background-color: #707070;
+	float:left;
+	text-align: center;
+	color:#fff;
+	cursor: pointer;
+}
+
+.emcharts-container .tech-index .current{
+	background-color: #c2c2c2;
+	color:#707070;
+}
+
+
+/*web版图表样式*/
+.emcharts-container{
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+
+   	font-family: simsun;
+	font-size: 12px;
+	box-sizing: inherit;
+}
+
+.emcharts-container{
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+
+   	font-family: simsun;
+	font-size: 12px;
+	box-sizing: inherit;
+}
+.emcharts-container .web-show-tip {
+	position: absolute;
+	top: 0px;
+	background-color: red;
+	z-index: 999;
+	border: 1px solid #97c8ff;
+	/*padding: 8px;*/
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.1);
+	background-color: #fff;
+	color: #666;
+	width: 120px;
+	font-size: 12px;
+	font-weight: lighter;
+	font-family: 'arial';
+
+}
+
+.emcharts-container .web-tip-line-left{
+	float: left;
+	width:50%;
+	text-align: left;
+	height:20px;
+	line-height: 20px;
+
+	*height:15px;
+	*line-height: 15px;
+}
+
+.emcharts-container .web-tip-line-right{
+	float: left;
+	width:50%;
+	text-align: right;
+	height:20px;
+	line-height: 20px;
+	white-space: nowrap;
+	*height:15px;
+	*line-height: 15px;
+}
+
+.emcharts-container .web-tip-first-line{
+	width:100%;
+	background: #edf5ff;
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+}
+
+.emcharts-container .web-tip-line-container{
+	padding:8px;
+	*margin-bottom: 8px;
+}
+
+.emcharts-container .time-tips-coordinate{
+	display: none;
+	position: absolute;
+	padding: 0px 3px;
+	font-size: 14px;
+	background-color: #707070;
+	color: white;
+	z-index: 1000;
+}
+.emcharts-container .time-tips-top{
+	display: none;
+	font-size: 14px;
+	color: #888;
+	position: absolute;
+	top: 0px;
+}
+
+/* web 版 分时图盘口异动样式 */
+.emcharts-container .timeChangeMainPad {
+    border: solid #65CAFE 1px;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    font-size: 12px;
+    color: #555;
+    background-color: white;
+    z-index: 1000;
+}
+.emcharts-container .timeChangeTriangle{
+	*display: none;
+	position: absolute;
+    left: 55px;
+    top: -6px;
+	width: 10px;
+	height: 10px;
+	background-color: #D1E7FF;
+	border-left: solid 1px #65CAFE;
+	border-top: solid 1px #65CAFE;
+	-webkit-transform: rotate(45deg);    /* for Chrome || Safari */
+	-moz-transform: rotate(45deg);       /* for Firefox */
+	-ms-transform: rotate(45deg);        /* for IE */
+	o-transform: rotate(45deg);         /* for Opera */
+}
+.emcharts-container .timeChangeTable{
+	*width: 170px;
+	min-width: 100px;
+	height: 50px;
+	border-spacing: 0px;
+    table-layout: fixed;
+}
+.emcharts-container .timeChangeHeader{
+	background-color: #D1E7FF;
+  	text-align: center;
+  	*width: 170px;
+    min-width: 100px;
+	padding: 7px 0px 5px 0px;
+	font-size: 14px;          
+}
+.timeChangeTable td{
+	padding: 0px 4px;
+}
+
+/* web版 k线图指标样式 */
+
+.emcharts-container .kt-pad {
+    position: absolute;
+    color: #5F5F5F;
+    margin-left: 15px;
+    min-width: 60px;
+}
+
+.emcharts-container .kt-title {
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+.emcharts-container .kt-line {
+    background-color: white; position: relative; margin: 7px 0px;
+}
+
+.emcharts-container .kt-line:hover{
+    cursor: pointer;
+}
+
+.emcharts-container .kt-radio-wrap{
+	position: relative; display: inline-block; *zoom:1;*display:inline; border: solid 1px #305896;height: 10px; width: 10px;background-color: white;box-sizing:content-box;
+}
+
+.emcharts-container .kt-radio {
+    position:absolute; margin: 2px; width: 6px; height: 6px; background-color: #305896;display: none;
+}
+
+.emcharts-container .kt-name {
+    color: #555;line-height: 18px;display: inline-block; height: 16px;padding-left: 5px;position: absolute; top: -2px; left: 15px;*display: inline;
+}
+
+.emcharts-container .kt-radio-choose {
+    display: block;
+}
+
+/* web k 线的滑动 */
+.emcharts-container .slideBarCVS{
+	background-color: white;
+	outline: solid 1px #E9E9E9;
+
+}
+
+.emcharts-container .leftDrag{
+	background-color: white;
+	opacity: 2;
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=200);
+}
+.emcharts-container .leftDrag:hover{
+	cursor: w-resize;
+}
+
+.emcharts-container .rightDrag{
+	background-color: white;
+}
+.emcharts-container .rightDrag:hover{cursor: e-resize;}
+.emcharts-container .containerBar{
+	background-color: #e0e0e0;
+	opacity: 0.5;
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+	border:solid 1px #35709C;
+}
+.emcharts-container .containerBar:hover{cursor: move;}
+
+.emcharts-container .preference-container{
+	position: absolute;
+	z-index: 101;
+}
+.emcharts-container .preference-shade{
+	background-color: #333;
+	opacity: 0.1;
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10);
+	width:100%;
+	height: 100%;
+}
+.emcharts-container .preference-handle{
+	position:absolute;
+	z-index: 101;
+	background-color: #fff;
+	border: 1px solid #e6e6e6;
+	border-left: 0;
+	width:30px;
+	height: 40px;
+	line-height: 20px;
+	padding:5px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 12px;
+    box-sizing: content-box;
+}
+.emcharts-container .set-tab{
+	border-bottom:1px solid #4267A0;
+	height:30px;
+}
+.emcharts-container .ma-tab{
+	/*float:left;*/
+	/*width:50%;*/
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 14px;
+}
+.emcharts-container .set-tab .current{
+	background-color: #4267A0;
+	color:#fff;
+}
+.emcharts-container .right-tab{
+	float:left;
+	width:50%;
+	height:30px;
+	line-height: 30px;
+	text-align: center;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.emcharts-container .set-container{
+	position: absolute;
+	z-index: 103;
+	background-color: #fff;
+	width:280px;
+	height:220px;
+}
+
+.emcharts-container .pre-notice{
+	height:20px;
+	line-height: 20px;
+	text-align: center;
+	margin: 5px 0px;
+	font-size: 14px;
+}
+.emcharts-container .ma-item{
+	height: 27px;
+	line-height: 30px;
+	padding-left: 15px;
+	text-align: center;
+}
+.emcharts-container .setting-span-ma5{
+	background-color:#f4cb15;
+}
+.emcharts-container .setting-span-ma10{
+	background-color:#ff5b10;
+}
+.emcharts-container .setting-span-ma20{
+	background-color:#488ee6;
+}
+.emcharts-container .setting-span-ma30{
+	background-color:#fe59fe;
+}
+
+.emcharts-container .span-setting{
+	display: inline-block;
+	*display: inline;
+	*zoom:1;
+	height: 15px;
+	width:15px;
+	margin-left: 10px;
+	vertical-align:middle;
+	cursor: pointer;
+}
+.emcharts-container .item-span{
+	
+}
+
+.emcharts-container .right-panel{
+	text-align: center;
+}
+.emcharts-container .right-panel-form{
+	text-align: left;
+	width: 160px;
+	margin: 20px auto;
+	line-height: 1.8;
+}
+/*.right-panel-btn{
+	border: none;
+	padding: 5px 15px;
+	margin: 10px 27px;
+	background-color: #4267A0;
+	color: white;
+}
+*/
+
+.emcharts-container .confirm-btn{
+	float:left;
+	border: none;
+	margin-left:30px;
+	margin-top:10px;
+	width:90px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #305895;
+	color: white;
+	font-size: 14px;
+}
+.emcharts-container .cancle-btn{
+	float:right;
+	border: none;
+	margin-right:30px;
+	margin-top:10px;
+	width:90px;
+	height: 30px;
+	line-height: 30px;
+	background-color: #305895;
+	color: white;
+	font-size: 14px;
+}
+
+.emcharts-container .colorPad{
+	display: none;
+	position: absolute;
+	top: 120px;
+	left: 120px;
+	background-color: white;
+}
+.emcharts-container .colorPadTriangle{
+	position: absolute;
+	top: 9px;
+	left: -12px;
+	width: 16px;
+	height: 11px;
+	*display: none;
+	background-color: white;
+	overflow: hidden;
+	z-index: 100;
+}
+.emcharts-container .colorPadTriangle .up{
+	position: absolute;
+	top: 2px;
+	left: 3px;
+	width: 12px;
+	height: 10px;
+	border-top: solid 1px #aaa;
+	background-color: white;
+	-webkit-transform: rotate(-25deg);    /* for Chrome || Safari */
+	-moz-transform: rotate(-25deg);       /* for Firefox */
+	-ms-transform: rotate(-25deg);        /* for IE */
+	o-transform: rotate(-25deg);         /* for Opera */
+	*display: none;
+	z-index: 10;
+}
+.emcharts-container .colorPadTriangle .down{
+	position: absolute;
+	top: 7px;
+	left: -1px;
+	width: 12px;
+	height: 10px;
+	border-top: solid 1px #aaa;
+	background-color: white;
+	-webkit-transform: rotate(25deg);    /* for Chrome || Safari */
+	-moz-transform: rotate(25deg);       /* for Firefox */
+	-ms-transform: rotate(25deg);        /* for IE */
+	o-transform: rotate(25deg);         /* for Opera */
+	*display: none;
+	z-index: 10;
+}
+.emcharts-container .colorTable{
+	width: 100px;
+	height:90px;
+	border: solid 1px #aaa; 
+}
+.emcharts-container .colorTable td{
+	position: relative;
+	z-index: 100;
+	border: solid 3px #fff;
+}
+.emcharts-container .ma-panel{
+	position: relative;
+}
+.emcharts-container .ma-item-input{
+	width:30px;
+	height: 15px;
+	line-height: 15px;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size: 12px;
+	vertical-align:middle;
+	padding-left: 3px;
+}
+
+.emcharts-container .fu-quan-select{
+
+	-webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+
+	position: absolute;
+	z-index: 100;
+	right:0px;
+	top:5px;
+	width:50px;
+	height:20px;
+	font-size: 12px;
+	font-family: simsun;
+
+	 -webkit-appearance: none;
+	 padding-left: 3px;
+}
+/* barHorizontal */
+.emcharts-container .horizontal-gmask{
+	position: absolute;
+	background-color: #000;
+	opacity: 0.2;
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=20);
+}
+.emcharts-container .horizontal-gpanel{
+	position: absolute;
+	background-color: #000;
+	border-radius: 5px;
+	opacity: 0.8;
+	filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+	color:#ffffff;
+	padding: 5px 10px;
+}
