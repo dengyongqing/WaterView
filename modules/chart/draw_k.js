@@ -26,6 +26,7 @@ var extend = require('tools/extend');
 var common = require('common');
 // 主题
 var theme = require('theme/default');
+
 var DrawK = (function(){
 	function DrawK(options){
 		// 设置默认参数
@@ -48,7 +49,6 @@ var DrawK = (function(){
 	
 	// 绘制K线图
 	DrawK.prototype.drawK = function(ctx,data_arr){
-		
 		// 获取单位绘制区域
 		var rect_unit = this.options.rect_unit;
 		// 单位绘制区域的宽度

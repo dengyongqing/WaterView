@@ -66,6 +66,8 @@ var EMcookie = require('tools/cookie');
 
 var dynamicMA = require('chart/web/k/dynamicMA');
 
+// var zrender = require('../../../node_modules/zrender');
+
 var ChartK = (function() {
 
     function ChartK(options) {
@@ -136,9 +138,7 @@ var ChartK = (function() {
         canvas.style.width = this.options.width + "px";
         canvas.style.height = this.options.height + "px";
         canvas.style.border = "0";
-
         
-
         // 画笔参数设置
         ctx.font = (this.options.font_size * this.options.dpr) + "px Arial";
         ctx.lineWidth = 1 * this.options.dpr;

@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
+    context: path.resolve(__dirname, '.'),
 	entry: {
         emcharts: ['./modules/excanvas/excanvas.js', './dev/emcharts.js'],
 		mobile_emcharts:'./dev/mobile_emcharts.js'
@@ -12,7 +13,7 @@ module.exports = {
 		// filename: './bundle/[name].js'
     },
     resolve:{
-        modules: [path.resolve('./modules/')],
+        modules: [path.resolve('./modules/'), '.'],
         extensions: [".js",".css",".json"],
         alias: { //模块简称
 			extend: 'tools/extend',
@@ -20,8 +21,7 @@ module.exports = {
 			datetime: 'tools/datetime',
 			fixed:'tools/fixed',
 			date_transform: 'tools/date_transform',
-			common:'tools/common',
-			default_theme: "theme/default"
+            common:'tools/common',
 		}
     },
     module: {
@@ -51,18 +51,18 @@ module.exports = {
     plugins: [
     ],
     devtool: 'source-map', // 指定加source-map的方式
-    devServer: {
-        contentBase: path.join(__dirname, "."), //静态文件根目录
-        port: 3824, // 端口
-        host: 'localhost',
-        overlay: true,
-        compress: false // 服务器返回浏览器的时候是否启动gzip压缩
-    },
-    watch: true, // 开启监听文件更改，自动刷新
-    watchOptions: {
-        ignored: /node_modules/, //忽略不用监听变更的目录
-        aggregateTimeout: 500, //防止重复保存频繁重新编译,500毫米内重复保存不打包
-        poll:1000 //每秒询问的文件变更的次数
-	},
+    // devServer: {
+    //     contentBase: path.join(__dirname, "."), //静态文件根目录
+    //     port: 3824, // 端口
+    //     host: 'localhost',
+    //     overlay: true,
+    //     compress: false // 服务器返回浏览器的时候是否启动gzip压缩
+    // },
+    // watch: true, // 开启监听文件更改，自动刷新
+    // watchOptions: {
+    //     ignored: /node_modules/, //忽略不用监听变更的目录
+    //     aggregateTimeout: 500, //防止重复保存频繁重新编译,500毫米内重复保存不打包
+    //     poll:1000 //每秒询问的文件变更的次数
+	// },
 	
 };

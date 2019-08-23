@@ -1,5 +1,5 @@
 {
-  "name": "emchart",
+  "name": "WaterView",
   "version": "1.0.0",
   "description": "1.0.0",
   "main": "webpack.config.js",
@@ -10,12 +10,15 @@
   "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "ansi-html": "^0.0.7",
     "babel-loader": "^8.0.6",
     "css-loader": "^0.23.1",
     "file-loader": "^0.8.5",
     "gulp": "^3.9.1",
     "gulp-ftp": "^1.1.0",
     "gulp-util": "^3.0.7",
+    "html-entities": "^1.2.1",
+    "loglevel": "^1.6.3",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^4.39.2",
@@ -25,8 +28,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "webpack-dev-server",
-    "build:dev": "webpack --mode development"
+    "start": "webpack-dev-server --hot --inline",
+    "build": "webpack --mode development"
   },
   "keywords": [
     "东财",

@@ -6,12 +6,12 @@
 
 0. 打包命令
     ```
-    npm run build:dev
+    npm run build
     ```
 
 # 测试demo
 
 1. 启动服务
     ```
-    live-server
+    npm run start
     ```
